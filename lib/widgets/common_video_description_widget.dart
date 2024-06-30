@@ -223,7 +223,7 @@ class SubscribeRowWidget extends StatelessWidget {
                       subscribed ? kTransparentColor : kRedColor)),
               onPressed: onSubscribeTap,
               child: subscribed
-                  ? Icon(CupertinoIcons.check_mark_circled)
+                  ? const Icon(CupertinoIcons.check_mark_circled)
                   : FittedBox(
                       child: Text(
                         S.of(context).subscribe,

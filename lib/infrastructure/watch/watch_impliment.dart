@@ -24,8 +24,7 @@ class WatchImpliment implements WatchService {
       } else {
         return const Left(MainFailure.serverFailure());
       }
-    } catch (e) {
-      print(e);
+    } catch (_) {
       return const Left(MainFailure.clientFailure());
     }
   }
