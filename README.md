@@ -24,13 +24,12 @@ A powerful and ad-free YouTube client built using Flutter. Watch YouTube videos 
 - **Watch Videos up to 2K Quality**: Enjoy videos in high quality up to 2K resolution.
 
 ## Screenshots
-
-<p align="center">
-  <img src="doc/home.png" alt="FluxTube Home" width="200">
-  <img src="doc/watch.png" alt="FluxTube Watch" width="200">
-  <img src="doc/trending.png" alt="FluxTube Trending" width="200">
-  <img src="doc/settings.png" alt="FluxTube settings" width="200">
-</p>
+<div align="center">
+  <img src="doc/home.png" alt="FluxTube Home" width="24%">
+  <img src="doc/watch.png" alt="FluxTube Watch" width="24%">
+  <img src="doc/trending.png" alt="FluxTube Trending" width="24%">
+  <img src="doc/settings.png" alt="FluxTube settings" width="24%">
+</div>
 
 ## Download
 
