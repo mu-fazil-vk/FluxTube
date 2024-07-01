@@ -11,12 +11,17 @@ A powerful and ad-free YouTube client built using Flutter. Watch YouTube videos 
 
 ## Features
 
+- **No Login Needed**: Use the app without any login requirements.
 - **Ad-Free Experience**: Enjoy YouTube videos without interruptions.
 - **Channel Subscriptions**: Subscribe to your favorite channels.
 - **Dislike Retrieval**: See the number of dislikes on videos.
 - **Comment Section**: Read the video comments.
 - **Save Videos**: Save videos to watch later.
+- **Select Your Region**: Customize the content based on your region.
+- **Multi-Language Support**: Use the app in multiple languages.
 - **Watch live streams**: Effortlessly enjoy live content.
+- **Different Audio Selection Support**: Choose from different audio options.
+- **Watch Videos up to 2K Quality**: Enjoy videos in high quality up to 2K resolution.
 
 ## Screenshots
 
