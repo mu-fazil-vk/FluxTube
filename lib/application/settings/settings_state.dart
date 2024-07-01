@@ -21,6 +21,6 @@ class SettingsState with _$SettingsState {
         version: "",
         isHistoryVisible: true,
         isDislikeVisible: false,
-        isHlsPlayer: false,
+        isHlsPlayer: true,
       );
 }

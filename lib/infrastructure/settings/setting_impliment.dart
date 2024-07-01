@@ -56,7 +56,7 @@ class SettingImpliment implements SettingsService {
       {"name": selectedTheme, "default": "dark"},
       {"name": historyVisibility, "default": "true"},
       {"name": dislikeVisibility, "default": "false"},
-      {"name": hlsPlayer, "default": "false"},
+      {"name": hlsPlayer, "default": "true"},
       // Add more settings here
     ];
 

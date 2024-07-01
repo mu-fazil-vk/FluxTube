@@ -7,14 +7,14 @@ part of 'watch_resp.dart';
 // **************************************************************************
 
 WatchResp _$WatchRespFromJson(Map<String, dynamic> json) => WatchResp(
-      title: json['title'] as String?,
-      description: json['description'] as String?,
-      uploadDate: json['uploadDate'] as String?,
-      uploader: json['uploader'] as String?,
-      uploaderUrl: json['uploaderUrl'] as String?,
+      title: json['title'] as String? ?? 'fetching...',
+      description: json['description'] as String? ?? 'fetching...',
+      uploadDate: json['uploadDate'] as String? ?? "0",
+      uploader: json['uploader'] as String? ?? 'fetching...',
+      uploaderUrl: json['uploaderUrl'] as String? ?? 'fetching...',
       uploaderAvatar: json['uploaderAvatar'] as String?,
       thumbnailUrl: json['thumbnailUrl'] as String?,
-      hls: json['hls'] as String?,
+      hls: json['hls'] as String? ?? 'fetching...',
       dash: json['dash'],
       lbryId: json['lbryId'],
       category: json['category'] as String?,
@@ -22,13 +22,13 @@ WatchResp _$WatchRespFromJson(Map<String, dynamic> json) => WatchResp(
       visibility: json['visibility'] as String?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       metaInfo: json['metaInfo'] as List<dynamic>?,
-      uploaderVerified: json['uploaderVerified'] as bool?,
-      duration: (json['duration'] as num?)?.toInt(),
-      views: (json['views'] as num?)?.toInt(),
-      likes: (json['likes'] as num?)?.toInt(),
-      dislikes: (json['dislikes'] as num?)?.toInt(),
+      uploaderVerified: json['uploaderVerified'] as bool? ?? false,
+      duration: (json['duration'] as num?)?.toInt() ?? 0,
+      views: (json['views'] as num?)?.toInt() ?? 0,
+      likes: (json['likes'] as num?)?.toInt() ?? 0,
+      dislikes: (json['dislikes'] as num?)?.toInt() ?? 0,
       uploaderSubscriberCount:
-          (json['uploaderSubscriberCount'] as num?)?.toInt(),
+          (json['uploaderSubscriberCount'] as num?)?.toInt() ?? 0,
       audioStreams: (json['audioStreams'] as List<dynamic>?)
           ?.map((e) => AudioStream.fromJson(e as Map<String, dynamic>))
           .toList(),
