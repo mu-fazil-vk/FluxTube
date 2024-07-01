@@ -25,10 +25,10 @@ A powerful and ad-free YouTube client built using Flutter. Watch YouTube videos 
 
 ## Screenshots
 <div align="center">
-  <img src="doc/home.png" alt="FluxTube Home" width="20%">
-  <img src="doc/watch.png" alt="FluxTube Watch" width="20%">
-  <img src="doc/trending.png" alt="FluxTube Trending" width="20%">
-  <img src="doc/settings.png" alt="FluxTube settings" width="20%">
+  <img src="doc/home.png" alt="FluxTube Home" width="22%">
+  <img src="doc/watch.png" alt="FluxTube Watch" width="22%">
+  <img src="doc/trending.png" alt="FluxTube Trending" width="22%">
+  <img src="doc/settings.png" alt="FluxTube settings" width="22%">
 </div>
 
 ## Download
