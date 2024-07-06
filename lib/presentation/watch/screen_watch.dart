@@ -33,6 +33,12 @@ class ScreenWatch extends StatelessWidget {
     final locals = S.of(context);
     final double _height = MediaQuery.of(context).size.height;
 
+    BlocProvider.of<SavedBloc>(context)
+        .add(const SavedEvent.getAllVideoInfoList());
+    BlocProvider.of<SavedBloc>(context).add(SavedEvent.checkVideoInfo(id: id));
+    BlocProvider.of<SubscribeBloc>(context)
+        .add(SubscribeEvent.checkSubscribeInfo(id: channelId));
+
     return Scaffold(
       body: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {
@@ -43,13 +49,6 @@ class ScreenWatch extends StatelessWidget {
                 BlocProvider.of<WatchBloc>(context)
                     .add(WatchEvent.getWatchInfo(id: id));
               }
-
-              BlocProvider.of<SavedBloc>(context)
-                  .add(const SavedEvent.getAllVideoInfoList());
-              BlocProvider.of<SavedBloc>(context)
-                  .add(SavedEvent.checkVideoInfo(id: id));
-              BlocProvider.of<SubscribeBloc>(context)
-                  .add(SubscribeEvent.checkSubscribeInfo(id: channelId));
 
               final watchInfo = state.watchResp;
 
@@ -73,6 +72,11 @@ class ScreenWatch extends StatelessWidget {
                           Column(children: [
                             BlocBuilder<SavedBloc, SavedState>(
                               builder: (context, savedState) {
+                                bool isSaved = (savedState.videoInfo?.id ==
+                                            id &&
+                                        savedState.videoInfo?.isSaved == true)
+                                    ? true
+                                    : false;
                                 return VideoPlayerWidget(
                                   videoId: id,
                                   watchInfo: state.watchResp,
@@ -80,8 +84,7 @@ class ScreenWatch extends StatelessWidget {
                                   playbackPosition:
                                       savedState.videoInfo?.playbackPosition ??
                                           0,
-                                  isSaved:
-                                      savedState.videoInfo?.isSaved ?? false,
+                                  isSaved: isSaved,
                                   isHlsPlayer: settingsState.isHlsPlayer,
                                 );
                               },
@@ -119,6 +122,13 @@ class ScreenWatch extends StatelessWidget {
                                     // * like row
                                     BlocBuilder<SavedBloc, SavedState>(
                                       builder: (context, savedState) {
+                                        bool isSaved =
+                                            (savedState.videoInfo?.id == id &&
+                                                    savedState.videoInfo
+                                                            ?.isSaved ==
+                                                        true)
+                                                ? true
+                                                : false;
                                         return BlocBuilder<SettingsBloc,
                                             SettingsState>(
                                           builder: (context, settingsState) {
@@ -146,101 +156,47 @@ class ScreenWatch extends StatelessWidget {
                                                 await Share.share(
                                                     "${watchInfo.title}\n\n$kYTBaseUrl$id");
                                               },
-                                              isSaveTapped: savedState
-                                                      .videoInfo?.isSaved ==
-                                                  true,
+                                              isSaveTapped: isSaved,
                                               onTapSave: () {
-                                                if (savedState
-                                                        .videoInfo?.isSaved ==
-                                                    false) {
-                                                  BlocProvider.of<SavedBloc>(
-                                                          context)
-                                                      .add(
-                                                    SavedEvent.addVideoInfo(
-                                                      videoInfo: LocalStoreVideoInfo(
-                                                          id: id,
-                                                          title:
-                                                              watchInfo.title,
-                                                          views:
-                                                              watchInfo.views,
-                                                          thumbnail: watchInfo
-                                                              .thumbnailUrl,
-                                                          uploadedDate: watchInfo
-                                                              .uploadDate,
-                                                          uploaderAvatar: watchInfo
-                                                              .uploaderAvatar,
-                                                          uploaderName:
-                                                              watchInfo
-                                                                  .uploader,
-                                                          uploaderId: watchInfo
-                                                              .uploaderUrl!
-                                                              .split("/")
-                                                              .last,
-                                                          uploaderSubscriberCount:
-                                                              watchInfo
-                                                                  .uploaderSubscriberCount,
-                                                          duration: watchInfo
-                                                              .duration,
-                                                          playbackPosition:
-                                                              savedState
-                                                                  .videoInfo
-                                                                  ?.playbackPosition,
-                                                          uploaderVerified:
-                                                              watchInfo
-                                                                  .uploaderVerified,
-                                                          isSaved: true,
-                                                          isLive: watchInfo
-                                                              .livestream,
-                                                          isHistory: savedState
-                                                              .videoInfo
-                                                              ?.isHistory),
-                                                    ),
-                                                  );
-                                                } else {
-                                                  BlocProvider.of<SavedBloc>(
-                                                          context)
-                                                      .add(
-                                                    SavedEvent.addVideoInfo(
-                                                      videoInfo: LocalStoreVideoInfo(
-                                                          id: id,
-                                                          title:
-                                                              watchInfo.title,
-                                                          views:
-                                                              watchInfo.views,
-                                                          thumbnail: watchInfo
-                                                              .thumbnailUrl,
-                                                          uploadedDate: watchInfo
-                                                              .uploadDate,
-                                                          uploaderAvatar: watchInfo
-                                                              .uploaderAvatar,
-                                                          uploaderName:
-                                                              watchInfo
-                                                                  .uploader,
-                                                          uploaderId: watchInfo
-                                                              .uploaderUrl!
-                                                              .split("/")
-                                                              .last,
-                                                          uploaderSubscriberCount:
-                                                              watchInfo
-                                                                  .uploaderSubscriberCount,
-                                                          duration: watchInfo
-                                                              .duration,
-                                                          playbackPosition:
-                                                              savedState
-                                                                  .videoInfo
-                                                                  ?.playbackPosition,
-                                                          uploaderVerified:
-                                                              watchInfo
-                                                                  .uploaderVerified,
-                                                          isSaved: false,
-                                                          isLive: watchInfo
-                                                              .livestream,
-                                                          isHistory: savedState
-                                                              .videoInfo
-                                                              ?.isHistory),
-                                                    ),
-                                                  );
-                                                }
+                                                BlocProvider.of<SavedBloc>(
+                                                        context)
+                                                    .add(
+                                                  SavedEvent.addVideoInfo(
+                                                    videoInfo: LocalStoreVideoInfo(
+                                                        id: id,
+                                                        title: watchInfo.title,
+                                                        views: watchInfo.views,
+                                                        thumbnail: watchInfo
+                                                            .thumbnailUrl,
+                                                        uploadedDate: watchInfo
+                                                            .uploadDate,
+                                                        uploaderAvatar: watchInfo
+                                                            .uploaderAvatar,
+                                                        uploaderName:
+                                                            watchInfo.uploader,
+                                                        uploaderId: watchInfo
+                                                            .uploaderUrl!
+                                                            .split("/")
+                                                            .last,
+                                                        uploaderSubscriberCount:
+                                                            watchInfo
+                                                                .uploaderSubscriberCount,
+                                                        duration:
+                                                            watchInfo.duration,
+                                                        playbackPosition:
+                                                            savedState.videoInfo
+                                                                ?.playbackPosition,
+                                                        uploaderVerified:
+                                                            watchInfo
+                                                                .uploaderVerified,
+                                                        isSaved: !isSaved,
+                                                        isLive: watchInfo
+                                                            .livestream,
+                                                        isHistory: savedState
+                                                            .videoInfo
+                                                            ?.isHistory),
+                                                  ),
+                                                );
                                               },
                                             );
                                           },

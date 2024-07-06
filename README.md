@@ -21,7 +21,7 @@ A powerful and ad-free YouTube client built using Flutter. Watch YouTube videos 
 - **Multi-Language Support**: Use the app in multiple languages.
 - **Watch live streams**: Effortlessly enjoy live content.
 - **Different Audio Selection Support**: Choose from different audio options.
-- **Watch Videos up to 2K Quality**: Enjoy videos in high quality up to 2K resolution.
+- **Watch Videos up to 4K Quality**: Enjoy videos in high quality up to 2K resolution.
 
 ## Screenshots
 <div align="center">

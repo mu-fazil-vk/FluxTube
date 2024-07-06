@@ -103,7 +103,9 @@ class LikeRowWidget extends StatelessWidget {
               RoundedLikeButtonWidget(
                 icon: CupertinoIcons.hand_thumbsdown_fill,
                 like: _formattedDislikes,
-                color: kGreyOpacityColor!,
+                thumbColor: kGreyColor!,
+                fontColor: kGreyColor!,
+                bgcolor: kGreyOpacityColor!,
               ),
             kWidthBox20,
             CustomRoundedButtons(
@@ -133,29 +135,32 @@ class RoundedLikeButtonWidget extends StatelessWidget {
       {super.key,
       required this.like,
       required this.icon,
-      this.color = kBlueColor});
+      this.fontColor = kWhiteColor,
+      this.thumbColor = kWhiteColor,
+      this.bgcolor = kBlueColor});
   final String like;
   final IconData icon;
-  final Color color;
+  final Color bgcolor;
+  final Color fontColor;
+  final Color thumbColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 15),
-      decoration:
-          BoxDecoration(color: color, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(
+          color: bgcolor, borderRadius: BorderRadius.circular(20)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Icon(
             icon,
-            color: kWhiteColor,
+            color: thumbColor,
           ),
           kWidthBox10,
           Text(
             like,
-            style: const TextStyle(
-                color: kWhiteColor, fontWeight: FontWeight.bold),
+            style: TextStyle(color: fontColor, fontWeight: FontWeight.bold),
           )
         ],
       ),

@@ -1,15 +1,16 @@
 name: fluxtube
-description: "A new Flutter project."
+description: "A YouTube client application."
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.5.0+1
+version: 0.6.0+1
 
 environment:
   sdk: '>=3.3.1 <4.0.0'
 
 dependencies:
   awesome_bottom_bar: ^1.2.4
+  better_player: ^0.0.84
   cupertino_icons: ^1.0.6
   dartz: ^0.10.1
   dio: ^5.4.3+1
@@ -35,7 +36,6 @@ dependencies:
   package_info_plus: ^8.0.0
   path_provider: ^2.1.3
   readmore: ^3.0.0
-  river_player: ^0.1.3
   share_plus: ^9.0.0
   simple_html_css: ^5.0.0
   url_launcher: ^6.3.0
@@ -59,19 +59,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-  #   - images/a_dot_ham.jpeg
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+
 flutter_intl:
   enabled: true
   localizely:

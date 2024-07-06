@@ -34,15 +34,15 @@ class SavedImplimentation extends SavedServices {
 // add video info implement
   @override
   Future<Either<MainFailure, List<LocalStoreVideoInfo>>> addVideoInfo(
-      {required LocalStoreVideoInfo videoInfo}) async {    
-      await _addVideoInformations(videoInfo);
-      List<LocalStoreVideoInfo> videoInfoListAfter =
-          await _getVideoInformations();
-      if (videoInfoListAfter.isNotEmpty) {
-        return Right(videoInfoListAfter);
-      } else {
-        return const Left(MainFailure.clientFailure());
-      }
+      {required LocalStoreVideoInfo videoInfo}) async {
+    await _addVideoInformations(videoInfo);
+    List<LocalStoreVideoInfo> videoInfoListAfter =
+        await _getVideoInformations();
+    if (videoInfoListAfter.isNotEmpty) {
+      return Right(videoInfoListAfter);
+    } else {
+      return const Left(MainFailure.clientFailure());
+    }
   }
 
   // delete video info impliment
@@ -71,11 +71,12 @@ class SavedImplimentation extends SavedServices {
       return const Left(MainFailure.clientFailure());
     }
   }
-  
+
   // check the video info is present in the local storage
   @override
-  Future<Either<MainFailure, LocalStoreVideoInfo>> checkVideoInfo({required String id}) async {
-     List<LocalStoreVideoInfo> videoInfoList = await _getVideoInformations();
+  Future<Either<MainFailure, LocalStoreVideoInfo>> checkVideoInfo(
+      {required String id}) async {
+    List<LocalStoreVideoInfo> videoInfoList = await _getVideoInformations();
     if (videoInfoList.isNotEmpty) {
       try {
         // Find the video with the specified ID
@@ -87,7 +88,6 @@ class SavedImplimentation extends SavedServices {
         // Handle the case where the video is not found
         return const Left(MainFailure.clientFailure());
       }
-      
     } else {
       return const Left(MainFailure.clientFailure());
     }

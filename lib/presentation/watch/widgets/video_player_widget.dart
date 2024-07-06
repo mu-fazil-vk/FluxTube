@@ -1,12 +1,12 @@
-import 'dart:async';
 
+import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluxtube/domain/watch/models/video/subtitle.dart';
 import 'package:fluxtube/domain/watch/models/video/video_stream.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:river_player/river_player.dart';
 
 import '../../../application/saved/saved_bloc.dart';
 import '../../../domain/saved/models/local_store.dart';
@@ -35,13 +35,14 @@ class VideoPlayerWidget extends StatefulWidget {
 
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   BetterPlayerController? _betterPlayerController;
-  late Timer _historyUpdateTimer;
 
   VideoStream? selectedVideoTrack;
   late List<VideoStream> availableVideoTracks;
   Map<String, String>? resolutions;
 
   late final double aspectRatio;
+  late SavedBloc _savedBloc;
+  List<BetterPlayerSubtitlesSource>? betterPlayerSubtitles;
 
   BetterPlayerDataSource? betterPlayerDataSource;
 
@@ -49,12 +50,11 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   void initState() {
     super.initState();
 
-    aspectRatio = widget.watchInfo.videoStreams[0].width!.toDouble() < 1
-        ? 16 / 9
-        : widget.watchInfo.videoStreams.isNotEmpty
-            ? widget.watchInfo.videoStreams[0].width!.toDouble() /
-                widget.watchInfo.videoStreams[0].height!.toDouble()
-            : 16 / 9;
+    _savedBloc = BlocProvider.of<SavedBloc>(context);
+
+    aspectRatio = selectAspectRatio();
+
+    fetchSubtitles();
 
     // Filter streams where videoOnly is false
     availableVideoTracks = widget.watchInfo.videoStreams
@@ -70,10 +70,58 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     // Select default video track
     selectVideoTrack();
 
-    _setupPlayer(widget.playbackPosition);
+    BetterPlayerControlsConfiguration controlsConfiguration =
+        const BetterPlayerControlsConfiguration(
+      controlBarColor: Colors.black26,
+      iconsColor: Colors.white,
+      playIcon: Icons.play_arrow_outlined,
+      progressBarPlayedColor: Colors.indigo,
+      progressBarHandleColor: Colors.indigo,
+      skipBackIcon: Icons.replay_10_outlined,
+      skipForwardIcon: Icons.forward_10_outlined,
+      backwardSkipTimeInMilliseconds: 10000,
+      forwardSkipTimeInMilliseconds: 10000,
+      enableSkips: true,
+      enableFullscreen: true,
+      enablePip: true,
+      enablePlayPause: true,
+      enableMute: true,
+      enableAudioTracks: true,
+      enableProgressText: true,
+      enableSubtitles: true,
+      showControlsOnInitialize: true,
+      enablePlaybackSpeed: true,
+      controlBarHeight: 40,
+      loadingColor: Colors.red,
+      overflowModalColor: Colors.black54,
+      overflowModalTextColor: Colors.white,
+      overflowMenuIconsColor: Colors.white,
+    );
+
+    _setupPlayer(widget.playbackPosition, controlsConfiguration);
 
     // Start history update timer
-    _startHistoryUpdateTimer();
+    _updateVideoHistory();
+  }
+
+  double selectAspectRatio() {
+    if (widget.watchInfo.videoStreams.isNotEmpty) {
+      return widget.watchInfo.videoStreams[0].width!.toDouble() < 1
+          ? 16 / 9
+          : widget.watchInfo.videoStreams.isNotEmpty
+              ? widget.watchInfo.videoStreams[0].width!.toDouble() /
+                  widget.watchInfo.videoStreams[0].height!.toDouble()
+              : 16 / 9;
+    } else {
+      return 16 / 9;
+    }
+  }
+
+  void fetchSubtitles() {
+    if (widget.watchInfo.subtitles != null &&
+        widget.watchInfo.subtitles!.isNotEmpty) {
+      betterPlayerSubtitles = convertSubtitles(widget.watchInfo.subtitles!);
+    }
   }
 
   void selectVideoTrack() {
@@ -114,7 +162,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     return closestTrack;
   }
 
-  void _setupPlayer(int startPosition) {
+  void _setupPlayer(int startPosition, controlsConfiguration) {
     // Dispose of the current player if it exists
     _betterPlayerController?.dispose();
 
@@ -124,9 +172,16 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       betterPlayerDataSource = BetterPlayerDataSource(
         BetterPlayerDataSourceType.network,
         selectedVideoTrack!.url ?? '',
-        useAsmsSubtitles: true,
+        subtitles: betterPlayerSubtitles,
         resolutions: resolutions,
         liveStream: widget.watchInfo.livestream,
+        cacheConfiguration: const BetterPlayerCacheConfiguration(
+          useCache: true,
+          preCacheSize: 10 * 1024 * 1024, // 10 mb
+          maxCacheSize: 30 * 1024 * 1024, // 30 mb
+          maxCacheFileSize: 30 * 1024 * 1024,
+          key: "ftCacheKey",
+        ),
       );
     } else {
       if (!widget.isHlsPlayer) {
@@ -141,21 +196,32 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       }
 
       betterPlayerDataSource = BetterPlayerDataSource(
-        BetterPlayerDataSourceType.network,
-        widget.watchInfo.hls!,
-        useAsmsSubtitles: true,
-        useAsmsTracks: true,
-        useAsmsAudioTracks: true,
-        liveStream: widget.watchInfo.livestream,
-      );
+          BetterPlayerDataSourceType.network, widget.watchInfo.hls!,
+          useAsmsTracks: true,
+          useAsmsAudioTracks: true,
+          useAsmsSubtitles: true,
+          liveStream: widget.watchInfo.livestream,
+          videoFormat: BetterPlayerVideoFormat.hls,
+          cacheConfiguration: const BetterPlayerCacheConfiguration(
+            useCache: true,
+            preCacheSize: 10 * 1024 * 1024, // 10 mb
+            maxCacheSize: 30 * 1024 * 1024, // 30 mb
+            maxCacheFileSize: 30 * 1024 * 1024,
+            key: "ftCacheKey",
+          ));
     }
 
     _betterPlayerController = BetterPlayerController(
       BetterPlayerConfiguration(
-        startAt: Duration(seconds: startPosition),
-        autoDetectFullscreenAspectRatio: false,
-        aspectRatio: aspectRatio,
-      ),
+          controlsConfiguration: controlsConfiguration,
+          autoPlay: true,
+          startAt: Duration(seconds: startPosition),
+          autoDetectFullscreenAspectRatio: false,
+          aspectRatio: aspectRatio,
+          allowedScreenSleep: false,
+          expandToFill: false,
+          autoDispose: true,
+          fit: BoxFit.contain),
       betterPlayerDataSource: betterPlayerDataSource,
     );
 
@@ -165,23 +231,27 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   void dispose() {
-    _historyUpdateTimer.cancel();
+    _updateVideoHistory();
     _betterPlayerController?.dispose();
     super.dispose();
   }
 
-  // Update history every 30 seconds
-  void _startHistoryUpdateTimer() {
-    _historyUpdateTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
-      _updateVideoHistory();
-    });
+  //subtitle to betterplayer subtitle list
+  List<BetterPlayerSubtitlesSource> convertSubtitles(List<Subtitle> subtitles) {
+    return subtitles.map((subtitle) {
+      return BetterPlayerSubtitlesSource(
+        type: BetterPlayerSubtitlesSourceType.network,
+        name: subtitle.name ?? "Unknown",
+        urls: [subtitle.url ?? ""],
+      );
+    }).toList();
   }
 
-  void _updateVideoHistory() {
+  void _updateVideoHistory() async {
     final currentPosition =
         _betterPlayerController?.videoPlayerController?.value.position;
     if (currentPosition != null) {
-      BlocProvider.of<SavedBloc>(context).add(SavedEvent.addVideoInfo(
+      _savedBloc.add(SavedEvent.addVideoInfo(
         videoInfo: LocalStoreVideoInfo(
           id: widget.videoId,
           title: widget.watchInfo.title,
