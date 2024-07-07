@@ -5,6 +5,7 @@ import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/error_widget.dart';
+import 'package:fluxtube/widgets/indicator.dart';
 import 'package:fluxtube/widgets/related_video_widget.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,10 +39,7 @@ class ScreenSaved extends StatelessWidget {
                 return BlocBuilder<SavedBloc, SavedState>(
                   builder: (context, savedState) {
                     if (savedState.isLoading) {
-                      return Center(
-                        child: CupertinoActivityIndicator(
-                            color: Theme.of(context).indicatorColor),
-                      );
+                      return cIndicator(context);
                     } else if (savedState.isError) {
                       return Center(
                         child: Text(locals.thereIsNoSavedOrHistoryVideos),
@@ -144,11 +142,7 @@ class ScreenSaved extends StatelessWidget {
                                     child: Text(locals.thereIsNoSavedVideos),
                                   )
                                 : savedState.isLoading //loading check
-                                    ? Center(
-                                        child: CupertinoActivityIndicator(
-                                            color: Theme.of(context)
-                                                .indicatorColor),
-                                      )
+                                    ? cIndicator(context)
                                     : savedState.isError //empty list check
                                         ? ErrorRetryWidget(
                                             lottie: 'assets/black-cat.zip',

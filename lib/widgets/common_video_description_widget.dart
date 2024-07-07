@@ -211,7 +211,7 @@ class SubscribeRowWidget extends StatelessWidget {
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           height: 40,
-          width: subscribed ? 65 : 140,
+          width: subscribed ? 65 : 130,
           child: ElevatedButton(
               style: ButtonStyle(
                   elevation: const WidgetStatePropertyAll(0),

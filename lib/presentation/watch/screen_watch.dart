@@ -9,6 +9,7 @@ import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/error_widget.dart';
+import 'package:fluxtube/widgets/indicator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_html_css/simple_html_css.dart';
@@ -53,9 +54,7 @@ class ScreenWatch extends StatelessWidget {
               final watchInfo = state.watchResp;
 
               if (state.isLoading) {
-                return Center(
-                    child: CupertinoActivityIndicator(
-                        color: Theme.of(context).indicatorColor));
+                return cIndicator(context);
               } else if (state.isWatchInfoError ||
                   (settingsState.isHlsPlayer && watchInfo.hls == null)) {
                 return ErrorRetryWidget(
@@ -357,12 +356,7 @@ class ScreenWatch extends StatelessWidget {
                                                     (state.isCommentsLoading ||
                                                             state
                                                                 .isCommentError)
-                                                        ? Center(
-                                                            child: CupertinoActivityIndicator(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .indicatorColor),
-                                                          )
+                                                        ? cIndicator(context)
                                                         : LimitedBox(
                                                             maxHeight:
                                                                 _height * 0.45,
@@ -472,9 +466,7 @@ class ScreenWatch extends StatelessWidget {
                           },
                         ),
                       ),
-                      const Center(
-                        child: CupertinoActivityIndicator(),
-                      ),
+                      cIndicator(context)
                     ],
                   ),
                 );

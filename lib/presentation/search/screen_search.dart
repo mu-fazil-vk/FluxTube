@@ -9,6 +9,7 @@ import 'package:fluxtube/domain/search/models/item.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/error_widget.dart';
+import 'package:fluxtube/widgets/indicator.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../application/search/search_bloc.dart';
@@ -84,10 +85,7 @@ class ScreenSearch extends StatelessWidget {
                 separatorBuilder: (context, index) => kHeightBox10,
                 itemCount: state.suggestions.length);
           } else if (state.isLoading) {
-            return Center(
-              child: CupertinoActivityIndicator(
-                  color: Theme.of(context).indicatorColor),
-            );
+            return cIndicator(context);
           } else if (state.result == null &&
               _textEditingController.text.isEmpty) {
             return Container();
