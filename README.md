@@ -41,6 +41,7 @@ You can download the latest version of the app from the [releases page](https://
 - [ ] Picture in Picture Mode
 - [ ] Playlist Support
 - [ ] Channel Profile Support
+- [x] Subtitle Support
 - [x] Unlimited Scroll Support
 
 ## Contribution
