@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
@@ -37,7 +38,8 @@ class RelatedVideoWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 image: thumbnailUrl != null
                     ? DecorationImage(
-                        image: NetworkImage(thumbnailUrl!), fit: BoxFit.cover)
+                        image: CachedNetworkImageProvider(thumbnailUrl!),
+                        fit: BoxFit.cover)
                     : null,
               ),
               child: Stack(

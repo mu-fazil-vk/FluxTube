@@ -20,7 +20,7 @@ class MainNavigation extends StatelessWidget {
     const ScreenHome(),
     const ScreenTrending(),
     const ScreenSaved(),
-    ScreenSettings()
+    const ScreenSettings()
   ];
 
   @override

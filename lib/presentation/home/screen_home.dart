@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/application/trending/trending_bloc.dart';
-import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/home/widgets/feed_section.dart';
+import 'package:fluxtube/presentation/trending/widgets/trending_videos_section.dart';
 import 'package:fluxtube/widgets/error_widget.dart';
 import 'package:fluxtube/widgets/indicator.dart';
-import 'package:go_router/go_router.dart';
+
 import '../../application/subscribe/subscribe_bloc.dart';
-import '../../widgets/home_video_info_card_widget.dart';
 import 'widgets/home_app_bar.dart';
 
 class ScreenHome extends StatelessWidget {
@@ -73,30 +73,8 @@ class ScreenHome extends StatelessWidget {
                                 region: settingsState.defaultRegion)),
                       );
                     }
-                    return ListView.separated(
-                      separatorBuilder: (context, index) => kHeightBox10,
-                      itemBuilder: (context, index) {
-                        final trending = trendingState.trendingResult[index];
-                        final String videoId = trending.url!.split('=').last;
-
-                        final String channelId =
-                            trending.uploaderUrl!.split("/").last;
-                        final bool isSubscribed = subscribeState
-                            .subscribedChannels
-                            .where((channel) => channel.id == channelId)
-                            .isNotEmpty;
-                        return GestureDetector(
-                          onTap: () => context.go('/watch/$videoId/$channelId'),
-                          child: HomeVideoInfoCardWidget(
-                            cardInfo: trending,
-                            isSubscribed: isSubscribed,
-                            onSubscribeTap: () => onSubscribeTapped(context,
-                                isSubscribed, channelId, trending, locals),
-                          ),
-                        );
-                      },
-                      itemCount: trendingState.trendingResult.length,
-                    );
+                    return TrendingVideosSection(
+                        locals: locals, state: trendingState);
                   } else {
                     // if feed not empty then show feed data
                     return RefreshIndicator(
@@ -105,30 +83,10 @@ class ScreenHome extends StatelessWidget {
                             TrendingEvent.getForcedHomeFeedData(
                                 channels: subscribeState.subscribedChannels));
                       },
-                      child: ListView.separated(
-                        separatorBuilder: (context, index) => kHeightBox10,
-                        itemBuilder: (context, index) {
-                          final feed = trendingState.feedResult[index];
-                          final String videoId = feed.url!.split('=').last;
-
-                          final String channelId =
-                              feed.uploaderUrl!.split("/").last;
-                          final bool isSubscribed = subscribeState
-                              .subscribedChannels
-                              .where((channel) => channel.id == channelId)
-                              .isNotEmpty;
-                          return GestureDetector(
-                            onTap: () =>
-                                context.go('/watch/$videoId/$channelId'),
-                            child: HomeVideoInfoCardWidget(
-                              cardInfo: feed,
-                              isSubscribed: isSubscribed,
-                              onSubscribeTap: () => onSubscribeTapped(context,
-                                  isSubscribed, channelId, feed, locals),
-                            ),
-                          );
-                        },
-                        itemCount: trendingState.feedResult.length,
+                      child: FeedVideoSection(
+                        trendingState: trendingState,
+                        locals: locals,
+                        subscribeState: subscribeState,
                       ),
                     );
                   }
@@ -139,18 +97,5 @@ class ScreenHome extends StatelessWidget {
         );
       },
     );
-  }
-}
-
-onSubscribeTapped(context, isSubscribed, channelId, channelDetails, locals) {
-  if (isSubscribed) {
-    BlocProvider.of<SubscribeBloc>(context)
-        .add(SubscribeEvent.deleteSubscribeInfo(id: channelId));
-  } else {
-    BlocProvider.of<SubscribeBloc>(context).add(SubscribeEvent.addSubscribe(
-        channelInfo: Subscribe(
-            id: channelId,
-            channelName: channelDetails.uploaderName ?? locals.noUploaderName,
-            isVerified: channelDetails.uploaderVerified ?? false)));
   }
 }

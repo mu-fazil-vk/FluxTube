@@ -8,6 +8,12 @@ abstract class SearchService {
     required String filter,
   });
 
+  Future<Either<MainFailure, SearchResp>> getMoreSearchResult({
+    required String query,
+    required String filter,
+    required String? nextPage,
+  });
+
   Future<Either<MainFailure, List>> getSearchSuggestion({
     required String query,
   });

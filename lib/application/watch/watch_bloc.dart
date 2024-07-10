@@ -95,5 +95,99 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
       //update to ui
       emit(_state);
     });
+
+    // GET MORE COMMENTS
+    on<GetMoreCommentsData>((event, emit) async {
+      //initialte loading, and toggle comments
+      emit(state.copyWith(
+          isMoreCommetsFetchLoading: true,
+          isMoreCommetsFetchCompleted: false,
+          isMoreCommetsFetchError: false));
+
+      //get reply comments list
+
+      final _result = await watchService.getMoreCommentsData(
+          id: event.id, nextPage: event.nextPage);
+
+      final _state = _result.fold(
+          (MainFailure failure) => state.copyWith(
+              isMoreCommetsFetchLoading: false,
+              isMoreCommetsFetchError: true), (CommentsResp resp) {
+        if (resp.nextpage == null) {
+          return state.copyWith(
+            isMoreCommetsFetchLoading: false,
+            isMoreCommetsFetchCompleted: true,
+          );
+        } else {
+          final commentsModel = state.comments;
+          commentsModel.comments.addAll(resp.comments);
+          commentsModel.nextpage = resp.nextpage;
+          return state.copyWith(
+              isMoreCommetsFetchLoading: false, comments: commentsModel);
+        }
+      });
+
+      //update to ui
+      emit(_state);
+    });
+
+    // GET MORE REPLY COMMENTS
+    on<GetMoreReplyCommentsData>((event, emit) async {
+      //initialte loading, and toggle comments
+      emit(state.copyWith(
+          isMoreReplyCommetsFetchLoading: true,
+          isMoreReplyCommetsFetchCompleted: false,
+          isMoreReplyCommetsFetchError: false));
+
+      //get reply comments list
+
+      final _result = await watchService.getMoreCommentsData(
+          id: event.id, nextPage: event.nextPage);
+
+      final _state = _result.fold(
+          (MainFailure failure) => state.copyWith(
+              isMoreReplyCommetsFetchLoading: false,
+              isMoreReplyCommetsFetchError: true), (CommentsResp resp) {
+        if (resp.nextpage == null) {
+          return state.copyWith(
+            isMoreReplyCommetsFetchLoading: false,
+            isMoreReplyCommetsFetchCompleted: true,
+          );
+        } else {
+          final replyCommentsModel = state.commentReplies;
+          replyCommentsModel.comments.addAll(resp.comments);
+          replyCommentsModel.nextpage = resp.nextpage;
+          return state.copyWith(
+              isMoreReplyCommetsFetchLoading: false,
+              commentReplies: replyCommentsModel);
+        }
+      });
+
+      //update to ui
+      emit(_state);
+    });
+
+    //GET SUBTITLES
+     on<GetSubtitles>(
+      (event, emit) async {
+        emit(state.copyWith(
+            isSubtitleLoading: true,
+            isSubtitleError: false,
+            ));
+
+        //get stream info data
+        final result = await watchService.getSubtitles(id: event.id);
+
+        final _state = result.fold(
+            (MainFailure failure) => state.copyWith(
+                  isSubtitleError: true,
+                  isSubtitleLoading: false,
+                ),
+            (List<Map<String, String>> resp) => state.copyWith(
+                subtitles: resp, isSubtitleLoading: false));
+        //update to ui
+        emit(_state);
+      },
+    );
   }
 }

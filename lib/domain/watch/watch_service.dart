@@ -17,4 +17,15 @@ abstract class WatchService {
     required String id,
     required String repliesPage,
   });
+
+  Future<Either<MainFailure, CommentsResp>> getMoreCommentsData({
+    required String id,
+    required String? nextPage,
+  });
+
+  Future<Either<MainFailure, List<Map<String, String>>>> getSubtitles({
+    required String id,
+  });
+
+
 }

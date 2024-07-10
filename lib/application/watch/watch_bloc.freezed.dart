@@ -21,6 +21,10 @@ mixin _$WatchEvent {
     required TResult Function(String id) getWatchInfo,
     required TResult Function(String id) getCommentData,
     required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,6 +33,9 @@ mixin _$WatchEvent {
     TResult? Function(String id)? getWatchInfo,
     TResult? Function(String id)? getCommentData,
     TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,6 +44,9 @@ mixin _$WatchEvent {
     TResult Function(String id)? getWatchInfo,
     TResult Function(String id)? getCommentData,
     TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
     required TResult orElse(),
   }) =>
@@ -47,6 +57,10 @@ mixin _$WatchEvent {
     required TResult Function(GetCommentData value) getCommentData,
     required TResult Function(GetCommentRepliesData value)
         getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
   }) =>
       throw _privateConstructorUsedError;
@@ -55,6 +69,9 @@ mixin _$WatchEvent {
     TResult? Function(GetWatchInfo value)? getWatchInfo,
     TResult? Function(GetCommentData value)? getCommentData,
     TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
   }) =>
       throw _privateConstructorUsedError;
@@ -63,6 +80,9 @@ mixin _$WatchEvent {
     TResult Function(GetWatchInfo value)? getWatchInfo,
     TResult Function(GetCommentData value)? getCommentData,
     TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
     required TResult orElse(),
   }) =>
@@ -154,6 +174,10 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     required TResult Function(String id) getWatchInfo,
     required TResult Function(String id) getCommentData,
     required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
   }) {
     return getWatchInfo(id);
@@ -165,6 +189,9 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult? Function(String id)? getWatchInfo,
     TResult? Function(String id)? getCommentData,
     TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
   }) {
     return getWatchInfo?.call(id);
@@ -176,6 +203,9 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult Function(String id)? getWatchInfo,
     TResult Function(String id)? getCommentData,
     TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
     required TResult orElse(),
   }) {
@@ -192,6 +222,10 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     required TResult Function(GetCommentData value) getCommentData,
     required TResult Function(GetCommentRepliesData value)
         getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
   }) {
     return getWatchInfo(this);
@@ -203,6 +237,9 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult? Function(GetWatchInfo value)? getWatchInfo,
     TResult? Function(GetCommentData value)? getCommentData,
     TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
   }) {
     return getWatchInfo?.call(this);
@@ -214,6 +251,9 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult Function(GetWatchInfo value)? getWatchInfo,
     TResult Function(GetCommentData value)? getCommentData,
     TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
     required TResult orElse(),
   }) {
@@ -301,6 +341,10 @@ class _$GetCommentDataImpl implements GetCommentData {
     required TResult Function(String id) getWatchInfo,
     required TResult Function(String id) getCommentData,
     required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
   }) {
     return getCommentData(id);
@@ -312,6 +356,9 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult? Function(String id)? getWatchInfo,
     TResult? Function(String id)? getCommentData,
     TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
   }) {
     return getCommentData?.call(id);
@@ -323,6 +370,9 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult Function(String id)? getWatchInfo,
     TResult Function(String id)? getCommentData,
     TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
     required TResult orElse(),
   }) {
@@ -339,6 +389,10 @@ class _$GetCommentDataImpl implements GetCommentData {
     required TResult Function(GetCommentData value) getCommentData,
     required TResult Function(GetCommentRepliesData value)
         getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
   }) {
     return getCommentData(this);
@@ -350,6 +404,9 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult? Function(GetWatchInfo value)? getWatchInfo,
     TResult? Function(GetCommentData value)? getCommentData,
     TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
   }) {
     return getCommentData?.call(this);
@@ -361,6 +418,9 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult Function(GetWatchInfo value)? getWatchInfo,
     TResult Function(GetCommentData value)? getCommentData,
     TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
     required TResult orElse(),
   }) {
@@ -458,6 +518,10 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     required TResult Function(String id) getWatchInfo,
     required TResult Function(String id) getCommentData,
     required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
   }) {
     return getCommentRepliesData(id, nextPage);
@@ -469,6 +533,9 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult? Function(String id)? getWatchInfo,
     TResult? Function(String id)? getCommentData,
     TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
   }) {
     return getCommentRepliesData?.call(id, nextPage);
@@ -480,6 +547,9 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult Function(String id)? getWatchInfo,
     TResult Function(String id)? getCommentData,
     TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
     required TResult orElse(),
   }) {
@@ -496,6 +566,10 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     required TResult Function(GetCommentData value) getCommentData,
     required TResult Function(GetCommentRepliesData value)
         getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
   }) {
     return getCommentRepliesData(this);
@@ -507,6 +581,9 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult? Function(GetWatchInfo value)? getWatchInfo,
     TResult? Function(GetCommentData value)? getCommentData,
     TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
   }) {
     return getCommentRepliesData?.call(this);
@@ -518,6 +595,9 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult Function(GetWatchInfo value)? getWatchInfo,
     TResult Function(GetCommentData value)? getCommentData,
     TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
     required TResult orElse(),
   }) {
@@ -538,6 +618,532 @@ abstract class GetCommentRepliesData implements WatchEvent {
   @JsonKey(ignore: true)
   _$$GetCommentRepliesDataImplCopyWith<_$GetCommentRepliesDataImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GetMoreCommentsDataImplCopyWith<$Res> {
+  factory _$$GetMoreCommentsDataImplCopyWith(_$GetMoreCommentsDataImpl value,
+          $Res Function(_$GetMoreCommentsDataImpl) then) =
+      __$$GetMoreCommentsDataImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String id, String? nextPage});
+}
+
+/// @nodoc
+class __$$GetMoreCommentsDataImplCopyWithImpl<$Res>
+    extends _$WatchEventCopyWithImpl<$Res, _$GetMoreCommentsDataImpl>
+    implements _$$GetMoreCommentsDataImplCopyWith<$Res> {
+  __$$GetMoreCommentsDataImplCopyWithImpl(_$GetMoreCommentsDataImpl _value,
+      $Res Function(_$GetMoreCommentsDataImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? nextPage = freezed,
+  }) {
+    return _then(_$GetMoreCommentsDataImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      nextPage: freezed == nextPage
+          ? _value.nextPage
+          : nextPage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
+  _$GetMoreCommentsDataImpl({required this.id, required this.nextPage});
+
+  @override
+  final String id;
+  @override
+  final String? nextPage;
+
+  @override
+  String toString() {
+    return 'WatchEvent.getMoreCommentsData(id: $id, nextPage: $nextPage)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetMoreCommentsDataImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.nextPage, nextPage) ||
+                other.nextPage == nextPage));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id, nextPage);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetMoreCommentsDataImplCopyWith<_$GetMoreCommentsDataImpl> get copyWith =>
+      __$$GetMoreCommentsDataImplCopyWithImpl<_$GetMoreCommentsDataImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getWatchInfo,
+    required TResult Function(String id) getCommentData,
+    required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
+    required TResult Function() tapDescription,
+  }) {
+    return getMoreCommentsData(id, nextPage);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getWatchInfo,
+    TResult? Function(String id)? getCommentData,
+    TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
+    TResult? Function()? tapDescription,
+  }) {
+    return getMoreCommentsData?.call(id, nextPage);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getWatchInfo,
+    TResult Function(String id)? getCommentData,
+    TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
+    TResult Function()? tapDescription,
+    required TResult orElse(),
+  }) {
+    if (getMoreCommentsData != null) {
+      return getMoreCommentsData(id, nextPage);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetWatchInfo value) getWatchInfo,
+    required TResult Function(GetCommentData value) getCommentData,
+    required TResult Function(GetCommentRepliesData value)
+        getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
+    required TResult Function(TapDescription value) tapDescription,
+  }) {
+    return getMoreCommentsData(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetWatchInfo value)? getWatchInfo,
+    TResult? Function(GetCommentData value)? getCommentData,
+    TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
+    TResult? Function(TapDescription value)? tapDescription,
+  }) {
+    return getMoreCommentsData?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetWatchInfo value)? getWatchInfo,
+    TResult Function(GetCommentData value)? getCommentData,
+    TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
+    TResult Function(TapDescription value)? tapDescription,
+    required TResult orElse(),
+  }) {
+    if (getMoreCommentsData != null) {
+      return getMoreCommentsData(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetMoreCommentsData implements WatchEvent {
+  factory GetMoreCommentsData(
+      {required final String id,
+      required final String? nextPage}) = _$GetMoreCommentsDataImpl;
+
+  String get id;
+  String? get nextPage;
+  @JsonKey(ignore: true)
+  _$$GetMoreCommentsDataImplCopyWith<_$GetMoreCommentsDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GetMoreReplyCommentsDataImplCopyWith<$Res> {
+  factory _$$GetMoreReplyCommentsDataImplCopyWith(
+          _$GetMoreReplyCommentsDataImpl value,
+          $Res Function(_$GetMoreReplyCommentsDataImpl) then) =
+      __$$GetMoreReplyCommentsDataImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String id, String? nextPage});
+}
+
+/// @nodoc
+class __$$GetMoreReplyCommentsDataImplCopyWithImpl<$Res>
+    extends _$WatchEventCopyWithImpl<$Res, _$GetMoreReplyCommentsDataImpl>
+    implements _$$GetMoreReplyCommentsDataImplCopyWith<$Res> {
+  __$$GetMoreReplyCommentsDataImplCopyWithImpl(
+      _$GetMoreReplyCommentsDataImpl _value,
+      $Res Function(_$GetMoreReplyCommentsDataImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? nextPage = freezed,
+  }) {
+    return _then(_$GetMoreReplyCommentsDataImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      nextPage: freezed == nextPage
+          ? _value.nextPage
+          : nextPage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
+  _$GetMoreReplyCommentsDataImpl({required this.id, required this.nextPage});
+
+  @override
+  final String id;
+  @override
+  final String? nextPage;
+
+  @override
+  String toString() {
+    return 'WatchEvent.getMoreReplyCommentsData(id: $id, nextPage: $nextPage)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetMoreReplyCommentsDataImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.nextPage, nextPage) ||
+                other.nextPage == nextPage));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id, nextPage);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetMoreReplyCommentsDataImplCopyWith<_$GetMoreReplyCommentsDataImpl>
+      get copyWith => __$$GetMoreReplyCommentsDataImplCopyWithImpl<
+          _$GetMoreReplyCommentsDataImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getWatchInfo,
+    required TResult Function(String id) getCommentData,
+    required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
+    required TResult Function() tapDescription,
+  }) {
+    return getMoreReplyCommentsData(id, nextPage);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getWatchInfo,
+    TResult? Function(String id)? getCommentData,
+    TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
+    TResult? Function()? tapDescription,
+  }) {
+    return getMoreReplyCommentsData?.call(id, nextPage);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getWatchInfo,
+    TResult Function(String id)? getCommentData,
+    TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
+    TResult Function()? tapDescription,
+    required TResult orElse(),
+  }) {
+    if (getMoreReplyCommentsData != null) {
+      return getMoreReplyCommentsData(id, nextPage);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetWatchInfo value) getWatchInfo,
+    required TResult Function(GetCommentData value) getCommentData,
+    required TResult Function(GetCommentRepliesData value)
+        getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
+    required TResult Function(TapDescription value) tapDescription,
+  }) {
+    return getMoreReplyCommentsData(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetWatchInfo value)? getWatchInfo,
+    TResult? Function(GetCommentData value)? getCommentData,
+    TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
+    TResult? Function(TapDescription value)? tapDescription,
+  }) {
+    return getMoreReplyCommentsData?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetWatchInfo value)? getWatchInfo,
+    TResult Function(GetCommentData value)? getCommentData,
+    TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
+    TResult Function(TapDescription value)? tapDescription,
+    required TResult orElse(),
+  }) {
+    if (getMoreReplyCommentsData != null) {
+      return getMoreReplyCommentsData(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetMoreReplyCommentsData implements WatchEvent {
+  factory GetMoreReplyCommentsData(
+      {required final String id,
+      required final String? nextPage}) = _$GetMoreReplyCommentsDataImpl;
+
+  String get id;
+  String? get nextPage;
+  @JsonKey(ignore: true)
+  _$$GetMoreReplyCommentsDataImplCopyWith<_$GetMoreReplyCommentsDataImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GetSubtitlesImplCopyWith<$Res> {
+  factory _$$GetSubtitlesImplCopyWith(
+          _$GetSubtitlesImpl value, $Res Function(_$GetSubtitlesImpl) then) =
+      __$$GetSubtitlesImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String id});
+}
+
+/// @nodoc
+class __$$GetSubtitlesImplCopyWithImpl<$Res>
+    extends _$WatchEventCopyWithImpl<$Res, _$GetSubtitlesImpl>
+    implements _$$GetSubtitlesImplCopyWith<$Res> {
+  __$$GetSubtitlesImplCopyWithImpl(
+      _$GetSubtitlesImpl _value, $Res Function(_$GetSubtitlesImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$GetSubtitlesImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetSubtitlesImpl implements GetSubtitles {
+  _$GetSubtitlesImpl({required this.id});
+
+  @override
+  final String id;
+
+  @override
+  String toString() {
+    return 'WatchEvent.getSubtitles(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetSubtitlesImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetSubtitlesImplCopyWith<_$GetSubtitlesImpl> get copyWith =>
+      __$$GetSubtitlesImplCopyWithImpl<_$GetSubtitlesImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getWatchInfo,
+    required TResult Function(String id) getCommentData,
+    required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
+    required TResult Function() tapDescription,
+  }) {
+    return getSubtitles(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getWatchInfo,
+    TResult? Function(String id)? getCommentData,
+    TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
+    TResult? Function()? tapDescription,
+  }) {
+    return getSubtitles?.call(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getWatchInfo,
+    TResult Function(String id)? getCommentData,
+    TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
+    TResult Function()? tapDescription,
+    required TResult orElse(),
+  }) {
+    if (getSubtitles != null) {
+      return getSubtitles(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetWatchInfo value) getWatchInfo,
+    required TResult Function(GetCommentData value) getCommentData,
+    required TResult Function(GetCommentRepliesData value)
+        getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
+    required TResult Function(TapDescription value) tapDescription,
+  }) {
+    return getSubtitles(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetWatchInfo value)? getWatchInfo,
+    TResult? Function(GetCommentData value)? getCommentData,
+    TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
+    TResult? Function(TapDescription value)? tapDescription,
+  }) {
+    return getSubtitles?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetWatchInfo value)? getWatchInfo,
+    TResult Function(GetCommentData value)? getCommentData,
+    TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
+    TResult Function(TapDescription value)? tapDescription,
+    required TResult orElse(),
+  }) {
+    if (getSubtitles != null) {
+      return getSubtitles(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetSubtitles implements WatchEvent {
+  factory GetSubtitles({required final String id}) = _$GetSubtitlesImpl;
+
+  String get id;
+  @JsonKey(ignore: true)
+  _$$GetSubtitlesImplCopyWith<_$GetSubtitlesImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -581,6 +1187,10 @@ class _$TapDescriptionImpl implements TapDescription {
     required TResult Function(String id) getWatchInfo,
     required TResult Function(String id) getCommentData,
     required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
   }) {
     return tapDescription();
@@ -592,6 +1202,9 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult? Function(String id)? getWatchInfo,
     TResult? Function(String id)? getCommentData,
     TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
   }) {
     return tapDescription?.call();
@@ -603,6 +1216,9 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult Function(String id)? getWatchInfo,
     TResult Function(String id)? getCommentData,
     TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
     required TResult orElse(),
   }) {
@@ -619,6 +1235,10 @@ class _$TapDescriptionImpl implements TapDescription {
     required TResult Function(GetCommentData value) getCommentData,
     required TResult Function(GetCommentRepliesData value)
         getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
   }) {
     return tapDescription(this);
@@ -630,6 +1250,9 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult? Function(GetWatchInfo value)? getWatchInfo,
     TResult? Function(GetCommentData value)? getCommentData,
     TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
   }) {
     return tapDescription?.call(this);
@@ -641,6 +1264,9 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult Function(GetWatchInfo value)? getWatchInfo,
     TResult Function(GetCommentData value)? getCommentData,
     TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
     required TResult orElse(),
   }) {
@@ -670,6 +1296,16 @@ mixin _$WatchState {
   bool get isCommentError => throw _privateConstructorUsedError;
   bool get isCommentRepliesError => throw _privateConstructorUsedError;
   bool get isDescriptionTapped => throw _privateConstructorUsedError;
+  bool get isMoreCommetsFetchError => throw _privateConstructorUsedError;
+  bool get isMoreCommetsFetchLoading => throw _privateConstructorUsedError;
+  bool get isMoreCommetsFetchCompleted => throw _privateConstructorUsedError;
+  bool get isMoreReplyCommetsFetchError => throw _privateConstructorUsedError;
+  bool get isMoreReplyCommetsFetchLoading => throw _privateConstructorUsedError;
+  bool get isMoreReplyCommetsFetchCompleted =>
+      throw _privateConstructorUsedError;
+  bool get isSubtitleLoading => throw _privateConstructorUsedError;
+  bool get isSubtitleError => throw _privateConstructorUsedError;
+  List<Map<String, String>> get subtitles => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WatchStateCopyWith<WatchState> get copyWith =>
@@ -695,7 +1331,16 @@ abstract class $WatchStateCopyWith<$Res> {
       bool isCommentRepliesLoading,
       bool isCommentError,
       bool isCommentRepliesError,
-      bool isDescriptionTapped});
+      bool isDescriptionTapped,
+      bool isMoreCommetsFetchError,
+      bool isMoreCommetsFetchLoading,
+      bool isMoreCommetsFetchCompleted,
+      bool isMoreReplyCommetsFetchError,
+      bool isMoreReplyCommetsFetchLoading,
+      bool isMoreReplyCommetsFetchCompleted,
+      bool isSubtitleLoading,
+      bool isSubtitleError,
+      List<Map<String, String>> subtitles});
 }
 
 /// @nodoc
@@ -724,6 +1369,15 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
     Object? isCommentError = null,
     Object? isCommentRepliesError = null,
     Object? isDescriptionTapped = null,
+    Object? isMoreCommetsFetchError = null,
+    Object? isMoreCommetsFetchLoading = null,
+    Object? isMoreCommetsFetchCompleted = null,
+    Object? isMoreReplyCommetsFetchError = null,
+    Object? isMoreReplyCommetsFetchLoading = null,
+    Object? isMoreReplyCommetsFetchCompleted = null,
+    Object? isSubtitleLoading = null,
+    Object? isSubtitleError = null,
+    Object? subtitles = null,
   }) {
     return _then(_value.copyWith(
       watchResp: null == watchResp
@@ -778,6 +1432,42 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
           ? _value.isDescriptionTapped
           : isDescriptionTapped // ignore: cast_nullable_to_non_nullable
               as bool,
+      isMoreCommetsFetchError: null == isMoreCommetsFetchError
+          ? _value.isMoreCommetsFetchError
+          : isMoreCommetsFetchError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreCommetsFetchLoading: null == isMoreCommetsFetchLoading
+          ? _value.isMoreCommetsFetchLoading
+          : isMoreCommetsFetchLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreCommetsFetchCompleted: null == isMoreCommetsFetchCompleted
+          ? _value.isMoreCommetsFetchCompleted
+          : isMoreCommetsFetchCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreReplyCommetsFetchError: null == isMoreReplyCommetsFetchError
+          ? _value.isMoreReplyCommetsFetchError
+          : isMoreReplyCommetsFetchError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreReplyCommetsFetchLoading: null == isMoreReplyCommetsFetchLoading
+          ? _value.isMoreReplyCommetsFetchLoading
+          : isMoreReplyCommetsFetchLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreReplyCommetsFetchCompleted: null == isMoreReplyCommetsFetchCompleted
+          ? _value.isMoreReplyCommetsFetchCompleted
+          : isMoreReplyCommetsFetchCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSubtitleLoading: null == isSubtitleLoading
+          ? _value.isSubtitleLoading
+          : isSubtitleLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSubtitleError: null == isSubtitleError
+          ? _value.isSubtitleError
+          : isSubtitleError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      subtitles: null == subtitles
+          ? _value.subtitles
+          : subtitles // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, String>>,
     ) as $Val);
   }
 }
@@ -803,7 +1493,16 @@ abstract class _$$InitialImplCopyWith<$Res>
       bool isCommentRepliesLoading,
       bool isCommentError,
       bool isCommentRepliesError,
-      bool isDescriptionTapped});
+      bool isDescriptionTapped,
+      bool isMoreCommetsFetchError,
+      bool isMoreCommetsFetchLoading,
+      bool isMoreCommetsFetchCompleted,
+      bool isMoreReplyCommetsFetchError,
+      bool isMoreReplyCommetsFetchLoading,
+      bool isMoreReplyCommetsFetchCompleted,
+      bool isSubtitleLoading,
+      bool isSubtitleError,
+      List<Map<String, String>> subtitles});
 }
 
 /// @nodoc
@@ -830,6 +1529,15 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? isCommentError = null,
     Object? isCommentRepliesError = null,
     Object? isDescriptionTapped = null,
+    Object? isMoreCommetsFetchError = null,
+    Object? isMoreCommetsFetchLoading = null,
+    Object? isMoreCommetsFetchCompleted = null,
+    Object? isMoreReplyCommetsFetchError = null,
+    Object? isMoreReplyCommetsFetchLoading = null,
+    Object? isMoreReplyCommetsFetchCompleted = null,
+    Object? isSubtitleLoading = null,
+    Object? isSubtitleError = null,
+    Object? subtitles = null,
   }) {
     return _then(_$InitialImpl(
       watchResp: null == watchResp
@@ -884,6 +1592,42 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.isDescriptionTapped
           : isDescriptionTapped // ignore: cast_nullable_to_non_nullable
               as bool,
+      isMoreCommetsFetchError: null == isMoreCommetsFetchError
+          ? _value.isMoreCommetsFetchError
+          : isMoreCommetsFetchError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreCommetsFetchLoading: null == isMoreCommetsFetchLoading
+          ? _value.isMoreCommetsFetchLoading
+          : isMoreCommetsFetchLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreCommetsFetchCompleted: null == isMoreCommetsFetchCompleted
+          ? _value.isMoreCommetsFetchCompleted
+          : isMoreCommetsFetchCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreReplyCommetsFetchError: null == isMoreReplyCommetsFetchError
+          ? _value.isMoreReplyCommetsFetchError
+          : isMoreReplyCommetsFetchError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreReplyCommetsFetchLoading: null == isMoreReplyCommetsFetchLoading
+          ? _value.isMoreReplyCommetsFetchLoading
+          : isMoreReplyCommetsFetchLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreReplyCommetsFetchCompleted: null == isMoreReplyCommetsFetchCompleted
+          ? _value.isMoreReplyCommetsFetchCompleted
+          : isMoreReplyCommetsFetchCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSubtitleLoading: null == isSubtitleLoading
+          ? _value.isSubtitleLoading
+          : isSubtitleLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSubtitleError: null == isSubtitleError
+          ? _value.isSubtitleError
+          : isSubtitleError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      subtitles: null == subtitles
+          ? _value._subtitles
+          : subtitles // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, String>>,
     ));
   }
 }
@@ -904,7 +1648,17 @@ class _$InitialImpl implements _Initial {
       required this.isCommentRepliesLoading,
       required this.isCommentError,
       required this.isCommentRepliesError,
-      required this.isDescriptionTapped});
+      required this.isDescriptionTapped,
+      required this.isMoreCommetsFetchError,
+      required this.isMoreCommetsFetchLoading,
+      required this.isMoreCommetsFetchCompleted,
+      required this.isMoreReplyCommetsFetchError,
+      required this.isMoreReplyCommetsFetchLoading,
+      required this.isMoreReplyCommetsFetchCompleted,
+      required this.isSubtitleLoading,
+      required this.isSubtitleError,
+      required final List<Map<String, String>> subtitles})
+      : _subtitles = subtitles;
 
   @override
   final WatchResp watchResp;
@@ -932,10 +1686,33 @@ class _$InitialImpl implements _Initial {
   final bool isCommentRepliesError;
   @override
   final bool isDescriptionTapped;
+  @override
+  final bool isMoreCommetsFetchError;
+  @override
+  final bool isMoreCommetsFetchLoading;
+  @override
+  final bool isMoreCommetsFetchCompleted;
+  @override
+  final bool isMoreReplyCommetsFetchError;
+  @override
+  final bool isMoreReplyCommetsFetchLoading;
+  @override
+  final bool isMoreReplyCommetsFetchCompleted;
+  @override
+  final bool isSubtitleLoading;
+  @override
+  final bool isSubtitleError;
+  final List<Map<String, String>> _subtitles;
+  @override
+  List<Map<String, String>> get subtitles {
+    if (_subtitles is EqualUnmodifiableListView) return _subtitles;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_subtitles);
+  }
 
   @override
   String toString() {
-    return 'WatchState(watchResp: $watchResp, comments: $comments, commentReplies: $commentReplies, oldId: $oldId, isLoading: $isLoading, isWatchInfoError: $isWatchInfoError, initialVideoPause: $initialVideoPause, isTapComments: $isTapComments, isCommentsLoading: $isCommentsLoading, isCommentRepliesLoading: $isCommentRepliesLoading, isCommentError: $isCommentError, isCommentRepliesError: $isCommentRepliesError, isDescriptionTapped: $isDescriptionTapped)';
+    return 'WatchState(watchResp: $watchResp, comments: $comments, commentReplies: $commentReplies, oldId: $oldId, isLoading: $isLoading, isWatchInfoError: $isWatchInfoError, initialVideoPause: $initialVideoPause, isTapComments: $isTapComments, isCommentsLoading: $isCommentsLoading, isCommentRepliesLoading: $isCommentRepliesLoading, isCommentError: $isCommentError, isCommentRepliesError: $isCommentRepliesError, isDescriptionTapped: $isDescriptionTapped, isMoreCommetsFetchError: $isMoreCommetsFetchError, isMoreCommetsFetchLoading: $isMoreCommetsFetchLoading, isMoreCommetsFetchCompleted: $isMoreCommetsFetchCompleted, isMoreReplyCommetsFetchError: $isMoreReplyCommetsFetchError, isMoreReplyCommetsFetchLoading: $isMoreReplyCommetsFetchLoading, isMoreReplyCommetsFetchCompleted: $isMoreReplyCommetsFetchCompleted, isSubtitleLoading: $isSubtitleLoading, isSubtitleError: $isSubtitleError, subtitles: $subtitles)';
   }
 
   @override
@@ -960,33 +1737,65 @@ class _$InitialImpl implements _Initial {
                 other.isTapComments == isTapComments) &&
             (identical(other.isCommentsLoading, isCommentsLoading) ||
                 other.isCommentsLoading == isCommentsLoading) &&
-            (identical(
-                    other.isCommentRepliesLoading, isCommentRepliesLoading) ||
+            (identical(other.isCommentRepliesLoading, isCommentRepliesLoading) ||
                 other.isCommentRepliesLoading == isCommentRepliesLoading) &&
             (identical(other.isCommentError, isCommentError) ||
                 other.isCommentError == isCommentError) &&
             (identical(other.isCommentRepliesError, isCommentRepliesError) ||
                 other.isCommentRepliesError == isCommentRepliesError) &&
             (identical(other.isDescriptionTapped, isDescriptionTapped) ||
-                other.isDescriptionTapped == isDescriptionTapped));
+                other.isDescriptionTapped == isDescriptionTapped) &&
+            (identical(other.isMoreCommetsFetchError, isMoreCommetsFetchError) ||
+                other.isMoreCommetsFetchError == isMoreCommetsFetchError) &&
+            (identical(other.isMoreCommetsFetchLoading, isMoreCommetsFetchLoading) ||
+                other.isMoreCommetsFetchLoading == isMoreCommetsFetchLoading) &&
+            (identical(other.isMoreCommetsFetchCompleted, isMoreCommetsFetchCompleted) ||
+                other.isMoreCommetsFetchCompleted ==
+                    isMoreCommetsFetchCompleted) &&
+            (identical(other.isMoreReplyCommetsFetchError, isMoreReplyCommetsFetchError) ||
+                other.isMoreReplyCommetsFetchError ==
+                    isMoreReplyCommetsFetchError) &&
+            (identical(other.isMoreReplyCommetsFetchLoading, isMoreReplyCommetsFetchLoading) ||
+                other.isMoreReplyCommetsFetchLoading ==
+                    isMoreReplyCommetsFetchLoading) &&
+            (identical(other.isMoreReplyCommetsFetchCompleted,
+                    isMoreReplyCommetsFetchCompleted) ||
+                other.isMoreReplyCommetsFetchCompleted ==
+                    isMoreReplyCommetsFetchCompleted) &&
+            (identical(other.isSubtitleLoading, isSubtitleLoading) ||
+                other.isSubtitleLoading == isSubtitleLoading) &&
+            (identical(other.isSubtitleError, isSubtitleError) ||
+                other.isSubtitleError == isSubtitleError) &&
+            const DeepCollectionEquality()
+                .equals(other._subtitles, _subtitles));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      watchResp,
-      comments,
-      commentReplies,
-      oldId,
-      isLoading,
-      isWatchInfoError,
-      initialVideoPause,
-      isTapComments,
-      isCommentsLoading,
-      isCommentRepliesLoading,
-      isCommentError,
-      isCommentRepliesError,
-      isDescriptionTapped);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        watchResp,
+        comments,
+        commentReplies,
+        oldId,
+        isLoading,
+        isWatchInfoError,
+        initialVideoPause,
+        isTapComments,
+        isCommentsLoading,
+        isCommentRepliesLoading,
+        isCommentError,
+        isCommentRepliesError,
+        isDescriptionTapped,
+        isMoreCommetsFetchError,
+        isMoreCommetsFetchLoading,
+        isMoreCommetsFetchCompleted,
+        isMoreReplyCommetsFetchError,
+        isMoreReplyCommetsFetchLoading,
+        isMoreReplyCommetsFetchCompleted,
+        isSubtitleLoading,
+        isSubtitleError,
+        const DeepCollectionEquality().hash(_subtitles)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -1009,7 +1818,16 @@ abstract class _Initial implements WatchState {
       required final bool isCommentRepliesLoading,
       required final bool isCommentError,
       required final bool isCommentRepliesError,
-      required final bool isDescriptionTapped}) = _$InitialImpl;
+      required final bool isDescriptionTapped,
+      required final bool isMoreCommetsFetchError,
+      required final bool isMoreCommetsFetchLoading,
+      required final bool isMoreCommetsFetchCompleted,
+      required final bool isMoreReplyCommetsFetchError,
+      required final bool isMoreReplyCommetsFetchLoading,
+      required final bool isMoreReplyCommetsFetchCompleted,
+      required final bool isSubtitleLoading,
+      required final bool isSubtitleError,
+      required final List<Map<String, String>> subtitles}) = _$InitialImpl;
 
   @override
   WatchResp get watchResp;
@@ -1037,6 +1855,24 @@ abstract class _Initial implements WatchState {
   bool get isCommentRepliesError;
   @override
   bool get isDescriptionTapped;
+  @override
+  bool get isMoreCommetsFetchError;
+  @override
+  bool get isMoreCommetsFetchLoading;
+  @override
+  bool get isMoreCommetsFetchCompleted;
+  @override
+  bool get isMoreReplyCommetsFetchError;
+  @override
+  bool get isMoreReplyCommetsFetchLoading;
+  @override
+  bool get isMoreReplyCommetsFetchCompleted;
+  @override
+  bool get isSubtitleLoading;
+  @override
+  bool get isSubtitleError;
+  @override
+  List<Map<String, String>> get subtitles;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

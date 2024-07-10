@@ -34,7 +34,7 @@ class HomeAppBar extends StatelessWidget {
       actions: [
         GestureDetector(
           onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ScreenSearch(),
+            builder: (context) => const ScreenSearch(),
           )),
           child: const CircularIcon(
             icon: CupertinoIcons.search,

@@ -20,18 +20,24 @@ mixin _$SearchEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String query, String? filter) getSearchResult,
+    required TResult Function(String query, String? filter, String? nextPage)
+        getMoreSearchResult,
     required TResult Function(String query) getSearchSuggestion,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String query, String? filter)? getSearchResult,
+    TResult? Function(String query, String? filter, String? nextPage)?
+        getMoreSearchResult,
     TResult? Function(String query)? getSearchSuggestion,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String query, String? filter)? getSearchResult,
+    TResult Function(String query, String? filter, String? nextPage)?
+        getMoreSearchResult,
     TResult Function(String query)? getSearchSuggestion,
     required TResult orElse(),
   }) =>
@@ -39,18 +45,21 @@ mixin _$SearchEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetSearchResult value) getSearchResult,
+    required TResult Function(GetMoreSearchResult value) getMoreSearchResult,
     required TResult Function(GetSearchSuggestion value) getSearchSuggestion,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetSearchResult value)? getSearchResult,
+    TResult? Function(GetMoreSearchResult value)? getMoreSearchResult,
     TResult? Function(GetSearchSuggestion value)? getSearchSuggestion,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetSearchResult value)? getSearchResult,
+    TResult Function(GetMoreSearchResult value)? getMoreSearchResult,
     TResult Function(GetSearchSuggestion value)? getSearchSuggestion,
     required TResult orElse(),
   }) =>
@@ -170,6 +179,8 @@ class _$GetSearchResultImpl implements GetSearchResult {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String query, String? filter) getSearchResult,
+    required TResult Function(String query, String? filter, String? nextPage)
+        getMoreSearchResult,
     required TResult Function(String query) getSearchSuggestion,
   }) {
     return getSearchResult(query, filter);
@@ -179,6 +190,8 @@ class _$GetSearchResultImpl implements GetSearchResult {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String query, String? filter)? getSearchResult,
+    TResult? Function(String query, String? filter, String? nextPage)?
+        getMoreSearchResult,
     TResult? Function(String query)? getSearchSuggestion,
   }) {
     return getSearchResult?.call(query, filter);
@@ -188,6 +201,8 @@ class _$GetSearchResultImpl implements GetSearchResult {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String query, String? filter)? getSearchResult,
+    TResult Function(String query, String? filter, String? nextPage)?
+        getMoreSearchResult,
     TResult Function(String query)? getSearchSuggestion,
     required TResult orElse(),
   }) {
@@ -201,6 +216,7 @@ class _$GetSearchResultImpl implements GetSearchResult {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetSearchResult value) getSearchResult,
+    required TResult Function(GetMoreSearchResult value) getMoreSearchResult,
     required TResult Function(GetSearchSuggestion value) getSearchSuggestion,
   }) {
     return getSearchResult(this);
@@ -210,6 +226,7 @@ class _$GetSearchResultImpl implements GetSearchResult {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetSearchResult value)? getSearchResult,
+    TResult? Function(GetMoreSearchResult value)? getMoreSearchResult,
     TResult? Function(GetSearchSuggestion value)? getSearchSuggestion,
   }) {
     return getSearchResult?.call(this);
@@ -219,6 +236,7 @@ class _$GetSearchResultImpl implements GetSearchResult {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetSearchResult value)? getSearchResult,
+    TResult Function(GetMoreSearchResult value)? getMoreSearchResult,
     TResult Function(GetSearchSuggestion value)? getSearchSuggestion,
     required TResult orElse(),
   }) {
@@ -240,6 +258,176 @@ abstract class GetSearchResult implements SearchEvent {
   @override
   @JsonKey(ignore: true)
   _$$GetSearchResultImplCopyWith<_$GetSearchResultImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GetMoreSearchResultImplCopyWith<$Res>
+    implements $SearchEventCopyWith<$Res> {
+  factory _$$GetMoreSearchResultImplCopyWith(_$GetMoreSearchResultImpl value,
+          $Res Function(_$GetMoreSearchResultImpl) then) =
+      __$$GetMoreSearchResultImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String query, String? filter, String? nextPage});
+}
+
+/// @nodoc
+class __$$GetMoreSearchResultImplCopyWithImpl<$Res>
+    extends _$SearchEventCopyWithImpl<$Res, _$GetMoreSearchResultImpl>
+    implements _$$GetMoreSearchResultImplCopyWith<$Res> {
+  __$$GetMoreSearchResultImplCopyWithImpl(_$GetMoreSearchResultImpl _value,
+      $Res Function(_$GetMoreSearchResultImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? query = null,
+    Object? filter = freezed,
+    Object? nextPage = freezed,
+  }) {
+    return _then(_$GetMoreSearchResultImpl(
+      query: null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
+              as String,
+      filter: freezed == filter
+          ? _value.filter
+          : filter // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nextPage: freezed == nextPage
+          ? _value.nextPage
+          : nextPage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetMoreSearchResultImpl implements GetMoreSearchResult {
+  const _$GetMoreSearchResultImpl(
+      {required this.query, required this.filter, required this.nextPage});
+
+  @override
+  final String query;
+  @override
+  final String? filter;
+  @override
+  final String? nextPage;
+
+  @override
+  String toString() {
+    return 'SearchEvent.getMoreSearchResult(query: $query, filter: $filter, nextPage: $nextPage)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetMoreSearchResultImpl &&
+            (identical(other.query, query) || other.query == query) &&
+            (identical(other.filter, filter) || other.filter == filter) &&
+            (identical(other.nextPage, nextPage) ||
+                other.nextPage == nextPage));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, query, filter, nextPage);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetMoreSearchResultImplCopyWith<_$GetMoreSearchResultImpl> get copyWith =>
+      __$$GetMoreSearchResultImplCopyWithImpl<_$GetMoreSearchResultImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String query, String? filter) getSearchResult,
+    required TResult Function(String query, String? filter, String? nextPage)
+        getMoreSearchResult,
+    required TResult Function(String query) getSearchSuggestion,
+  }) {
+    return getMoreSearchResult(query, filter, nextPage);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String query, String? filter)? getSearchResult,
+    TResult? Function(String query, String? filter, String? nextPage)?
+        getMoreSearchResult,
+    TResult? Function(String query)? getSearchSuggestion,
+  }) {
+    return getMoreSearchResult?.call(query, filter, nextPage);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String query, String? filter)? getSearchResult,
+    TResult Function(String query, String? filter, String? nextPage)?
+        getMoreSearchResult,
+    TResult Function(String query)? getSearchSuggestion,
+    required TResult orElse(),
+  }) {
+    if (getMoreSearchResult != null) {
+      return getMoreSearchResult(query, filter, nextPage);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetSearchResult value) getSearchResult,
+    required TResult Function(GetMoreSearchResult value) getMoreSearchResult,
+    required TResult Function(GetSearchSuggestion value) getSearchSuggestion,
+  }) {
+    return getMoreSearchResult(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetSearchResult value)? getSearchResult,
+    TResult? Function(GetMoreSearchResult value)? getMoreSearchResult,
+    TResult? Function(GetSearchSuggestion value)? getSearchSuggestion,
+  }) {
+    return getMoreSearchResult?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetSearchResult value)? getSearchResult,
+    TResult Function(GetMoreSearchResult value)? getMoreSearchResult,
+    TResult Function(GetSearchSuggestion value)? getSearchSuggestion,
+    required TResult orElse(),
+  }) {
+    if (getMoreSearchResult != null) {
+      return getMoreSearchResult(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetMoreSearchResult implements SearchEvent {
+  const factory GetMoreSearchResult(
+      {required final String query,
+      required final String? filter,
+      required final String? nextPage}) = _$GetMoreSearchResultImpl;
+
+  @override
+  String get query;
+  String? get filter;
+  String? get nextPage;
+  @override
+  @JsonKey(ignore: true)
+  _$$GetMoreSearchResultImplCopyWith<_$GetMoreSearchResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -311,6 +499,8 @@ class _$GetSearchSuggestionImpl implements GetSearchSuggestion {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String query, String? filter) getSearchResult,
+    required TResult Function(String query, String? filter, String? nextPage)
+        getMoreSearchResult,
     required TResult Function(String query) getSearchSuggestion,
   }) {
     return getSearchSuggestion(query);
@@ -320,6 +510,8 @@ class _$GetSearchSuggestionImpl implements GetSearchSuggestion {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String query, String? filter)? getSearchResult,
+    TResult? Function(String query, String? filter, String? nextPage)?
+        getMoreSearchResult,
     TResult? Function(String query)? getSearchSuggestion,
   }) {
     return getSearchSuggestion?.call(query);
@@ -329,6 +521,8 @@ class _$GetSearchSuggestionImpl implements GetSearchSuggestion {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String query, String? filter)? getSearchResult,
+    TResult Function(String query, String? filter, String? nextPage)?
+        getMoreSearchResult,
     TResult Function(String query)? getSearchSuggestion,
     required TResult orElse(),
   }) {
@@ -342,6 +536,7 @@ class _$GetSearchSuggestionImpl implements GetSearchSuggestion {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetSearchResult value) getSearchResult,
+    required TResult Function(GetMoreSearchResult value) getMoreSearchResult,
     required TResult Function(GetSearchSuggestion value) getSearchSuggestion,
   }) {
     return getSearchSuggestion(this);
@@ -351,6 +546,7 @@ class _$GetSearchSuggestionImpl implements GetSearchSuggestion {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetSearchResult value)? getSearchResult,
+    TResult? Function(GetMoreSearchResult value)? getMoreSearchResult,
     TResult? Function(GetSearchSuggestion value)? getSearchSuggestion,
   }) {
     return getSearchSuggestion?.call(this);
@@ -360,6 +556,7 @@ class _$GetSearchSuggestionImpl implements GetSearchSuggestion {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetSearchResult value)? getSearchResult,
+    TResult Function(GetMoreSearchResult value)? getMoreSearchResult,
     TResult Function(GetSearchSuggestion value)? getSearchSuggestion,
     required TResult orElse(),
   }) {
@@ -390,6 +587,9 @@ mixin _$SearchState {
   List<dynamic> get suggestions => throw _privateConstructorUsedError;
   bool get isSuggestionError => throw _privateConstructorUsedError;
   bool get isSuggestionDisplay => throw _privateConstructorUsedError;
+  bool get isMoreFetchLoading => throw _privateConstructorUsedError;
+  bool get isMoreFetchError => throw _privateConstructorUsedError;
+  bool get isMoreFetchCompleted => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SearchStateCopyWith<SearchState> get copyWith =>
@@ -408,7 +608,10 @@ abstract class $SearchStateCopyWith<$Res> {
       bool isError,
       List<dynamic> suggestions,
       bool isSuggestionError,
-      bool isSuggestionDisplay});
+      bool isSuggestionDisplay,
+      bool isMoreFetchLoading,
+      bool isMoreFetchError,
+      bool isMoreFetchCompleted});
 }
 
 /// @nodoc
@@ -430,6 +633,9 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
     Object? suggestions = null,
     Object? isSuggestionError = null,
     Object? isSuggestionDisplay = null,
+    Object? isMoreFetchLoading = null,
+    Object? isMoreFetchError = null,
+    Object? isMoreFetchCompleted = null,
   }) {
     return _then(_value.copyWith(
       result: freezed == result
@@ -456,6 +662,18 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
           ? _value.isSuggestionDisplay
           : isSuggestionDisplay // ignore: cast_nullable_to_non_nullable
               as bool,
+      isMoreFetchLoading: null == isMoreFetchLoading
+          ? _value.isMoreFetchLoading
+          : isMoreFetchLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreFetchError: null == isMoreFetchError
+          ? _value.isMoreFetchError
+          : isMoreFetchError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreFetchCompleted: null == isMoreFetchCompleted
+          ? _value.isMoreFetchCompleted
+          : isMoreFetchCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -474,7 +692,10 @@ abstract class _$$InitialImplCopyWith<$Res>
       bool isError,
       List<dynamic> suggestions,
       bool isSuggestionError,
-      bool isSuggestionDisplay});
+      bool isSuggestionDisplay,
+      bool isMoreFetchLoading,
+      bool isMoreFetchError,
+      bool isMoreFetchCompleted});
 }
 
 /// @nodoc
@@ -494,6 +715,9 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? suggestions = null,
     Object? isSuggestionError = null,
     Object? isSuggestionDisplay = null,
+    Object? isMoreFetchLoading = null,
+    Object? isMoreFetchError = null,
+    Object? isMoreFetchCompleted = null,
   }) {
     return _then(_$InitialImpl(
       result: freezed == result
@@ -520,6 +744,18 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.isSuggestionDisplay
           : isSuggestionDisplay // ignore: cast_nullable_to_non_nullable
               as bool,
+      isMoreFetchLoading: null == isMoreFetchLoading
+          ? _value.isMoreFetchLoading
+          : isMoreFetchLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreFetchError: null == isMoreFetchError
+          ? _value.isMoreFetchError
+          : isMoreFetchError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMoreFetchCompleted: null == isMoreFetchCompleted
+          ? _value.isMoreFetchCompleted
+          : isMoreFetchCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -533,7 +769,10 @@ class _$InitialImpl implements _Initial {
       required this.isError,
       required final List<dynamic> suggestions,
       required this.isSuggestionError,
-      required this.isSuggestionDisplay})
+      required this.isSuggestionDisplay,
+      required this.isMoreFetchLoading,
+      required this.isMoreFetchError,
+      required this.isMoreFetchCompleted})
       : _suggestions = suggestions;
 
   @override
@@ -554,10 +793,16 @@ class _$InitialImpl implements _Initial {
   final bool isSuggestionError;
   @override
   final bool isSuggestionDisplay;
+  @override
+  final bool isMoreFetchLoading;
+  @override
+  final bool isMoreFetchError;
+  @override
+  final bool isMoreFetchCompleted;
 
   @override
   String toString() {
-    return 'SearchState(result: $result, isLoading: $isLoading, isError: $isError, suggestions: $suggestions, isSuggestionError: $isSuggestionError, isSuggestionDisplay: $isSuggestionDisplay)';
+    return 'SearchState(result: $result, isLoading: $isLoading, isError: $isError, suggestions: $suggestions, isSuggestionError: $isSuggestionError, isSuggestionDisplay: $isSuggestionDisplay, isMoreFetchLoading: $isMoreFetchLoading, isMoreFetchError: $isMoreFetchError, isMoreFetchCompleted: $isMoreFetchCompleted)';
   }
 
   @override
@@ -574,7 +819,13 @@ class _$InitialImpl implements _Initial {
             (identical(other.isSuggestionError, isSuggestionError) ||
                 other.isSuggestionError == isSuggestionError) &&
             (identical(other.isSuggestionDisplay, isSuggestionDisplay) ||
-                other.isSuggestionDisplay == isSuggestionDisplay));
+                other.isSuggestionDisplay == isSuggestionDisplay) &&
+            (identical(other.isMoreFetchLoading, isMoreFetchLoading) ||
+                other.isMoreFetchLoading == isMoreFetchLoading) &&
+            (identical(other.isMoreFetchError, isMoreFetchError) ||
+                other.isMoreFetchError == isMoreFetchError) &&
+            (identical(other.isMoreFetchCompleted, isMoreFetchCompleted) ||
+                other.isMoreFetchCompleted == isMoreFetchCompleted));
   }
 
   @override
@@ -585,7 +836,10 @@ class _$InitialImpl implements _Initial {
       isError,
       const DeepCollectionEquality().hash(_suggestions),
       isSuggestionError,
-      isSuggestionDisplay);
+      isSuggestionDisplay,
+      isMoreFetchLoading,
+      isMoreFetchError,
+      isMoreFetchCompleted);
 
   @JsonKey(ignore: true)
   @override
@@ -601,7 +855,10 @@ abstract class _Initial implements SearchState {
       required final bool isError,
       required final List<dynamic> suggestions,
       required final bool isSuggestionError,
-      required final bool isSuggestionDisplay}) = _$InitialImpl;
+      required final bool isSuggestionDisplay,
+      required final bool isMoreFetchLoading,
+      required final bool isMoreFetchError,
+      required final bool isMoreFetchCompleted}) = _$InitialImpl;
 
   @override
   SearchResp? get result;
@@ -615,6 +872,12 @@ abstract class _Initial implements SearchState {
   bool get isSuggestionError;
   @override
   bool get isSuggestionDisplay;
+  @override
+  bool get isMoreFetchLoading;
+  @override
+  bool get isMoreFetchError;
+  @override
+  bool get isMoreFetchCompleted;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

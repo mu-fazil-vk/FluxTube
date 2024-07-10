@@ -3,24 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/saved/saved_bloc.dart';
 import 'package:fluxtube/application/watch/watch_bloc.dart';
-import 'package:fluxtube/core/colors.dart';
-import 'package:fluxtube/core/operations/math_operations.dart';
-import 'package:fluxtube/core/strings.dart';
-import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/watch/widgets/comment_widgets.dart';
+import 'package:fluxtube/presentation/watch/widgets/description_section.dart';
+import 'package:fluxtube/presentation/watch/widgets/like_section.dart';
+import 'package:fluxtube/presentation/watch/widgets/related_video_section.dart';
+import 'package:fluxtube/presentation/watch/widgets/subscribe_section.dart';
 import 'package:fluxtube/widgets/error_widget.dart';
 import 'package:fluxtube/widgets/indicator.dart';
-import 'package:go_router/go_router.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:simple_html_css/simple_html_css.dart';
 
 import '../../application/settings/settings_bloc.dart';
 import '../../application/subscribe/subscribe_bloc.dart';
 import '../../core/constants.dart';
-import '../../domain/subscribes/models/subscribe.dart';
 import '../../widgets/common_video_description_widget.dart';
-import 'widgets/comment_like_widget.dart';
-import '../../widgets/related_video_widget.dart';
 import 'widgets/video_player_widget.dart';
 
 class ScreenWatch extends StatelessWidget {
@@ -49,11 +44,13 @@ class ScreenWatch extends StatelessWidget {
                   !state.isWatchInfoError) {
                 BlocProvider.of<WatchBloc>(context)
                     .add(WatchEvent.getWatchInfo(id: id));
+                BlocProvider.of<WatchBloc>(context)
+                    .add(WatchEvent.getSubtitles(id: id));
               }
 
               final watchInfo = state.watchResp;
 
-              if (state.isLoading) {
+              if (state.isLoading || state.isSubtitleLoading) {
                 return cIndicator(context);
               } else if (state.isWatchInfoError ||
                   (settingsState.isHlsPlayer && watchInfo.hls == null)) {
@@ -85,6 +82,9 @@ class ScreenWatch extends StatelessWidget {
                                           0,
                                   isSaved: isSaved,
                                   isHlsPlayer: settingsState.isHlsPlayer,
+                                  subtitles: state.isSubtitleLoading
+                                      ? []
+                                      : state.subtitles,
                                 );
                               },
                             ),
@@ -119,297 +119,42 @@ class ScreenWatch extends StatelessWidget {
                                     kHeightBox10,
 
                                     // * like row
-                                    BlocBuilder<SavedBloc, SavedState>(
-                                      builder: (context, savedState) {
-                                        bool isSaved =
-                                            (savedState.videoInfo?.id == id &&
-                                                    savedState.videoInfo
-                                                            ?.isSaved ==
-                                                        true)
-                                                ? true
-                                                : false;
-                                        return BlocBuilder<SettingsBloc,
-                                            SettingsState>(
-                                          builder: (context, settingsState) {
-                                            return LikeRowWidget(
-                                              like: watchInfo.likes ?? 0,
-                                              dislikes: watchInfo.dislikes ?? 0,
-                                              isDislikeVisible: settingsState
-                                                  .isDislikeVisible,
-                                              isCommentTapped:
-                                                  state.isTapComments,
-                                              onTapComment: () {
-                                                if (state.isDescriptionTapped) {
-                                                  BlocProvider.of<WatchBloc>(
-                                                          context)
-                                                      .add(WatchEvent
-                                                          .tapDescription());
-                                                }
-                                                BlocProvider.of<WatchBloc>(
-                                                        context)
-                                                    .add(WatchEvent
-                                                        .getCommentData(
-                                                            id: id));
-                                              },
-                                              onTapShare: () async {
-                                                await Share.share(
-                                                    "${watchInfo.title}\n\n$kYTBaseUrl$id");
-                                              },
-                                              isSaveTapped: isSaved,
-                                              onTapSave: () {
-                                                BlocProvider.of<SavedBloc>(
-                                                        context)
-                                                    .add(
-                                                  SavedEvent.addVideoInfo(
-                                                    videoInfo: LocalStoreVideoInfo(
-                                                        id: id,
-                                                        title: watchInfo.title,
-                                                        views: watchInfo.views,
-                                                        thumbnail: watchInfo
-                                                            .thumbnailUrl,
-                                                        uploadedDate: watchInfo
-                                                            .uploadDate,
-                                                        uploaderAvatar: watchInfo
-                                                            .uploaderAvatar,
-                                                        uploaderName:
-                                                            watchInfo.uploader,
-                                                        uploaderId: watchInfo
-                                                            .uploaderUrl!
-                                                            .split("/")
-                                                            .last,
-                                                        uploaderSubscriberCount:
-                                                            watchInfo
-                                                                .uploaderSubscriberCount,
-                                                        duration:
-                                                            watchInfo.duration,
-                                                        playbackPosition:
-                                                            savedState.videoInfo
-                                                                ?.playbackPosition,
-                                                        uploaderVerified:
-                                                            watchInfo
-                                                                .uploaderVerified,
-                                                        isSaved: !isSaved,
-                                                        isLive: watchInfo
-                                                            .livestream,
-                                                        isHistory: savedState
-                                                            .videoInfo
-                                                            ?.isHistory),
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          },
-                                        );
-                                      },
-                                    ),
+                                    LikeSection(
+                                        id: id,
+                                        state: state,
+                                        watchInfo: watchInfo),
 
                                     kHeightBox10,
 
                                     const Divider(),
 
                                     // * channel info row
-                                    Visibility(
-                                      visible: !state.isTapComments,
-                                      child: BlocBuilder<SubscribeBloc,
-                                          SubscribeState>(
-                                        builder: (context, subscribeState) {
-                                          final String channelId = watchInfo
-                                              .uploaderUrl!
-                                              .split("/")
-                                              .last;
-                                          final bool isSubscribed =
-                                              subscribeState.channelInfo?.id ==
-                                                  channelId;
-
-                                          return SubscribeRowWidget(
-                                            subscribed: isSubscribed,
-                                            uploaderUrl:
-                                                watchInfo.uploaderAvatar,
-                                            subcount: watchInfo
-                                                .uploaderSubscriberCount,
-                                            uploader: watchInfo.uploader ??
-                                                locals.noUploaderName,
-                                            isVerified:
-                                                watchInfo.uploaderVerified ??
-                                                    false,
-                                            onSubscribeTap: () {
-                                              if (isSubscribed) {
-                                                BlocProvider.of<SubscribeBloc>(
-                                                        context)
-                                                    .add(SubscribeEvent
-                                                        .deleteSubscribeInfo(
-                                                            id: channelId));
-                                              } else {
-                                                BlocProvider.of<SubscribeBloc>(
-                                                        context)
-                                                    .add(SubscribeEvent.addSubscribe(
-                                                        channelInfo: Subscribe(
-                                                            id: channelId,
-                                                            channelName: watchInfo
-                                                                    .uploader ??
-                                                                locals
-                                                                    .noUploaderName,
-                                                            isVerified: watchInfo
-                                                                    .uploaderVerified ??
-                                                                false)));
-                                              }
-                                            },
-                                          );
-                                        },
-                                      ),
-                                    ),
+                                    ChannelInfoSection(
+                                        state: state,
+                                        watchInfo: watchInfo,
+                                        locals: locals),
                                     if (!state.isTapComments) const Divider(),
                                     kHeightBox10,
 
                                     // * description
                                     state.isDescriptionTapped
-                                        ? SizedBox(
-                                            height: _height * 0.40,
-                                            child: SingleChildScrollView(
-                                              child: RichText(
-                                                text: HTML.toTextSpan(
-                                                    context,
-                                                    watchInfo.description ??
-                                                        locals
-                                                            .noVideoDescription,
-                                                    defaultTextStyle:
-                                                        Theme.of(context)
-                                                            .textTheme
-                                                            .bodyMedium),
-                                              ),
-                                            ),
-                                          )
+                                        ? DescriptionSection(
+                                            height: _height,
+                                            watchInfo: watchInfo,
+                                            locals: locals)
                                         :
                                         // * related videos
                                         state.isTapComments == false
-                                            ? Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    locals.relatedTitle,
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .labelMedium!
-                                                            .color,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 16),
-                                                  ),
-                                                  kHeightBox20,
-                                                  SizedBox(
-                                                    height: 250,
-                                                    width: double.infinity,
-                                                    child: ListView.separated(
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          final String videoId =
-                                                              watchInfo
-                                                                  .relatedStreams![
-                                                                      index]
-                                                                  .url!
-                                                                  .split('=')
-                                                                  .last;
-                                                          final String
-                                                              channelId =
-                                                              watchInfo
-                                                                  .uploaderUrl!
-                                                                  .split("/")
-                                                                  .last;
-                                                          return GestureDetector(
-                                                              onTap: () =>
-                                                                  context.go(
-                                                                      '/watch/$videoId/$channelId'),
-                                                              child:
-                                                                  RelatedVideoWidget(
-                                                                title: watchInfo
-                                                                        .title ??
-                                                                    locals
-                                                                        .noVideoTitle,
-                                                                thumbnailUrl: watchInfo
-                                                                    .relatedStreams![
-                                                                        index]
-                                                                    .thumbnail,
-                                                                duration:
-                                                                    watchInfo
-                                                                        .duration,
-                                                              ));
-                                                        },
-                                                        separatorBuilder:
-                                                            (context, index) =>
-                                                                kWidthBox10,
-                                                        itemCount: watchInfo
-                                                                .relatedStreams
-                                                                ?.length ??
-                                                            0),
-                                                  ),
-                                                ],
-                                              )
+                                            ? RelatedVideoSection(
+                                                locals: locals,
+                                                watchInfo: watchInfo)
                                             //comments section
-                                            : Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 10),
-                                                child:
-                                                    (state.isCommentsLoading ||
-                                                            state
-                                                                .isCommentError)
-                                                        ? cIndicator(context)
-                                                        : LimitedBox(
-                                                            maxHeight:
-                                                                _height * 0.45,
-                                                            child: ListView
-                                                                .separated(
-                                                                    shrinkWrap:
-                                                                        true,
-                                                                    scrollDirection:
-                                                                        Axis
-                                                                            .vertical,
-                                                                    itemBuilder: (context, index) {
-                                                                      final storeComment = state
-                                                                          .comments
-                                                                          .comments[index];
-                                                                      return Column(
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.end,
-                                                                        children: [
-                                                                          CommentWidget(
-                                                                            author:
-                                                                                storeComment.author ?? locals.commentAuthorNotFound,
-                                                                            text:
-                                                                                storeComment.commentText ?? '',
-                                                                            likes:
-                                                                                storeComment.likeCount ?? 0,
-                                                                            authorImageUrl:
-                                                                                storeComment.thumbnail ?? '',
-                                                                          ),
-                                                                          if (storeComment.replyCount != null &&
-                                                                              storeComment.replyCount != 0)
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.only(right: 70),
-                                                                              child: TextButton(
-                                                                                  onPressed: () {
-                                                                                    BlocProvider.of<WatchBloc>(context).add(WatchEvent.getCommentRepliesData(id: storeComment.commentId!, nextPage: storeComment.repliesPage!));
-
-                                                                                    commentReplyBottomSheet(context, _height, locals);
-                                                                                  },
-                                                                                  child: Text("${formatCount(storeComment.replyCount!)} ${locals.repliesPlural(storeComment.replyCount!)}")),
-                                                                            )
-                                                                        ],
-                                                                      );
-                                                                    },
-                                                                    separatorBuilder:
-                                                                        (context,
-                                                                                index) =>
-                                                                            kHeightBox15,
-                                                                    itemCount: state
-                                                                        .comments
-                                                                        .comments
-                                                                        .length),
-                                                          ),
-                                              ),
+                                            : CommentSection(
+                                                videoId: id,
+                                                state: state,
+                                                height: _height,
+                                                locals: locals,
+                                              )
                                   ]),
                             ),
                           ])
@@ -422,122 +167,5 @@ class ScreenWatch extends StatelessWidget {
         },
       ),
     );
-  }
-
-  Future<void> commentReplyBottomSheet(
-      BuildContext context, double _height, S locals) {
-    return showModalBottomSheet<void>(
-        context: context,
-        barrierColor: kTransparentColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
-        ),
-        builder: (BuildContext context) {
-          return BlocBuilder<WatchBloc, WatchState>(
-            builder: (context, state) {
-              if (state.isCommentRepliesLoading ||
-                  state.isCommentRepliesError) {
-                return SizedBox(
-                  height: _height * 0.48,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: 5,
-                        right: 0,
-                        left: 0,
-                        child: Center(
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 15),
-                            width: 40.0,
-                            height: 4.0,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(2.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        child: IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      cIndicator(context)
-                    ],
-                  ),
-                );
-              } else {
-                return SizedBox(
-                  height: _height * 0.48,
-                  child: Column(
-                    children: [
-                      // Top indicator line
-                      SizedBox(
-                        height: 45,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 5,
-                              right: 0,
-                              left: 0,
-                              child: Center(
-                                child: Container(
-                                  margin: const EdgeInsets.only(top: 15),
-                                  width: 40.0,
-                                  height: 4.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(2.0),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              right: 0,
-                              child: IconButton(
-                                icon: const Icon(Icons.close),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 12, left: 20, right: 20),
-                        child: SizedBox(
-                          height: _height * 0.38,
-                          child: ListView.separated(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (context, index) {
-                                final storeComment =
-                                    state.commentReplies.comments[index];
-                                return CommentWidget(
-                                  author: storeComment.author ??
-                                      locals.commentAuthorNotFound,
-                                  text: storeComment.commentText ?? '',
-                                  likes: storeComment.likeCount ?? 0,
-                                  authorImageUrl: storeComment.thumbnail ?? '',
-                                );
-                              },
-                              separatorBuilder: (context, index) =>
-                                  kHeightBox15,
-                              itemCount: state.commentReplies.comments.length),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-            },
-          );
-        });
   }
 }

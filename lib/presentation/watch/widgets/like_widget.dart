@@ -1,67 +1,10 @@
 //comments
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 
 import 'custom_rounded_buttons.dart';
-import 'html_text.dart';
-
-class CommentWidget extends StatelessWidget {
-  const CommentWidget({
-    super.key,
-    required this.author,
-    required this.text,
-    required this.likes,
-    required this.authorImageUrl,
-  });
-
-  final String authorImageUrl;
-  final String author;
-  final String text;
-  final int likes;
-
-  @override
-  Widget build(BuildContext context) {
-    final Size _size = MediaQuery.of(context).size;
-    var _formattedLikes = formatCount(likes);
-    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      CircleAvatar(
-        radius: 20,
-        backgroundImage: (authorImageUrl != "")
-            ? NetworkImage(
-                authorImageUrl,
-              )
-            : null,
-      ),
-      kWidthBox20,
-      SizedBox(
-        width: _size.width * 0.6,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              author,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: kGreyColor, fontWeight: FontWeight.bold, fontSize: 14),
-            ),
-            HTMLText(text: text),
-          ],
-        ),
-      ),
-      const Spacer(),
-      Column(
-        children: [
-          const Icon(CupertinoIcons.hand_thumbsup_fill),
-          Text(_formattedLikes)
-        ],
-      )
-    ]);
-  }
-}
 
 class LikeRowWidget extends StatelessWidget {
   const LikeRowWidget({

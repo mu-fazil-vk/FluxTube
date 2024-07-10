@@ -15,5 +15,19 @@ class WatchEvent with _$WatchEvent {
     required String nextPage,
   }) = GetCommentRepliesData;
 
+  factory WatchEvent.getMoreCommentsData({
+    required String id,
+    required String? nextPage,
+  }) = GetMoreCommentsData;
+
+  factory WatchEvent.getMoreReplyCommentsData({
+    required String id,
+    required String? nextPage,
+  }) = GetMoreReplyCommentsData;
+
+  factory WatchEvent.getSubtitles({
+    required String id,
+  }) = GetSubtitles;
+
   factory WatchEvent.tapDescription() = TapDescription;
 }

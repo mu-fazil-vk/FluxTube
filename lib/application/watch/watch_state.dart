@@ -16,6 +16,15 @@ class WatchState with _$WatchState {
     required bool isCommentError,
     required bool isCommentRepliesError,
     required bool isDescriptionTapped,
+    required bool isMoreCommetsFetchError,
+    required bool isMoreCommetsFetchLoading,
+    required bool isMoreCommetsFetchCompleted,
+    required bool isMoreReplyCommetsFetchError,
+    required bool isMoreReplyCommetsFetchLoading,
+    required bool isMoreReplyCommetsFetchCompleted,
+    required bool isSubtitleLoading,
+    required bool isSubtitleError,
+    required List<Map<String, String>> subtitles,
   }) = _Initial;
 
   factory WatchState.initialize() => WatchState(
@@ -32,5 +41,14 @@ class WatchState with _$WatchState {
         isCommentError: false,
         isCommentRepliesError: false,
         isDescriptionTapped: false,
+        isMoreCommetsFetchError: false,
+        isMoreCommetsFetchLoading: false,
+        isMoreCommetsFetchCompleted: false,
+        isMoreReplyCommetsFetchError: false,
+        isMoreReplyCommetsFetchLoading: false,
+        isMoreReplyCommetsFetchCompleted: false,
+        isSubtitleLoading: false,
+        isSubtitleError: false,
+        subtitles: [],
       );
 }

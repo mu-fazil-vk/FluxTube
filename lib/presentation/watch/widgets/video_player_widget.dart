@@ -1,9 +1,7 @@
-
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fluxtube/domain/watch/models/video/subtitle.dart';
 import 'package:fluxtube/domain/watch/models/video/video_stream.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -20,6 +18,7 @@ class VideoPlayerWidget extends StatefulWidget {
     this.defaultQuality = "720p",
     this.isSaved = false,
     this.isHlsPlayer = false,
+    required this.subtitles,
   });
 
   final WatchResp watchInfo;
@@ -28,6 +27,7 @@ class VideoPlayerWidget extends StatefulWidget {
   final int playbackPosition;
   final bool isSaved;
   final bool isHlsPlayer;
+  final List<Map<String, String>> subtitles;
 
   @override
   State<VideoPlayerWidget> createState() => _VideoPlayerWidgetState();
@@ -118,9 +118,14 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   }
 
   void fetchSubtitles() {
-    if (widget.watchInfo.subtitles != null &&
-        widget.watchInfo.subtitles!.isNotEmpty) {
-      betterPlayerSubtitles = convertSubtitles(widget.watchInfo.subtitles!);
+    if (widget.subtitles.isNotEmpty) {
+      betterPlayerSubtitles = widget.subtitles.map((track) {
+        return BetterPlayerSubtitlesSource(
+          type: BetterPlayerSubtitlesSourceType.network,
+          name: track['name'].toString(),
+          urls: [track['url'].toString()],
+        );
+      }).toList();
     }
   }
 
@@ -170,19 +175,19 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         selectedVideoTrack != null &&
         selectedVideoTrack?.url != null) {
       betterPlayerDataSource = BetterPlayerDataSource(
-        BetterPlayerDataSourceType.network,
-        selectedVideoTrack!.url ?? '',
-        subtitles: betterPlayerSubtitles,
-        resolutions: resolutions,
-        liveStream: widget.watchInfo.livestream,
-        cacheConfiguration: const BetterPlayerCacheConfiguration(
-          useCache: true,
-          preCacheSize: 10 * 1024 * 1024, // 10 mb
-          maxCacheSize: 30 * 1024 * 1024, // 30 mb
-          maxCacheFileSize: 30 * 1024 * 1024,
-          key: "ftCacheKey",
-        ),
-      );
+          BetterPlayerDataSourceType.network, selectedVideoTrack!.url ?? '',
+          subtitles: betterPlayerSubtitles,
+          resolutions: resolutions,
+          liveStream: widget.watchInfo.livestream,
+          videoFormat: BetterPlayerVideoFormat.other,
+          cacheConfiguration: const BetterPlayerCacheConfiguration(
+            useCache: true,
+            preCacheSize: 10 * 1024 * 1024, // 10 mb
+            maxCacheSize: 30 * 1024 * 1024, // 30 mb
+            maxCacheFileSize: 30 * 1024 * 1024,
+            key: "ftCacheKey",
+          ),
+          videoExtension: selectedVideoTrack?.format ?? 'mp4');
     } else {
       if (!widget.isHlsPlayer) {
         if (context.mounted) {
@@ -199,7 +204,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           BetterPlayerDataSourceType.network, widget.watchInfo.hls!,
           useAsmsTracks: true,
           useAsmsAudioTracks: true,
-          useAsmsSubtitles: true,
+          useAsmsSubtitles: false,
+          subtitles: betterPlayerSubtitles,
           liveStream: widget.watchInfo.livestream,
           videoFormat: BetterPlayerVideoFormat.hls,
           cacheConfiguration: const BetterPlayerCacheConfiguration(
@@ -234,17 +240,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _updateVideoHistory();
     _betterPlayerController?.dispose();
     super.dispose();
-  }
-
-  //subtitle to betterplayer subtitle list
-  List<BetterPlayerSubtitlesSource> convertSubtitles(List<Subtitle> subtitles) {
-    return subtitles.map((subtitle) {
-      return BetterPlayerSubtitlesSource(
-        type: BetterPlayerSubtitlesSourceType.network,
-        name: subtitle.name ?? "Unknown",
-        urls: [subtitle.url ?? ""],
-      );
-    }).toList();
   }
 
   void _updateVideoHistory() async {

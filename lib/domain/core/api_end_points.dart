@@ -6,6 +6,7 @@ class ApiEndPoints {
   static const watch = "$kBaseUrl/streams/";
   static const comments = "$kBaseUrl/comments/";
   static const search = "$kBaseUrl/search?q=";
+  static const moreSearch = "$kBaseUrl/nextpage/search?q=";
   static const suggestions = "$kBaseUrl/suggestions?query=";
   static const commentReplies = "$kBaseUrl/nextpage/comments/";
 }

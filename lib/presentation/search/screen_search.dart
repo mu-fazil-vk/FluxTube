@@ -1,24 +1,30 @@
-import 'package:easy_debounce/easy_debounce.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluxtube/application/subscribe/subscribe_bloc.dart';
 import 'package:fluxtube/core/colors.dart';
-import 'package:fluxtube/core/constants.dart';
-import 'package:fluxtube/domain/search/models/item.dart';
-import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/search/widgets/search_result_section.dart';
+import 'package:fluxtube/presentation/search/widgets/search_suggession_section.dart';
+import 'package:fluxtube/presentation/search/widgets/searchbar_section.dart';
 import 'package:fluxtube/widgets/error_widget.dart';
 import 'package:fluxtube/widgets/indicator.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../application/search/search_bloc.dart';
-import '../../widgets/home_video_info_card_widget.dart';
 
-class ScreenSearch extends StatelessWidget {
-  ScreenSearch({super.key});
+class ScreenSearch extends StatefulWidget {
+  const ScreenSearch({super.key});
 
+  @override
+  State<ScreenSearch> createState() => _ScreenSearchState();
+}
+
+class _ScreenSearchState extends State<ScreenSearch> {
   final TextEditingController _textEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,44 +33,8 @@ class ScreenSearch extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: kBlackColor,
-        title: Padding(
-          padding: const EdgeInsets.only(right: 10, bottom: 5),
-          child: CupertinoSearchTextField(
-            controller: _textEditingController,
-            style: theme.textTheme.bodyMedium!.copyWith(fontSize: 16),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                CupertinoIcons.search,
-                color: theme.iconTheme.color,
-              ),
-            ),
-            suffixIcon: Icon(
-              CupertinoIcons.clear_circled_solid,
-              color: theme.iconTheme.color,
-            ),
-            onChanged: (value) {
-              EasyDebounce.debounce(
-                  'suggestions', // <-- An ID for this particular debouncer
-                  const Duration(
-                      milliseconds: 500), // <-- The debounce duration
-                  () => BlocProvider.of<SearchBloc>(context)
-                          .add(SearchEvent.getSearchSuggestion(
-                        query: _textEditingController.text,
-                      )) // <-- The target method
-                  );
-            },
-            onSubmitted: (value) {
-              if (value == '') {
-                return;
-              }
-              EasyDebounce.cancel('suggestions');
-              BlocProvider.of<SearchBloc>(context).add(
-                  SearchEvent.getSearchResult(
-                      query: _textEditingController.text, filter: "videos"));
-            },
-          ),
-        ),
+        title: SearchBarSection(
+            textEditingController: _textEditingController, theme: theme),
       ),
       body: SafeArea(child: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state) {
@@ -72,21 +42,13 @@ class ScreenSearch extends StatelessWidget {
               state.isSuggestionError == false &&
               state.suggestions.isNotEmpty &&
               _textEditingController.text.isNotEmpty) {
-            return ListView.separated(
-                itemBuilder: (context, index) => GestureDetector(
-                      onTap: () => _textEditingController.value =
-                          TextEditingValue(
-                              text: state.suggestions[index] ?? ''),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Text(state.suggestions[index]),
-                      ),
-                    ),
-                separatorBuilder: (context, index) => kHeightBox10,
-                itemCount: state.suggestions.length);
+            return SearchSuggessionSection(
+              textEditingController: _textEditingController,
+              state: state,
+            );
           } else if (state.isLoading) {
             return cIndicator(context);
-          } else if (state.result == null &&
+          } else if (state.isSuggestionDisplay ||
               _textEditingController.text.isEmpty) {
             return Container();
           } else if (state.isError ||
@@ -99,44 +61,10 @@ class ScreenSearch extends StatelessWidget {
                       query: _textEditingController.text, filter: "videos")),
             );
           } else {
-            return BlocBuilder<SubscribeBloc, SubscribeState>(
-              builder: (context, subscribeState) {
-                return ListView.builder(
-                  itemBuilder: (context, index) {
-                    final Item _result = state.result!.items[index];
-                    final String videoId = _result.url!.split('=').last;
-                    final String channelId =
-                        _result.uploaderUrl!.split("/").last;
-                    final bool isSubscribed = subscribeState.subscribedChannels
-                        .where((channel) => channel.id == channelId)
-                        .isNotEmpty;
-                    return GestureDetector(
-                        onTap: () => context.go('/watch/$videoId/$channelId'),
-                        child: HomeVideoInfoCardWidget(
-                          cardInfo: _result,
-                          isSubscribed: isSubscribed,
-                          onSubscribeTap: () {
-                            if (isSubscribed) {
-                              BlocProvider.of<SubscribeBloc>(context).add(
-                                  SubscribeEvent.deleteSubscribeInfo(
-                                      id: channelId));
-                            } else {
-                              BlocProvider.of<SubscribeBloc>(context).add(
-                                  SubscribeEvent.addSubscribe(
-                                      channelInfo: Subscribe(
-                                          id: channelId,
-                                          channelName: _result.uploaderName ??
-                                              locals.noUploaderName,
-                                          isVerified:
-                                              _result.uploaderVerified ??
-                                                  false)));
-                            }
-                          },
-                        ));
-                  },
-                  itemCount: state.result?.items.length ?? 0,
-                );
-              },
+            return SearcheResultSection(
+              locals: locals,
+              state: state,
+              searchQuery: _textEditingController.text,
             );
           }
         },

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -39,7 +40,7 @@ class HomeVideoInfoCardWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 image: cardInfo?.thumbnail != null
                     ? DecorationImage(
-                        image: NetworkImage(cardInfo!.thumbnail!),
+                        image: CachedNetworkImageProvider(cardInfo!.thumbnail!),
                         fit: BoxFit.cover)
                     : null,
               ),

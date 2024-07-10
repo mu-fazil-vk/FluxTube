@@ -44,4 +44,21 @@ class SearchImplimentation implements SearchService {
       return const Left(MainFailure.clientFailure());
     }
   }
+  
+  @override
+  Future<Either<MainFailure, SearchResp>> getMoreSearchResult({required String query, required String filter, required String? nextPage}) async {
+    try {
+      final Response response = await Dio(BaseOptions())
+          .get("${ApiEndPoints.moreSearch}$query&filter=$filter&nextpage=$nextPage");
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final SearchResp result = SearchResp.fromJson(response.data);
+
+        return Right(result);
+      } else {
+        return const Left(MainFailure.serverFailure());
+      }
+    } catch (e) {
+      return const Left(MainFailure.clientFailure());
+    }
+  }
 }
