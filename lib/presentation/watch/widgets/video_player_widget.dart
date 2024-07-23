@@ -209,7 +209,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           liveStream: widget.watchInfo.livestream,
           videoFormat: BetterPlayerVideoFormat.hls,
           cacheConfiguration: const BetterPlayerCacheConfiguration(
-            useCache: false,
+            useCache: true,
             preCacheSize: 10 * 1024 * 1024, // 10 mb
             maxCacheSize: 30 * 1024 * 1024, // 30 mb
             maxCacheFileSize: 30 * 1024 * 1024,

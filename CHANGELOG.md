@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.6.7
+- Removed cleartextTraffic.
+- Reenabled HLS cache.
+
 ### v0.6.6
 - Added channel on appear on search result.
 - Added Channel view screen.
