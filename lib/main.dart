@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:fluxtube/application/channel/channel_bloc.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/channel/screen_channel.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_language.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_translators.dart';
 import 'package:go_router/go_router.dart';
@@ -45,6 +47,16 @@ final GoRouter _router = GoRouter(
             return ScreenWatch(
               id: state.pathParameters['id']!,
               channelId: state.pathParameters['channelId']!,
+            );
+          },
+        ),
+        GoRoute(
+          name: 'channel',
+          path: 'channel/:channelId',
+          builder: (BuildContext context, GoRouterState state) {
+            return ScreenChannel(
+              channelId: state.pathParameters['channelId']!,
+              avtarUrl: state.uri.queryParameters['avtarUrl'],
             );
           },
         ),
@@ -95,6 +107,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => getIt<SubscribeBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<ChannelBloc>(),
         ),
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(

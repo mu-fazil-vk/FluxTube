@@ -11,7 +11,7 @@ class SearchState with _$SearchState {
       required bool isSuggestionDisplay,
       required bool isMoreFetchLoading,
       required bool isMoreFetchError,
-      required bool isMoreFetchCompleted}) = _Initial;
+      required bool isMoreFetchCompleted}) = _SearchState;
 
   factory SearchState.initialize() => const SearchState(
         result: null,

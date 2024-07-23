@@ -19,7 +19,6 @@ class AppInfo {
   ];
 
   static List<AppInfoModel> translatorsInfos = <AppInfoModel>[
-    
     AppInfoModel(
       name: 'Fazil vk',
       url: 'https://github.com/mu-fazil-vk',

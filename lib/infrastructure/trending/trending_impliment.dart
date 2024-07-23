@@ -9,7 +9,8 @@ import 'package:injectable/injectable.dart';
 @LazySingleton(as: TrendingService)
 class TrendingImpliment implements TrendingService {
   @override
-  Future<Either<MainFailure, List<TrendingResp>>> getTrendingData({required String region}) async {
+  Future<Either<MainFailure, List<TrendingResp>>> getTrendingData(
+      {required String region}) async {
     try {
       final Response response =
           await Dio(BaseOptions()).get(ApiEndPoints.trending + region);

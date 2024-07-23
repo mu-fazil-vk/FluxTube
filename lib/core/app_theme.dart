@@ -6,6 +6,8 @@ abstract class AppTheme {
   static ThemeData get lightTheme => ThemeData(
         useMaterial3: true,
         indicatorColor: kGreyColor,
+        primaryColorLight: kWhiteColor,
+        primaryColorDark: kBlackColor,
         colorScheme: ColorScheme.fromSeed(seedColor: kBlackColor),
         primaryIconTheme: const IconThemeData().copyWith(color: kBlackColor),
         scaffoldBackgroundColor: kWhiteColor,
@@ -21,13 +23,15 @@ abstract class AppTheme {
               ),
             ),
         appBarTheme: const AppBarTheme(
-            backgroundColor: kWhiteColor, foregroundColor: kWhiteColor),
+            backgroundColor: kWhiteColor, foregroundColor: kBlackColor),
         fontFamily: GoogleFonts.montserrat().fontFamily,
         iconTheme: const IconThemeData().copyWith(color: kGreyColor),
       );
 
   static ThemeData get darkTheme => ThemeData(
       useMaterial3: true,
+      primaryColorLight: kWhiteColor,
+      primaryColorDark: kBlackColor,
       indicatorColor: kWhiteColor.withOpacity(0.5),
       primaryIconTheme: const IconThemeData().copyWith(color: kWhiteColor),
       colorScheme: const ColorScheme.dark(),

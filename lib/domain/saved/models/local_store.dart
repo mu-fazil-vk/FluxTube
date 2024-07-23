@@ -7,7 +7,6 @@ import '../../../core/operations/math_operations.dart';
 
 part 'local_store.g.dart';
 
-
 @Collection()
 class LocalStoreVideoInfo {
   String id;

@@ -39,6 +39,9 @@ class ScreenWatch extends StatelessWidget {
       body: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {
           return BlocBuilder<WatchBloc, WatchState>(
+            buildWhen: (previous, current) {
+              return current != previous;
+            },
             builder: (context, state) {
               if ((state.oldId != id || state.oldId == null) &&
                   !state.isWatchInfoError) {

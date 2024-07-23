@@ -18,7 +18,8 @@ class SubscribeBloc extends Bloc<SubscribeEvent, SubscribeState> {
   SubscribeBloc(this._subscribeServices) : super(SubscribeState.initialize()) {
     // get all subscribed channel list from local storage
     on<GetAllSubscribeList>((event, emit) async {
-      emit(state.copyWith(isLoading: true, isError: false, subscribedChannels: []));
+      emit(state
+          .copyWith(isLoading: true, isError: false, subscribedChannels: []));
 
       final _result = await _subscribeServices.getSubscriberInfoList();
       final _state = _result.fold(

@@ -8,32 +8,32 @@ import 'package:fluxtube/presentation/settings/functions/launch_url.dart';
 import 'package:go_router/go_router.dart';
 
 SettingsSection aboutSection(
-      S locals, BuildContext context, SettingsState state) {
-    return SettingsSection(
-      title: Text(
-        locals.about,
-        style: Theme.of(context).textTheme.bodyMedium,
+    S locals, BuildContext context, SettingsState state) {
+  return SettingsSection(
+    title: Text(
+      locals.about,
+      style: Theme.of(context).textTheme.bodyMedium,
+    ),
+    tiles: [
+      SettingsTile(
+        title: Text(locals.developer),
+        description: Text(AppInfo.developerInfos.first.name),
+        leading: const Icon(Icons.code),
+        trailing: const Icon(CupertinoIcons.chat_bubble_2),
+        onPressed: (BuildContext context) =>
+            urlLaunch(AppInfo.developerInfos.first.url),
       ),
-      tiles: [
-        SettingsTile(
-          title: Text(locals.developer),
-          description: Text(AppInfo.developerInfos.first.name),
-          leading: const Icon(Icons.code),
-          trailing: const Icon(CupertinoIcons.chat_bubble_2),
-          onPressed: (BuildContext context) =>
-              urlLaunch(AppInfo.developerInfos.first.url),
-        ),
-        SettingsTile(
-          title: Text(locals.translators),
-          leading: const Icon(Icons.translate_rounded),
-          onPressed: (BuildContext ctx) => context.go('/translators'),
-        ),
-        SettingsTile(
-          title: Text(locals.version),
-          description: Text(state.version ?? ""),
-          leading: const Icon(CupertinoIcons.info),
-          onPressed: (BuildContext context) {},
-        ),
-      ],
-    );
-  }
+      SettingsTile(
+        title: Text(locals.translators),
+        leading: const Icon(Icons.translate_rounded),
+        onPressed: (BuildContext ctx) => context.go('/translators'),
+      ),
+      SettingsTile(
+        title: Text(locals.version),
+        description: Text(state.version ?? ""),
+        leading: const Icon(CupertinoIcons.info),
+        onPressed: (BuildContext context) {},
+      ),
+    ],
+  );
+}

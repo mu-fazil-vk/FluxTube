@@ -8,6 +8,7 @@ import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/watch/widgets/html_text.dart';
 import 'package:fluxtube/widgets/indicator.dart';
+import 'package:go_router/go_router.dart';
 
 class CommentSection extends StatelessWidget {
   CommentSection(
@@ -71,6 +72,13 @@ class CommentSection extends StatelessWidget {
                             text: storeComment.commentText ?? '',
                             likes: storeComment.likeCount ?? 0,
                             authorImageUrl: storeComment.thumbnail ?? '',
+                            onProfileTap: () =>
+                                context.goNamed('channel', pathParameters: {
+                              'channelId':
+                                  storeComment.commentorUrl!.split("/").last,
+                            }, queryParameters: {
+                              'avtarUrl': storeComment.thumbnail,
+                            }),
                           ),
                           if (storeComment.replyCount != null &&
                               storeComment.replyCount != 0)
@@ -109,6 +117,7 @@ class CommentSection extends StatelessWidget {
   Future<void> commentReplyBottomSheet(
       BuildContext context, double _height, S locals, int commentCount) {
     return showModalBottomSheet<void>(
+        showDragHandle: true,
         context: context,
         barrierColor: kTransparentColor,
         shape: const RoundedRectangleBorder(
@@ -119,77 +128,12 @@ class CommentSection extends StatelessWidget {
             builder: (context, state) {
               if (state.isCommentRepliesLoading ||
                   state.isCommentRepliesError) {
-                return SizedBox(
-                  height: _height * 0.48,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: 5,
-                        right: 0,
-                        left: 0,
-                        child: Center(
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 15),
-                            width: 40.0,
-                            height: 4.0,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(2.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        child: IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      cIndicator(context)
-                    ],
-                  ),
-                );
+                return cIndicator(context);
               } else {
                 return SizedBox(
                   height: _height * 0.48,
                   child: Column(
                     children: [
-                      // Top indicator line
-                      SizedBox(
-                        height: 45,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 5,
-                              right: 0,
-                              left: 0,
-                              child: Center(
-                                child: Container(
-                                  margin: const EdgeInsets.only(top: 15),
-                                  width: 40.0,
-                                  height: 4.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(2.0),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              right: 0,
-                              child: IconButton(
-                                icon: const Icon(Icons.close),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       Padding(
                         padding:
                             const EdgeInsets.only(top: 12, left: 20, right: 20),
@@ -211,6 +155,14 @@ class CommentSection extends StatelessWidget {
                                     likes: storeComment.likeCount ?? 0,
                                     authorImageUrl:
                                         storeComment.thumbnail ?? '',
+                                    onProfileTap: () => context
+                                        .goNamed('channel', pathParameters: {
+                                      'channelId': storeComment.commentorUrl!
+                                          .split("/")
+                                          .last,
+                                    }, queryParameters: {
+                                      'avtarUrl': storeComment.thumbnail,
+                                    }),
                                   );
                                 } else {
                                   if (state.isMoreReplyCommetsFetchCompleted ||
@@ -246,25 +198,30 @@ class CommentWidget extends StatelessWidget {
     required this.text,
     required this.likes,
     required this.authorImageUrl,
+    this.onProfileTap,
   });
 
   final String authorImageUrl;
   final String author;
   final String text;
   final int likes;
+  final VoidCallback? onProfileTap;
 
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
     var _formattedLikes = formatCount(likes);
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      CircleAvatar(
-        radius: 20,
-        backgroundImage: (authorImageUrl != "")
-            ? NetworkImage(
-                authorImageUrl,
-              )
-            : null,
+      GestureDetector(
+        onTap: onProfileTap,
+        child: CircleAvatar(
+          radius: 20,
+          backgroundImage: (authorImageUrl != "")
+              ? NetworkImage(
+                  authorImageUrl,
+                )
+              : null,
+        ),
       ),
       kWidthBox20,
       SizedBox(

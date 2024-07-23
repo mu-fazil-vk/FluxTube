@@ -10,6 +10,10 @@ class TrendingState with _$TrendingState {
     required bool isFeedError,
   }) = _Initial;
 
-  factory TrendingState.initialize() =>
-      const TrendingState(trendingResult: [], feedResult: [], isLoading: false, isError: false, isFeedError: false);
+  factory TrendingState.initialize() => const TrendingState(
+      trendingResult: [],
+      feedResult: [],
+      isLoading: false,
+      isError: false,
+      isFeedError: false);
 }

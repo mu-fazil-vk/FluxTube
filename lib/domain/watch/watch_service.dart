@@ -26,6 +26,4 @@ abstract class WatchService {
   Future<Either<MainFailure, List<Map<String, String>>>> getSubtitles({
     required String id,
   });
-
-
 }

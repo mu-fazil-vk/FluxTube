@@ -106,6 +106,10 @@ class ViewRowWidget extends StatelessWidget {
 class SubscribeRowWidget extends StatelessWidget {
   const SubscribeRowWidget({
     super.key,
+    this.radius = 24,
+    this.subTextStyle,
+    this.subCountTextStyle,
+    this.spacing,
     this.subscribed = false,
     this.subcount,
     required this.uploader,
@@ -114,11 +118,18 @@ class SubscribeRowWidget extends StatelessWidget {
     this.onSubscribeTap,
   });
 
+  //decoration
+  final double radius;
+  final TextStyle? subTextStyle;
+  final TextStyle? subCountTextStyle;
+  final Widget? spacing;
+
+// values
   final bool subscribed;
   final int? subcount;
-  final String uploader;
+  final String? uploader;
   final String? uploaderUrl;
-  final bool isVerified;
+  final bool? isVerified;
   final VoidCallback? onSubscribeTap;
 
   @override
@@ -130,31 +141,33 @@ class SubscribeRowWidget extends StatelessWidget {
     return Row(
       children: [
         CircleAvatar(
-          radius: 24,
+          radius: radius,
           backgroundImage: (uploaderUrl != null && uploaderUrl != "")
               ? NetworkImage(
                   uploaderUrl!,
                 )
               : null,
         ),
-        kWidthBox10,
-        subcount == null
+        spacing ?? kWidthBox10,
+        subcount == null || subcount == -1
             ? Row(
                 children: [
                   ConstrainedBox(
                     constraints: BoxConstraints(
                         minWidth: 50, maxWidth: _size.width * 0.2),
                     child: Text(
-                      uploader,
+                      uploader ?? '',
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyMedium!.color,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14),
+                      style: subTextStyle ??
+                          TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyMedium!.color,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
                     ),
                   ),
                   kWidthBox5,
-                  isVerified
+                  isVerified ?? false
                       ? const Padding(
                           padding: EdgeInsets.only(right: 5),
                           child: Icon(
@@ -167,6 +180,7 @@ class SubscribeRowWidget extends StatelessWidget {
                 ],
               )
             : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
@@ -175,17 +189,20 @@ class SubscribeRowWidget extends StatelessWidget {
                         constraints: BoxConstraints(
                             minWidth: 50, maxWidth: _size.width * 0.2),
                         child: Text(
-                          uploader,
+                          uploader ?? '',
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodyMedium!.color,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14),
+                          style: subTextStyle ??
+                              TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .color,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14),
                         ),
                       ),
                       kWidthBox5,
-                      isVerified
+                      isVerified ?? false
                           ? const Icon(
                               Icons.verified,
                               color: kRedColor,
@@ -199,10 +216,11 @@ class SubscribeRowWidget extends StatelessWidget {
                         minWidth: 50, maxWidth: _size.width * 0.37),
                     child: Text(
                       '${_formattedSubCount == '0' ? '' : _formattedSubCount} ${S.of(context).channelSubscribers(subcount ?? 0)}',
-                      style: TextStyle(
-                          color: kGreyColor,
-                          fontSize: 12,
-                          overflow: TextOverflow.ellipsis),
+                      style: subCountTextStyle ??
+                          TextStyle(
+                              color: kGreyColor,
+                              fontSize: 12,
+                              overflow: TextOverflow.ellipsis),
                     ),
                   )
                 ],

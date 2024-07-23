@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 import '../core/colors.dart';
 import '../core/constants.dart';
 import 'common_video_description_widget.dart';
@@ -14,8 +15,9 @@ class HomeVideoInfoCardWidget extends StatelessWidget {
       this.isSubscribed = false,
       this.subscribeRowVisible = true,
       this.onSubscribeTap,
-      this.isLive = false});
+      this.isLive = false, required this.channelId});
 
+  final String channelId;
   final dynamic cardInfo;
   final bool isSubscribed;
   final bool subscribeRowVisible;
@@ -25,8 +27,7 @@ class HomeVideoInfoCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locals = S.of(context);
-    final String duration =
-        formatDuration(isLive ? -1 : cardInfo.duration);
+    final String duration = formatDuration(isLive ? -1 : cardInfo?.duration);
     return Padding(
       padding: const EdgeInsets.only(top: 5, left: 20, right: 20, bottom: 10),
       child: Column(
@@ -74,13 +75,22 @@ class HomeVideoInfoCardWidget extends StatelessWidget {
 
                 // * channel info row
                 subscribeRowVisible
-                    ? SubscribeRowWidget(
-                        uploaderUrl: cardInfo?.uploaderAvatar ?? '',
-                        uploader:
-                            cardInfo?.uploaderName ?? locals.noUploaderName,
-                        isVerified: cardInfo.uploaderVerified,
-                        subscribed: isSubscribed,
-                        onSubscribeTap: onSubscribeTap,
+                    ? GestureDetector(
+                        onTap: () => context.goNamed('channel',
+                            pathParameters: {
+                              'channelId': channelId
+                            },
+                            queryParameters: {
+                              'avtarUrl': cardInfo?.uploaderAvatar
+                            }),
+                        child: SubscribeRowWidget(
+                          uploaderUrl: cardInfo?.uploaderAvatar ?? '',
+                          uploader:
+                              cardInfo?.uploaderName ?? locals.noUploaderName,
+                          isVerified: cardInfo.uploaderVerified,
+                          subscribed: isSubscribed,
+                          onSubscribeTap: onSubscribeTap,
+                        ),
                       )
                     : const SizedBox(),
               ],

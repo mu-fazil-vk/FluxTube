@@ -9,4 +9,6 @@ class ApiEndPoints {
   static const moreSearch = "$kBaseUrl/nextpage/search?q=";
   static const suggestions = "$kBaseUrl/suggestions?query=";
   static const commentReplies = "$kBaseUrl/nextpage/comments/";
+  static const channel = "$kBaseUrl/channel/";
+  static const moreChannelVideos = "$kBaseUrl/nextpage/channel/";
 }

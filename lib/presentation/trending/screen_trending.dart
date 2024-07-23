@@ -28,6 +28,7 @@ class ScreenTrending extends StatelessWidget {
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                       CustomAppBar(
                         title: locals.trending,
+                        isSearchVisible: true,
                       )
                     ],
                 body: RefreshIndicator(
@@ -47,7 +48,8 @@ class ScreenTrending extends StatelessWidget {
                                   region: settingsState.defaultRegion)),
                         );
                       } else {
-                        return TrendingVideosSection(state: state, locals: locals);
+                        return TrendingVideosSection(
+                            state: state, locals: locals);
                       }
                     },
                   ),
@@ -56,5 +58,3 @@ class ScreenTrending extends StatelessWidget {
     );
   }
 }
-
-

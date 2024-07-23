@@ -12,7 +12,8 @@ class FeedVideoSection extends StatelessWidget {
   const FeedVideoSection({
     super.key,
     required this.locals,
-    required this.trendingState, required this.subscribeState,
+    required this.trendingState,
+    required this.subscribeState,
   });
 
   final S locals;
@@ -34,6 +35,7 @@ class FeedVideoSection extends StatelessWidget {
         return GestureDetector(
           onTap: () => context.go('/watch/$videoId/$channelId'),
           child: HomeVideoInfoCardWidget(
+            channelId: channelId,
             cardInfo: feed,
             isSubscribed: isSubscribed,
             onSubscribeTap: () => onSubscribeTapped(

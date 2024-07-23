@@ -9,7 +9,10 @@ abstract class SettingsService {
       {required String quality});
   Future<Either<MainFailure, String>> selectRegion({required String region});
   Future<Either<MainFailure, bool>> toggleTheme({required String theme});
-  Future<Either<MainFailure, bool>> toggleHistoryVisibility({required bool isHistoryVisible});
-  Future<Either<MainFailure, bool>> toggleDislikeVisibility({required bool isDislikeVisible});
-  Future<Either<MainFailure, bool>> toggleHlsPlayer({required bool isHlsPlayer});
+  Future<Either<MainFailure, bool>> toggleHistoryVisibility(
+      {required bool isHistoryVisible});
+  Future<Either<MainFailure, bool>> toggleDislikeVisibility(
+      {required bool isDislikeVisible});
+  Future<Either<MainFailure, bool>> toggleHlsPlayer(
+      {required bool isHlsPlayer});
 }

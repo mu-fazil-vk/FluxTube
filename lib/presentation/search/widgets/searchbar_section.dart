@@ -35,8 +35,7 @@ class SearchBarSection extends StatelessWidget {
         onChanged: (value) {
           EasyDebounce.debounce(
               'suggestions', // <-- An ID for this particular debouncer
-              const Duration(
-                  milliseconds: 500), // <-- The debounce duration
+              const Duration(milliseconds: 500), // <-- The debounce duration
               () => BlocProvider.of<SearchBloc>(context)
                       .add(SearchEvent.getSearchSuggestion(
                     query: _textEditingController.text,
@@ -48,9 +47,8 @@ class SearchBarSection extends StatelessWidget {
             return;
           }
           EasyDebounce.cancel('suggestions');
-          BlocProvider.of<SearchBloc>(context).add(
-              SearchEvent.getSearchResult(
-                  query: _textEditingController.text, filter: "videos"));
+          BlocProvider.of<SearchBloc>(context).add(SearchEvent.getSearchResult(
+              query: _textEditingController.text, filter: "all"));
         },
       ),
     );

@@ -35,15 +35,14 @@ class SavedVideosSection extends StatelessWidget {
                   // disply result
                   : ListView.builder(
                       itemBuilder: (context, index) {
-                        final savedVideo =
-                            savedState.localSavedVideos[index];
+                        final savedVideo = savedState.localSavedVideos[index];
                         final String videoId = savedVideo.id;
-    
+
                         final String channelId = savedVideo.uploaderId!;
                         return GestureDetector(
-                          onTap: () =>
-                              context.go('/watch/$videoId/$channelId'),
+                          onTap: () => context.go('/watch/$videoId/$channelId'),
                           child: HomeVideoInfoCardWidget(
+                            channelId: channelId,
                             cardInfo: savedVideo,
                             subscribeRowVisible: false,
                             isLive: savedVideo.isLive ?? false,

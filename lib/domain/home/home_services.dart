@@ -4,5 +4,6 @@ import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/domain/trending/models/trending_resp.dart';
 
 abstract class HomeServices {
-  Future<Either<MainFailure, List<TrendingResp>>> getHomeFeedData({required List<Subscribe> channels});
+  Future<Either<MainFailure, List<TrendingResp>>> getHomeFeedData(
+      {required List<Subscribe> channels});
 }

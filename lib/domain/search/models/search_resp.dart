@@ -11,7 +11,8 @@ class SearchResp {
   String? suggestion;
   bool? corrected;
 
-  SearchResp({this.items = const [], this.nextpage, this.suggestion, this.corrected});
+  SearchResp(
+      {this.items = const [], this.nextpage, this.suggestion, this.corrected});
 
   factory SearchResp.fromJson(Map<String, dynamic> json) {
     return _$SearchRespFromJson(json);

@@ -18,20 +18,14 @@ class DescriptionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: _height * 0.40,
-        child: SingleChildScrollView(
-          child: RichText(
-            text: HTML.toTextSpan(
-                context,
-                watchInfo.description ??
-                    locals
-                        .noVideoDescription,
-                defaultTextStyle:
-                    Theme.of(context)
-                        .textTheme
-                        .bodyMedium),
-          ),
+      height: _height * 0.40,
+      child: SingleChildScrollView(
+        child: RichText(
+          text: HTML.toTextSpan(
+              context, watchInfo.description ?? locals.noVideoDescription,
+              defaultTextStyle: Theme.of(context).textTheme.bodyMedium),
         ),
-      );
+      ),
+    );
   }
 }

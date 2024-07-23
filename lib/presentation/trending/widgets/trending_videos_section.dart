@@ -11,7 +11,8 @@ import 'package:go_router/go_router.dart';
 class TrendingVideosSection extends StatelessWidget {
   const TrendingVideosSection({
     super.key,
-    required this.locals, required this.state,
+    required this.locals,
+    required this.state,
   });
 
   final S locals;
@@ -34,6 +35,7 @@ class TrendingVideosSection extends StatelessWidget {
             return GestureDetector(
               onTap: () => context.go('/watch/$videoId/$channelId'),
               child: HomeVideoInfoCardWidget(
+                channelId: channelId,
                 cardInfo: trending,
                 isSubscribed: isSubscribed,
                 onSubscribeTap: () {

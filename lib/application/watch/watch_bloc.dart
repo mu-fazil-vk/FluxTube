@@ -168,12 +168,12 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
     });
 
     //GET SUBTITLES
-     on<GetSubtitles>(
+    on<GetSubtitles>(
       (event, emit) async {
         emit(state.copyWith(
-            isSubtitleLoading: true,
-            isSubtitleError: false,
-            ));
+          isSubtitleLoading: true,
+          isSubtitleError: false,
+        ));
 
         //get stream info data
         final result = await watchService.getSubtitles(id: event.id);
@@ -183,8 +183,8 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
                   isSubtitleError: true,
                   isSubtitleLoading: false,
                 ),
-            (List<Map<String, String>> resp) => state.copyWith(
-                subtitles: resp, isSubtitleLoading: false));
+            (List<Map<String, String>> resp) =>
+                state.copyWith(subtitles: resp, isSubtitleLoading: false));
         //update to ui
         emit(_state);
       },

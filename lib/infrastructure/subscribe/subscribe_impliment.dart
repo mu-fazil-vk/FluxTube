@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';

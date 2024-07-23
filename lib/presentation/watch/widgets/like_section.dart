@@ -13,7 +13,8 @@ class LikeSection extends StatelessWidget {
   const LikeSection({
     super.key,
     required this.id,
-    required this.watchInfo, required this.state,
+    required this.watchInfo,
+    required this.state,
   });
 
   final String id;

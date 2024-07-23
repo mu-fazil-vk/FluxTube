@@ -58,7 +58,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
               lottie: 'assets/cup.zip',
               onTap: () => BlocProvider.of<SearchBloc>(context).add(
                   SearchEvent.getSearchResult(
-                      query: _textEditingController.text, filter: "videos")),
+                      query: _textEditingController.text, filter: "all")),
             );
           } else {
             return SearcheResultSection(

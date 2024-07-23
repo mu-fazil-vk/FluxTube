@@ -10,5 +10,10 @@ class SavedState with _$SavedState {
     required List<LocalStoreVideoInfo> localSavedHistoryVideos,
   }) = _Initial;
 
-   factory SavedState.initialize() => const SavedState(isLoading: false, isError: false, localSavedVideos: [], localSavedHistoryVideos: [], videoInfo: null);
+  factory SavedState.initialize() => const SavedState(
+      isLoading: false,
+      isError: false,
+      localSavedVideos: [],
+      localSavedHistoryVideos: [],
+      videoInfo: null);
 }

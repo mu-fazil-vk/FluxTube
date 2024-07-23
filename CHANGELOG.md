@@ -1,5 +1,13 @@
 ## Changelog
 
+### v0.6.6
+- Added channel on appear on search result.
+- Added Channel view screen.
+- Added channel videos auto loading on scroll.
+- Added Channel view from Comments.
+- Minor bug fixes.
+- Reply comment bottomsheet dissmiss button removed.
+
 ### v0.6.5
 - subtitle added
 - files organized

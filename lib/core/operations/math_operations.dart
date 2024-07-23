@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 
-
 /// FNV-1a 64bit hash algorithm optimized for Dart Strings FROM ISAR DOC
 int fastHash(String string) {
   var hash = 0xcbf29ce484222325;
@@ -17,7 +16,6 @@ int fastHash(String string) {
   return hash;
 }
 
-
 // format likes & subs from 10000 => 10k
 String formatCount(int count) {
   return count > 1000
@@ -28,9 +26,9 @@ String formatCount(int count) {
 // format time, from int to 00:12:10
 String formatDuration(int? totalSeconds) {
   if (totalSeconds == null) {
-    return "0";
+    return "00:00";
   } else if (totalSeconds == -1) {
-    return "Live"; 
+    return "Live";
   }
   // Calculate hours, minutes, and seconds
   int hours = totalSeconds ~/ 3600;

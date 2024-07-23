@@ -77,7 +77,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final _result = await settingsService.selectDefaultLanguage(
           language: event.language ?? 'en');
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(defaultLanguage: state.defaultLanguage),
+          (MainFailure f) =>
+              state.copyWith(defaultLanguage: state.defaultLanguage),
           (String language) => state.copyWith(defaultLanguage: language));
       emit(_state);
     });
@@ -88,7 +89,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final _result = await settingsService.selectDefaultQuality(
           quality: event.quality ?? '360');
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(defaultQuality: state.defaultQuality),
+          (MainFailure f) =>
+              state.copyWith(defaultQuality: state.defaultQuality),
           (String quality) => state.copyWith(defaultQuality: quality));
       emit(_state);
     });
@@ -146,10 +148,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final _result = await settingsService.toggleHlsPlayer(
           isHlsPlayer: !state.isHlsPlayer);
       final _state = _result.fold(
-          (MainFailure f) =>
-              state.copyWith(isHlsPlayer: state.isHlsPlayer),
-          (bool isHlsPlayer) =>
-              state.copyWith(isHlsPlayer: isHlsPlayer));
+          (MainFailure f) => state.copyWith(isHlsPlayer: state.isHlsPlayer),
+          (bool isHlsPlayer) => state.copyWith(isHlsPlayer: isHlsPlayer));
       emit(_state);
     });
   }
