@@ -64,11 +64,7 @@ If you have any ideas, suggestions, or issues, please open a [new issue](https:/
 
 ## License
 
-FluxTube is a free software licensed under GPL v3.0 with following condition.
-
-- Copied/Modified version of this software can not be used for 'non-free' and profit purposes.
-- You can not publish copied/modified version of this app on closed source app repository
-  like PlayStore/AppStore.
+FluxTube is a free software licensed under GPL v3.0 
 
 
 ## Message Me
