@@ -34,6 +34,7 @@ A powerful and ad-free YouTube client built using Flutter. Watch YouTube videos 
 ## Download
 
 <a href='https://github.com/mu-fazil-vk/FluxTube/releases'><img alt='Get it on GitHub' src='doc/get-it-on-gb.png' width="200"/></a><br>
+<a href='https://apt.izzysoft.de/packages/com.fazilvk.fluxtube'><img alt='Get it on GitHub' src='https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png' width="200"/></a><br>
 You can download the latest version of the app from the [releases page](https://github.com/mu-fazil-vk/FluxTube/releases).
 
 ## Todo
