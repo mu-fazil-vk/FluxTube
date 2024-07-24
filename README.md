@@ -4,7 +4,7 @@
 
 <p align="center">
 <a href="https://github.com/mu-fazil-vk/FluxTube/releases" alt="GitHub release"><img src="https://img.shields.io/github/release/mu-fazil-vk/FluxTube.svg" ></a>
-<a href="https://www.gnu.org/licenses/agpl-3.0.en.html" alt="GitHub release"><img src="https://shields.io/badge/License-AGPL%20v3-blue.svg" ></a>
+<a href="https://www.gnu.org/licenses/gpl-3.0.en.html" alt="GitHub release"><img src="https://shields.io/badge/License-GPL%20v3-blue.svg" ></a>
 </p>
 
 A powerful and ad-free YouTube client built using Flutter. Watch YouTube videos without ads, subscribe to channels, retrieve video dislikes, read comments, save videos, and much more.
