@@ -17,6 +17,7 @@ class LikeRowWidget extends StatelessWidget {
     this.isDislikeVisible = false,
     this.onTapSave,
     this.isSaveTapped = false,
+    this.onTapYoutube
   });
 
   final int like;
@@ -27,6 +28,7 @@ class LikeRowWidget extends StatelessWidget {
   final bool isDislikeVisible;
   final VoidCallback? onTapSave;
   final bool isSaveTapped;
+  final VoidCallback? onTapYoutube;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +67,9 @@ class LikeRowWidget extends StatelessWidget {
             CustomRoundedButtons(
                 onTap: onTapShare,
                 icon: CupertinoIcons.arrowshape_turn_up_right_fill),
+            kWidthBox10,
+            CustomRoundedSvgButtons(
+                onTap: onTapYoutube, iconPath: 'assets/icons/youtube.svg'),
             kWidthBox10,
           ],
         ),

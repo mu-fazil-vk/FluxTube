@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluxtube/core/colors.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 abstract class AppTheme {
   static ThemeData get lightTheme => ThemeData(
@@ -24,7 +23,7 @@ abstract class AppTheme {
             ),
         appBarTheme: const AppBarTheme(
             backgroundColor: kWhiteColor, foregroundColor: kBlackColor),
-        fontFamily: GoogleFonts.montserrat().fontFamily,
+        fontFamily: 'Montserrat',
         iconTheme: const IconThemeData().copyWith(color: kGreyColor),
       );
 
@@ -54,7 +53,7 @@ abstract class AppTheme {
         iconTheme: const IconThemeData().copyWith(color: kWhiteColor),
         actionsIconTheme: const IconThemeData().copyWith(color: kWhiteColor),
       ),
-      fontFamily: GoogleFonts.montserrat().fontFamily,
+      fontFamily: 'Montserrat',
       iconTheme:
           const IconThemeData().copyWith(color: kWhiteColor.withOpacity(0.7)),
       inputDecorationTheme: const InputDecorationTheme().copyWith(

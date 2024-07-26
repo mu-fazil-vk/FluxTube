@@ -33,7 +33,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final String? defaultLanguage = settingsMap[selectedDefaultLanguage];
       final String? defaultQuality = settingsMap[selectedDefaultQuality];
       final String? defaultRegion = settingsMap[selectedDefaultRegion];
-      final bool defaultTheme = settingsMap[selectedTheme] == 'dark';
+      final String defaultThemeMode = settingsMap[selectedTheme] == 'dark' ? 'dark' : settingsMap[selectedTheme] == 'light'? 'light' : 'system';
       final bool defaultHistoryVisibility =
           settingsMap[historyVisibility] == "true";
       final bool defaultDislikeVisibility =
@@ -60,7 +60,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         newState = newState.copyWith(defaultRegion: defaultRegion);
       }
 
-      newState = newState.copyWith(isDarkTheme: defaultTheme);
+      newState = newState.copyWith(themeMode: defaultThemeMode);
 
       newState = newState.copyWith(
           isHistoryVisible: defaultHistoryVisibility,
@@ -106,13 +106,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     });
 
     // TOGGLE THE THEME
-    on<ToggleTheme>((event, emit) async {
+    on<ChangeTheme>((event, emit) async {
       emit(state);
-      final _result = await settingsService.toggleTheme(
-          theme: state.isDarkTheme == true ? "light" : "dark");
+      final _result = await settingsService.setTheme(
+          themeMode: event.themeMode);
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(isDarkTheme: state.isDarkTheme),
-          (bool theme) => state.copyWith(isDarkTheme: theme));
+          (MainFailure f) => state.copyWith(themeMode: state.themeMode),
+          (String themeMode) => state.copyWith(themeMode: themeMode));
       emit(_state);
     });
 

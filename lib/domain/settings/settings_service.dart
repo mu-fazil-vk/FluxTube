@@ -8,7 +8,7 @@ abstract class SettingsService {
   Future<Either<MainFailure, String>> selectDefaultQuality(
       {required String quality});
   Future<Either<MainFailure, String>> selectRegion({required String region});
-  Future<Either<MainFailure, bool>> toggleTheme({required String theme});
+  Future<Either<MainFailure, String>> setTheme({required String themeMode});
   Future<Either<MainFailure, bool>> toggleHistoryVisibility(
       {required bool isHistoryVisible});
   Future<Either<MainFailure, bool>> toggleDislikeVisibility(

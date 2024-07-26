@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/presentation/home/widgets/circular_icon.dart';
 import 'package:fluxtube/presentation/search/screen_search.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/colors.dart';
 
@@ -33,9 +32,10 @@ class CustomAppBar extends StatelessWidget {
         padding: const EdgeInsets.only(left: 10),
         child: Text(
           title,
-          style: GoogleFonts.knewave(
-            color: kRedColor,
-          ),
+          style: const TextStyle(fontFamily: 'Knewave', color: kRedColor),
+          // style: GoogleFonts.knewave(
+          //   color: kRedColor,
+          // ),
         ),
       ),
       actions: _isSearchVisible

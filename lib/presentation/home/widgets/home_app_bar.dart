@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/app_info.dart';
 import '../../../core/colors.dart';
@@ -26,9 +25,7 @@ class HomeAppBar extends StatelessWidget {
         padding: const EdgeInsets.only(left: 10),
         child: Text(
           AppInfo.myApp.name,
-          style: GoogleFonts.knewave(
-            color: kRedColor,
-          ),
+          style: const TextStyle(fontFamily: 'Knewave', color: kRedColor),
         ),
       ),
       actions: [

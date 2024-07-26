@@ -7,6 +7,21 @@ import 'package:fluxtube/core/model/region_model.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
 
+final _themeModes = [
+  const DropdownMenuItem(
+    value: "system",
+    child: Text("System"),
+  ),
+  const DropdownMenuItem(
+    value: "light",
+    child: Text("Light"),
+  ),
+  const DropdownMenuItem(
+    value: "dark",
+    child: Text("Dark"),
+  ),
+];
+
 SettingsSection commonSettingsSection(S locals, BuildContext context,
     LanguageModel language, RegionModel region, SettingsState state) {
   return SettingsSection(
@@ -27,14 +42,15 @@ SettingsSection commonSettingsSection(S locals, BuildContext context,
         leading: const Icon(Icons.flag),
         onPressed: (ctx) => context.go('/regions'),
       ),
-      SettingsTile.switchTile(
-        initialValue: state.isDarkTheme,
+      SettingsTile(
         title: Text(locals.theme),
         leading: const Icon(Icons.dark_mode_rounded),
-        onToggle: (_) {
-          BlocProvider.of<SettingsBloc>(context)
-              .add(SettingsEvent.toggleTheme());
-        },
+        trailing: DropdownButton(
+            value: state.themeMode,
+            items: _themeModes,
+            onChanged: (themeMode) => BlocProvider.of<SettingsBloc>(context)
+                .add(SettingsEvent.changeTheme(
+                    themeMode: themeMode.toString()))),
       ),
     ],
   );

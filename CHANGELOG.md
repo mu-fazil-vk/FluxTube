@@ -1,5 +1,10 @@
 ## Changelog
 
+### v0.6.8
+- google_fonts replaced with local fonts.
+- Added open in YouTube button.
+- Added system theme.
+
 ### v0.6.7
 - Removed cleartextTraffic.
 - Reenabled HLS cache.

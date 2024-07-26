@@ -22,7 +22,7 @@ mixin _$SettingsEvent {
     required TResult Function(String? language) getDefaultLanguage,
     required TResult Function(String? quality) getDefaultQuality,
     required TResult Function(String? region) getDefaultRegion,
-    required TResult Function() toggleTheme,
+    required TResult Function(String themeMode) changeTheme,
     required TResult Function() toggleHistoryVisibility,
     required TResult Function() toggleDislikeVisibility,
     required TResult Function() toggleHlsPlayer,
@@ -34,7 +34,7 @@ mixin _$SettingsEvent {
     TResult? Function(String? language)? getDefaultLanguage,
     TResult? Function(String? quality)? getDefaultQuality,
     TResult? Function(String? region)? getDefaultRegion,
-    TResult? Function()? toggleTheme,
+    TResult? Function(String themeMode)? changeTheme,
     TResult? Function()? toggleHistoryVisibility,
     TResult? Function()? toggleDislikeVisibility,
     TResult? Function()? toggleHlsPlayer,
@@ -46,7 +46,7 @@ mixin _$SettingsEvent {
     TResult Function(String? language)? getDefaultLanguage,
     TResult Function(String? quality)? getDefaultQuality,
     TResult Function(String? region)? getDefaultRegion,
-    TResult Function()? toggleTheme,
+    TResult Function(String themeMode)? changeTheme,
     TResult Function()? toggleHistoryVisibility,
     TResult Function()? toggleDislikeVisibility,
     TResult Function()? toggleHlsPlayer,
@@ -59,7 +59,7 @@ mixin _$SettingsEvent {
     required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
     required TResult Function(GetDefaultQuality value) getDefaultQuality,
     required TResult Function(GetDefaultRegion value) getDefaultRegion,
-    required TResult Function(ToggleTheme value) toggleTheme,
+    required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ToggleHistoryVisibility value)
         toggleHistoryVisibility,
     required TResult Function(ToggleDislikeVisibility value)
@@ -73,7 +73,7 @@ mixin _$SettingsEvent {
     TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult? Function(GetDefaultQuality value)? getDefaultQuality,
     TResult? Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult? Function(ToggleTheme value)? toggleTheme,
+    TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -85,7 +85,7 @@ mixin _$SettingsEvent {
     TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult Function(GetDefaultQuality value)? getDefaultQuality,
     TResult Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult Function(ToggleTheme value)? toggleTheme,
+    TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -154,7 +154,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     required TResult Function(String? language) getDefaultLanguage,
     required TResult Function(String? quality) getDefaultQuality,
     required TResult Function(String? region) getDefaultRegion,
-    required TResult Function() toggleTheme,
+    required TResult Function(String themeMode) changeTheme,
     required TResult Function() toggleHistoryVisibility,
     required TResult Function() toggleDislikeVisibility,
     required TResult Function() toggleHlsPlayer,
@@ -169,7 +169,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult? Function(String? language)? getDefaultLanguage,
     TResult? Function(String? quality)? getDefaultQuality,
     TResult? Function(String? region)? getDefaultRegion,
-    TResult? Function()? toggleTheme,
+    TResult? Function(String themeMode)? changeTheme,
     TResult? Function()? toggleHistoryVisibility,
     TResult? Function()? toggleDislikeVisibility,
     TResult? Function()? toggleHlsPlayer,
@@ -184,7 +184,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult Function(String? language)? getDefaultLanguage,
     TResult Function(String? quality)? getDefaultQuality,
     TResult Function(String? region)? getDefaultRegion,
-    TResult Function()? toggleTheme,
+    TResult Function(String themeMode)? changeTheme,
     TResult Function()? toggleHistoryVisibility,
     TResult Function()? toggleDislikeVisibility,
     TResult Function()? toggleHlsPlayer,
@@ -203,7 +203,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
     required TResult Function(GetDefaultQuality value) getDefaultQuality,
     required TResult Function(GetDefaultRegion value) getDefaultRegion,
-    required TResult Function(ToggleTheme value) toggleTheme,
+    required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ToggleHistoryVisibility value)
         toggleHistoryVisibility,
     required TResult Function(ToggleDislikeVisibility value)
@@ -220,7 +220,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult? Function(GetDefaultQuality value)? getDefaultQuality,
     TResult? Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult? Function(ToggleTheme value)? toggleTheme,
+    TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -235,7 +235,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult Function(GetDefaultQuality value)? getDefaultQuality,
     TResult Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult Function(ToggleTheme value)? toggleTheme,
+    TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -322,7 +322,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     required TResult Function(String? language) getDefaultLanguage,
     required TResult Function(String? quality) getDefaultQuality,
     required TResult Function(String? region) getDefaultRegion,
-    required TResult Function() toggleTheme,
+    required TResult Function(String themeMode) changeTheme,
     required TResult Function() toggleHistoryVisibility,
     required TResult Function() toggleDislikeVisibility,
     required TResult Function() toggleHlsPlayer,
@@ -337,7 +337,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult? Function(String? language)? getDefaultLanguage,
     TResult? Function(String? quality)? getDefaultQuality,
     TResult? Function(String? region)? getDefaultRegion,
-    TResult? Function()? toggleTheme,
+    TResult? Function(String themeMode)? changeTheme,
     TResult? Function()? toggleHistoryVisibility,
     TResult? Function()? toggleDislikeVisibility,
     TResult? Function()? toggleHlsPlayer,
@@ -352,7 +352,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult Function(String? language)? getDefaultLanguage,
     TResult Function(String? quality)? getDefaultQuality,
     TResult Function(String? region)? getDefaultRegion,
-    TResult Function()? toggleTheme,
+    TResult Function(String themeMode)? changeTheme,
     TResult Function()? toggleHistoryVisibility,
     TResult Function()? toggleDislikeVisibility,
     TResult Function()? toggleHlsPlayer,
@@ -371,7 +371,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
     required TResult Function(GetDefaultQuality value) getDefaultQuality,
     required TResult Function(GetDefaultRegion value) getDefaultRegion,
-    required TResult Function(ToggleTheme value) toggleTheme,
+    required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ToggleHistoryVisibility value)
         toggleHistoryVisibility,
     required TResult Function(ToggleDislikeVisibility value)
@@ -388,7 +388,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult? Function(GetDefaultQuality value)? getDefaultQuality,
     TResult? Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult? Function(ToggleTheme value)? toggleTheme,
+    TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -403,7 +403,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult Function(GetDefaultQuality value)? getDefaultQuality,
     TResult Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult Function(ToggleTheme value)? toggleTheme,
+    TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -495,7 +495,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     required TResult Function(String? language) getDefaultLanguage,
     required TResult Function(String? quality) getDefaultQuality,
     required TResult Function(String? region) getDefaultRegion,
-    required TResult Function() toggleTheme,
+    required TResult Function(String themeMode) changeTheme,
     required TResult Function() toggleHistoryVisibility,
     required TResult Function() toggleDislikeVisibility,
     required TResult Function() toggleHlsPlayer,
@@ -510,7 +510,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult? Function(String? language)? getDefaultLanguage,
     TResult? Function(String? quality)? getDefaultQuality,
     TResult? Function(String? region)? getDefaultRegion,
-    TResult? Function()? toggleTheme,
+    TResult? Function(String themeMode)? changeTheme,
     TResult? Function()? toggleHistoryVisibility,
     TResult? Function()? toggleDislikeVisibility,
     TResult? Function()? toggleHlsPlayer,
@@ -525,7 +525,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult Function(String? language)? getDefaultLanguage,
     TResult Function(String? quality)? getDefaultQuality,
     TResult Function(String? region)? getDefaultRegion,
-    TResult Function()? toggleTheme,
+    TResult Function(String themeMode)? changeTheme,
     TResult Function()? toggleHistoryVisibility,
     TResult Function()? toggleDislikeVisibility,
     TResult Function()? toggleHlsPlayer,
@@ -544,7 +544,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
     required TResult Function(GetDefaultQuality value) getDefaultQuality,
     required TResult Function(GetDefaultRegion value) getDefaultRegion,
-    required TResult Function(ToggleTheme value) toggleTheme,
+    required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ToggleHistoryVisibility value)
         toggleHistoryVisibility,
     required TResult Function(ToggleDislikeVisibility value)
@@ -561,7 +561,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult? Function(GetDefaultQuality value)? getDefaultQuality,
     TResult? Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult? Function(ToggleTheme value)? toggleTheme,
+    TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -576,7 +576,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult Function(GetDefaultQuality value)? getDefaultQuality,
     TResult Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult Function(ToggleTheme value)? toggleTheme,
+    TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -668,7 +668,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     required TResult Function(String? language) getDefaultLanguage,
     required TResult Function(String? quality) getDefaultQuality,
     required TResult Function(String? region) getDefaultRegion,
-    required TResult Function() toggleTheme,
+    required TResult Function(String themeMode) changeTheme,
     required TResult Function() toggleHistoryVisibility,
     required TResult Function() toggleDislikeVisibility,
     required TResult Function() toggleHlsPlayer,
@@ -683,7 +683,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult? Function(String? language)? getDefaultLanguage,
     TResult? Function(String? quality)? getDefaultQuality,
     TResult? Function(String? region)? getDefaultRegion,
-    TResult? Function()? toggleTheme,
+    TResult? Function(String themeMode)? changeTheme,
     TResult? Function()? toggleHistoryVisibility,
     TResult? Function()? toggleDislikeVisibility,
     TResult? Function()? toggleHlsPlayer,
@@ -698,7 +698,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult Function(String? language)? getDefaultLanguage,
     TResult Function(String? quality)? getDefaultQuality,
     TResult Function(String? region)? getDefaultRegion,
-    TResult Function()? toggleTheme,
+    TResult Function(String themeMode)? changeTheme,
     TResult Function()? toggleHistoryVisibility,
     TResult Function()? toggleDislikeVisibility,
     TResult Function()? toggleHlsPlayer,
@@ -717,7 +717,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
     required TResult Function(GetDefaultQuality value) getDefaultQuality,
     required TResult Function(GetDefaultRegion value) getDefaultRegion,
-    required TResult Function(ToggleTheme value) toggleTheme,
+    required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ToggleHistoryVisibility value)
         toggleHistoryVisibility,
     required TResult Function(ToggleDislikeVisibility value)
@@ -734,7 +734,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult? Function(GetDefaultQuality value)? getDefaultQuality,
     TResult? Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult? Function(ToggleTheme value)? toggleTheme,
+    TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -749,7 +749,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult Function(GetDefaultQuality value)? getDefaultQuality,
     TResult Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult Function(ToggleTheme value)? toggleTheme,
+    TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -773,39 +773,66 @@ abstract class GetDefaultRegion implements SettingsEvent {
 }
 
 /// @nodoc
-abstract class _$$ToggleThemeImplCopyWith<$Res> {
-  factory _$$ToggleThemeImplCopyWith(
-          _$ToggleThemeImpl value, $Res Function(_$ToggleThemeImpl) then) =
-      __$$ToggleThemeImplCopyWithImpl<$Res>;
+abstract class _$$ChangeThemeImplCopyWith<$Res> {
+  factory _$$ChangeThemeImplCopyWith(
+          _$ChangeThemeImpl value, $Res Function(_$ChangeThemeImpl) then) =
+      __$$ChangeThemeImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String themeMode});
 }
 
 /// @nodoc
-class __$$ToggleThemeImplCopyWithImpl<$Res>
-    extends _$SettingsEventCopyWithImpl<$Res, _$ToggleThemeImpl>
-    implements _$$ToggleThemeImplCopyWith<$Res> {
-  __$$ToggleThemeImplCopyWithImpl(
-      _$ToggleThemeImpl _value, $Res Function(_$ToggleThemeImpl) _then)
+class __$$ChangeThemeImplCopyWithImpl<$Res>
+    extends _$SettingsEventCopyWithImpl<$Res, _$ChangeThemeImpl>
+    implements _$$ChangeThemeImplCopyWith<$Res> {
+  __$$ChangeThemeImplCopyWithImpl(
+      _$ChangeThemeImpl _value, $Res Function(_$ChangeThemeImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? themeMode = null,
+  }) {
+    return _then(_$ChangeThemeImpl(
+      themeMode: null == themeMode
+          ? _value.themeMode
+          : themeMode // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$ToggleThemeImpl implements ToggleTheme {
-  _$ToggleThemeImpl();
+class _$ChangeThemeImpl implements ChangeTheme {
+  _$ChangeThemeImpl({required this.themeMode});
+
+  @override
+  final String themeMode;
 
   @override
   String toString() {
-    return 'SettingsEvent.toggleTheme()';
+    return 'SettingsEvent.changeTheme(themeMode: $themeMode)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ToggleThemeImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$ChangeThemeImpl &&
+            (identical(other.themeMode, themeMode) ||
+                other.themeMode == themeMode));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, themeMode);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChangeThemeImplCopyWith<_$ChangeThemeImpl> get copyWith =>
+      __$$ChangeThemeImplCopyWithImpl<_$ChangeThemeImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -814,12 +841,12 @@ class _$ToggleThemeImpl implements ToggleTheme {
     required TResult Function(String? language) getDefaultLanguage,
     required TResult Function(String? quality) getDefaultQuality,
     required TResult Function(String? region) getDefaultRegion,
-    required TResult Function() toggleTheme,
+    required TResult Function(String themeMode) changeTheme,
     required TResult Function() toggleHistoryVisibility,
     required TResult Function() toggleDislikeVisibility,
     required TResult Function() toggleHlsPlayer,
   }) {
-    return toggleTheme();
+    return changeTheme(themeMode);
   }
 
   @override
@@ -829,12 +856,12 @@ class _$ToggleThemeImpl implements ToggleTheme {
     TResult? Function(String? language)? getDefaultLanguage,
     TResult? Function(String? quality)? getDefaultQuality,
     TResult? Function(String? region)? getDefaultRegion,
-    TResult? Function()? toggleTheme,
+    TResult? Function(String themeMode)? changeTheme,
     TResult? Function()? toggleHistoryVisibility,
     TResult? Function()? toggleDislikeVisibility,
     TResult? Function()? toggleHlsPlayer,
   }) {
-    return toggleTheme?.call();
+    return changeTheme?.call(themeMode);
   }
 
   @override
@@ -844,14 +871,14 @@ class _$ToggleThemeImpl implements ToggleTheme {
     TResult Function(String? language)? getDefaultLanguage,
     TResult Function(String? quality)? getDefaultQuality,
     TResult Function(String? region)? getDefaultRegion,
-    TResult Function()? toggleTheme,
+    TResult Function(String themeMode)? changeTheme,
     TResult Function()? toggleHistoryVisibility,
     TResult Function()? toggleDislikeVisibility,
     TResult Function()? toggleHlsPlayer,
     required TResult orElse(),
   }) {
-    if (toggleTheme != null) {
-      return toggleTheme();
+    if (changeTheme != null) {
+      return changeTheme(themeMode);
     }
     return orElse();
   }
@@ -863,14 +890,14 @@ class _$ToggleThemeImpl implements ToggleTheme {
     required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
     required TResult Function(GetDefaultQuality value) getDefaultQuality,
     required TResult Function(GetDefaultRegion value) getDefaultRegion,
-    required TResult Function(ToggleTheme value) toggleTheme,
+    required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ToggleHistoryVisibility value)
         toggleHistoryVisibility,
     required TResult Function(ToggleDislikeVisibility value)
         toggleDislikeVisibility,
     required TResult Function(ToggleHlsPlayer value) toggleHlsPlayer,
   }) {
-    return toggleTheme(this);
+    return changeTheme(this);
   }
 
   @override
@@ -880,12 +907,12 @@ class _$ToggleThemeImpl implements ToggleTheme {
     TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult? Function(GetDefaultQuality value)? getDefaultQuality,
     TResult? Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult? Function(ToggleTheme value)? toggleTheme,
+    TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
   }) {
-    return toggleTheme?.call(this);
+    return changeTheme?.call(this);
   }
 
   @override
@@ -895,21 +922,26 @@ class _$ToggleThemeImpl implements ToggleTheme {
     TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult Function(GetDefaultQuality value)? getDefaultQuality,
     TResult Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult Function(ToggleTheme value)? toggleTheme,
+    TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
     required TResult orElse(),
   }) {
-    if (toggleTheme != null) {
-      return toggleTheme(this);
+    if (changeTheme != null) {
+      return changeTheme(this);
     }
     return orElse();
   }
 }
 
-abstract class ToggleTheme implements SettingsEvent {
-  factory ToggleTheme() = _$ToggleThemeImpl;
+abstract class ChangeTheme implements SettingsEvent {
+  factory ChangeTheme({required final String themeMode}) = _$ChangeThemeImpl;
+
+  String get themeMode;
+  @JsonKey(ignore: true)
+  _$$ChangeThemeImplCopyWith<_$ChangeThemeImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -957,7 +989,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     required TResult Function(String? language) getDefaultLanguage,
     required TResult Function(String? quality) getDefaultQuality,
     required TResult Function(String? region) getDefaultRegion,
-    required TResult Function() toggleTheme,
+    required TResult Function(String themeMode) changeTheme,
     required TResult Function() toggleHistoryVisibility,
     required TResult Function() toggleDislikeVisibility,
     required TResult Function() toggleHlsPlayer,
@@ -972,7 +1004,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult? Function(String? language)? getDefaultLanguage,
     TResult? Function(String? quality)? getDefaultQuality,
     TResult? Function(String? region)? getDefaultRegion,
-    TResult? Function()? toggleTheme,
+    TResult? Function(String themeMode)? changeTheme,
     TResult? Function()? toggleHistoryVisibility,
     TResult? Function()? toggleDislikeVisibility,
     TResult? Function()? toggleHlsPlayer,
@@ -987,7 +1019,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult Function(String? language)? getDefaultLanguage,
     TResult Function(String? quality)? getDefaultQuality,
     TResult Function(String? region)? getDefaultRegion,
-    TResult Function()? toggleTheme,
+    TResult Function(String themeMode)? changeTheme,
     TResult Function()? toggleHistoryVisibility,
     TResult Function()? toggleDislikeVisibility,
     TResult Function()? toggleHlsPlayer,
@@ -1006,7 +1038,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
     required TResult Function(GetDefaultQuality value) getDefaultQuality,
     required TResult Function(GetDefaultRegion value) getDefaultRegion,
-    required TResult Function(ToggleTheme value) toggleTheme,
+    required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ToggleHistoryVisibility value)
         toggleHistoryVisibility,
     required TResult Function(ToggleDislikeVisibility value)
@@ -1023,7 +1055,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult? Function(GetDefaultQuality value)? getDefaultQuality,
     TResult? Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult? Function(ToggleTheme value)? toggleTheme,
+    TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -1038,7 +1070,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult Function(GetDefaultQuality value)? getDefaultQuality,
     TResult Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult Function(ToggleTheme value)? toggleTheme,
+    TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -1100,7 +1132,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     required TResult Function(String? language) getDefaultLanguage,
     required TResult Function(String? quality) getDefaultQuality,
     required TResult Function(String? region) getDefaultRegion,
-    required TResult Function() toggleTheme,
+    required TResult Function(String themeMode) changeTheme,
     required TResult Function() toggleHistoryVisibility,
     required TResult Function() toggleDislikeVisibility,
     required TResult Function() toggleHlsPlayer,
@@ -1115,7 +1147,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult? Function(String? language)? getDefaultLanguage,
     TResult? Function(String? quality)? getDefaultQuality,
     TResult? Function(String? region)? getDefaultRegion,
-    TResult? Function()? toggleTheme,
+    TResult? Function(String themeMode)? changeTheme,
     TResult? Function()? toggleHistoryVisibility,
     TResult? Function()? toggleDislikeVisibility,
     TResult? Function()? toggleHlsPlayer,
@@ -1130,7 +1162,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult Function(String? language)? getDefaultLanguage,
     TResult Function(String? quality)? getDefaultQuality,
     TResult Function(String? region)? getDefaultRegion,
-    TResult Function()? toggleTheme,
+    TResult Function(String themeMode)? changeTheme,
     TResult Function()? toggleHistoryVisibility,
     TResult Function()? toggleDislikeVisibility,
     TResult Function()? toggleHlsPlayer,
@@ -1149,7 +1181,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
     required TResult Function(GetDefaultQuality value) getDefaultQuality,
     required TResult Function(GetDefaultRegion value) getDefaultRegion,
-    required TResult Function(ToggleTheme value) toggleTheme,
+    required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ToggleHistoryVisibility value)
         toggleHistoryVisibility,
     required TResult Function(ToggleDislikeVisibility value)
@@ -1166,7 +1198,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult? Function(GetDefaultQuality value)? getDefaultQuality,
     TResult? Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult? Function(ToggleTheme value)? toggleTheme,
+    TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -1181,7 +1213,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult Function(GetDefaultQuality value)? getDefaultQuality,
     TResult Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult Function(ToggleTheme value)? toggleTheme,
+    TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -1240,7 +1272,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     required TResult Function(String? language) getDefaultLanguage,
     required TResult Function(String? quality) getDefaultQuality,
     required TResult Function(String? region) getDefaultRegion,
-    required TResult Function() toggleTheme,
+    required TResult Function(String themeMode) changeTheme,
     required TResult Function() toggleHistoryVisibility,
     required TResult Function() toggleDislikeVisibility,
     required TResult Function() toggleHlsPlayer,
@@ -1255,7 +1287,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult? Function(String? language)? getDefaultLanguage,
     TResult? Function(String? quality)? getDefaultQuality,
     TResult? Function(String? region)? getDefaultRegion,
-    TResult? Function()? toggleTheme,
+    TResult? Function(String themeMode)? changeTheme,
     TResult? Function()? toggleHistoryVisibility,
     TResult? Function()? toggleDislikeVisibility,
     TResult? Function()? toggleHlsPlayer,
@@ -1270,7 +1302,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult Function(String? language)? getDefaultLanguage,
     TResult Function(String? quality)? getDefaultQuality,
     TResult Function(String? region)? getDefaultRegion,
-    TResult Function()? toggleTheme,
+    TResult Function(String themeMode)? changeTheme,
     TResult Function()? toggleHistoryVisibility,
     TResult Function()? toggleDislikeVisibility,
     TResult Function()? toggleHlsPlayer,
@@ -1289,7 +1321,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
     required TResult Function(GetDefaultQuality value) getDefaultQuality,
     required TResult Function(GetDefaultRegion value) getDefaultRegion,
-    required TResult Function(ToggleTheme value) toggleTheme,
+    required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ToggleHistoryVisibility value)
         toggleHistoryVisibility,
     required TResult Function(ToggleDislikeVisibility value)
@@ -1306,7 +1338,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult? Function(GetDefaultQuality value)? getDefaultQuality,
     TResult? Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult? Function(ToggleTheme value)? toggleTheme,
+    TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -1321,7 +1353,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
     TResult Function(GetDefaultQuality value)? getDefaultQuality,
     TResult Function(GetDefaultRegion value)? getDefaultRegion,
-    TResult Function(ToggleTheme value)? toggleTheme,
+    TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
     TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
     TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
@@ -1343,7 +1375,7 @@ mixin _$SettingsState {
   String get defaultLanguage => throw _privateConstructorUsedError;
   String get defaultQuality => throw _privateConstructorUsedError;
   String get defaultRegion => throw _privateConstructorUsedError;
-  bool get isDarkTheme => throw _privateConstructorUsedError;
+  String get themeMode => throw _privateConstructorUsedError;
   String? get version => throw _privateConstructorUsedError;
   bool get isHistoryVisible => throw _privateConstructorUsedError;
   bool get isDislikeVisible => throw _privateConstructorUsedError;
@@ -1364,7 +1396,7 @@ abstract class $SettingsStateCopyWith<$Res> {
       {String defaultLanguage,
       String defaultQuality,
       String defaultRegion,
-      bool isDarkTheme,
+      String themeMode,
       String? version,
       bool isHistoryVisible,
       bool isDislikeVisible,
@@ -1387,7 +1419,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? defaultLanguage = null,
     Object? defaultQuality = null,
     Object? defaultRegion = null,
-    Object? isDarkTheme = null,
+    Object? themeMode = null,
     Object? version = freezed,
     Object? isHistoryVisible = null,
     Object? isDislikeVisible = null,
@@ -1406,10 +1438,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.defaultRegion
           : defaultRegion // ignore: cast_nullable_to_non_nullable
               as String,
-      isDarkTheme: null == isDarkTheme
-          ? _value.isDarkTheme
-          : isDarkTheme // ignore: cast_nullable_to_non_nullable
-              as bool,
+      themeMode: null == themeMode
+          ? _value.themeMode
+          : themeMode // ignore: cast_nullable_to_non_nullable
+              as String,
       version: freezed == version
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
@@ -1442,7 +1474,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       {String defaultLanguage,
       String defaultQuality,
       String defaultRegion,
-      bool isDarkTheme,
+      String themeMode,
       String? version,
       bool isHistoryVisible,
       bool isDislikeVisible,
@@ -1463,7 +1495,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? defaultLanguage = null,
     Object? defaultQuality = null,
     Object? defaultRegion = null,
-    Object? isDarkTheme = null,
+    Object? themeMode = null,
     Object? version = freezed,
     Object? isHistoryVisible = null,
     Object? isDislikeVisible = null,
@@ -1482,10 +1514,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.defaultRegion
           : defaultRegion // ignore: cast_nullable_to_non_nullable
               as String,
-      isDarkTheme: null == isDarkTheme
-          ? _value.isDarkTheme
-          : isDarkTheme // ignore: cast_nullable_to_non_nullable
-              as bool,
+      themeMode: null == themeMode
+          ? _value.themeMode
+          : themeMode // ignore: cast_nullable_to_non_nullable
+              as String,
       version: freezed == version
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
@@ -1513,7 +1545,7 @@ class _$InitialImpl implements _Initial {
       {required this.defaultLanguage,
       required this.defaultQuality,
       required this.defaultRegion,
-      required this.isDarkTheme,
+      required this.themeMode,
       required this.version,
       required this.isHistoryVisible,
       required this.isDislikeVisible,
@@ -1526,7 +1558,7 @@ class _$InitialImpl implements _Initial {
   @override
   final String defaultRegion;
   @override
-  final bool isDarkTheme;
+  final String themeMode;
   @override
   final String? version;
   @override
@@ -1538,7 +1570,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'SettingsState(defaultLanguage: $defaultLanguage, defaultQuality: $defaultQuality, defaultRegion: $defaultRegion, isDarkTheme: $isDarkTheme, version: $version, isHistoryVisible: $isHistoryVisible, isDislikeVisible: $isDislikeVisible, isHlsPlayer: $isHlsPlayer)';
+    return 'SettingsState(defaultLanguage: $defaultLanguage, defaultQuality: $defaultQuality, defaultRegion: $defaultRegion, themeMode: $themeMode, version: $version, isHistoryVisible: $isHistoryVisible, isDislikeVisible: $isDislikeVisible, isHlsPlayer: $isHlsPlayer)';
   }
 
   @override
@@ -1552,8 +1584,8 @@ class _$InitialImpl implements _Initial {
                 other.defaultQuality == defaultQuality) &&
             (identical(other.defaultRegion, defaultRegion) ||
                 other.defaultRegion == defaultRegion) &&
-            (identical(other.isDarkTheme, isDarkTheme) ||
-                other.isDarkTheme == isDarkTheme) &&
+            (identical(other.themeMode, themeMode) ||
+                other.themeMode == themeMode) &&
             (identical(other.version, version) || other.version == version) &&
             (identical(other.isHistoryVisible, isHistoryVisible) ||
                 other.isHistoryVisible == isHistoryVisible) &&
@@ -1569,7 +1601,7 @@ class _$InitialImpl implements _Initial {
       defaultLanguage,
       defaultQuality,
       defaultRegion,
-      isDarkTheme,
+      themeMode,
       version,
       isHistoryVisible,
       isDislikeVisible,
@@ -1587,7 +1619,7 @@ abstract class _Initial implements SettingsState {
       {required final String defaultLanguage,
       required final String defaultQuality,
       required final String defaultRegion,
-      required final bool isDarkTheme,
+      required final String themeMode,
       required final String? version,
       required final bool isHistoryVisible,
       required final bool isDislikeVisible,
@@ -1600,7 +1632,7 @@ abstract class _Initial implements SettingsState {
   @override
   String get defaultRegion;
   @override
-  bool get isDarkTheme;
+  String get themeMode;
   @override
   String? get version;
   @override

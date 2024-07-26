@@ -9,7 +9,7 @@ class SettingsEvent with _$SettingsEvent {
       GetDefaultQuality;
   factory SettingsEvent.getDefaultRegion({required String? region}) =
       GetDefaultRegion;
-  factory SettingsEvent.toggleTheme() = ToggleTheme;
+  factory SettingsEvent.changeTheme({required String themeMode}) = ChangeTheme;
   factory SettingsEvent.toggleHistoryVisibility() = ToggleHistoryVisibility;
   factory SettingsEvent.toggleDislikeVisibility() = ToggleDislikeVisibility;
   factory SettingsEvent.toggleHlsPlayer() = ToggleHlsPlayer;

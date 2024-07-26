@@ -53,7 +53,7 @@ class SettingImpliment implements SettingsService {
       {"name": selectedDefaultLanguage, "default": "en"},
       {"name": selectedDefaultQuality, "default": "720p"},
       {"name": selectedDefaultRegion, "default": "IN"},
-      {"name": selectedTheme, "default": "dark"},
+      {"name": selectedTheme, "default": "system"},
       {"name": historyVisibility, "default": "true"},
       {"name": dislikeVisibility, "default": "false"},
       {"name": hlsPlayer, "default": "true"},
@@ -179,7 +179,7 @@ class SettingImpliment implements SettingsService {
   // THEME TOGGLE
 
   @override
-  Future<Either<MainFailure, bool>> toggleTheme({required String theme}) async {
+  Future<Either<MainFailure, String>> setTheme({required String themeMode}) async {
     try {
       // Begin a write transaction
       await isar.writeTxn(() async {
@@ -193,17 +193,17 @@ class SettingImpliment implements SettingsService {
           // If it doesn't exist, create a new entry with the default value "light"
           final newThemeSetting = SettingsDBValue()
             ..name = selectedTheme
-            ..value = theme;
+            ..value = themeMode;
           await isar.settingsDBValues.put(newThemeSetting);
         } else {
           // If it exists, update it with the provided theme
-          existingThemeSetting.value = theme;
+          existingThemeSetting.value = themeMode;
           await isar.settingsDBValues.put(existingThemeSetting);
         }
       });
 
       // Return the selected theme
-      return Right(theme == "dark");
+      return Right(themeMode);
     } catch (e) {
       // Handle errors and return a failure
       return const Left(MainFailure.serverFailure());

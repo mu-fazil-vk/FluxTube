@@ -58,7 +58,7 @@ class MainNavigation extends StatelessWidget {
                   bottom: 25,
                   iconSize: 26,
                   heightItem: 50,
-                  backgroundColor: state.isDarkTheme ? kDarkColor : kWhiteColor,
+                  backgroundColor: kTransparentColor,
                   color: kGreyColor!,
                   colorSelected: kRedColor,
                   backgroundSelected: kGreyOpacityColor!,

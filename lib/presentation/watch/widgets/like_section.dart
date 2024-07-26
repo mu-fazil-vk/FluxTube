@@ -6,7 +6,8 @@ import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
-import 'package:fluxtube/presentation/watch/widgets/like_widget.dart';
+import 'package:fluxtube/presentation/settings/functions/launch_url.dart';
+import 'package:fluxtube/presentation/watch/widgets/like_widgets.dart';
 import 'package:share_plus/share_plus.dart';
 
 class LikeSection extends StatelessWidget {
@@ -72,6 +73,7 @@ class LikeSection extends StatelessWidget {
                   ),
                 );
               },
+              onTapYoutube: () async => await urlLaunch('$kYTBaseUrl$id'),
             );
           },
         );
