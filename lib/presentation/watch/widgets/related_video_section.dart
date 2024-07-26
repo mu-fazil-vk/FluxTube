@@ -40,7 +40,8 @@ class RelatedVideoSection extends StatelessWidget {
                 return GestureDetector(
                     onTap: () => context.go('/watch/$videoId/$channelId'),
                     child: RelatedVideoWidget(
-                      title: watchInfo.title ?? locals.noVideoTitle,
+                      title: watchInfo.relatedStreams![index].title ??
+                          locals.noVideoTitle,
                       thumbnailUrl: watchInfo.relatedStreams![index].thumbnail,
                       duration: watchInfo.duration,
                     ));

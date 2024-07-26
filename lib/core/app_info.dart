@@ -24,6 +24,11 @@ class AppInfo {
       url: 'https://github.com/mu-fazil-vk',
       description: 'English, Malayalam',
     ),
+    AppInfoModel(
+      name: 'ShLerP',
+      url: 'https://github.com/mikropsoft',
+      description: 'Turkish',
+    ),
     // more...
   ];
 }
