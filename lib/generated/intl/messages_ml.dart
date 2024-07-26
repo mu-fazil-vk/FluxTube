@@ -42,9 +42,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "developer": MessageLookupByLibrary.simpleMessage("ഡെവലപ്പർ"),
         "disableVideoHistory":
             MessageLookupByLibrary.simpleMessage("കണ്ട വീഡിയോകൾ മറച്ചുവെക്കുക"),
+        "distractionFree":
+            MessageLookupByLibrary.simpleMessage("ശ്രദ്ധ തിരിയാതിരിക്കാൻ"),
         "enableHlsPlayerDescription": MessageLookupByLibrary.simpleMessage(
             "എല്ലാ ക്വാളിറ്റി ഓപ്ഷനുകളും ലഭ്യമാകാൻ HLS പ്ലെയർ ഓൺ ചെയ്യുക. പിശകുകൾ സംഭവിച്ചാൽ ഓഫ് ചെയ്യുക."),
         "france": MessageLookupByLibrary.simpleMessage("ഫ്രാൻസ്"),
+        "hideComments":
+            MessageLookupByLibrary.simpleMessage("കമൻ്റുകൾ മറയ്ക്കുക"),
+        "hideCommentsButtonFromWatchScreen":
+            MessageLookupByLibrary.simpleMessage(
+                "വാച്ച് സ്ക്രീനിൽ നിന്ന് കമൻ്റുകൾ മറയ്ക്കുക."),
+        "hideRelated":
+            MessageLookupByLibrary.simpleMessage("അനുബന്ധപ്പെട്ടവ മറയ്ക്കുക"),
+        "hideRelatedVideosFromWatchScreen":
+            MessageLookupByLibrary.simpleMessage(
+                "വാച്ച് സ്ക്രീനിൽ നിന്ന് അനുബന്ധ വീഡിയോകൾ മറയ്ക്കുക"),
         "history": MessageLookupByLibrary.simpleMessage("കണ്ടു കഴിഞ്ഞത്"),
         "hlsPlayer": MessageLookupByLibrary.simpleMessage("HLS പ്ലെയർ"),
         "home": MessageLookupByLibrary.simpleMessage("ഹോം"),

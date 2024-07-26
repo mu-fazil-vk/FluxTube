@@ -57,6 +57,8 @@ class SettingImpliment implements SettingsService {
       {"name": historyVisibility, "default": "true"},
       {"name": dislikeVisibility, "default": "false"},
       {"name": hlsPlayer, "default": "true"},
+      {"name": commentsVisibility, "default": "false"},
+      {"name": relatedVideoVisibility, "default": "false"},
       // Add more settings here
     ];
 
@@ -179,7 +181,8 @@ class SettingImpliment implements SettingsService {
   // THEME TOGGLE
 
   @override
-  Future<Either<MainFailure, String>> setTheme({required String themeMode}) async {
+  Future<Either<MainFailure, String>> setTheme(
+      {required String themeMode}) async {
     try {
       // Begin a write transaction
       await isar.writeTxn(() async {
@@ -311,4 +314,59 @@ class SettingImpliment implements SettingsService {
       return const Left(MainFailure.serverFailure());
     }
   }
+
+  @override
+  Future<Either<MainFailure, bool>> toggleHideComments(
+      {required bool isHideComments}) async {
+    try {
+      await isar.writeTxn(() async {
+        final existingCommentsSetting = await isar.settingsDBValues
+            .filter()
+            .nameEqualTo(commentsVisibility)
+            .findFirst();
+
+        if (existingCommentsSetting == null) {
+          final newCommentsSetting = SettingsDBValue()
+            ..name = commentsVisibility
+            ..value = isHideComments.toString();
+          await isar.settingsDBValues.put(newCommentsSetting);
+        } else {
+          existingCommentsSetting.value = isHideComments.toString();
+          await isar.settingsDBValues.put(existingCommentsSetting);
+        }
+      });
+
+      return Right(isHideComments);
+    } catch (e) {
+      return const Left(MainFailure.serverFailure());
+    }
+  }
+
+  @override
+  Future<Either<MainFailure, bool>> toggleHideRelatedVideos(
+      {required bool isHideRelated}) async {
+    try {
+      await isar.writeTxn(() async {
+        final existingRelatedSetting = await isar.settingsDBValues
+            .filter()
+            .nameEqualTo(relatedVideoVisibility)
+            .findFirst();
+
+        if (existingRelatedSetting == null) {
+          final newRelatedSetting = SettingsDBValue()
+            ..name = relatedVideoVisibility
+            ..value = isHideRelated.toString();
+          await isar.settingsDBValues.put(newRelatedSetting);
+        } else {
+          existingRelatedSetting.value = isHideRelated.toString();
+          await isar.settingsDBValues.put(existingRelatedSetting);
+        }
+      });
+
+      return Right(isHideRelated);
+    } catch (e) {
+      return const Left(MainFailure.serverFailure());
+    }
+  }
+
 }

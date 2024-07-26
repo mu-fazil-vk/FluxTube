@@ -15,4 +15,8 @@ abstract class SettingsService {
       {required bool isDislikeVisible});
   Future<Either<MainFailure, bool>> toggleHlsPlayer(
       {required bool isHlsPlayer});
+  Future<Either<MainFailure, bool>> toggleHideComments(
+      {required bool isHideComments});
+  Future<Either<MainFailure, bool>> toggleHideRelatedVideos(
+      {required bool isHideRelated});
 }

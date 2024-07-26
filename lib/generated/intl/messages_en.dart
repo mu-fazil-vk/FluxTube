@@ -42,9 +42,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "developer": MessageLookupByLibrary.simpleMessage("Developer"),
         "disableVideoHistory":
             MessageLookupByLibrary.simpleMessage("Disable video history"),
+        "distractionFree":
+            MessageLookupByLibrary.simpleMessage("Distraction Free"),
         "enableHlsPlayerDescription": MessageLookupByLibrary.simpleMessage(
             "Enable HLS player to unlock all quality options. Disable if errors occur."),
         "france": MessageLookupByLibrary.simpleMessage("France"),
+        "hideComments": MessageLookupByLibrary.simpleMessage("Hide Comments"),
+        "hideCommentsButtonFromWatchScreen":
+            MessageLookupByLibrary.simpleMessage(
+                "Hide comments button from watch screen."),
+        "hideRelated": MessageLookupByLibrary.simpleMessage("Hide Related"),
+        "hideRelatedVideosFromWatchScreen":
+            MessageLookupByLibrary.simpleMessage(
+                "Hide related videos from watch screen"),
         "history": MessageLookupByLibrary.simpleMessage("History"),
         "hlsPlayer": MessageLookupByLibrary.simpleMessage("Hls Player"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),

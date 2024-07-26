@@ -509,6 +509,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Distraction Free`
+  String get distractionFree {
+    return Intl.message(
+      'Distraction Free',
+      name: 'distractionFree',
+      desc: 'A section for control distracting elements.',
+      args: [],
+    );
+  }
+
+  /// `Hide Comments`
+  String get hideComments {
+    return Intl.message(
+      'Hide Comments',
+      name: 'hideComments',
+      desc: 'Hide Comments label.',
+      args: [],
+    );
+  }
+
+  /// `Hide comments button from watch screen.`
+  String get hideCommentsButtonFromWatchScreen {
+    return Intl.message(
+      'Hide comments button from watch screen.',
+      name: 'hideCommentsButtonFromWatchScreen',
+      desc: 'Hide the comment button from video streaming screen.',
+      args: [],
+    );
+  }
+
+  /// `Hide Related`
+  String get hideRelated {
+    return Intl.message(
+      'Hide Related',
+      name: 'hideRelated',
+      desc: 'Hide Related videos label.',
+      args: [],
+    );
+  }
+
+  /// `Hide related videos from watch screen`
+  String get hideRelatedVideosFromWatchScreen {
+    return Intl.message(
+      'Hide related videos from watch screen',
+      name: 'hideRelatedVideosFromWatchScreen',
+      desc: 'Hide the related videos from video streaming screen.',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

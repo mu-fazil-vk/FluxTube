@@ -160,5 +160,25 @@
   "india": "India",
   "netherlands": "Netherlands",
   "unitedKingdom": "United Kingdom",
-  "unitedStates": "United States"
+  "unitedStates": "United States",
+  "distractionFree": "Distraction Free",
+  "@distractionFree": {
+    "description": "A section for control distracting elements."
+  },
+  "hideComments": "Hide Comments",
+  "@hideComments": {
+    "description": "Hide Comments label."
+  },
+  "hideCommentsButtonFromWatchScreen": "Hide comments button from watch screen.",
+  "@hideCommentsButtonFromWatchScreen": {
+    "description": "Hide the comment button from video streaming screen."
+  },
+  "hideRelated": "Hide Related",
+  "@hideRelated": {
+    "description": "Hide Related videos label."
+  },
+  "hideRelatedVideosFromWatchScreen": "Hide related videos from watch screen",
+  "@hideRelatedVideosFromWatchScreen": {
+    "description": "Hide the related videos from video streaming screen."
+  }
 }

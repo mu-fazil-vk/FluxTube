@@ -152,5 +152,27 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           (bool isHlsPlayer) => state.copyWith(isHlsPlayer: isHlsPlayer));
       emit(_state);
     });
+
+    // TOGGLE COMMENTS VISIBILITY
+    on<ToggleCommentVisibility>((event, emit) async {
+      emit(state);
+      final _result = await settingsService.toggleHideComments(
+          isHideComments: !state.isHideComments);
+      final _state = _result.fold(
+          (MainFailure f) => state.copyWith(isHideComments: state.isHideComments),
+          (bool isHideComments) => state.copyWith(isHideComments: isHideComments));
+      emit(_state);
+    });
+
+    // TOGGLE RELATED VIDEOS VISIBILITY
+    on<ToggleRelatedVideoVisibility>((event, emit) async {
+      emit(state);
+      final _result = await settingsService.toggleHideRelatedVideos(
+          isHideRelated: !state.isHideRelated);
+      final _state = _result.fold(
+          (MainFailure f) => state.copyWith(isHideRelated: state.isHideRelated),
+          (bool isHideRelated) => state.copyWith(isHideRelated: isHideRelated));
+      emit(_state);
+    });
   }
 }

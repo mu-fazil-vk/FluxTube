@@ -160,5 +160,25 @@
   "india": "ഇന്ത്യ",
   "netherlands": "നെതർലാൻഡ്‌സ്",
   "unitedKingdom": "യുണൈറ്റഡ് കിംഗ്ഡം",
-  "unitedStates": "യുണൈറ്റഡ് സ്റ്റേറ്റ്സ്"
+  "unitedStates": "യുണൈറ്റഡ് സ്റ്റേറ്റ്സ്",
+  "hideComments": "കമൻ്റുകൾ മറയ്ക്കുക",
+  "distractionFree": "ശ്രദ്ധ തിരിയാതിരിക്കാൻ",
+  "@distractionFree": {
+    "description": "A section for control distracting elements."
+  },
+  "@hideComments": {
+    "description": "Hide Comments label."
+  },
+  "hideCommentsButtonFromWatchScreen": "വാച്ച് സ്ക്രീനിൽ നിന്ന് കമൻ്റുകൾ മറയ്ക്കുക.",
+  "@hideCommentsButtonFromWatchScreen": {
+    "description": "Hide the comment button from video streaming screen."
+  },
+  "hideRelated": "അനുബന്ധപ്പെട്ടവ മറയ്ക്കുക",
+  "@hideRelated": {
+    "description": "Hide Related videos label."
+  },
+  "hideRelatedVideosFromWatchScreen": "വാച്ച് സ്ക്രീനിൽ നിന്ന് അനുബന്ധ വീഡിയോകൾ മറയ്ക്കുക",
+  "@hideRelatedVideosFromWatchScreen": {
+    "description": "Hide the related videos from video streaming screen."
+  }
 }

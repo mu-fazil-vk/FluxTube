@@ -1,5 +1,7 @@
 //comments
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
@@ -7,18 +9,17 @@ import 'package:fluxtube/core/operations/math_operations.dart';
 import 'custom_rounded_buttons.dart';
 
 class LikeRowWidget extends StatelessWidget {
-  const LikeRowWidget({
-    super.key,
-    required this.like,
-    this.dislikes = 0,
-    this.onTapComment,
-    this.isCommentTapped = false,
-    this.onTapShare,
-    this.isDislikeVisible = false,
-    this.onTapSave,
-    this.isSaveTapped = false,
-    this.onTapYoutube
-  });
+  const LikeRowWidget(
+      {super.key,
+      required this.like,
+      this.dislikes = 0,
+      this.onTapComment,
+      this.isCommentTapped = false,
+      this.onTapShare,
+      this.isDislikeVisible = false,
+      this.onTapSave,
+      this.isSaveTapped = false,
+      this.onTapYoutube});
 
   final int like;
   final int dislikes;
@@ -59,10 +60,17 @@ class LikeRowWidget extends StatelessWidget {
               isTapped: isSaveTapped,
             ),
             kWidthBox10,
-            CustomRoundedButtons(
-                isTapped: isCommentTapped,
-                onTap: onTapComment,
-                icon: CupertinoIcons.bubble_left_bubble_right_fill),
+            BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, settingsState) {
+                if (!settingsState.isHideComments) {
+                  return CustomRoundedButtons(
+                      isTapped: isCommentTapped,
+                      onTap: onTapComment,
+                      icon: CupertinoIcons.bubble_left_bubble_right_fill);
+                }
+                return const SizedBox();
+              },
+            ),
             kWidthBox10,
             CustomRoundedButtons(
                 onTap: onTapShare,

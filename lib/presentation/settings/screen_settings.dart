@@ -10,6 +10,7 @@ import 'package:fluxtube/core/regions.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/settings/widgets/about_section.dart';
 import 'package:fluxtube/presentation/settings/widgets/common_section.dart';
+import 'package:fluxtube/presentation/settings/widgets/distraction_section.dart';
 import 'package:fluxtube/presentation/settings/widgets/video_settings_secction.dart';
 
 import '../../application/settings/settings_bloc.dart';
@@ -56,6 +57,8 @@ class ScreenSettings extends StatelessWidget {
 
                     // VIDEO SETTINGS
                     videoSettingsSection(locals, context, state),
+
+                    distractionFreeSettingsSection(locals, context, state),
 
                     // ABOUT SECTION
                     aboutSection(locals, context, state),

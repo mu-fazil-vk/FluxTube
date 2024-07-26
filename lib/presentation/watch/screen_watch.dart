@@ -5,10 +5,10 @@ import 'package:fluxtube/application/saved/saved_bloc.dart';
 import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/watch/widgets/comment_widgets.dart';
-import 'package:fluxtube/presentation/watch/widgets/description_section.dart';
-import 'package:fluxtube/presentation/watch/widgets/like_section.dart';
-import 'package:fluxtube/presentation/watch/widgets/related_video_section.dart';
-import 'package:fluxtube/presentation/watch/widgets/subscribe_section.dart';
+import 'package:fluxtube/presentation/watch/widgets/sections/description_section.dart';
+import 'package:fluxtube/presentation/watch/widgets/sections/like_section.dart';
+import 'package:fluxtube/presentation/watch/widgets/sections/related_video_section.dart';
+import 'package:fluxtube/presentation/watch/widgets/sections/subscribe_section.dart';
 import 'package:fluxtube/widgets/error_widget.dart';
 import 'package:fluxtube/widgets/indicator.dart';
 
@@ -148,9 +148,11 @@ class ScreenWatch extends StatelessWidget {
                                         :
                                         // * related videos
                                         state.isTapComments == false
-                                            ? RelatedVideoSection(
-                                                locals: locals,
-                                                watchInfo: watchInfo)
+                                            ? settingsState.isHideRelated
+                                                ? const SizedBox()
+                                                : RelatedVideoSection(
+                                                    locals: locals,
+                                                    watchInfo: watchInfo)
                                             //comments section
                                             : CommentSection(
                                                 videoId: id,

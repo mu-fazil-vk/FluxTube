@@ -42,9 +42,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "developer": MessageLookupByLibrary.simpleMessage("Geliştirici"),
         "disableVideoHistory": MessageLookupByLibrary.simpleMessage(
             "Video geçmişini devre dışı bırak"),
+        "distractionFree":
+            MessageLookupByLibrary.simpleMessage("Distraction Free"),
         "enableHlsPlayerDescription": MessageLookupByLibrary.simpleMessage(
             "Tüm kalite seçeneklerini açmak için HLS oynatıcıyı etkinleştirin. Hata oluşursa devre dışı bırakın."),
         "france": MessageLookupByLibrary.simpleMessage("Fransa"),
+        "hideComments": MessageLookupByLibrary.simpleMessage("Hide Comments"),
+        "hideCommentsButtonFromWatchScreen":
+            MessageLookupByLibrary.simpleMessage(
+                "Hide comments button from watch screen."),
+        "hideRelated": MessageLookupByLibrary.simpleMessage("Hide Related"),
+        "hideRelatedVideosFromWatchScreen":
+            MessageLookupByLibrary.simpleMessage(
+                "Hide related videos from watch screen"),
         "history": MessageLookupByLibrary.simpleMessage("Geçmiş"),
         "hlsPlayer": MessageLookupByLibrary.simpleMessage("Hls Oynatıcı"),
         "home": MessageLookupByLibrary.simpleMessage("Ana Sayfa"),

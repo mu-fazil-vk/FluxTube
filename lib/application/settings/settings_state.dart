@@ -11,6 +11,8 @@ class SettingsState with _$SettingsState {
     required bool isHistoryVisible,
     required bool isDislikeVisible,
     required bool isHlsPlayer,
+    required bool isHideComments,
+    required bool isHideRelated
   }) = _Initial;
 
   factory SettingsState.initialize() => const SettingsState(
@@ -22,5 +24,7 @@ class SettingsState with _$SettingsState {
         isHistoryVisible: true,
         isDislikeVisible: false,
         isHlsPlayer: true,
+        isHideComments: false,
+        isHideRelated: false
       );
 }

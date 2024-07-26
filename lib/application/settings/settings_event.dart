@@ -13,4 +13,6 @@ class SettingsEvent with _$SettingsEvent {
   factory SettingsEvent.toggleHistoryVisibility() = ToggleHistoryVisibility;
   factory SettingsEvent.toggleDislikeVisibility() = ToggleDislikeVisibility;
   factory SettingsEvent.toggleHlsPlayer() = ToggleHlsPlayer;
+  factory SettingsEvent.toggleCommentVisibility() = ToggleCommentVisibility;
+  factory SettingsEvent.toggleRelatedVideoVisibility() = ToggleRelatedVideoVisibility;
 }

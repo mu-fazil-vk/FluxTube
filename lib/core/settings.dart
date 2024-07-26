@@ -5,3 +5,5 @@ const selectedTheme = 'theme';
 const historyVisibility = 'history-visibility';
 const dislikeVisibility = 'dislike-visibility';
 const hlsPlayer = 'hls-player';
+const commentsVisibility = 'comments-visibility';
+const relatedVideoVisibility = 'related-video-visibility';
