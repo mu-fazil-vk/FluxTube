@@ -559,6 +559,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Share`
+  String get share {
+    return Intl.message(
+      'Share',
+      name: 'share',
+      desc: 'Share label.',
+      args: [],
+    );
+  }
+
+  /// `Include title`
+  String get includeTitle {
+    return Intl.message(
+      'Include title',
+      name: 'includeTitle',
+      desc: 'Include title along with url',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

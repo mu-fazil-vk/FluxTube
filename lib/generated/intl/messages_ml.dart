@@ -60,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "history": MessageLookupByLibrary.simpleMessage("കണ്ടു കഴിഞ്ഞത്"),
         "hlsPlayer": MessageLookupByLibrary.simpleMessage("HLS പ്ലെയർ"),
         "home": MessageLookupByLibrary.simpleMessage("ഹോം"),
+        "includeTitle":
+            MessageLookupByLibrary.simpleMessage("ശീർഷകം ഉൾപ്പെടുത്തുക"),
         "india": MessageLookupByLibrary.simpleMessage("ഇന്ത്യ"),
         "language": MessageLookupByLibrary.simpleMessage("ഭാഷ"),
         "netherlands": MessageLookupByLibrary.simpleMessage("നെതർലാൻഡ്‌സ്"),
@@ -84,6 +86,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "savedVideosTitle":
             MessageLookupByLibrary.simpleMessage("സേവ് ചെയ്‌തവ"),
         "settings": MessageLookupByLibrary.simpleMessage("ക്രമീകരണങ്ങൾ"),
+        "share": MessageLookupByLibrary.simpleMessage("പങ്കിടുക"),
         "showLessText":
             MessageLookupByLibrary.simpleMessage("കുറച്ചത് കാണിക്കുക"),
         "subscribe": MessageLookupByLibrary.simpleMessage("സബ്സ്ക്രൈബ്"),

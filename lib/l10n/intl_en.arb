@@ -180,5 +180,13 @@
   "hideRelatedVideosFromWatchScreen": "Hide related videos from watch screen",
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
+  },
+  "share": "Share",
+  "@share": {
+    "description": "Share label."
+  },
+  "includeTitle": "Include title",
+  "@includeTitle": {
+    "description": "Include title along with url"
   }
 }

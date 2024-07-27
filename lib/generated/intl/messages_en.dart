@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "history": MessageLookupByLibrary.simpleMessage("History"),
         "hlsPlayer": MessageLookupByLibrary.simpleMessage("Hls Player"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "includeTitle": MessageLookupByLibrary.simpleMessage("Include title"),
         "india": MessageLookupByLibrary.simpleMessage("India"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "netherlands": MessageLookupByLibrary.simpleMessage("Netherlands"),
@@ -81,6 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "savedVideosTitle":
             MessageLookupByLibrary.simpleMessage("Saved Videos"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "share": MessageLookupByLibrary.simpleMessage("Share"),
         "showLessText": MessageLookupByLibrary.simpleMessage("Show less"),
         "subscribe": MessageLookupByLibrary.simpleMessage("Subscribe"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),

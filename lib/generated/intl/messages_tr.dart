@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "history": MessageLookupByLibrary.simpleMessage("Geçmiş"),
         "hlsPlayer": MessageLookupByLibrary.simpleMessage("Hls Oynatıcı"),
         "home": MessageLookupByLibrary.simpleMessage("Ana Sayfa"),
+        "includeTitle": MessageLookupByLibrary.simpleMessage("Include title"),
         "india": MessageLookupByLibrary.simpleMessage("Hindistan"),
         "language": MessageLookupByLibrary.simpleMessage("Dil"),
         "netherlands": MessageLookupByLibrary.simpleMessage("Hollanda"),
@@ -81,6 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "savedVideosTitle":
             MessageLookupByLibrary.simpleMessage("Kaydedilen Videolar"),
         "settings": MessageLookupByLibrary.simpleMessage("Ayarlar"),
+        "share": MessageLookupByLibrary.simpleMessage("Share"),
         "showLessText": MessageLookupByLibrary.simpleMessage("Daha az göster"),
         "subscribe": MessageLookupByLibrary.simpleMessage("Abone Ol"),
         "theme": MessageLookupByLibrary.simpleMessage("Tema"),
