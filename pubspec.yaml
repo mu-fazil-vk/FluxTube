@@ -3,7 +3,7 @@ description: "A YouTube client application."
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.6.8+3
+version: 0.6.9+4
 
 environment:
   sdk: '>=3.3.1 <4.0.0'

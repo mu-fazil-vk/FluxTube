@@ -1,5 +1,11 @@
 ## Changelog
 
+### v0.6.9
+- Added Turkish language.
+- Added distraction-free section in settings.
+- Added option to hide the title when sharing.
+- Fixed related videos title issue.
+
 ### v0.6.8
 - google_fonts replaced with local fonts.
 - Added open in YouTube button.
