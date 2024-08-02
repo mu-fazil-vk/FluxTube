@@ -43,7 +43,7 @@ class RelatedVideoSection extends StatelessWidget {
                       title: watchInfo.relatedStreams![index].title ??
                           locals.noVideoTitle,
                       thumbnailUrl: watchInfo.relatedStreams![index].thumbnail,
-                      duration: watchInfo.duration,
+                      duration: watchInfo.relatedStreams![index].duration,
                     ));
               },
               separatorBuilder: (context, index) => kWidthBox10,

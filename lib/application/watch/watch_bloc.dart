@@ -189,5 +189,15 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
         emit(_state);
       },
     );
+
+
+    //TOGGLE PIP
+    on<TogglePip>(
+      (event, emit) async {
+        emit(state.copyWith(
+          isPipEnabled: !state.isPipEnabled,
+        ));
+      },
+    );
   }
 }

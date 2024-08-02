@@ -1,12 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxtube/application/channel/channel_bloc.dart';
 import 'package:fluxtube/application/subscribe/subscribe_bloc.dart';
 import 'package:fluxtube/core/colors.dart';
+import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/channel/models/channel_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/channel/widgets/related_videos.dart';
+import 'package:fluxtube/presentation/settings/functions/launch_url.dart';
 import 'package:fluxtube/widgets/channel_widget.dart';
 import 'package:fluxtube/widgets/error_widget.dart';
 import 'package:fluxtube/widgets/indicator.dart';
@@ -49,15 +52,29 @@ class ScreenChannel extends StatelessWidget {
                 .isNotEmpty;
             return Scaffold(
               appBar: AppBar(
-                automaticallyImplyLeading: true,
-                title: Text(
-                  channelInfo.name!,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                ),
-              ),
+                  automaticallyImplyLeading: true,
+                  title: Text(
+                    channelInfo.name!,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                  ),
+                  actions: [
+                    IconButton(
+                        color: kGreyColor,
+                        // style: ButtonStyle(
+                        //     backgroundColor:
+                        //         WidgetStatePropertyAll(kGreyOpacityColor)),
+                        onPressed: () async =>
+                            await urlLaunch('$kYTChannelUrl${channelInfo.id}'),
+                        icon: SvgPicture.asset(
+                          'assets/icons/youtube.svg',
+                          height: 25,
+                          colorFilter:
+                              ColorFilter.mode(kGreyColor!, BlendMode.srcIn),
+                        )),
+                  ]),
               body: SafeArea(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

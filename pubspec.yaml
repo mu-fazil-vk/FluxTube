@@ -19,6 +19,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.5
+  flutter_in_app_pip: ^1.7.3
   flutter_localizations:
     sdk: flutter
   flutter_settings_ui: ^3.0.1

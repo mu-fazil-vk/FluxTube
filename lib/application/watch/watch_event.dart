@@ -30,4 +30,6 @@ class WatchEvent with _$WatchEvent {
   }) = GetSubtitles;
 
   factory WatchEvent.tapDescription() = TapDescription;
+  
+  factory WatchEvent.togglePip() = TogglePip;
 }

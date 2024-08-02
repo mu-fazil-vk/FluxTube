@@ -350,6 +350,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.2"
+  flutter_in_app_pip:
+    dependency: "direct main"
+    description:
+      name: flutter_in_app_pip
+      sha256: "44d216acdcb344eb86b455de3edc02ae60a011d7c4e5b14144cdd2086ee227f3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.7.3"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:

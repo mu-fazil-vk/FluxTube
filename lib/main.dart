@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluxtube/application/channel/channel_bloc.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -114,7 +115,7 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
-          return MaterialApp.router(
+          return PiPMaterialApp.router(
             title: AppInfo.myApp.name,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,

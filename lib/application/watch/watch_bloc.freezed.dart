@@ -26,6 +26,7 @@ mixin _$WatchEvent {
         getMoreReplyCommentsData,
     required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
+    required TResult Function() togglePip,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,6 +38,7 @@ mixin _$WatchEvent {
     TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
+    TResult? Function()? togglePip,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -48,6 +50,7 @@ mixin _$WatchEvent {
     TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
+    TResult Function()? togglePip,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -62,6 +65,7 @@ mixin _$WatchEvent {
         getMoreReplyCommentsData,
     required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -73,6 +77,7 @@ mixin _$WatchEvent {
     TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -84,6 +89,7 @@ mixin _$WatchEvent {
     TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -179,6 +185,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
         getMoreReplyCommentsData,
     required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
+    required TResult Function() togglePip,
   }) {
     return getWatchInfo(id);
   }
@@ -193,6 +200,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
+    TResult? Function()? togglePip,
   }) {
     return getWatchInfo?.call(id);
   }
@@ -207,6 +215,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
+    TResult Function()? togglePip,
     required TResult orElse(),
   }) {
     if (getWatchInfo != null) {
@@ -227,6 +236,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
         getMoreReplyCommentsData,
     required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
   }) {
     return getWatchInfo(this);
   }
@@ -241,6 +251,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
   }) {
     return getWatchInfo?.call(this);
   }
@@ -255,6 +266,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
     required TResult orElse(),
   }) {
     if (getWatchInfo != null) {
@@ -346,6 +358,7 @@ class _$GetCommentDataImpl implements GetCommentData {
         getMoreReplyCommentsData,
     required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
+    required TResult Function() togglePip,
   }) {
     return getCommentData(id);
   }
@@ -360,6 +373,7 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
+    TResult? Function()? togglePip,
   }) {
     return getCommentData?.call(id);
   }
@@ -374,6 +388,7 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
+    TResult Function()? togglePip,
     required TResult orElse(),
   }) {
     if (getCommentData != null) {
@@ -394,6 +409,7 @@ class _$GetCommentDataImpl implements GetCommentData {
         getMoreReplyCommentsData,
     required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
   }) {
     return getCommentData(this);
   }
@@ -408,6 +424,7 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
   }) {
     return getCommentData?.call(this);
   }
@@ -422,6 +439,7 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
     required TResult orElse(),
   }) {
     if (getCommentData != null) {
@@ -523,6 +541,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
         getMoreReplyCommentsData,
     required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
+    required TResult Function() togglePip,
   }) {
     return getCommentRepliesData(id, nextPage);
   }
@@ -537,6 +556,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
+    TResult? Function()? togglePip,
   }) {
     return getCommentRepliesData?.call(id, nextPage);
   }
@@ -551,6 +571,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
+    TResult Function()? togglePip,
     required TResult orElse(),
   }) {
     if (getCommentRepliesData != null) {
@@ -571,6 +592,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
         getMoreReplyCommentsData,
     required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
   }) {
     return getCommentRepliesData(this);
   }
@@ -585,6 +607,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
   }) {
     return getCommentRepliesData?.call(this);
   }
@@ -599,6 +622,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
     required TResult orElse(),
   }) {
     if (getCommentRepliesData != null) {
@@ -702,6 +726,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
         getMoreReplyCommentsData,
     required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
+    required TResult Function() togglePip,
   }) {
     return getMoreCommentsData(id, nextPage);
   }
@@ -716,6 +741,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
+    TResult? Function()? togglePip,
   }) {
     return getMoreCommentsData?.call(id, nextPage);
   }
@@ -730,6 +756,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
+    TResult Function()? togglePip,
     required TResult orElse(),
   }) {
     if (getMoreCommentsData != null) {
@@ -750,6 +777,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
         getMoreReplyCommentsData,
     required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
   }) {
     return getMoreCommentsData(this);
   }
@@ -764,6 +792,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
   }) {
     return getMoreCommentsData?.call(this);
   }
@@ -778,6 +807,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
     required TResult orElse(),
   }) {
     if (getMoreCommentsData != null) {
@@ -883,6 +913,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
         getMoreReplyCommentsData,
     required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
+    required TResult Function() togglePip,
   }) {
     return getMoreReplyCommentsData(id, nextPage);
   }
@@ -897,6 +928,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
+    TResult? Function()? togglePip,
   }) {
     return getMoreReplyCommentsData?.call(id, nextPage);
   }
@@ -911,6 +943,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
+    TResult Function()? togglePip,
     required TResult orElse(),
   }) {
     if (getMoreReplyCommentsData != null) {
@@ -931,6 +964,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
         getMoreReplyCommentsData,
     required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
   }) {
     return getMoreReplyCommentsData(this);
   }
@@ -945,6 +979,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
   }) {
     return getMoreReplyCommentsData?.call(this);
   }
@@ -959,6 +994,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
     required TResult orElse(),
   }) {
     if (getMoreReplyCommentsData != null) {
@@ -1052,6 +1088,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
         getMoreReplyCommentsData,
     required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
+    required TResult Function() togglePip,
   }) {
     return getSubtitles(id);
   }
@@ -1066,6 +1103,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
+    TResult? Function()? togglePip,
   }) {
     return getSubtitles?.call(id);
   }
@@ -1080,6 +1118,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
+    TResult Function()? togglePip,
     required TResult orElse(),
   }) {
     if (getSubtitles != null) {
@@ -1100,6 +1139,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
         getMoreReplyCommentsData,
     required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
   }) {
     return getSubtitles(this);
   }
@@ -1114,6 +1154,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
   }) {
     return getSubtitles?.call(this);
   }
@@ -1128,6 +1169,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
     required TResult orElse(),
   }) {
     if (getSubtitles != null) {
@@ -1192,6 +1234,7 @@ class _$TapDescriptionImpl implements TapDescription {
         getMoreReplyCommentsData,
     required TResult Function(String id) getSubtitles,
     required TResult Function() tapDescription,
+    required TResult Function() togglePip,
   }) {
     return tapDescription();
   }
@@ -1206,6 +1249,7 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult? Function(String id)? getSubtitles,
     TResult? Function()? tapDescription,
+    TResult? Function()? togglePip,
   }) {
     return tapDescription?.call();
   }
@@ -1220,6 +1264,7 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
     TResult Function(String id)? getSubtitles,
     TResult Function()? tapDescription,
+    TResult Function()? togglePip,
     required TResult orElse(),
   }) {
     if (tapDescription != null) {
@@ -1240,6 +1285,7 @@ class _$TapDescriptionImpl implements TapDescription {
         getMoreReplyCommentsData,
     required TResult Function(GetSubtitles value) getSubtitles,
     required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
   }) {
     return tapDescription(this);
   }
@@ -1254,6 +1300,7 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult? Function(GetSubtitles value)? getSubtitles,
     TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
   }) {
     return tapDescription?.call(this);
   }
@@ -1268,6 +1315,7 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
     TResult Function(GetSubtitles value)? getSubtitles,
     TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
     required TResult orElse(),
   }) {
     if (tapDescription != null) {
@@ -1279,6 +1327,147 @@ class _$TapDescriptionImpl implements TapDescription {
 
 abstract class TapDescription implements WatchEvent {
   factory TapDescription() = _$TapDescriptionImpl;
+}
+
+/// @nodoc
+abstract class _$$TogglePipImplCopyWith<$Res> {
+  factory _$$TogglePipImplCopyWith(
+          _$TogglePipImpl value, $Res Function(_$TogglePipImpl) then) =
+      __$$TogglePipImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TogglePipImplCopyWithImpl<$Res>
+    extends _$WatchEventCopyWithImpl<$Res, _$TogglePipImpl>
+    implements _$$TogglePipImplCopyWith<$Res> {
+  __$$TogglePipImplCopyWithImpl(
+      _$TogglePipImpl _value, $Res Function(_$TogglePipImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$TogglePipImpl implements TogglePip {
+  _$TogglePipImpl();
+
+  @override
+  String toString() {
+    return 'WatchEvent.togglePip()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$TogglePipImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getWatchInfo,
+    required TResult Function(String id) getCommentData,
+    required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
+    required TResult Function() tapDescription,
+    required TResult Function() togglePip,
+  }) {
+    return togglePip();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getWatchInfo,
+    TResult? Function(String id)? getCommentData,
+    TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
+    TResult? Function()? tapDescription,
+    TResult? Function()? togglePip,
+  }) {
+    return togglePip?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getWatchInfo,
+    TResult Function(String id)? getCommentData,
+    TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
+    TResult Function()? tapDescription,
+    TResult Function()? togglePip,
+    required TResult orElse(),
+  }) {
+    if (togglePip != null) {
+      return togglePip();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetWatchInfo value) getWatchInfo,
+    required TResult Function(GetCommentData value) getCommentData,
+    required TResult Function(GetCommentRepliesData value)
+        getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
+    required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
+  }) {
+    return togglePip(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetWatchInfo value)? getWatchInfo,
+    TResult? Function(GetCommentData value)? getCommentData,
+    TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
+    TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
+  }) {
+    return togglePip?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetWatchInfo value)? getWatchInfo,
+    TResult Function(GetCommentData value)? getCommentData,
+    TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
+    TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
+    required TResult orElse(),
+  }) {
+    if (togglePip != null) {
+      return togglePip(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class TogglePip implements WatchEvent {
+  factory TogglePip() = _$TogglePipImpl;
 }
 
 /// @nodoc
@@ -1306,6 +1495,7 @@ mixin _$WatchState {
   bool get isSubtitleLoading => throw _privateConstructorUsedError;
   bool get isSubtitleError => throw _privateConstructorUsedError;
   List<Map<String, String>> get subtitles => throw _privateConstructorUsedError;
+  bool get isPipEnabled => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WatchStateCopyWith<WatchState> get copyWith =>
@@ -1340,7 +1530,8 @@ abstract class $WatchStateCopyWith<$Res> {
       bool isMoreReplyCommetsFetchCompleted,
       bool isSubtitleLoading,
       bool isSubtitleError,
-      List<Map<String, String>> subtitles});
+      List<Map<String, String>> subtitles,
+      bool isPipEnabled});
 }
 
 /// @nodoc
@@ -1378,6 +1569,7 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
     Object? isSubtitleLoading = null,
     Object? isSubtitleError = null,
     Object? subtitles = null,
+    Object? isPipEnabled = null,
   }) {
     return _then(_value.copyWith(
       watchResp: null == watchResp
@@ -1468,6 +1660,10 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
           ? _value.subtitles
           : subtitles // ignore: cast_nullable_to_non_nullable
               as List<Map<String, String>>,
+      isPipEnabled: null == isPipEnabled
+          ? _value.isPipEnabled
+          : isPipEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -1502,7 +1698,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       bool isMoreReplyCommetsFetchCompleted,
       bool isSubtitleLoading,
       bool isSubtitleError,
-      List<Map<String, String>> subtitles});
+      List<Map<String, String>> subtitles,
+      bool isPipEnabled});
 }
 
 /// @nodoc
@@ -1538,6 +1735,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? isSubtitleLoading = null,
     Object? isSubtitleError = null,
     Object? subtitles = null,
+    Object? isPipEnabled = null,
   }) {
     return _then(_$InitialImpl(
       watchResp: null == watchResp
@@ -1628,6 +1826,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value._subtitles
           : subtitles // ignore: cast_nullable_to_non_nullable
               as List<Map<String, String>>,
+      isPipEnabled: null == isPipEnabled
+          ? _value.isPipEnabled
+          : isPipEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -1657,7 +1859,8 @@ class _$InitialImpl implements _Initial {
       required this.isMoreReplyCommetsFetchCompleted,
       required this.isSubtitleLoading,
       required this.isSubtitleError,
-      required final List<Map<String, String>> subtitles})
+      required final List<Map<String, String>> subtitles,
+      required this.isPipEnabled})
       : _subtitles = subtitles;
 
   @override
@@ -1711,8 +1914,11 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
+  final bool isPipEnabled;
+
+  @override
   String toString() {
-    return 'WatchState(watchResp: $watchResp, comments: $comments, commentReplies: $commentReplies, oldId: $oldId, isLoading: $isLoading, isWatchInfoError: $isWatchInfoError, initialVideoPause: $initialVideoPause, isTapComments: $isTapComments, isCommentsLoading: $isCommentsLoading, isCommentRepliesLoading: $isCommentRepliesLoading, isCommentError: $isCommentError, isCommentRepliesError: $isCommentRepliesError, isDescriptionTapped: $isDescriptionTapped, isMoreCommetsFetchError: $isMoreCommetsFetchError, isMoreCommetsFetchLoading: $isMoreCommetsFetchLoading, isMoreCommetsFetchCompleted: $isMoreCommetsFetchCompleted, isMoreReplyCommetsFetchError: $isMoreReplyCommetsFetchError, isMoreReplyCommetsFetchLoading: $isMoreReplyCommetsFetchLoading, isMoreReplyCommetsFetchCompleted: $isMoreReplyCommetsFetchCompleted, isSubtitleLoading: $isSubtitleLoading, isSubtitleError: $isSubtitleError, subtitles: $subtitles)';
+    return 'WatchState(watchResp: $watchResp, comments: $comments, commentReplies: $commentReplies, oldId: $oldId, isLoading: $isLoading, isWatchInfoError: $isWatchInfoError, initialVideoPause: $initialVideoPause, isTapComments: $isTapComments, isCommentsLoading: $isCommentsLoading, isCommentRepliesLoading: $isCommentRepliesLoading, isCommentError: $isCommentError, isCommentRepliesError: $isCommentRepliesError, isDescriptionTapped: $isDescriptionTapped, isMoreCommetsFetchError: $isMoreCommetsFetchError, isMoreCommetsFetchLoading: $isMoreCommetsFetchLoading, isMoreCommetsFetchCompleted: $isMoreCommetsFetchCompleted, isMoreReplyCommetsFetchError: $isMoreReplyCommetsFetchError, isMoreReplyCommetsFetchLoading: $isMoreReplyCommetsFetchLoading, isMoreReplyCommetsFetchCompleted: $isMoreReplyCommetsFetchCompleted, isSubtitleLoading: $isSubtitleLoading, isSubtitleError: $isSubtitleError, subtitles: $subtitles, isPipEnabled: $isPipEnabled)';
   }
 
   @override
@@ -1767,7 +1973,9 @@ class _$InitialImpl implements _Initial {
             (identical(other.isSubtitleError, isSubtitleError) ||
                 other.isSubtitleError == isSubtitleError) &&
             const DeepCollectionEquality()
-                .equals(other._subtitles, _subtitles));
+                .equals(other._subtitles, _subtitles) &&
+            (identical(other.isPipEnabled, isPipEnabled) ||
+                other.isPipEnabled == isPipEnabled));
   }
 
   @override
@@ -1794,7 +2002,8 @@ class _$InitialImpl implements _Initial {
         isMoreReplyCommetsFetchCompleted,
         isSubtitleLoading,
         isSubtitleError,
-        const DeepCollectionEquality().hash(_subtitles)
+        const DeepCollectionEquality().hash(_subtitles),
+        isPipEnabled
       ]);
 
   @JsonKey(ignore: true)
@@ -1827,7 +2036,8 @@ abstract class _Initial implements WatchState {
       required final bool isMoreReplyCommetsFetchCompleted,
       required final bool isSubtitleLoading,
       required final bool isSubtitleError,
-      required final List<Map<String, String>> subtitles}) = _$InitialImpl;
+      required final List<Map<String, String>> subtitles,
+      required final bool isPipEnabled}) = _$InitialImpl;
 
   @override
   WatchResp get watchResp;
@@ -1873,6 +2083,8 @@ abstract class _Initial implements WatchState {
   bool get isSubtitleError;
   @override
   List<Map<String, String>> get subtitles;
+  @override
+  bool get isPipEnabled;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

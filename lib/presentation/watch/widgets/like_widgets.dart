@@ -1,5 +1,6 @@
 //comments
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/core/colors.dart';
@@ -19,7 +20,8 @@ class LikeRowWidget extends StatelessWidget {
       this.isDislikeVisible = false,
       this.onTapSave,
       this.isSaveTapped = false,
-      this.onTapYoutube});
+      this.onTapYoutube,
+      this.pipClicked});
 
   final int like;
   final int dislikes;
@@ -30,6 +32,7 @@ class LikeRowWidget extends StatelessWidget {
   final VoidCallback? onTapSave;
   final bool isSaveTapped;
   final VoidCallback? onTapYoutube;
+  final VoidCallback? pipClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +74,10 @@ class LikeRowWidget extends StatelessWidget {
                 return const SizedBox();
               },
             ),
+            kWidthBox10,
+            CustomRoundedButtons(
+                onTap: pipClicked,
+                icon: Icons.picture_in_picture),
             kWidthBox10,
             CustomRoundedButtons(
                 onTap: onTapShare,
