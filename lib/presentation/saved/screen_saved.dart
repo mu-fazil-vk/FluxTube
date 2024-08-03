@@ -5,7 +5,6 @@ import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/saved/widgets/history_section.dart';
 import 'package:fluxtube/presentation/saved/widgets/saved_section.dart';
-import 'package:fluxtube/widgets/indicator.dart';
 import 'package:fluxtube/widgets/shimmer_home_video_card.dart';
 
 import '../../application/saved/saved_bloc.dart';

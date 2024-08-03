@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_in_app_pip/picture_in_picture.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/domain/watch/models/video/video_stream.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -219,7 +220,7 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
           allowedScreenSleep: false,
           expandToFill: false,
           autoDispose: true,
-          fit: BoxFit.contain),
+          fit: BoxFit.fitHeight),
       betterPlayerDataSource: betterPlayerDataSource,
     );
 
@@ -230,6 +231,7 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
   @override
   void dispose() {
     _updateVideoHistory();
+    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
     _betterPlayerController?.dispose();
     super.dispose();
   }
@@ -266,7 +268,7 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
     return Stack(
       children: [
         AspectRatio(
-          aspectRatio: aspectRatio,
+          aspectRatio: 16 / 8,
           child: _betterPlayerController != null
               ? BetterPlayer(
                   controller: _betterPlayerController!,
@@ -279,8 +281,9 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
           child: IconButton(
               onPressed: () {
                 _updateVideoHistory();
-                _betterPlayerController?.dispose();
                 PictureInPicture.stopPiP();
+                BlocProvider.of<WatchBloc>(context)
+                    .add(WatchEvent.togglePip(value: false));
               },
               icon: const Icon(CupertinoIcons.xmark)),
         )

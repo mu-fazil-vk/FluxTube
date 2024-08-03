@@ -6,7 +6,6 @@ import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/trending/widgets/trending_videos_section.dart';
 import 'package:fluxtube/widgets/custom_app_bar.dart';
 import 'package:fluxtube/widgets/error_widget.dart';
-import 'package:fluxtube/widgets/indicator.dart';
 import 'package:fluxtube/widgets/shimmer_home_video_card.dart';
 
 import '../../application/subscribe/subscribe_bloc.dart';

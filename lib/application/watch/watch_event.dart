@@ -31,5 +31,7 @@ class WatchEvent with _$WatchEvent {
 
   factory WatchEvent.tapDescription() = TapDescription;
   
-  factory WatchEvent.togglePip() = TogglePip;
+  factory WatchEvent.togglePip({required bool value}) = TogglePip;
+
+  factory WatchEvent.assignTitle({required String title}) = AssignTitle;
 }

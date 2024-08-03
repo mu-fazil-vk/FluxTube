@@ -2,7 +2,6 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/domain/watch/models/video/video_stream.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -258,21 +257,14 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WatchBloc, WatchState>(
-      buildWhen: (previous, current) =>
-          previous.isPipEnabled != current.isPipEnabled,
-      builder: (context, state) {
-        _betterPlayerController?.pause();
-        return AspectRatio(
-          aspectRatio: aspectRatio,
-          child: _betterPlayerController != null
-              ? BetterPlayer(
-                  controller: _betterPlayerController!,
-                  //key: UniqueKey()
-                )
-              : const Center(child: CircularProgressIndicator()),
-        );
-      },
+    return AspectRatio(
+      aspectRatio: aspectRatio,
+      child: _betterPlayerController != null
+          ? BetterPlayer(
+              controller: _betterPlayerController!,
+              //key: UniqueKey()
+            )
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }

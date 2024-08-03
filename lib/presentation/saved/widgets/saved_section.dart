@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/saved/saved_bloc.dart';
+import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/error_widget.dart';
 import 'package:fluxtube/widgets/home_video_info_card_widget.dart';
@@ -40,7 +41,12 @@ class SavedVideosSection extends StatelessWidget {
 
                         final String channelId = savedVideo.uploaderId!;
                         return GestureDetector(
-                          onTap: () => context.go('/watch/$videoId/$channelId'),
+                          onTap: () {
+                            BlocProvider.of<WatchBloc>(context).add(
+                                WatchEvent.assignTitle(
+                                    title: savedVideo.title ?? ''));
+                            context.go('/watch/$videoId/$channelId');
+                          },
                           child: HomeVideoInfoCardWidget(
                             channelId: channelId,
                             cardInfo: savedVideo,

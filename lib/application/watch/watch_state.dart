@@ -25,7 +25,8 @@ class WatchState with _$WatchState {
     required bool isSubtitleLoading,
     required bool isSubtitleError,
     required List<Map<String, String>> subtitles,
-    required bool isPipEnabled
+    required bool isPipEnabled,
+    required String title,
   }) = _Initial;
 
   factory WatchState.initialize() => WatchState(
@@ -51,6 +52,7 @@ class WatchState with _$WatchState {
         isSubtitleLoading: false,
         isSubtitleError: false,
         subtitles: [],
-        isPipEnabled: false
+        isPipEnabled: false,
+        title: ''
       );
 }
