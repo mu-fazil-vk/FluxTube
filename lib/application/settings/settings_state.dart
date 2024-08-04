@@ -12,10 +12,15 @@ class SettingsState with _$SettingsState {
     required bool isDislikeVisible,
     required bool isHlsPlayer,
     required bool isHideComments,
-    required bool isHideRelated
+    required bool isHideRelated,
+    required List<Instance> instances,
+    required bool instanceLoading,
+    required bool instanceError,
+    required String instance
+
   }) = _Initial;
 
-  factory SettingsState.initialize() => const SettingsState(
+  factory SettingsState.initialize() => SettingsState(
         defaultLanguage: 'en',
         defaultQuality: '720p',
         defaultRegion: 'IN',
@@ -25,6 +30,10 @@ class SettingsState with _$SettingsState {
         isDislikeVisible: false,
         isHlsPlayer: true,
         isHideComments: false,
-        isHideRelated: false
+        isHideRelated: false,
+        instances: [],
+        instanceLoading: false,
+        instanceError: false,
+        instance: BaseUrl.kBaseUrl
       );
 }

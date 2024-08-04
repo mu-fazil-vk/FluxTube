@@ -43,6 +43,12 @@ SettingsSection commonSettingsSection(S locals, BuildContext context,
         onPressed: (ctx) => context.go('/regions'),
       ),
       SettingsTile(
+        title: Text(locals.instances),
+        description: Text(state.instance),
+        leading: const Icon(Icons.web_stories),
+        onPressed: (ctx) => context.go('/instances'),
+      ),
+      SettingsTile(
         title: Text(locals.theme),
         leading: const Icon(Icons.dark_mode_rounded),
         trailing: DropdownButton(

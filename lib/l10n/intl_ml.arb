@@ -188,5 +188,6 @@
   "includeTitle": "ശീർഷകം ഉൾപ്പെടുത്തുക",
   "@includeTitle": {
     "description": "Include title along with url"
-  }
+  },
+  "instances": "Instances"
 }

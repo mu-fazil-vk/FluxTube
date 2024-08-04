@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluxtube/application/channel/channel_bloc.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/channel/screen_channel.dart';
+import 'package:fluxtube/presentation/settings/sub_screens/screen_instances.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_language.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_translators.dart';
 import 'package:fluxtube/presentation/watch/screen_watch.dart';
@@ -77,6 +78,12 @@ final GoRouter _router = GoRouter(
           path: 'languages',
           builder: (BuildContext context, GoRouterState state) {
             return const ScreenLanguage();
+          },
+        ),
+        GoRoute(
+          path: 'instances',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ScreenInstances();
           },
         ),
       ],

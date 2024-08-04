@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
+import 'package:fluxtube/domain/settings/models/instance.dart';
 
 abstract class SettingsService {
   Future<List<Map<String, String>>> initializeSettings();
@@ -19,4 +20,7 @@ abstract class SettingsService {
       {required bool isHideComments});
   Future<Either<MainFailure, bool>> toggleHideRelatedVideos(
       {required bool isHideRelated});
+  Future<Either<MainFailure, List<Instance>>> fetchInstances();
+  Future<Either<MainFailure, String>> setInstance(
+      {required String instanceApi});
 }

@@ -188,5 +188,6 @@
   "includeTitle": "Include title",
   "@includeTitle": {
     "description": "Include title along with url"
-  }
+  },
+  "instances": "Instances"
 }

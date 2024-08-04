@@ -63,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "includeTitle":
             MessageLookupByLibrary.simpleMessage("ശീർഷകം ഉൾപ്പെടുത്തുക"),
         "india": MessageLookupByLibrary.simpleMessage("ഇന്ത്യ"),
+        "instances": MessageLookupByLibrary.simpleMessage("Instances"),
         "language": MessageLookupByLibrary.simpleMessage("ഭാഷ"),
         "netherlands": MessageLookupByLibrary.simpleMessage("നെതർലാൻഡ്‌സ്"),
         "noUploadDate": MessageLookupByLibrary.simpleMessage("തീയതി ഇല്ല"),

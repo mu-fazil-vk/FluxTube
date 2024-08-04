@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/core/settings.dart';
+import 'package:fluxtube/domain/settings/models/instance.dart';
 import 'package:fluxtube/domain/settings/settings_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -33,12 +35,19 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final String? defaultLanguage = settingsMap[selectedDefaultLanguage];
       final String? defaultQuality = settingsMap[selectedDefaultQuality];
       final String? defaultRegion = settingsMap[selectedDefaultRegion];
-      final String defaultThemeMode = settingsMap[selectedTheme] == 'dark' ? 'dark' : settingsMap[selectedTheme] == 'light'? 'light' : 'system';
+      final String defaultThemeMode = settingsMap[selectedTheme] == 'dark'
+          ? 'dark'
+          : settingsMap[selectedTheme] == 'light'
+              ? 'light'
+              : 'system';
       final bool defaultHistoryVisibility =
           settingsMap[historyVisibility] == "true";
       final bool defaultDislikeVisibility =
           settingsMap[dislikeVisibility] == "true";
       final bool defaultHlsPlayer = settingsMap[hlsPlayer] == "true";
+
+      final String instanceApi =
+          settingsMap[instanceApiUrl] ?? BaseUrl.kBaseUrl;
 
       //package info
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -47,6 +56,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       var newState = state;
 
       newState = newState.copyWith(version: packageInfo.version);
+      newState = newState.copyWith(instance: instanceApi);
+      BaseUrl.kBaseUrl = instanceApi;
 
       if (defaultLanguage != null) {
         newState = newState.copyWith(defaultLanguage: defaultLanguage);
@@ -108,8 +119,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     // TOGGLE THE THEME
     on<ChangeTheme>((event, emit) async {
       emit(state);
-      final _result = await settingsService.setTheme(
-          themeMode: event.themeMode);
+      final _result =
+          await settingsService.setTheme(themeMode: event.themeMode);
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(themeMode: state.themeMode),
           (String themeMode) => state.copyWith(themeMode: themeMode));
@@ -159,8 +170,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final _result = await settingsService.toggleHideComments(
           isHideComments: !state.isHideComments);
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(isHideComments: state.isHideComments),
-          (bool isHideComments) => state.copyWith(isHideComments: isHideComments));
+          (MainFailure f) =>
+              state.copyWith(isHideComments: state.isHideComments),
+          (bool isHideComments) =>
+              state.copyWith(isHideComments: isHideComments));
       emit(_state);
     });
 
@@ -172,6 +185,26 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(isHideRelated: state.isHideRelated),
           (bool isHideRelated) => state.copyWith(isHideRelated: isHideRelated));
+      emit(_state);
+    });
+
+    on<FetchInstances>((event, emit) async {
+      emit(state.copyWith(instanceError: false, instanceLoading: true));
+      final _result = await settingsService.fetchInstances();
+      final _state = _result.fold(
+          (MainFailure f) =>
+              state.copyWith(instanceError: true, instanceLoading: false),
+          (List<Instance> r) =>
+              state.copyWith(instanceLoading: false, instances: r));
+      emit(_state);
+    });
+
+    on<SetInstance>((event, emit) async {
+      final _result =
+          await settingsService.setInstance(instanceApi: event.instanceApi);
+      final _state = _result.fold(
+          (MainFailure f) => state.copyWith(instance: state.instance),
+          (String r) => state.copyWith(instance: r));
       emit(_state);
     });
   }
