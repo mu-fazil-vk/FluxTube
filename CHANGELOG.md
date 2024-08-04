@@ -1,5 +1,14 @@
 ## Changelog
 
+### v0.7.0
+- Added instances selection.
+- Added Russian language.
+- Added picture in picture support.
+- Added shimmer effect.
+- Added view on YouTube button for channels.
+- Fixed related videos duration issue.
+- Fixed #26 issue.
+
 ### v0.6.9
 - Added Turkish language.
 - Added distraction-free section in settings.

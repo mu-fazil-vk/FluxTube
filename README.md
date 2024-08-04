@@ -6,6 +6,7 @@
 <a href="https://github.com/mu-fazil-vk/FluxTube/releases" alt="GitHub release"><img src="https://img.shields.io/github/release/mu-fazil-vk/FluxTube.svg" ></a>
 <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" alt="GitHub release"><img src="https://shields.io/badge/License-GPL%20v3-blue.svg" ></a>
   <a href="https://github.com/mu-fazil-vk/FluxTube/releases" alt="GitHub release"><img src="https://shields.io/badge/Flutter-v3.22.2-blue.svg" ></a>
+  <a href="https://github.com/mu-fazil-vk/FluxTube/releases" alt="GitHub release"><img src="https://img.shields.io/github/downloads/mu-fazil-vk/FluxTube/total.svg?label=FluxTube+Downloads" ></a>
 </p>
 
 A powerful and ad-free YouTube client built using Flutter. Watch YouTube videos without ads, subscribe to channels, retrieve video dislikes, read comments, save videos, and much more.
@@ -40,8 +41,8 @@ You can download the latest version of the app from the [releases page](https://
 
 ## Todo
 
-- [ ] Picture in Picture Mode
 - [ ] Playlist Support
+- [x] Picture in Picture Mode
 - [x] Channel Profile Support
 - [x] Subtitle Support
 - [x] Unlimited Scroll Support
@@ -65,6 +66,11 @@ If you have any ideas, suggestions, or issues, please open a [new issue](https:/
 ## License
 
 FluxTube is a free software licensed under GPL v3.0 
+
+## Support:
+
+<p><a href="https://www.buymeacoffee.com/fazilvk"> <img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="fazilvk" /></a></p><br><br>
+<br>
 
 
 ## Message Me
