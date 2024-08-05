@@ -1,191 +1,191 @@
 {
-  "home": "Ana Sayfa",
+  "home": "Главная",
   "@home": {
     "description": "Home label"
   },
-  "trending": "Popüler",
+  "trending": "Тренды",
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "Kaydedilenler",
+  "saved": "Сохранено",
   "@saved": {
     "description": "Saved label"
   },
-  "settings": "Ayarlar",
+  "settings": "Настройки",
   "@settings": {
     "description": "Settings label"
   },
-  "history": "Geçmiş",
+  "history": "История",
   "@history": {
     "description": "History label"
   },
-  "savedVideosTitle": "Kaydedilen Videolar",
+  "savedVideosTitle": "Сохранённые видео",
   "@savedVideosTitle": {
     "description": "Saved videos app bar title"
   },
-  "noUploaderName": "İsim yok",
+  "noUploaderName": "Безымянный",
   "@noUploaderName": {
     "description": "There is no uploader (channel) name available"
   },
-  "noVideoTitle": "Başlık yok",
+  "noVideoTitle": "Неназванное",
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
-  "videoViews": "{count, plural, =0{Görüntüleme yok} =1{görüntüleme} other{görüntüleme}}",
+  "videoViews": "{count, plural, =0{Нет просмотров} =1{просмотр} few{просмотра} many{просмотров} other{просмотра}}",
   "@videoViews": {
     "description": "{number} views"
   },
-  "channelSubscribers": "{count, plural, =0{Abone yok} =1{abone} other{abone}}",
+  "channelSubscribers": "{count, plural, =0{Нет подписчиков} =1{подписчик} few{подписчика} many{подписчиков} other{подписчика}}",
   "@channelSubscribers": {
     "description": "{number} subscribers"
   },
-  "subscribe": "Abone Ol",
+  "subscribe": "Подписаться",
   "@subscribe": {
     "description": "Subscribe button label"
   },
-  "noUploadDate": "Tarih yok",
+  "noUploadDate": "Без даты",
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "Kaydedilen video yok",
+  "thereIsNoSavedVideos": "Сохранённых видео нет",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "Kaydedilen/geçmiş video yok",
+  "thereIsNoSavedOrHistoryVideos": "Сохранённых/просмотренных видео нет",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "Mevcut video kaynağı yok, otomatik olarak hls'ye dönüştü",
+  "noVideoAvailableChangedToHls": "Нет доступных форматов, переход на HLS",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
-  "unknownQuality": "Bilinmeyen Kalite",
+  "unknownQuality": "Качество не опознано",
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "Hls Oynatıcı",
+  "hlsPlayer": "Проигрыватель HLS",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "Tüm kalite seçeneklerini açmak için HLS oynatıcıyı etkinleştirin. Hata oluşursa devre dışı bırakın.",
+  "enableHlsPlayerDescription": "Переключит на проигрыватель HLS, поддерживающий больше форматов. Отключите при ошибках.",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
-  "disableVideoHistory": "Video geçmişini devre dışı bırak",
+  "disableVideoHistory": "Отключить историю просмотров",
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Beğenilmeyenleri Getir",
+  "retrieveDislikes": "Вернуть дизлайки",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "Beğenmeme sayısını getir",
+  "retrieveDislikeCounts": "Запрашивать количество дизлайков",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
-  "noVideoDescription": "Açıklama yok",
+  "noVideoDescription": "Без описания",
   "@noVideoDescription": {
     "description": "There is no video description available"
   },
-  "relatedTitle": "İlgili",
+  "relatedTitle": "Похожие",
   "@relatedTitle": {
     "description": "Related videos label"
   },
-  "commentAuthorNotFound": "Bulunamadı",
+  "commentAuthorNotFound": "Не найден",
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
-  "readMoreText": "Daha fazla oku",
+  "readMoreText": "Раскрыть",
   "@readMoreText": {
     "description": "Expand the comment text"
   },
-  "showLessText": "Daha az göster",
+  "showLessText": "Скрыть",
   "@showLessText": {
     "description": "Collapse the comment text"
   },
-  "commonSettingsTitle": "Genel",
+  "commonSettingsTitle": "Общие",
   "@commonSettingsTitle": {
     "description": "Common settings label"
   },
-  "language": "Dil",
+  "language": "Язык",
   "@language": {
     "description": "Language label"
   },
-  "region": "Bölge",
+  "region": "Регион",
   "@region": {
     "description": "Region label"
   },
-  "theme": "Tema",
+  "theme": "Оформление",
   "@theme": {
     "description": "Theme label"
   },
-  "developer": "Geliştirici",
+  "developer": "Разработчик",
   "@developer": {
     "description": "Developer label"
   },
-  "translators": "Çevirmenler",
+  "translators": "Переводчики",
   "@translators": {
     "description": "Translators label"
   },
-  "version": "Sürüm",
+  "version": "Версия",
   "@version": {
     "description": "Version label"
   },
-  "about": "Hakkında",
+  "about": "О приложении",
   "@about": {
     "description": "About label"
   },
-  "video": "Video",
+  "video": "Видео",
   "@video": {
     "description": "Video label"
   },
-  "unknown": "bilinmiyor",
+  "unknown": "неизвестно",
   "@unknown": {
     "description": "Unknown label"
   },
-  "defaultQuality": "Varsayılan Kalite",
+  "defaultQuality": "Качество по умолчанию",
   "@defaultQuality": {
     "description": "Default video quality label"
   },
-  "retry": "Tekrar Dene",
+  "retry": "Повторить",
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{Yanıt} other{Yanıtlar}}",
+  "repliesPlural": "{count, plural, =1{ответ} few{ответа} many{ответов} other{ответа}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
-  "canada": "Kanada",
-  "france": "Fransa",
-  "india": "Hindistan",
-  "netherlands": "Hollanda",
-  "unitedKingdom": "Birleşik Krallık",
-  "unitedStates": "Amerika Birleşik Devletleri",
-  "distractionFree": "Distraction Free",
+  "canada": "Канада",
+  "france": "Франция",
+  "india": "Индия",
+  "netherlands": "Нидерланды",
+  "unitedKingdom": "Соединённое королевство",
+  "unitedStates": "Соединённые штаты Америки",
+  "distractionFree": "Отсекая лишнее",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
-  "hideComments": "Hide Comments",
+  "hideComments": "Скрыть коментарии",
   "@hideComments": {
     "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "Hide comments button from watch screen.",
+  "hideCommentsButtonFromWatchScreen": "Убирает кнопку показа коментариев с экрана просмотра.",
   "@hideCommentsButtonFromWatchScreen": {
     "description": "Hide the comment button from video streaming screen."
   },
-  "hideRelated": "Hide Related",
+  "hideRelated": "Скрыть похожие",
   "@hideRelated": {
     "description": "Hide Related videos label."
   },
-  "hideRelatedVideosFromWatchScreen": "Hide related videos from watch screen",
+  "hideRelatedVideosFromWatchScreen": "Убирает ленту похожих видео с экрана просмотра.",
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
   },
-  "share": "Share",
+  "share": "Поделиться",
   "@share": {
     "description": "Share label."
   },
-  "includeTitle": "Include title",
+  "includeTitle": "Включая название",
   "@includeTitle": {
     "description": "Include title along with url"
   },

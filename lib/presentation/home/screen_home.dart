@@ -1,13 +1,15 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/application/trending/trending_bloc.dart';
+import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/home/widgets/feed_section.dart';
+import 'package:fluxtube/widgets/shimmer_home_video_card.dart';
 import 'package:fluxtube/presentation/trending/widgets/trending_videos_section.dart';
 import 'package:fluxtube/widgets/error_widget.dart';
-import 'package:fluxtube/widgets/indicator.dart';
 
 import '../../application/subscribe/subscribe_bloc.dart';
 import 'widgets/home_app_bar.dart';
@@ -59,7 +61,13 @@ class ScreenHome extends StatelessWidget {
                 }
                 //if feed loading (here used trending loading commonly)
                 if (trendingState.isLoading) {
-                  return cIndicator(context);
+                  return ListView.separated(
+                    separatorBuilder: (context, index) => kHeightBox10,
+                    itemBuilder: (context, index) {
+                      return const ShimmerHomeVideoInfoCard();
+                    },
+                    itemCount: 10,
+                  );
                 } else {
                   // if feed empty then show trending
                   if (trendingState.feedResult.isEmpty ||

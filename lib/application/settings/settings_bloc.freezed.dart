@@ -28,6 +28,8 @@ mixin _$SettingsEvent {
     required TResult Function() toggleHlsPlayer,
     required TResult Function() toggleCommentVisibility,
     required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -42,6 +44,8 @@ mixin _$SettingsEvent {
     TResult? Function()? toggleHlsPlayer,
     TResult? Function()? toggleCommentVisibility,
     TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -56,6 +60,8 @@ mixin _$SettingsEvent {
     TResult Function()? toggleHlsPlayer,
     TResult Function()? toggleCommentVisibility,
     TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -75,6 +81,8 @@ mixin _$SettingsEvent {
         toggleCommentVisibility,
     required TResult Function(ToggleRelatedVideoVisibility value)
         toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -90,6 +98,8 @@ mixin _$SettingsEvent {
     TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult? Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -105,6 +115,8 @@ mixin _$SettingsEvent {
     TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -176,6 +188,8 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     required TResult Function() toggleHlsPlayer,
     required TResult Function() toggleCommentVisibility,
     required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
   }) {
     return initializeSettings();
   }
@@ -193,6 +207,8 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult? Function()? toggleHlsPlayer,
     TResult? Function()? toggleCommentVisibility,
     TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
   }) {
     return initializeSettings?.call();
   }
@@ -210,6 +226,8 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult Function()? toggleHlsPlayer,
     TResult Function()? toggleCommentVisibility,
     TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
     required TResult orElse(),
   }) {
     if (initializeSettings != null) {
@@ -235,6 +253,8 @@ class _$InitializeSettingsImpl implements InitializeSettings {
         toggleCommentVisibility,
     required TResult Function(ToggleRelatedVideoVisibility value)
         toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
   }) {
     return initializeSettings(this);
   }
@@ -253,6 +273,8 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult? Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
   }) {
     return initializeSettings?.call(this);
   }
@@ -271,6 +293,8 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
     required TResult orElse(),
   }) {
     if (initializeSettings != null) {
@@ -360,6 +384,8 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     required TResult Function() toggleHlsPlayer,
     required TResult Function() toggleCommentVisibility,
     required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
   }) {
     return getDefaultLanguage(language);
   }
@@ -377,6 +403,8 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult? Function()? toggleHlsPlayer,
     TResult? Function()? toggleCommentVisibility,
     TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
   }) {
     return getDefaultLanguage?.call(language);
   }
@@ -394,6 +422,8 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult Function()? toggleHlsPlayer,
     TResult Function()? toggleCommentVisibility,
     TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
     required TResult orElse(),
   }) {
     if (getDefaultLanguage != null) {
@@ -419,6 +449,8 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
         toggleCommentVisibility,
     required TResult Function(ToggleRelatedVideoVisibility value)
         toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
   }) {
     return getDefaultLanguage(this);
   }
@@ -437,6 +469,8 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult? Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
   }) {
     return getDefaultLanguage?.call(this);
   }
@@ -455,6 +489,8 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
     required TResult orElse(),
   }) {
     if (getDefaultLanguage != null) {
@@ -549,6 +585,8 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     required TResult Function() toggleHlsPlayer,
     required TResult Function() toggleCommentVisibility,
     required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
   }) {
     return getDefaultQuality(quality);
   }
@@ -566,6 +604,8 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult? Function()? toggleHlsPlayer,
     TResult? Function()? toggleCommentVisibility,
     TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
   }) {
     return getDefaultQuality?.call(quality);
   }
@@ -583,6 +623,8 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult Function()? toggleHlsPlayer,
     TResult Function()? toggleCommentVisibility,
     TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
     required TResult orElse(),
   }) {
     if (getDefaultQuality != null) {
@@ -608,6 +650,8 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
         toggleCommentVisibility,
     required TResult Function(ToggleRelatedVideoVisibility value)
         toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
   }) {
     return getDefaultQuality(this);
   }
@@ -626,6 +670,8 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult? Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
   }) {
     return getDefaultQuality?.call(this);
   }
@@ -644,6 +690,8 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
     required TResult orElse(),
   }) {
     if (getDefaultQuality != null) {
@@ -738,6 +786,8 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     required TResult Function() toggleHlsPlayer,
     required TResult Function() toggleCommentVisibility,
     required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
   }) {
     return getDefaultRegion(region);
   }
@@ -755,6 +805,8 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult? Function()? toggleHlsPlayer,
     TResult? Function()? toggleCommentVisibility,
     TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
   }) {
     return getDefaultRegion?.call(region);
   }
@@ -772,6 +824,8 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult Function()? toggleHlsPlayer,
     TResult Function()? toggleCommentVisibility,
     TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
     required TResult orElse(),
   }) {
     if (getDefaultRegion != null) {
@@ -797,6 +851,8 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
         toggleCommentVisibility,
     required TResult Function(ToggleRelatedVideoVisibility value)
         toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
   }) {
     return getDefaultRegion(this);
   }
@@ -815,6 +871,8 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult? Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
   }) {
     return getDefaultRegion?.call(this);
   }
@@ -833,6 +891,8 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
     required TResult orElse(),
   }) {
     if (getDefaultRegion != null) {
@@ -927,6 +987,8 @@ class _$ChangeThemeImpl implements ChangeTheme {
     required TResult Function() toggleHlsPlayer,
     required TResult Function() toggleCommentVisibility,
     required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
   }) {
     return changeTheme(themeMode);
   }
@@ -944,6 +1006,8 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult? Function()? toggleHlsPlayer,
     TResult? Function()? toggleCommentVisibility,
     TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
   }) {
     return changeTheme?.call(themeMode);
   }
@@ -961,6 +1025,8 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult Function()? toggleHlsPlayer,
     TResult Function()? toggleCommentVisibility,
     TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
     required TResult orElse(),
   }) {
     if (changeTheme != null) {
@@ -986,6 +1052,8 @@ class _$ChangeThemeImpl implements ChangeTheme {
         toggleCommentVisibility,
     required TResult Function(ToggleRelatedVideoVisibility value)
         toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
   }) {
     return changeTheme(this);
   }
@@ -1004,6 +1072,8 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult? Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
   }) {
     return changeTheme?.call(this);
   }
@@ -1022,6 +1092,8 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
     required TResult orElse(),
   }) {
     if (changeTheme != null) {
@@ -1091,6 +1163,8 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     required TResult Function() toggleHlsPlayer,
     required TResult Function() toggleCommentVisibility,
     required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
   }) {
     return toggleHistoryVisibility();
   }
@@ -1108,6 +1182,8 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult? Function()? toggleHlsPlayer,
     TResult? Function()? toggleCommentVisibility,
     TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
   }) {
     return toggleHistoryVisibility?.call();
   }
@@ -1125,6 +1201,8 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult Function()? toggleHlsPlayer,
     TResult Function()? toggleCommentVisibility,
     TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
     required TResult orElse(),
   }) {
     if (toggleHistoryVisibility != null) {
@@ -1150,6 +1228,8 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
         toggleCommentVisibility,
     required TResult Function(ToggleRelatedVideoVisibility value)
         toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
   }) {
     return toggleHistoryVisibility(this);
   }
@@ -1168,6 +1248,8 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult? Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
   }) {
     return toggleHistoryVisibility?.call(this);
   }
@@ -1186,6 +1268,8 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
     required TResult orElse(),
   }) {
     if (toggleHistoryVisibility != null) {
@@ -1250,6 +1334,8 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     required TResult Function() toggleHlsPlayer,
     required TResult Function() toggleCommentVisibility,
     required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
   }) {
     return toggleDislikeVisibility();
   }
@@ -1267,6 +1353,8 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult? Function()? toggleHlsPlayer,
     TResult? Function()? toggleCommentVisibility,
     TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
   }) {
     return toggleDislikeVisibility?.call();
   }
@@ -1284,6 +1372,8 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult Function()? toggleHlsPlayer,
     TResult Function()? toggleCommentVisibility,
     TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
     required TResult orElse(),
   }) {
     if (toggleDislikeVisibility != null) {
@@ -1309,6 +1399,8 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
         toggleCommentVisibility,
     required TResult Function(ToggleRelatedVideoVisibility value)
         toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
   }) {
     return toggleDislikeVisibility(this);
   }
@@ -1327,6 +1419,8 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult? Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
   }) {
     return toggleDislikeVisibility?.call(this);
   }
@@ -1345,6 +1439,8 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
     required TResult orElse(),
   }) {
     if (toggleDislikeVisibility != null) {
@@ -1406,6 +1502,8 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     required TResult Function() toggleHlsPlayer,
     required TResult Function() toggleCommentVisibility,
     required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
   }) {
     return toggleHlsPlayer();
   }
@@ -1423,6 +1521,8 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult? Function()? toggleHlsPlayer,
     TResult? Function()? toggleCommentVisibility,
     TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
   }) {
     return toggleHlsPlayer?.call();
   }
@@ -1440,6 +1540,8 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult Function()? toggleHlsPlayer,
     TResult Function()? toggleCommentVisibility,
     TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
     required TResult orElse(),
   }) {
     if (toggleHlsPlayer != null) {
@@ -1465,6 +1567,8 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
         toggleCommentVisibility,
     required TResult Function(ToggleRelatedVideoVisibility value)
         toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
   }) {
     return toggleHlsPlayer(this);
   }
@@ -1483,6 +1587,8 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult? Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
   }) {
     return toggleHlsPlayer?.call(this);
   }
@@ -1501,6 +1607,8 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
     required TResult orElse(),
   }) {
     if (toggleHlsPlayer != null) {
@@ -1565,6 +1673,8 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     required TResult Function() toggleHlsPlayer,
     required TResult Function() toggleCommentVisibility,
     required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
   }) {
     return toggleCommentVisibility();
   }
@@ -1582,6 +1692,8 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     TResult? Function()? toggleHlsPlayer,
     TResult? Function()? toggleCommentVisibility,
     TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
   }) {
     return toggleCommentVisibility?.call();
   }
@@ -1599,6 +1711,8 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     TResult Function()? toggleHlsPlayer,
     TResult Function()? toggleCommentVisibility,
     TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
     required TResult orElse(),
   }) {
     if (toggleCommentVisibility != null) {
@@ -1624,6 +1738,8 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
         toggleCommentVisibility,
     required TResult Function(ToggleRelatedVideoVisibility value)
         toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
   }) {
     return toggleCommentVisibility(this);
   }
@@ -1642,6 +1758,8 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult? Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
   }) {
     return toggleCommentVisibility?.call(this);
   }
@@ -1660,6 +1778,8 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
     required TResult orElse(),
   }) {
     if (toggleCommentVisibility != null) {
@@ -1726,6 +1846,8 @@ class _$ToggleRelatedVideoVisibilityImpl
     required TResult Function() toggleHlsPlayer,
     required TResult Function() toggleCommentVisibility,
     required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
   }) {
     return toggleRelatedVideoVisibility();
   }
@@ -1743,6 +1865,8 @@ class _$ToggleRelatedVideoVisibilityImpl
     TResult? Function()? toggleHlsPlayer,
     TResult? Function()? toggleCommentVisibility,
     TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
   }) {
     return toggleRelatedVideoVisibility?.call();
   }
@@ -1760,6 +1884,8 @@ class _$ToggleRelatedVideoVisibilityImpl
     TResult Function()? toggleHlsPlayer,
     TResult Function()? toggleCommentVisibility,
     TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
     required TResult orElse(),
   }) {
     if (toggleRelatedVideoVisibility != null) {
@@ -1785,6 +1911,8 @@ class _$ToggleRelatedVideoVisibilityImpl
         toggleCommentVisibility,
     required TResult Function(ToggleRelatedVideoVisibility value)
         toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
   }) {
     return toggleRelatedVideoVisibility(this);
   }
@@ -1803,6 +1931,8 @@ class _$ToggleRelatedVideoVisibilityImpl
     TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult? Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
   }) {
     return toggleRelatedVideoVisibility?.call(this);
   }
@@ -1821,6 +1951,8 @@ class _$ToggleRelatedVideoVisibilityImpl
     TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
     TResult Function(ToggleRelatedVideoVisibility value)?
         toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
     required TResult orElse(),
   }) {
     if (toggleRelatedVideoVisibility != null) {
@@ -1835,6 +1967,374 @@ abstract class ToggleRelatedVideoVisibility implements SettingsEvent {
 }
 
 /// @nodoc
+abstract class _$$FetchInstancesImplCopyWith<$Res> {
+  factory _$$FetchInstancesImplCopyWith(_$FetchInstancesImpl value,
+          $Res Function(_$FetchInstancesImpl) then) =
+      __$$FetchInstancesImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchInstancesImplCopyWithImpl<$Res>
+    extends _$SettingsEventCopyWithImpl<$Res, _$FetchInstancesImpl>
+    implements _$$FetchInstancesImplCopyWith<$Res> {
+  __$$FetchInstancesImplCopyWithImpl(
+      _$FetchInstancesImpl _value, $Res Function(_$FetchInstancesImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$FetchInstancesImpl implements FetchInstances {
+  _$FetchInstancesImpl();
+
+  @override
+  String toString() {
+    return 'SettingsEvent.fetchInstances()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FetchInstancesImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initializeSettings,
+    required TResult Function(String? language) getDefaultLanguage,
+    required TResult Function(String? quality) getDefaultQuality,
+    required TResult Function(String? region) getDefaultRegion,
+    required TResult Function(String themeMode) changeTheme,
+    required TResult Function() toggleHistoryVisibility,
+    required TResult Function() toggleDislikeVisibility,
+    required TResult Function() toggleHlsPlayer,
+    required TResult Function() toggleCommentVisibility,
+    required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
+  }) {
+    return fetchInstances();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initializeSettings,
+    TResult? Function(String? language)? getDefaultLanguage,
+    TResult? Function(String? quality)? getDefaultQuality,
+    TResult? Function(String? region)? getDefaultRegion,
+    TResult? Function(String themeMode)? changeTheme,
+    TResult? Function()? toggleHistoryVisibility,
+    TResult? Function()? toggleDislikeVisibility,
+    TResult? Function()? toggleHlsPlayer,
+    TResult? Function()? toggleCommentVisibility,
+    TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
+  }) {
+    return fetchInstances?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initializeSettings,
+    TResult Function(String? language)? getDefaultLanguage,
+    TResult Function(String? quality)? getDefaultQuality,
+    TResult Function(String? region)? getDefaultRegion,
+    TResult Function(String themeMode)? changeTheme,
+    TResult Function()? toggleHistoryVisibility,
+    TResult Function()? toggleDislikeVisibility,
+    TResult Function()? toggleHlsPlayer,
+    TResult Function()? toggleCommentVisibility,
+    TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
+    required TResult orElse(),
+  }) {
+    if (fetchInstances != null) {
+      return fetchInstances();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(InitializeSettings value) initializeSettings,
+    required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
+    required TResult Function(GetDefaultQuality value) getDefaultQuality,
+    required TResult Function(GetDefaultRegion value) getDefaultRegion,
+    required TResult Function(ChangeTheme value) changeTheme,
+    required TResult Function(ToggleHistoryVisibility value)
+        toggleHistoryVisibility,
+    required TResult Function(ToggleDislikeVisibility value)
+        toggleDislikeVisibility,
+    required TResult Function(ToggleHlsPlayer value) toggleHlsPlayer,
+    required TResult Function(ToggleCommentVisibility value)
+        toggleCommentVisibility,
+    required TResult Function(ToggleRelatedVideoVisibility value)
+        toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
+  }) {
+    return fetchInstances(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(InitializeSettings value)? initializeSettings,
+    TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
+    TResult? Function(GetDefaultQuality value)? getDefaultQuality,
+    TResult? Function(GetDefaultRegion value)? getDefaultRegion,
+    TResult? Function(ChangeTheme value)? changeTheme,
+    TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
+    TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
+    TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
+    TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
+    TResult? Function(ToggleRelatedVideoVisibility value)?
+        toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
+  }) {
+    return fetchInstances?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(InitializeSettings value)? initializeSettings,
+    TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
+    TResult Function(GetDefaultQuality value)? getDefaultQuality,
+    TResult Function(GetDefaultRegion value)? getDefaultRegion,
+    TResult Function(ChangeTheme value)? changeTheme,
+    TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
+    TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
+    TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
+    TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
+    TResult Function(ToggleRelatedVideoVisibility value)?
+        toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
+    required TResult orElse(),
+  }) {
+    if (fetchInstances != null) {
+      return fetchInstances(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FetchInstances implements SettingsEvent {
+  factory FetchInstances() = _$FetchInstancesImpl;
+}
+
+/// @nodoc
+abstract class _$$SetInstanceImplCopyWith<$Res> {
+  factory _$$SetInstanceImplCopyWith(
+          _$SetInstanceImpl value, $Res Function(_$SetInstanceImpl) then) =
+      __$$SetInstanceImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String instanceApi});
+}
+
+/// @nodoc
+class __$$SetInstanceImplCopyWithImpl<$Res>
+    extends _$SettingsEventCopyWithImpl<$Res, _$SetInstanceImpl>
+    implements _$$SetInstanceImplCopyWith<$Res> {
+  __$$SetInstanceImplCopyWithImpl(
+      _$SetInstanceImpl _value, $Res Function(_$SetInstanceImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? instanceApi = null,
+  }) {
+    return _then(_$SetInstanceImpl(
+      instanceApi: null == instanceApi
+          ? _value.instanceApi
+          : instanceApi // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SetInstanceImpl implements SetInstance {
+  _$SetInstanceImpl({required this.instanceApi});
+
+  @override
+  final String instanceApi;
+
+  @override
+  String toString() {
+    return 'SettingsEvent.setInstance(instanceApi: $instanceApi)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SetInstanceImpl &&
+            (identical(other.instanceApi, instanceApi) ||
+                other.instanceApi == instanceApi));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, instanceApi);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SetInstanceImplCopyWith<_$SetInstanceImpl> get copyWith =>
+      __$$SetInstanceImplCopyWithImpl<_$SetInstanceImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initializeSettings,
+    required TResult Function(String? language) getDefaultLanguage,
+    required TResult Function(String? quality) getDefaultQuality,
+    required TResult Function(String? region) getDefaultRegion,
+    required TResult Function(String themeMode) changeTheme,
+    required TResult Function() toggleHistoryVisibility,
+    required TResult Function() toggleDislikeVisibility,
+    required TResult Function() toggleHlsPlayer,
+    required TResult Function() toggleCommentVisibility,
+    required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
+  }) {
+    return setInstance(instanceApi);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initializeSettings,
+    TResult? Function(String? language)? getDefaultLanguage,
+    TResult? Function(String? quality)? getDefaultQuality,
+    TResult? Function(String? region)? getDefaultRegion,
+    TResult? Function(String themeMode)? changeTheme,
+    TResult? Function()? toggleHistoryVisibility,
+    TResult? Function()? toggleDislikeVisibility,
+    TResult? Function()? toggleHlsPlayer,
+    TResult? Function()? toggleCommentVisibility,
+    TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
+  }) {
+    return setInstance?.call(instanceApi);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initializeSettings,
+    TResult Function(String? language)? getDefaultLanguage,
+    TResult Function(String? quality)? getDefaultQuality,
+    TResult Function(String? region)? getDefaultRegion,
+    TResult Function(String themeMode)? changeTheme,
+    TResult Function()? toggleHistoryVisibility,
+    TResult Function()? toggleDislikeVisibility,
+    TResult Function()? toggleHlsPlayer,
+    TResult Function()? toggleCommentVisibility,
+    TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
+    required TResult orElse(),
+  }) {
+    if (setInstance != null) {
+      return setInstance(instanceApi);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(InitializeSettings value) initializeSettings,
+    required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
+    required TResult Function(GetDefaultQuality value) getDefaultQuality,
+    required TResult Function(GetDefaultRegion value) getDefaultRegion,
+    required TResult Function(ChangeTheme value) changeTheme,
+    required TResult Function(ToggleHistoryVisibility value)
+        toggleHistoryVisibility,
+    required TResult Function(ToggleDislikeVisibility value)
+        toggleDislikeVisibility,
+    required TResult Function(ToggleHlsPlayer value) toggleHlsPlayer,
+    required TResult Function(ToggleCommentVisibility value)
+        toggleCommentVisibility,
+    required TResult Function(ToggleRelatedVideoVisibility value)
+        toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
+  }) {
+    return setInstance(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(InitializeSettings value)? initializeSettings,
+    TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
+    TResult? Function(GetDefaultQuality value)? getDefaultQuality,
+    TResult? Function(GetDefaultRegion value)? getDefaultRegion,
+    TResult? Function(ChangeTheme value)? changeTheme,
+    TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
+    TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
+    TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
+    TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
+    TResult? Function(ToggleRelatedVideoVisibility value)?
+        toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
+  }) {
+    return setInstance?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(InitializeSettings value)? initializeSettings,
+    TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
+    TResult Function(GetDefaultQuality value)? getDefaultQuality,
+    TResult Function(GetDefaultRegion value)? getDefaultRegion,
+    TResult Function(ChangeTheme value)? changeTheme,
+    TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
+    TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
+    TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
+    TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
+    TResult Function(ToggleRelatedVideoVisibility value)?
+        toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
+    required TResult orElse(),
+  }) {
+    if (setInstance != null) {
+      return setInstance(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SetInstance implements SettingsEvent {
+  factory SetInstance({required final String instanceApi}) = _$SetInstanceImpl;
+
+  String get instanceApi;
+  @JsonKey(ignore: true)
+  _$$SetInstanceImplCopyWith<_$SetInstanceImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$SettingsState {
   String get defaultLanguage => throw _privateConstructorUsedError;
   String get defaultQuality => throw _privateConstructorUsedError;
@@ -1846,6 +2346,10 @@ mixin _$SettingsState {
   bool get isHlsPlayer => throw _privateConstructorUsedError;
   bool get isHideComments => throw _privateConstructorUsedError;
   bool get isHideRelated => throw _privateConstructorUsedError;
+  List<Instance> get instances => throw _privateConstructorUsedError;
+  bool get instanceLoading => throw _privateConstructorUsedError;
+  bool get instanceError => throw _privateConstructorUsedError;
+  String get instance => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingsStateCopyWith<SettingsState> get copyWith =>
@@ -1868,7 +2372,11 @@ abstract class $SettingsStateCopyWith<$Res> {
       bool isDislikeVisible,
       bool isHlsPlayer,
       bool isHideComments,
-      bool isHideRelated});
+      bool isHideRelated,
+      List<Instance> instances,
+      bool instanceLoading,
+      bool instanceError,
+      String instance});
 }
 
 /// @nodoc
@@ -1894,6 +2402,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? isHlsPlayer = null,
     Object? isHideComments = null,
     Object? isHideRelated = null,
+    Object? instances = null,
+    Object? instanceLoading = null,
+    Object? instanceError = null,
+    Object? instance = null,
   }) {
     return _then(_value.copyWith(
       defaultLanguage: null == defaultLanguage
@@ -1936,6 +2448,22 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.isHideRelated
           : isHideRelated // ignore: cast_nullable_to_non_nullable
               as bool,
+      instances: null == instances
+          ? _value.instances
+          : instances // ignore: cast_nullable_to_non_nullable
+              as List<Instance>,
+      instanceLoading: null == instanceLoading
+          ? _value.instanceLoading
+          : instanceLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      instanceError: null == instanceError
+          ? _value.instanceError
+          : instanceError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      instance: null == instance
+          ? _value.instance
+          : instance // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -1958,7 +2486,11 @@ abstract class _$$InitialImplCopyWith<$Res>
       bool isDislikeVisible,
       bool isHlsPlayer,
       bool isHideComments,
-      bool isHideRelated});
+      bool isHideRelated,
+      List<Instance> instances,
+      bool instanceLoading,
+      bool instanceError,
+      String instance});
 }
 
 /// @nodoc
@@ -1982,6 +2514,10 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? isHlsPlayer = null,
     Object? isHideComments = null,
     Object? isHideRelated = null,
+    Object? instances = null,
+    Object? instanceLoading = null,
+    Object? instanceError = null,
+    Object? instance = null,
   }) {
     return _then(_$InitialImpl(
       defaultLanguage: null == defaultLanguage
@@ -2024,6 +2560,22 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.isHideRelated
           : isHideRelated // ignore: cast_nullable_to_non_nullable
               as bool,
+      instances: null == instances
+          ? _value._instances
+          : instances // ignore: cast_nullable_to_non_nullable
+              as List<Instance>,
+      instanceLoading: null == instanceLoading
+          ? _value.instanceLoading
+          : instanceLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      instanceError: null == instanceError
+          ? _value.instanceError
+          : instanceError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      instance: null == instance
+          ? _value.instance
+          : instance // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -2041,7 +2593,12 @@ class _$InitialImpl implements _Initial {
       required this.isDislikeVisible,
       required this.isHlsPlayer,
       required this.isHideComments,
-      required this.isHideRelated});
+      required this.isHideRelated,
+      required final List<Instance> instances,
+      required this.instanceLoading,
+      required this.instanceError,
+      required this.instance})
+      : _instances = instances;
 
   @override
   final String defaultLanguage;
@@ -2063,10 +2620,24 @@ class _$InitialImpl implements _Initial {
   final bool isHideComments;
   @override
   final bool isHideRelated;
+  final List<Instance> _instances;
+  @override
+  List<Instance> get instances {
+    if (_instances is EqualUnmodifiableListView) return _instances;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_instances);
+  }
+
+  @override
+  final bool instanceLoading;
+  @override
+  final bool instanceError;
+  @override
+  final String instance;
 
   @override
   String toString() {
-    return 'SettingsState(defaultLanguage: $defaultLanguage, defaultQuality: $defaultQuality, defaultRegion: $defaultRegion, themeMode: $themeMode, version: $version, isHistoryVisible: $isHistoryVisible, isDislikeVisible: $isDislikeVisible, isHlsPlayer: $isHlsPlayer, isHideComments: $isHideComments, isHideRelated: $isHideRelated)';
+    return 'SettingsState(defaultLanguage: $defaultLanguage, defaultQuality: $defaultQuality, defaultRegion: $defaultRegion, themeMode: $themeMode, version: $version, isHistoryVisible: $isHistoryVisible, isDislikeVisible: $isDislikeVisible, isHlsPlayer: $isHlsPlayer, isHideComments: $isHideComments, isHideRelated: $isHideRelated, instances: $instances, instanceLoading: $instanceLoading, instanceError: $instanceError, instance: $instance)';
   }
 
   @override
@@ -2092,7 +2663,15 @@ class _$InitialImpl implements _Initial {
             (identical(other.isHideComments, isHideComments) ||
                 other.isHideComments == isHideComments) &&
             (identical(other.isHideRelated, isHideRelated) ||
-                other.isHideRelated == isHideRelated));
+                other.isHideRelated == isHideRelated) &&
+            const DeepCollectionEquality()
+                .equals(other._instances, _instances) &&
+            (identical(other.instanceLoading, instanceLoading) ||
+                other.instanceLoading == instanceLoading) &&
+            (identical(other.instanceError, instanceError) ||
+                other.instanceError == instanceError) &&
+            (identical(other.instance, instance) ||
+                other.instance == instance));
   }
 
   @override
@@ -2107,7 +2686,11 @@ class _$InitialImpl implements _Initial {
       isDislikeVisible,
       isHlsPlayer,
       isHideComments,
-      isHideRelated);
+      isHideRelated,
+      const DeepCollectionEquality().hash(_instances),
+      instanceLoading,
+      instanceError,
+      instance);
 
   @JsonKey(ignore: true)
   @override
@@ -2127,7 +2710,11 @@ abstract class _Initial implements SettingsState {
       required final bool isDislikeVisible,
       required final bool isHlsPlayer,
       required final bool isHideComments,
-      required final bool isHideRelated}) = _$InitialImpl;
+      required final bool isHideRelated,
+      required final List<Instance> instances,
+      required final bool instanceLoading,
+      required final bool instanceError,
+      required final String instance}) = _$InitialImpl;
 
   @override
   String get defaultLanguage;
@@ -2149,6 +2736,14 @@ abstract class _Initial implements SettingsState {
   bool get isHideComments;
   @override
   bool get isHideRelated;
+  @override
+  List<Instance> get instances;
+  @override
+  bool get instanceLoading;
+  @override
+  bool get instanceError;
+  @override
+  String get instance;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

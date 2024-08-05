@@ -15,7 +15,8 @@ class HomeVideoInfoCardWidget extends StatelessWidget {
       this.isSubscribed = false,
       this.subscribeRowVisible = true,
       this.onSubscribeTap,
-      this.isLive = false, required this.channelId});
+      this.isLive = false,
+      required this.channelId});
 
   final String channelId;
   final dynamic cardInfo;
@@ -41,7 +42,8 @@ class HomeVideoInfoCardWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 image: cardInfo?.thumbnail != null
                     ? DecorationImage(
-                        image: CachedNetworkImageProvider(cardInfo!.thumbnail!),
+                        image:
+                            CachedNetworkImageProvider(cardInfo!.thumbnail!),
                         fit: BoxFit.cover)
                     : null,
               ),
@@ -62,17 +64,17 @@ class HomeVideoInfoCardWidget extends StatelessWidget {
                 CaptionRowWidget(
                   caption: cardInfo?.title ?? locals.noVideoTitle,
                 ),
-
+    
                 kHeightBox5,
-
+    
                 // * views row
                 ViewRowWidget(
                   views: cardInfo?.views ?? 0,
                   uploadedDate: cardInfo?.uploadedDate ?? locals.noUploadDate,
                 ),
-
+    
                 kHeightBox10,
-
+    
                 // * channel info row
                 subscribeRowVisible
                     ? GestureDetector(

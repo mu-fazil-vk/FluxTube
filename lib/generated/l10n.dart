@@ -579,6 +579,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Instances`
+  String get instances {
+    return Intl.message(
+      'Instances',
+      name: 'instances',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -588,6 +598,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
       Locale.fromSubtags(languageCode: 'ml'),
+      Locale.fromSubtags(languageCode: 'ru'),
       Locale.fromSubtags(languageCode: 'tr'),
     ];
   }

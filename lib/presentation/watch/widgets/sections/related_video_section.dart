@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -38,12 +40,18 @@ class RelatedVideoSection extends StatelessWidget {
                     watchInfo.relatedStreams![index].url!.split('=').last;
                 final String channelId = watchInfo.uploaderUrl!.split("/").last;
                 return GestureDetector(
-                    onTap: () => context.go('/watch/$videoId/$channelId'),
+                    onTap: () {
+                      BlocProvider.of<WatchBloc>(context).add(
+                          WatchEvent.assignTitle(
+                              title: watchInfo.relatedStreams![index].title ??
+                                  ''));
+                      context.go('/watch/$videoId/$channelId');
+                    },
                     child: RelatedVideoWidget(
                       title: watchInfo.relatedStreams![index].title ??
                           locals.noVideoTitle,
                       thumbnailUrl: watchInfo.relatedStreams![index].thumbnail,
-                      duration: watchInfo.duration,
+                      duration: watchInfo.relatedStreams![index].duration,
                     ));
               },
               separatorBuilder: (context, index) => kWidthBox10,

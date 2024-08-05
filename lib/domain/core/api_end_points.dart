@@ -1,14 +1,14 @@
 import 'package:fluxtube/core/strings.dart';
 
 class ApiEndPoints {
-  static const feed = "$kBaseUrl/feed/unauthenticated?channels=";
-  static const trending = "$kBaseUrl/trending?region=";
-  static const watch = "$kBaseUrl/streams/";
-  static const comments = "$kBaseUrl/comments/";
-  static const search = "$kBaseUrl/search?q=";
-  static const moreSearch = "$kBaseUrl/nextpage/search?q=";
-  static const suggestions = "$kBaseUrl/suggestions?query=";
-  static const commentReplies = "$kBaseUrl/nextpage/comments/";
-  static const channel = "$kBaseUrl/channel/";
-  static const moreChannelVideos = "$kBaseUrl/nextpage/channel/";
+  static String feed = "${BaseUrl.kBaseUrl}/feed/unauthenticated?channels=";
+  static String trending = "${BaseUrl.kBaseUrl}/trending?region=";
+  static String watch = "${BaseUrl.kBaseUrl}/streams/";
+  static String comments = "${BaseUrl.kBaseUrl}/comments/";
+  static String search = "${BaseUrl.kBaseUrl}/search?q=";
+  static String moreSearch = "${BaseUrl.kBaseUrl}/nextpage/search?q=";
+  static String suggestions = "${BaseUrl.kBaseUrl}/suggestions?query=";
+  static String commentReplies = "${BaseUrl.kBaseUrl}/nextpage/comments/";
+  static String channel = "${BaseUrl.kBaseUrl}/channel/";
+  static String moreChannelVideos = "${BaseUrl.kBaseUrl}/nextpage/channel/";
 }

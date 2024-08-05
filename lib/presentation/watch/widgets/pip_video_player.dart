@@ -1,7 +1,10 @@
 import 'package:better_player/better_player.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_in_app_pip/picture_in_picture.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/domain/watch/models/video/video_stream.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -9,8 +12,8 @@ import 'package:fluxtube/generated/l10n.dart';
 import '../../../application/saved/saved_bloc.dart';
 import '../../../domain/saved/models/local_store.dart';
 
-class VideoPlayerWidget extends StatefulWidget {
-  const VideoPlayerWidget({
+class PipVideoPlayerWidget extends StatefulWidget {
+  const PipVideoPlayerWidget({
     super.key,
     required this.watchInfo,
     required this.videoId,
@@ -30,10 +33,10 @@ class VideoPlayerWidget extends StatefulWidget {
   final List<Map<String, String>> subtitles;
 
   @override
-  State<VideoPlayerWidget> createState() => _VideoPlayerWidgetState();
+  State<PipVideoPlayerWidget> createState() => _PipVideoPlayerWidgetState();
 }
 
-class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
+class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
   BetterPlayerController? _betterPlayerController;
 
   VideoStream? selectedVideoTrack;
@@ -82,6 +85,10 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       overflowModalColor: Colors.black54,
       overflowModalTextColor: Colors.white,
       overflowMenuIconsColor: Colors.white,
+      enableFullscreen: false,
+      enableOverflowMenu: false,
+      enablePip: false,
+      enableProgressText: false,
     );
 
     _setupPlayer(widget.playbackPosition, controlsConfiguration);
@@ -213,7 +220,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           allowedScreenSleep: false,
           expandToFill: false,
           autoDispose: true,
-          fit: BoxFit.contain),
+          fit: BoxFit.fitHeight),
       betterPlayerDataSource: betterPlayerDataSource,
     );
 
@@ -224,6 +231,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   void dispose() {
     _updateVideoHistory();
+    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
     _betterPlayerController?.dispose();
     super.dispose();
   }
@@ -257,14 +265,29 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: aspectRatio,
-      child: _betterPlayerController != null
-          ? BetterPlayer(
-              controller: _betterPlayerController!,
-              //key: UniqueKey()
-            )
-          : const Center(child: CircularProgressIndicator()),
+    return Stack(
+      children: [
+        AspectRatio(
+          aspectRatio: 16 / 8,
+          child: _betterPlayerController != null
+              ? BetterPlayer(
+                  controller: _betterPlayerController!,
+                  //key: UniqueKey()
+                )
+              : const Center(child: CircularProgressIndicator()),
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: IconButton(
+              onPressed: () {
+                _updateVideoHistory();
+                PictureInPicture.stopPiP();
+                BlocProvider.of<WatchBloc>(context)
+                    .add(WatchEvent.togglePip(value: false));
+              },
+              icon: const Icon(CupertinoIcons.xmark)),
+        )
+      ],
     );
   }
 }

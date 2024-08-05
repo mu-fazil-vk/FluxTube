@@ -29,6 +29,11 @@ class AppInfo {
       url: 'https://github.com/mikropsoft',
       description: 'Turkish',
     ),
+    AppInfoModel(
+      name: 'Arthur',
+      url: 'https://github.com/un-logic',
+      description: 'Russian',
+    ),
     // more...
   ];
 }

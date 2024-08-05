@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluxtube/application/channel/channel_bloc.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/channel/screen_channel.dart';
+import 'package:fluxtube/presentation/settings/sub_screens/screen_instances.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_language.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_translators.dart';
+import 'package:fluxtube/presentation/watch/screen_watch.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:fluxtube/application/saved/saved_bloc.dart';
@@ -20,7 +23,6 @@ import 'package:fluxtube/core/locals.dart';
 import 'package:fluxtube/infrastructure/settings/setting_impliment.dart';
 import 'package:fluxtube/presentation/main_navigation/main_navigation.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_regions.dart';
-import 'package:fluxtube/presentation/watch/screen_watch.dart';
 
 import 'core/di/injectable.dart';
 
@@ -78,6 +80,12 @@ final GoRouter _router = GoRouter(
             return const ScreenLanguage();
           },
         ),
+        GoRoute(
+          path: 'instances',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ScreenInstances();
+          },
+        ),
       ],
     ),
   ],
@@ -114,7 +122,7 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
-          return MaterialApp.router(
+          return PiPMaterialApp.router(
             title: AppInfo.myApp.name,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,

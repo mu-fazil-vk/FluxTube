@@ -17,14 +17,15 @@ class LikeSection extends StatelessWidget {
     required this.id,
     required this.watchInfo,
     required this.state,
+    required this.pipClicked,
   });
 
   final String id;
   final WatchResp watchInfo;
   final WatchState state;
+  final VoidCallback pipClicked;
 
   final ValueNotifier<bool> _checkedBoxNotifier = ValueNotifier(false);
-  
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +80,7 @@ class LikeSection extends StatelessWidget {
                 );
               },
               onTapYoutube: () async => await urlLaunch('$kYTBaseUrl$id'),
+              pipClicked: pipClicked
             );
           },
         );
@@ -88,41 +90,41 @@ class LikeSection extends StatelessWidget {
 
   Future<dynamic> alertboxMethod(BuildContext context, S locals) {
     return showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return ValueListenableBuilder(
-                      valueListenable: _checkedBoxNotifier,
-                      builder: (context, value, _) {
-                        return AlertDialog(
-                          title: Text(locals.share),
-                          content: Row(
-                            children: [
-                              Checkbox(
-                                  value: _checkedBoxNotifier.value,
-                                  onChanged: (value) => _checkedBoxNotifier
-                                      .value = value ?? false),
-                              Text(locals.includeTitle),
-                            ],
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text(locals.share),
-                              onPressed: () async {
-                                if (context.mounted) {
-                                  Navigator.of(context).pop();
-                                }
-                                if (_checkedBoxNotifier.value) {
-                                  await Share.share(
-                                      "${watchInfo.title}\n\n$kYTBaseUrl$id");
-                                } else {
-                                  await Share.share('$kYTBaseUrl$id');
-                                }
-                              },
-                            ),
-                          ],
-                        );
-                      });
-                },
+      context: context,
+      builder: (BuildContext context) {
+        return ValueListenableBuilder(
+            valueListenable: _checkedBoxNotifier,
+            builder: (context, value, _) {
+              return AlertDialog(
+                title: Text(locals.share),
+                content: Row(
+                  children: [
+                    Checkbox(
+                        value: _checkedBoxNotifier.value,
+                        onChanged: (value) =>
+                            _checkedBoxNotifier.value = value ?? false),
+                    Text(locals.includeTitle),
+                  ],
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text(locals.share),
+                    onPressed: () async {
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                      if (_checkedBoxNotifier.value) {
+                        await Share.share(
+                            "${watchInfo.title}\n\n$kYTBaseUrl$id");
+                      } else {
+                        await Share.share('$kYTBaseUrl$id');
+                      }
+                    },
+                  ),
+                ],
               );
+            });
+      },
+    );
   }
 }

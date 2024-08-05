@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/subscribe/subscribe_bloc.dart';
 import 'package:fluxtube/application/trending/trending_bloc.dart';
+import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -33,7 +34,11 @@ class TrendingVideosSection extends StatelessWidget {
                 .where((channel) => channel.id == channelId)
                 .isNotEmpty;
             return GestureDetector(
-              onTap: () => context.go('/watch/$videoId/$channelId'),
+              onTap: () {
+                BlocProvider.of<WatchBloc>(context)
+                    .add(WatchEvent.assignTitle(title: trending.title ?? ''));
+                context.go('/watch/$videoId/$channelId');
+              },
               child: HomeVideoInfoCardWidget(
                 channelId: channelId,
                 cardInfo: trending,

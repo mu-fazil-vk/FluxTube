@@ -60,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home": MessageLookupByLibrary.simpleMessage("Ana Sayfa"),
         "includeTitle": MessageLookupByLibrary.simpleMessage("Include title"),
         "india": MessageLookupByLibrary.simpleMessage("Hindistan"),
+        "instances": MessageLookupByLibrary.simpleMessage("Instances"),
         "language": MessageLookupByLibrary.simpleMessage("Dil"),
         "netherlands": MessageLookupByLibrary.simpleMessage("Hollanda"),
         "noUploadDate": MessageLookupByLibrary.simpleMessage("Tarih yok"),

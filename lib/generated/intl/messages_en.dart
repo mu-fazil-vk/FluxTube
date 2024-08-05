@@ -60,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "includeTitle": MessageLookupByLibrary.simpleMessage("Include title"),
         "india": MessageLookupByLibrary.simpleMessage("India"),
+        "instances": MessageLookupByLibrary.simpleMessage("Instances"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "netherlands": MessageLookupByLibrary.simpleMessage("Netherlands"),
         "noUploadDate": MessageLookupByLibrary.simpleMessage("No date"),

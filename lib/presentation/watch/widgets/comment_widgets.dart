@@ -6,9 +6,11 @@ import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/presentation/watch/widgets/html_text.dart';
+import 'package:fluxtube/presentation/watch/widgets/shimmer_comment_widgets.dart';
 import 'package:fluxtube/widgets/indicator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rich_readmore/rich_readmore.dart';
+import 'package:simple_html_css/simple_html_css.dart';
 
 class CommentSection extends StatelessWidget {
   CommentSection(
@@ -52,65 +54,64 @@ class CommentSection extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: (state.isCommentsLoading || state.isCommentError)
-          ? cIndicator(context)
-          : LimitedBox(
-              maxHeight: height * 0.45,
-              child: ListView.separated(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  controller: _scrollController,
-                  itemBuilder: (context, index) {
-                    if (index < state.comments.comments.length) {
-                      final storeComment = state.comments.comments[index];
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          CommentWidget(
-                            author: storeComment.author ??
-                                locals.commentAuthorNotFound,
-                            text: storeComment.commentText ?? '',
-                            likes: storeComment.likeCount ?? 0,
-                            authorImageUrl: storeComment.thumbnail ?? '',
-                            onProfileTap: () =>
-                                context.goNamed('channel', pathParameters: {
-                              'channelId':
-                                  storeComment.commentorUrl!.split("/").last,
-                            }, queryParameters: {
-                              'avtarUrl': storeComment.thumbnail,
-                            }),
-                          ),
-                          if (storeComment.replyCount != null &&
-                              storeComment.replyCount != 0)
-                            Padding(
-                              padding: const EdgeInsets.only(right: 70),
-                              child: TextButton(
-                                  onPressed: () {
-                                    BlocProvider.of<WatchBloc>(context).add(
-                                        WatchEvent.getCommentRepliesData(
-                                            id: storeComment.commentId!,
-                                            nextPage:
-                                                storeComment.repliesPage!));
+      child: LimitedBox(
+        maxHeight: height * 0.45,
+        child: (state.isCommentsLoading || state.isCommentError)
+            ? const ShimmerCommentWidget()
+            : ListView.separated(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                controller: _scrollController,
+                itemBuilder: (context, index) {
+                  if (index < state.comments.comments.length) {
+                    final storeComment = state.comments.comments[index];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        CommentWidget(
+                          author: storeComment.author ??
+                              locals.commentAuthorNotFound,
+                          text: storeComment.commentText ?? '',
+                          likes: storeComment.likeCount ?? 0,
+                          authorImageUrl: storeComment.thumbnail ?? '',
+                          onProfileTap: () =>
+                              context.goNamed('channel', pathParameters: {
+                            'channelId':
+                                storeComment.commentorUrl!.split("/").last,
+                          }, queryParameters: {
+                            'avtarUrl': storeComment.thumbnail,
+                          }),
+                        ),
+                        if (storeComment.replyCount != null &&
+                            storeComment.replyCount != 0)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 70),
+                            child: TextButton(
+                                onPressed: () {
+                                  BlocProvider.of<WatchBloc>(context).add(
+                                      WatchEvent.getCommentRepliesData(
+                                          id: storeComment.commentId!,
+                                          nextPage: storeComment.repliesPage!));
 
-                                    commentReplyBottomSheet(context, height,
-                                        locals, storeComment.replyCount ?? 0);
-                                  },
-                                  child: Text(
-                                      "${formatCount(storeComment.replyCount!)} ${locals.repliesPlural(storeComment.replyCount!)}")),
-                            )
-                        ],
-                      );
+                                  commentReplyBottomSheet(context, height,
+                                      locals, storeComment.replyCount ?? 0);
+                                },
+                                child: Text(
+                                    "${formatCount(storeComment.replyCount!)} ${locals.repliesPlural(storeComment.replyCount!)}")),
+                          )
+                      ],
+                    );
+                  } else {
+                    if (state.isMoreCommetsFetchCompleted) {
+                      return const SizedBox();
                     } else {
-                      if (state.isMoreCommetsFetchCompleted) {
-                        return const SizedBox();
-                      } else {
-                        return cIndicator(context);
-                      }
+                      return cIndicator(context);
                     }
-                  },
-                  separatorBuilder: (context, index) => kHeightBox15,
-                  itemCount: state.comments.comments.length + 1),
-            ),
+                  }
+                },
+                separatorBuilder: (context, index) => kHeightBox15,
+                itemCount: state.comments.comments.length + 1),
+      ),
     );
   }
 
@@ -128,7 +129,7 @@ class CommentSection extends StatelessWidget {
             builder: (context, state) {
               if (state.isCommentRepliesLoading ||
                   state.isCommentRepliesError) {
-                return cIndicator(context);
+                return const ShimmerCommentWidget();
               } else {
                 return SizedBox(
                   height: _height * 0.48,
@@ -209,6 +210,7 @@ class CommentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final S locals = S.of(context);
     final Size _size = MediaQuery.of(context).size;
     var _formattedLikes = formatCount(likes);
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -236,7 +238,19 @@ class CommentWidget extends StatelessWidget {
               style: TextStyle(
                   color: kGreyColor, fontWeight: FontWeight.bold, fontSize: 14),
             ),
-            HTMLText(text: text),
+            RichReadMoreText(
+              HTML.toTextSpan(context, text,
+                  defaultTextStyle: Theme.of(context).textTheme.bodyMedium),
+              settings: LineModeSettings(
+                trimLines: 3,
+                trimCollapsedText: ' ${locals.readMoreText}',
+                trimExpandedText: ' ${locals.showLessText}',
+                moreStyle:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                lessStyle:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+            ),
           ],
         ),
       ),

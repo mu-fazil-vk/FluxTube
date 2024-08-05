@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
+import 'package:fluxtube/domain/settings/models/instance.dart';
 import 'package:fluxtube/domain/settings/models/settings_db.dart';
 import 'package:fluxtube/domain/settings/settings_service.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
@@ -59,6 +62,7 @@ class SettingImpliment implements SettingsService {
       {"name": hlsPlayer, "default": "true"},
       {"name": commentsVisibility, "default": "false"},
       {"name": relatedVideoVisibility, "default": "false"},
+      {"name": instanceApiUrl, "default": BaseUrl.kBaseUrl},
       // Add more settings here
     ];
 
@@ -369,4 +373,58 @@ class SettingImpliment implements SettingsService {
     }
   }
 
+  @override
+  Future<Either<MainFailure, List<Instance>>> fetchInstances() async {
+    final dio = Dio();
+    final List<Instance> instances = [];
+    try {
+      final response = await dio.get(kInstanceUrl);
+      int skipped = 0;
+      final lines = response.data.toString().split('\n');
+      for (final line in lines) {
+        final split = line.split('|');
+        if (split.length == 5) {
+          if (skipped < 2) {
+            skipped++;
+            continue;
+          }
+          instances.add(Instance(
+              name: split[0].trim(),
+              api: '${split[1].trim()}/',
+              locations: split[2].trim(),
+              cdn: split[3].trim()));
+        }
+      }
+      return Right(instances);
+    } catch (_) {
+      return const Left(MainFailure.serverFailure());
+    }
+  }
+
+  @override
+  Future<Either<MainFailure, String>> setInstance(
+      {required String instanceApi}) async {
+    try {
+      await isar.writeTxn(() async {
+        final existingInstanceSetting = await isar.settingsDBValues
+            .filter()
+            .nameEqualTo(instanceApiUrl)
+            .findFirst();
+
+        if (existingInstanceSetting == null) {
+          final newInstanceSetting = SettingsDBValue()
+            ..name = instanceApiUrl
+            ..value = instanceApi;
+          await isar.settingsDBValues.put(newInstanceSetting);
+        } else {
+          existingInstanceSetting.value = instanceApi;
+          await isar.settingsDBValues.put(existingInstanceSetting);
+        }
+      });
+
+      return Right(instanceApi);
+    } catch (e) {
+      return const Left(MainFailure.serverFailure());
+    }
+  }
 }
