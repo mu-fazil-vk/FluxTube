@@ -188,5 +188,6 @@
   "includeTitle": "包含标题",
   "@includeTitle": {
     "description": "Include title along with url"
-  }
+  },
+  "instances": "实例"
 }
