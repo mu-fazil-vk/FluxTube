@@ -1,0 +1,4 @@
+files:
+  - source: lib/l10n/intl_*.arb
+    translation: /lib/l10n/intl_%two_letters_code%.arb
+    multilingual: 1

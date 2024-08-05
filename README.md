@@ -7,6 +7,7 @@
 <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" alt="GitHub release"><img src="https://shields.io/badge/License-GPL%20v3-blue.svg" ></a>
   <a href="https://github.com/mu-fazil-vk/FluxTube/releases" alt="GitHub release"><img src="https://shields.io/badge/Flutter-v3.22.2-blue.svg" ></a>
   <a href="https://github.com/mu-fazil-vk/FluxTube/releases" alt="GitHub release"><img src="https://img.shields.io/github/downloads/mu-fazil-vk/FluxTube/total.svg?label=FluxTube+Downloads" ></a>
+  <a title="Crowdin" target="_blank" href="https://crowdin.com/project/fluxtube"><img src="https://badges.crowdin.net/fluxtube/localized.svg"></a>
 </p>
 
 A powerful and ad-free YouTube client built using Flutter. Watch YouTube videos without ads, subscribe to channels, retrieve video dislikes, read comments, save videos, and much more.
@@ -46,6 +47,9 @@ You can download the latest version of the app from the [releases page](https://
 - [x] Channel Profile Support
 - [x] Subtitle Support
 - [x] Unlimited Scroll Support
+
+## Translations
+- Go to [Crowdin](https://crowdin.com/project/fluxtube/invite?h=4d7d9f6ba7c350dc176d6f75a5f569362170999) and help with the translations.
 
 ## Contribution
 
