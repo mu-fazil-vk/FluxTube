@@ -1,159 +1,159 @@
 {
   "home": "首页",
   "@home": {
-    "description": "首页标签"
+    "description": "Home label"
   },
   "trending": "热门",
   "@trending": {
-    "description": "热门标签"
+    "description": "Trending label"
   },
   "saved": "已保存",
   "@saved": {
-    "description": "已保存标签"
+    "description": "Saved label"
   },
   "settings": "设置",
   "@settings": {
-    "description": "设置标签"
+    "description": "Settings label"
   },
   "history": "历史记录",
   "@history": {
-    "description": "历史记录标签"
+    "description": "History label"
   },
   "savedVideosTitle": "已保存的视频",
   "@savedVideosTitle": {
-    "description": "已保存视频的应用栏标题"
+    "description": "Saved videos app bar title"
   },
   "noUploaderName": "无名称",
   "@noUploaderName": {
-    "description": "无上传者（频道）名称可用"
+    "description": "There is no uploader (channel) name available"
   },
   "noVideoTitle": "无标题",
   "@noVideoTitle": {
-    "description": "无视频标题可用"
+    "description": "There is no video title available"
   },
   "videoViews": "{count, plural, =0{无观看} =1{1次观看} other{{count}次观看}}",
   "@videoViews": {
-    "description": "{number} 观看次数"
+    "description": "{number} views"
   },
   "channelSubscribers": "{count, plural, =0{无订阅者} =1{1位订阅者} other{{count}位订阅者}}",
   "@channelSubscribers": {
-    "description": "{number} 订阅者"
+    "description": "{number} subscribers"
   },
   "subscribe": "订阅",
   "@subscribe": {
-    "description": "订阅按钮标签"
+    "description": "Subscribe button label"
   },
   "noUploadDate": "无日期",
   "@noUploadDate": {
-    "description": "无视频上传日期可用"
+    "description": "There is no video upload date available"
   },
   "thereIsNoSavedVideos": "没有已保存的视频",
   "@thereIsNoSavedVideos": {
-    "description": "未找到已保存的视频"
+    "description": "There are no saved videos found"
   },
   "thereIsNoSavedOrHistoryVideos": "没有已保存或历史视频",
   "@thereIsNoSavedHistoryVideos": {
-    "description": "没有已保存或历史视频"
+    "description": "There are no saved or history videos"
   },
   "noVideoAvailableChangedToHls": "无视频源可用，自动更改为hls",
   "@noVideoAvailableChangedToHls": {
-    "description": "当没有标准播放器链接时，将更改为hls播放器"
+    "description": "When there is no standard player link available, then it changed to hls player"
   },
   "unknownQuality": "未知质量",
   "@unknownQuality": {
-    "description": "找不到质量名称"
+    "description": "Quality name not found"
   },
   "hlsPlayer": "Hls 播放器",
   "@hlsPlayer": {
-    "description": "Hls 播放器标签"
+    "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "启用HLS播放器以解锁所有质量选项。如果出现错误，请禁用。",
+  "enableHlsPlayerDescription": "启用 HLS 播放器以解锁所有质量选项。如果出现错误，请禁用。",
   "@enableHlsPlayerDescription": {
-    "description": "启用HLS播放器可能会降低性能，但可以解锁所有质量选项。如果出现错误，请禁用此设置。"
+    "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
   "disableVideoHistory": "禁用视频历史记录",
   "@disableVideoHistory": {
-    "description": "隐藏观看历史"
+    "description": "Hide watch history"
   },
-  "retrieveDislikes": "检索不喜欢",
+  "retrieveDislikes": "检索 Dislikes",
   "@retrieveDislikes": {
-    "description": "检索不喜欢标签"
+    "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "检索不喜欢次数",
+  "retrieveDislikeCounts": "检索 dislike counts",
   "@retrieveDislikeCounts": {
-    "description": "返回视频的不喜欢按钮"
+    "description": "Return the dislike button of videos"
   },
   "noVideoDescription": "无描述",
   "@noVideoDescription": {
-    "description": "无视频描述可用"
+    "description": "There is no video description available"
   },
   "relatedTitle": "相关",
   "@relatedTitle": {
-    "description": "相关视频标签"
+    "description": "Related videos label"
   },
   "commentAuthorNotFound": "未找到",
   "@commentAuthorNotFound": {
-    "description": "评论作者的名称未找到"
+    "description": "Name of the comment author is not found"
   },
   "readMoreText": "阅读更多",
   "@readMoreText": {
-    "description": "展开评论文本"
+    "description": "Expand the comment text"
   },
   "showLessText": "显示更少",
   "@showLessText": {
-    "description": "折叠评论文本"
+    "description": "Collapse the comment text"
   },
   "commonSettingsTitle": "通用",
   "@commonSettingsTitle": {
-    "description": "通用设置标签"
+    "description": "Common settings label"
   },
   "language": "语言",
   "@language": {
-    "description": "语言标签"
+    "description": "Language label"
   },
   "region": "地区",
   "@region": {
-    "description": "地区标签"
+    "description": "Region label"
   },
   "theme": "主题",
   "@theme": {
-    "description": "主题标签"
+    "description": "Theme label"
   },
   "developer": "开发者",
   "@developer": {
-    "description": "开发者标签"
+    "description": "Developer label"
   },
   "translators": "翻译人员",
   "@translators": {
-    "description": "翻译人员标签"
+    "description": "Translators label"
   },
   "version": "版本",
   "@version": {
-    "description": "版本标签"
+    "description": "Version label"
   },
   "about": "关于",
   "@about": {
-    "description": "关于标签"
+    "description": "About label"
   },
   "video": "视频",
   "@video": {
-    "description": "视频标签"
+    "description": "Video label"
   },
   "unknown": "未知",
   "@unknown": {
-    "description": "未知标签"
+    "description": "Unknown label"
   },
   "defaultQuality": "默认质量",
   "@defaultQuality": {
-    "description": "默认视频质量标签"
+    "description": "Default video quality label"
   },
   "retry": "重试",
   "@retry": {
-    "description": "重试标签"
+    "description": "Retry label"
   },
   "repliesPlural": "{count, plural, =1{回复} other{{count}条回复}}",
   "@repliesPlural": {
-    "description": "{number} 回复"
+    "description": "{number} Replies"
   },
   "canada": "加拿大",
   "france": "法国",
@@ -163,30 +163,30 @@
   "unitedStates": "美国",
   "distractionFree": "无干扰",
   "@distractionFree": {
-    "description": "控制分散注意力的元素的部分"
+    "description": "A section for control distracting elements."
   },
   "hideComments": "隐藏评论",
   "@hideComments": {
-    "description": "隐藏评论标签"
+    "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "从观看屏幕隐藏评论按钮。",
+  "hideCommentsButtonFromWatchScreen": "隐藏视频播放屏幕的评论按钮。",
   "@hideCommentsButtonFromWatchScreen": {
-    "description": "从视频播放屏幕隐藏评论按钮。"
+    "description": "Hide the comment button from video streaming screen."
   },
   "hideRelated": "隐藏相关视频",
   "@hideRelated": {
-    "description": "隐藏相关视频标签"
+    "description": "Hide Related videos label."
   },
-  "hideRelatedVideosFromWatchScreen": "从观看屏幕隐藏相关视频",
+  "hideRelatedVideosFromWatchScreen": "隐藏视频播放屏幕上的相关视频",
   "@hideRelatedVideosFromWatchScreen": {
-    "description": "从视频播放屏幕隐藏相关视频。"
+    "description": "Hide the related videos from video streaming screen."
   },
   "share": "分享",
   "@share": {
-    "description": "分享标签"
+    "description": "Share label."
   },
   "includeTitle": "包含标题",
   "@includeTitle": {
-    "description": "包含标题和URL"
+    "description": "Include title along with url"
   }
 }
