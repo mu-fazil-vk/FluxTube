@@ -5,7 +5,7 @@ import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/core/locals.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
-import '../widgets/sub_setting_app_bar.dart';
+import '../widgets/widgets.dart';
 
 class ScreenLanguage extends StatelessWidget {
   const ScreenLanguage({super.key});

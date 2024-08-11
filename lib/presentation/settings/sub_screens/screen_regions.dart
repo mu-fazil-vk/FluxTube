@@ -5,7 +5,8 @@ import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/core/model/region_model.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
-import '../widgets/sub_setting_app_bar.dart';
+import '../widgets/widgets.dart';
+
 
 class ScreenRegions extends StatelessWidget {
   const ScreenRegions({super.key});

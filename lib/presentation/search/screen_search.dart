@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/presentation/search/widgets/search_result_section.dart';
-import 'package:fluxtube/presentation/search/widgets/search_suggession_section.dart';
-import 'package:fluxtube/presentation/search/widgets/searchbar_section.dart';
-import 'package:fluxtube/widgets/error_widget.dart';
-import 'package:fluxtube/widgets/indicator.dart';
+import 'package:fluxtube/widgets/widgets.dart';
 
-import '../../application/search/search_bloc.dart';
+import 'widgets/widgets.dart';
 
 class ScreenSearch extends StatefulWidget {
   const ScreenSearch({super.key});

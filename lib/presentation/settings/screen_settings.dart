@@ -8,13 +8,10 @@ import 'package:fluxtube/core/model/language_model.dart';
 import 'package:fluxtube/core/model/region_model.dart';
 import 'package:fluxtube/core/regions.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/presentation/settings/widgets/about_section.dart';
-import 'package:fluxtube/presentation/settings/widgets/common_section.dart';
-import 'package:fluxtube/presentation/settings/widgets/distraction_section.dart';
-import 'package:fluxtube/presentation/settings/widgets/video_settings_secction.dart';
 
 import '../../application/settings/settings_bloc.dart';
 import '../../widgets/custom_app_bar.dart';
+import 'widgets/widgets.dart';
 
 class ScreenSettings extends StatelessWidget {
   const ScreenSettings({super.key});

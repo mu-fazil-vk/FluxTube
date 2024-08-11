@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluxtube/application/subscribe/subscribe_bloc.dart';
-import 'package:fluxtube/application/watch/watch_bloc.dart';
+import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';

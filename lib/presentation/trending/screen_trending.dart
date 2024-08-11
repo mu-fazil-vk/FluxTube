@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluxtube/application/settings/settings_bloc.dart';
+import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/trending/widgets/trending_videos_section.dart';
-import 'package:fluxtube/widgets/custom_app_bar.dart';
-import 'package:fluxtube/widgets/error_widget.dart';
-import 'package:fluxtube/widgets/shimmer_home_video_card.dart';
-
-import '../../application/subscribe/subscribe_bloc.dart';
-import '../../application/trending/trending_bloc.dart';
+import 'package:fluxtube/widgets/widgets.dart';
 
 class ScreenTrending extends StatelessWidget {
   const ScreenTrending({super.key});

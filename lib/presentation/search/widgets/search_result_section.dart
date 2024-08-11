@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluxtube/application/search/search_bloc.dart';
-import 'package:fluxtube/application/subscribe/subscribe_bloc.dart';
-import 'package:fluxtube/application/watch/watch_bloc.dart';
+import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/domain/search/models/item.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/widgets/channel_widget.dart';
-import 'package:fluxtube/widgets/home_video_info_card_widget.dart';
-import 'package:fluxtube/widgets/indicator.dart';
+import 'package:fluxtube/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 class SearcheResultSection extends StatelessWidget {

@@ -2,17 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluxtube/application/channel/channel_bloc.dart';
-import 'package:fluxtube/application/subscribe/subscribe_bloc.dart';
+import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/channel/models/channel_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/channel/widgets/related_videos.dart';
 import 'package:fluxtube/presentation/settings/functions/launch_url.dart';
-import 'package:fluxtube/widgets/channel_widget.dart';
-import 'package:fluxtube/widgets/error_widget.dart';
-import 'package:fluxtube/widgets/indicator.dart';
+import 'package:fluxtube/widgets/widgets.dart';
 
 class ScreenChannel extends StatelessWidget {
   const ScreenChannel({super.key, required String? channelId, avtarUrl})

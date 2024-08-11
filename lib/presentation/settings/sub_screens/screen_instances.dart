@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/widgets/indicator.dart';
+import 'package:fluxtube/widgets/widgets.dart';
 
-import '../widgets/sub_setting_app_bar.dart';
+import '../widgets/widgets.dart';
 
 class ScreenInstances extends StatelessWidget {
   const ScreenInstances({super.key});

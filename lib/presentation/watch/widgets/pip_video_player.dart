@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_in_app_pip/picture_in_picture.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fluxtube/application/watch/watch_bloc.dart';
+import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/domain/watch/models/video/video_stream.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
-import '../../../application/saved/saved_bloc.dart';
 import '../../../domain/saved/models/local_store.dart';
 
 class PipVideoPlayerWidget extends StatefulWidget {

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluxtube/application/saved/saved_bloc.dart';
-import 'package:fluxtube/application/settings/settings_bloc.dart';
-import 'package:fluxtube/application/watch/watch_bloc.dart';
+import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';

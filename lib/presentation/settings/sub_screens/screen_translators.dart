@@ -5,7 +5,8 @@ import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/settings/functions/launch_url.dart';
 
-import '../widgets/sub_setting_app_bar.dart';
+import '../widgets/widgets.dart';
+
 
 class ScreenTranslators extends StatelessWidget {
   const ScreenTranslators({super.key});

@@ -2,26 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
-import 'package:fluxtube/application/saved/saved_bloc.dart';
-import 'package:fluxtube/application/watch/watch_bloc.dart';
+import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/presentation/watch/widgets/comment_widgets.dart';
-import 'package:fluxtube/presentation/watch/widgets/sections/description_section.dart';
-import 'package:fluxtube/presentation/watch/widgets/sections/like_section.dart';
-import 'package:fluxtube/presentation/watch/widgets/sections/related_video_section.dart';
-import 'package:fluxtube/presentation/watch/widgets/sections/subscribe_section.dart';
-import 'package:fluxtube/widgets/error_widget.dart';
-import 'package:fluxtube/widgets/indicator.dart';
-import 'package:fluxtube/widgets/shimmer_home_video_card.dart';
-import 'package:fluxtube/widgets/shimmer_related_video.dart';
+import 'package:fluxtube/widgets/widgets.dart';
 
-import '../../application/settings/settings_bloc.dart';
-import '../../application/subscribe/subscribe_bloc.dart';
 import '../../core/constants.dart';
-import '../../widgets/common_video_description_widget.dart';
-import 'widgets/pip_video_player.dart';
-import 'widgets/video_player_widget.dart';
+import 'widgets/sections/sections.dart';
+import 'widgets/widgets.dart';
 
 class ScreenWatch extends StatelessWidget {
   const ScreenWatch({

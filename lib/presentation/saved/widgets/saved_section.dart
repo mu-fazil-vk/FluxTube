@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluxtube/application/saved/saved_bloc.dart';
-import 'package:fluxtube/application/watch/watch_bloc.dart';
+import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/widgets/error_widget.dart';
-import 'package:fluxtube/widgets/home_video_info_card_widget.dart';
-import 'package:fluxtube/widgets/indicator.dart';
+import 'package:fluxtube/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 class SavedVideosSection extends StatelessWidget {

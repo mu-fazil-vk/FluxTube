@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/saved/widgets/history_section.dart';
 import 'package:fluxtube/presentation/saved/widgets/saved_section.dart';
-import 'package:fluxtube/widgets/shimmer_home_video_card.dart';
-
-import '../../application/saved/saved_bloc.dart';
-import '../../application/settings/settings_bloc.dart';
-import '../../widgets/custom_app_bar.dart';
+import 'package:fluxtube/widgets/widgets.dart';
 
 class ScreenSaved extends StatelessWidget {
   const ScreenSaved({super.key});
