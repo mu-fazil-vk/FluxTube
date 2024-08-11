@@ -35,6 +35,8 @@ class SearcheResultSection extends StatelessWidget {
       }
     });
     return BlocBuilder<SubscribeBloc, SubscribeState>(
+      buildWhen: (previous, current) =>
+          previous.subscribedChannels != current.subscribedChannels,
       builder: (context, subscribeState) {
         return ListView.builder(
           controller: _scrollController,

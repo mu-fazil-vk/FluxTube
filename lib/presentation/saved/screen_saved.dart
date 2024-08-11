@@ -20,6 +20,9 @@ class ScreenSaved extends StatelessWidget {
         child: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
                   BlocBuilder<SavedBloc, SavedState>(
+                    buildWhen: (previous, current) =>
+                        previous.localSavedVideos.length !=
+                        current.localSavedVideos.length,
                     builder: (context, state) {
                       return CustomAppBar(
                         title: locals.savedVideosTitle,
@@ -34,12 +37,14 @@ class ScreenSaved extends StatelessWidget {
                   builder: (context, savedState) {
                     if (savedState.isLoading) {
                       return ListView.separated(
-                    separatorBuilder: (context, index) => kHeightBox10,
-                    itemBuilder: (context, index) {
-                      return const ShimmerHomeVideoInfoCard(subscribeRowVisible: false,);
-                    },
-                    itemCount: 10,
-                  );
+                        separatorBuilder: (context, index) => kHeightBox10,
+                        itemBuilder: (context, index) {
+                          return const ShimmerHomeVideoInfoCard(
+                            subscribeRowVisible: false,
+                          );
+                        },
+                        itemCount: 10,
+                      );
                     } else if (savedState.isError) {
                       return Center(
                         child: Text(locals.thereIsNoSavedOrHistoryVideos),

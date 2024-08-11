@@ -70,24 +70,44 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     // Select default video track
     selectVideoTrack();
 
-    BetterPlayerControlsConfiguration controlsConfiguration =
-        const BetterPlayerControlsConfiguration(
-      controlBarColor: Colors.black26,
-      iconsColor: Colors.white,
-      playIcon: Icons.play_arrow_outlined,
-      progressBarPlayedColor: Colors.indigo,
-      progressBarHandleColor: Colors.indigo,
-      controlBarHeight: 40,
-      loadingColor: Colors.red,
-      overflowModalColor: Colors.black54,
-      overflowModalTextColor: Colors.white,
-      overflowMenuIconsColor: Colors.white,
-    );
-
     _setupPlayer(widget.playbackPosition, controlsConfiguration);
 
     // Start history update timer
     _updateVideoHistory();
+  }
+
+  @override
+  void dispose() {
+    _updateVideoHistory();
+    _betterPlayerController?.dispose();
+    super.dispose();
+  }
+
+  BetterPlayerControlsConfiguration controlsConfiguration =
+      const BetterPlayerControlsConfiguration(
+    controlBarColor: Colors.black26,
+    iconsColor: Colors.white,
+    playIcon: Icons.play_arrow_outlined,
+    progressBarPlayedColor: Colors.indigo,
+    progressBarHandleColor: Colors.indigo,
+    controlBarHeight: 40,
+    loadingColor: Colors.red,
+    overflowModalColor: Colors.black54,
+    overflowModalTextColor: Colors.white,
+    overflowMenuIconsColor: Colors.white,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: aspectRatio,
+      child: _betterPlayerController != null
+          ? BetterPlayer(
+              controller: _betterPlayerController!,
+              //key: UniqueKey()
+            )
+          : const Center(child: CircularProgressIndicator()),
+    );
   }
 
   double selectAspectRatio() {
@@ -221,13 +241,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     setState(() {});
   }
 
-  @override
-  void dispose() {
-    _updateVideoHistory();
-    _betterPlayerController?.dispose();
-    super.dispose();
-  }
-
   void _updateVideoHistory() async {
     final currentPosition =
         _betterPlayerController?.videoPlayerController?.value.position;
@@ -253,18 +266,5 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         ),
       ));
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: aspectRatio,
-      child: _betterPlayerController != null
-          ? BetterPlayer(
-              controller: _betterPlayerController!,
-              //key: UniqueKey()
-            )
-          : const Center(child: CircularProgressIndicator()),
-    );
   }
 }

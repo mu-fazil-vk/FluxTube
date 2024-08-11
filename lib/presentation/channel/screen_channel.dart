@@ -29,6 +29,8 @@ class ScreenChannel extends StatelessWidget {
     final double _width = MediaQuery.of(context).size.width;
     final S locals = S.of(context);
     return BlocBuilder<SubscribeBloc, SubscribeState>(
+      buildWhen: (previous, current) =>
+          previous.subscribedChannels != current.subscribedChannels,
       builder: (context, subscribeState) {
         return BlocBuilder<ChannelBloc, ChannelState>(
           builder: (context, state) {

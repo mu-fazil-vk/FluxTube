@@ -64,6 +64,8 @@ class LikeRowWidget extends StatelessWidget {
             ),
             kWidthBox10,
             BlocBuilder<SettingsBloc, SettingsState>(
+              buildWhen: (previous, current) =>
+                  previous.isHideComments != current.isHideComments,
               builder: (context, settingsState) {
                 if (!settingsState.isHideComments) {
                   return CustomRoundedButtons(
@@ -76,8 +78,7 @@ class LikeRowWidget extends StatelessWidget {
             ),
             kWidthBox10,
             CustomRoundedButtons(
-                onTap: pipClicked,
-                icon: Icons.picture_in_picture),
+                onTap: pipClicked, icon: Icons.picture_in_picture),
             kWidthBox10,
             CustomRoundedButtons(
                 onTap: onTapShare,

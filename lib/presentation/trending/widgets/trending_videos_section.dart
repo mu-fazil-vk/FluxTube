@@ -20,6 +20,8 @@ class TrendingVideosSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SubscribeBloc, SubscribeState>(
+      buildWhen: (previous, current) =>
+          previous.subscribedChannels != current.subscribedChannels,
       builder: (context, subscribeState) {
         return ListView.separated(
           separatorBuilder: (context, index) => kHeightBox10,

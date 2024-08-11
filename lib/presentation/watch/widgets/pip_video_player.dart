@@ -72,7 +72,49 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
     // Select default video track
     selectVideoTrack();
 
-    BetterPlayerControlsConfiguration controlsConfiguration =
+    _setupPlayer(widget.playbackPosition, controlsConfiguration);
+
+    // Start history update timer
+    _updateVideoHistory();
+  }
+
+  @override
+  void dispose() {
+    _updateVideoHistory();
+    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
+    _betterPlayerController?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        AspectRatio(
+          aspectRatio: 16 / 8,
+          child: _betterPlayerController != null
+              ? BetterPlayer(
+                  controller: _betterPlayerController!,
+                  //key: UniqueKey()
+                )
+              : const Center(child: CircularProgressIndicator()),
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: IconButton(
+              onPressed: () {
+                _updateVideoHistory();
+                PictureInPicture.stopPiP();
+                BlocProvider.of<WatchBloc>(context)
+                    .add(WatchEvent.togglePip(value: false));
+              },
+              icon: const Icon(CupertinoIcons.xmark)),
+        )
+      ],
+    );
+  }
+
+  BetterPlayerControlsConfiguration controlsConfiguration =
         const BetterPlayerControlsConfiguration(
       controlBarColor: Colors.black26,
       iconsColor: Colors.white,
@@ -90,11 +132,6 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
       enableProgressText: false,
     );
 
-    _setupPlayer(widget.playbackPosition, controlsConfiguration);
-
-    // Start history update timer
-    _updateVideoHistory();
-  }
 
   double selectAspectRatio() {
     if (widget.watchInfo.videoStreams.isNotEmpty) {
@@ -227,14 +264,6 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
     setState(() {});
   }
 
-  @override
-  void dispose() {
-    _updateVideoHistory();
-    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
-    _betterPlayerController?.dispose();
-    super.dispose();
-  }
-
   void _updateVideoHistory() async {
     final currentPosition =
         _betterPlayerController?.videoPlayerController?.value.position;
@@ -260,33 +289,5 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
         ),
       ));
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        AspectRatio(
-          aspectRatio: 16 / 8,
-          child: _betterPlayerController != null
-              ? BetterPlayer(
-                  controller: _betterPlayerController!,
-                  //key: UniqueKey()
-                )
-              : const Center(child: CircularProgressIndicator()),
-        ),
-        Align(
-          alignment: Alignment.topRight,
-          child: IconButton(
-              onPressed: () {
-                _updateVideoHistory();
-                PictureInPicture.stopPiP();
-                BlocProvider.of<WatchBloc>(context)
-                    .add(WatchEvent.togglePip(value: false));
-              },
-              icon: const Icon(CupertinoIcons.xmark)),
-        )
-      ],
-    );
   }
 }

@@ -36,10 +36,10 @@ class ScreenWatch extends StatelessWidget {
 
     return BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {
-      return BlocBuilder<WatchBloc, WatchState>(buildWhen: (previous, current) {
-        return current != previous;
-      }, builder: (context, state) {
+      return BlocBuilder<WatchBloc, WatchState>(builder: (context, state) {
         return BlocBuilder<SavedBloc, SavedState>(
+          buildWhen: (previous, current) =>
+              previous.localSavedVideos != current.localSavedVideos,
           builder: (context, savedState) {
             if ((state.oldId != id || state.oldId == null) &&
                 !state.isWatchInfoError) {
@@ -91,12 +91,12 @@ class ScreenWatch extends StatelessWidget {
                             children: [
                               (state.isLoading || state.isSubtitleLoading)
                                   ? Container(
-                                    height: 200,
-                                    color: kBlackColor,
-                                    child: Center(
-                                      child: cIndicator(context),
-                                    ),
-                                  )
+                                      height: 200,
+                                      color: kBlackColor,
+                                      child: Center(
+                                        child: cIndicator(context),
+                                      ),
+                                    )
                                   : VideoPlayerWidget(
                                       videoId: id,
                                       watchInfo: state.watchResp,
