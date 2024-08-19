@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
+import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/home_video_info_card_widget.dart';
 import 'package:go_router/go_router.dart';
@@ -33,8 +34,15 @@ class FeedVideoSection extends StatelessWidget {
             .isNotEmpty;
         return GestureDetector(
           onTap: () {
-            BlocProvider.of<WatchBloc>(context)
-                .add(WatchEvent.assignTitle(title: feed.title ?? ''));
+            BlocProvider.of<WatchBloc>(context).add(
+                WatchEvent.setSelectedVideoBasicDetails(
+                    details: VideoBasicInfo(
+                        title: feed.title,
+                        thumbnailUrl: feed.thumbnail,
+                        channelName: feed.uploaderName,
+                        channelThumbnailUrl: feed.uploaderAvatar,
+                        channelId: channelId,
+                        uploaderVerified: feed.uploaderVerified)));
             context.go('/watch/$videoId/$channelId');
           },
           child: HomeVideoInfoCardWidget(

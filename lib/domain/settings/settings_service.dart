@@ -23,4 +23,6 @@ abstract class SettingsService {
   Future<Either<MainFailure, List<Instance>>> fetchInstances();
   Future<Either<MainFailure, String>> setInstance(
       {required String instanceApi});
+  Future<Either<MainFailure, String>> setTYService(
+      {required String service});
 }

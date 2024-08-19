@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
+import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/domain/watch/models/comments/comments_resp.dart';
+import 'package:fluxtube/domain/watch/models/explode/explode_watch.dart';
 import 'package:fluxtube/domain/watch/watch_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -208,5 +210,80 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
         ));
       },
     );
+
+
+    // YOUTUBE EXPLODE
+    on<GetExplodeWatchInfo>((event, emit) async {
+      emit(state.copyWith(
+        explodeWatchResp: ExplodeWatchResp.initial(),
+        isLoading: true,
+        isWatchInfoError: false,
+        initialVideoPause: true,
+        isTapComments: false,
+        isDescriptionTapped: false,
+      ));
+
+      // Get video data using watchService
+      final result = await watchService.getExplodeVideoData(id: event.id);
+
+      // Handle the result
+      final _state = result.fold(
+        (MainFailure failure) => state.copyWith(
+          isWatchInfoError: true,
+          isLoading: false,
+        ),
+        (ExplodeWatchResp resp) => state.copyWith(
+          explodeWatchResp: resp,
+          isLoading: false,
+          oldId: event.id,
+        ),
+      );
+
+      // Emit the updated state
+      emit(_state);
+    });
+    
+    on<GetExplodeRelatedVideoInfo>((event, emit) async {
+      emit(state.copyWith(
+          isRelatedVideosLoading: true, isRelatedVideosError: false));
+      final result = await watchService.getExplodeRelatedVideosData(id: event.id);
+      final newState = result.fold(
+        (failure) => state.copyWith(
+            isRelatedVideosError: true, isRelatedVideosLoading: false),
+        (relatedVideos) => state.copyWith(
+            relatedVideos: relatedVideos, isRelatedVideosLoading: false),
+      );
+      emit(newState);
+    });
+
+    on<GetExplodeMuxStreamInfo>((event, emit) async {
+      emit(state.copyWith(isMuxedStreamsLoading: true, isMuxedStreamsError: false, muxedStreams: null));
+      final result = await watchService.getExplodeMuxedStreamData(id: event.id);
+      final newState = result.fold(
+        (failure) => state.copyWith(
+            isMuxedStreamsError: true, isMuxedStreamsLoading: false),
+        (muxedStreams) => state.copyWith(
+            muxedStreams: muxedStreams, isMuxedStreamsLoading: false),
+      );
+      emit(newState);
+    });
+  
+
+    on<GetExplodeLiveVideoInfo>((event, emit) async {
+      emit(state.copyWith(isLiveStreamLoading: true, isLiveStreamError: false));
+      final result = await watchService.getExplodeLiveStreamUrl(id: event.id);
+      final newState = result.fold(
+        (failure) => state.copyWith(
+            isLiveStreamError: true, isLiveStreamLoading: false),
+        (liveStreamUrl) => state.copyWith(
+            liveStreamUrl: liveStreamUrl, isLiveStreamLoading: false),
+      );
+      emit(newState);
+    });
+
+    on<SetSelectedVideoBasicDetails>((event, emit) async {
+      final newState = state.copyWith(selectedVideoBasicDetails: event.details);
+      emit(newState);
+    });
   }
 }

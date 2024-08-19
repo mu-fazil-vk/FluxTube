@@ -14,17 +14,16 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //initialize setting data frrom system for 1st time
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<SettingsBloc>(context)
-          .add(SettingsEvent.initializeSettings());
-    });
-    BlocProvider.of<SubscribeBloc>(context)
-        .add(const SubscribeEvent.getAllSubscribeList());
-
+    final settingsBloc = BlocProvider.of<SettingsBloc>(context);
+    final subscribeBloc = BlocProvider.of<SubscribeBloc>(context);
+    final trendingBloc = BlocProvider.of<TrendingBloc>(context);
     final locals = S.of(context);
 
-    List<Subscribe> subscribeList = [];
+    // Initialize settings and subscription data on first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      settingsBloc.add(SettingsEvent.initializeSettings());
+      subscribeBloc.add(const SubscribeEvent.getAllSubscribeList());
+    });
 
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, settingsState) {
@@ -33,75 +32,107 @@ class ScreenHome extends StatelessWidget {
             headerSliverBuilder: (context, innerBoxIsScrolled) =>
                 [const HomeAppBar()],
             body: BlocBuilder<SubscribeBloc, SubscribeState>(
-                buildWhen: (previous, current) =>
-                    previous.subscribedChannels != current.subscribedChannels,
-                builder: (context, subscribeState) {
-                  if (subscribeState.subscribedChannels.isNotEmpty &&
-                      subscribeState.subscribedChannels != subscribeList) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      BlocProvider.of<TrendingBloc>(context).add(
-                          TrendingEvent.getForcedHomeFeedData(
-                              channels: subscribeState.subscribedChannels));
-                    });
-                    subscribeList = subscribeState.subscribedChannels;
-                  }
+              buildWhen: (previous, current) =>
+                  previous.subscribedChannels != current.subscribedChannels,
+              builder: (context, subscribeState) {
+                final List<Subscribe> subscribeList =
+                    subscribeState.subscribedChannels;
 
-                  return BlocBuilder<TrendingBloc, TrendingState>(
-                      builder: (context, trendingState) {
+                if (subscribeList.isNotEmpty) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    trendingBloc.add(TrendingEvent.getForcedHomeFeedData(
+                        channels: subscribeList));
+                  });
+                }
+
+                return BlocBuilder<TrendingBloc, TrendingState>(
+                  builder: (context, trendingState) {
                     if (trendingState.trendingResult.isEmpty &&
                         !trendingState.isError) {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                        BlocProvider.of<TrendingBloc>(context).add(
-                            TrendingEvent.getTrendingData(
-                                region: settingsState.defaultRegion));
+                        trendingBloc.add(TrendingEvent.getTrendingData(
+                            region: settingsState.defaultRegion));
                       });
                     }
-                    //if feed loading (here used trending loading commonly)
+
                     if (trendingState.isLoading) {
-                      return ListView.separated(
-                        separatorBuilder: (context, index) => kHeightBox10,
-                        itemBuilder: (context, index) {
-                          return const ShimmerHomeVideoInfoCard();
-                        },
-                        itemCount: 10,
-                      );
-                    } else {
-                      // if feed empty then show trending
-                      if (trendingState.feedResult.isEmpty ||
-                          trendingState.isFeedError) {
-                        if (trendingState.isError ||
-                            trendingState.trendingResult.isEmpty) {
-                          return ErrorRetryWidget(
-                            lottie: 'assets/dog.zip',
-                            onTap: () => BlocProvider.of<TrendingBloc>(context)
-                                .add(TrendingEvent.getForcedTrendingData(
-                                    region: settingsState.defaultRegion)),
-                          );
-                        }
-                        return TrendingVideosSection(
-                            locals: locals, state: trendingState);
-                      } else {
-                        // if feed not empty then show feed data
-                        return RefreshIndicator(
-                          onRefresh: () async {
-                            BlocProvider.of<TrendingBloc>(context).add(
-                                TrendingEvent.getForcedHomeFeedData(
-                                    channels:
-                                        subscribeState.subscribedChannels));
-                          },
-                          child: FeedVideoSection(
-                            trendingState: trendingState,
-                            locals: locals,
-                            subscribeState: subscribeState,
-                          ),
-                        );
-                      }
+                      return _buildLoadingList();
                     }
-                  });
-                }),
+
+                    if (trendingState.feedResult.isEmpty ||
+                        trendingState.isFeedError) {
+                      return _buildErrorOrTrendingSection(
+                        context,
+                        trendingState,
+                        locals,
+                        settingsState.defaultRegion,
+                      );
+                    }
+
+                    return _buildFeedSection(
+                      trendingState,
+                      locals,
+                      subscribeState,
+                      trendingBloc,
+                    );
+                  },
+                );
+              },
+            ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildLoadingList() {
+    return ListView.separated(
+      separatorBuilder: (context, index) => kHeightBox10,
+      itemBuilder: (context, index) {
+        return const ShimmerHomeVideoInfoCard();
+      },
+      itemCount: 10,
+    );
+  }
+
+  Widget _buildErrorOrTrendingSection(
+    BuildContext context,
+    TrendingState trendingState,
+    S locals,
+    String defaultRegion,
+  ) {
+    if (trendingState.isError || trendingState.trendingResult.isEmpty) {
+      return ErrorRetryWidget(
+        lottie: 'assets/dog.zip',
+        onTap: () => BlocProvider.of<TrendingBloc>(context).add(
+          TrendingEvent.getForcedTrendingData(region: defaultRegion),
+        ),
+      );
+    }
+
+    return TrendingVideosSection(
+      locals: locals,
+      state: trendingState,
+    );
+  }
+
+  Widget _buildFeedSection(
+    TrendingState trendingState,
+    S locals,
+    SubscribeState subscribeState,
+    TrendingBloc trendingBloc,
+  ) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        trendingBloc.add(TrendingEvent.getForcedHomeFeedData(
+          channels: subscribeState.subscribedChannels,
+        ));
+      },
+      child: FeedVideoSection(
+        trendingState: trendingState,
+        locals: locals,
+        subscribeState: subscribeState,
+      ),
     );
   }
 }

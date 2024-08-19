@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/watch/models/comments/comments_resp.dart';
+import 'package:fluxtube/domain/watch/models/explode/explode_watch.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
 import 'package:fluxtube/domain/watch/watch_service.dart';
 import 'package:injectable/injectable.dart';
@@ -23,9 +26,11 @@ class WatchImpliment implements WatchService {
 
         return Right(result);
       } else {
+        log('Err on getVideoData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
       }
-    } catch (_) {
+    } catch (e) {
+      log('Err on getVideoData: $e');
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -42,9 +47,11 @@ class WatchImpliment implements WatchService {
 
         return Right(result);
       } else {
+        log('Err on getCommentsData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
       }
-    } catch (_) {
+    } catch (e) {
+      log('Err on getCommentsData: $e');
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -60,9 +67,11 @@ class WatchImpliment implements WatchService {
 
         return Right(result);
       } else {
+        log('Err on getCommentRepliesData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
       }
-    } catch (_) {
+    } catch (e) {
+      log('Err on getCommentRepliesData: $e');
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -78,9 +87,11 @@ class WatchImpliment implements WatchService {
         final CommentsResp result = CommentsResp.fromJson(response.data);
         return Right(result);
       } else {
+        log('Err on getMoreCommentsData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
       }
     } catch (e) {
+      log('Err on getMoreCommentsData: $e');
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -111,7 +122,74 @@ class WatchImpliment implements WatchService {
 
       return Right(vttTrackInfo);
     } catch (e) {
+      log('Err on getSubtitles: $e');
       return const Left(MainFailure.clientFailure());
     }
   }
+  
+  @override
+  Future<Either<MainFailure, ExplodeWatchResp>> getExplodeVideoData({required String id}) async {
+    final YoutubeExplode _youtubeExplode = YoutubeExplode();
+    try {
+      var video = await _youtubeExplode.videos.get(id);
+
+      final ExplodeWatchResp result = ExplodeWatchResp.fromYoutubeVideo(video);
+
+      return Right(result);
+    } catch (e) {
+      log('Error fetching video data: $e');
+      return const Left(MainFailure.clientFailure());
+    } finally {
+      _youtubeExplode.close(); // Close the YoutubeExplode instance
+    }
+  }
+  
+  @override
+  Future<Either<MainFailure, List<MyMuxedStreamInfo>>> getExplodeMuxedStreamData({required String id}) async {
+    final YoutubeExplode _youtubeExplode = YoutubeExplode();
+    try {
+      var manifest = await _youtubeExplode.videos.streamsClient.getManifest(id);
+      List<MyMuxedStreamInfo> muxedStreams = manifest.muxed.map((stream) => MyMuxedStreamInfo.fromYoutubeStream(stream)).toList();
+
+      return Right(muxedStreams);
+    } catch (e) {
+      log('Error fetching muxed streams: $e');
+      return const Left(MainFailure.clientFailure());
+    }
+    finally {
+      _youtubeExplode.close(); // Close the YoutubeExplode instance
+    }
+  }
+  
+  @override
+  Future<Either<MainFailure, List<MyRelatedVideo>>> getExplodeRelatedVideosData({required String id}) async {
+    final YoutubeExplode _youtubeExplode = YoutubeExplode();
+    try {
+      var video = await _youtubeExplode.videos.get(id);
+      var relatedVideos = await _youtubeExplode.videos.getRelatedVideos(video);
+      List<MyRelatedVideo> relatedVideoList = relatedVideos!.map((video) => MyRelatedVideo.fromYoutubeVideo(video)).toList();
+
+      return Right(relatedVideoList);
+    } catch (e) {
+      log('Error fetching related videos: $e');
+      return const Left(MainFailure.clientFailure());
+    } 
+    finally {
+      _youtubeExplode.close(); // Close the YoutubeExplode instance
+    }
+  }
+  
+  @override
+  Future<Either<MainFailure, String>> getExplodeLiveStreamUrl({required String id}) async {
+    final YoutubeExplode _youtubeExplode = YoutubeExplode();
+  try {
+    var liveStreamUrl = await _youtubeExplode.videos.streamsClient.getHttpLiveStreamUrl(VideoId(id));
+    return Right(liveStreamUrl);
+  } catch (e) {
+    log('Error fetching live stream URL: $e');
+    return const Left(MainFailure.clientFailure());
+  } finally {
+      _youtubeExplode.close(); // Close the YoutubeExplode instance
+    }
+}
 }

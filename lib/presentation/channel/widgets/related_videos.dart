@@ -4,6 +4,7 @@ import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/channel/models/channel_resp.dart';
 import 'package:fluxtube/domain/channel/models/related_stream.dart';
+import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -62,7 +63,18 @@ class ChannelRelatedVideoSection extends StatelessWidget {
                 final String channelId = videoInfo.uploaderUrl!.split("/").last;
 
                 return GestureDetector(
-                  onTap: () => context.go('/watch/$videoId/$channelId'),
+                  onTap: () {
+                    BlocProvider.of<WatchBloc>(context).add(
+                        WatchEvent.setSelectedVideoBasicDetails(
+                            details: VideoBasicInfo(
+                                title: videoInfo.title,
+                                thumbnailUrl: videoInfo.thumbnail,
+                                channelName: videoInfo.uploaderName,
+                                channelThumbnailUrl: videoInfo.uploaderAvatar,
+                                channelId: channelId,
+                                uploaderVerified: videoInfo.uploaderVerified)));
+                    context.go('/watch/$videoId/$channelId');
+                  },
                   child: HomeVideoInfoCardWidget(
                     channelId: channelId,
                     subscribeRowVisible: false,

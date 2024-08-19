@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:fluxtube/domain/core/api_end_points.dart';
@@ -21,9 +23,11 @@ class TrendingImpliment implements TrendingService {
 
         return Right(result);
       } else {
+        log('Err on getTrendingData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
       }
     } catch (e) {
+      log('Err on getTrendingData: $e');
       return const Left(MainFailure.clientFailure());
     }
   }

@@ -28,6 +28,12 @@ mixin _$WatchEvent {
     required TResult Function() tapDescription,
     required TResult Function(bool value) togglePip,
     required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -41,6 +47,11 @@ mixin _$WatchEvent {
     TResult? Function()? tapDescription,
     TResult? Function(bool value)? togglePip,
     TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -54,6 +65,11 @@ mixin _$WatchEvent {
     TResult Function()? tapDescription,
     TResult Function(bool value)? togglePip,
     TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -70,6 +86,15 @@ mixin _$WatchEvent {
     required TResult Function(TapDescription value) tapDescription,
     required TResult Function(TogglePip value) togglePip,
     required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -83,6 +108,13 @@ mixin _$WatchEvent {
     TResult? Function(TapDescription value)? tapDescription,
     TResult? Function(TogglePip value)? togglePip,
     TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -96,6 +128,13 @@ mixin _$WatchEvent {
     TResult Function(TapDescription value)? tapDescription,
     TResult Function(TogglePip value)? togglePip,
     TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -193,6 +232,12 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     required TResult Function() tapDescription,
     required TResult Function(bool value) togglePip,
     required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
   }) {
     return getWatchInfo(id);
   }
@@ -209,6 +254,11 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult? Function()? tapDescription,
     TResult? Function(bool value)? togglePip,
     TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
   }) {
     return getWatchInfo?.call(id);
   }
@@ -225,6 +275,11 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult Function()? tapDescription,
     TResult Function(bool value)? togglePip,
     TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getWatchInfo != null) {
@@ -247,6 +302,15 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     required TResult Function(TapDescription value) tapDescription,
     required TResult Function(TogglePip value) togglePip,
     required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
   }) {
     return getWatchInfo(this);
   }
@@ -263,6 +327,13 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult? Function(TapDescription value)? tapDescription,
     TResult? Function(TogglePip value)? togglePip,
     TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
   }) {
     return getWatchInfo?.call(this);
   }
@@ -279,6 +350,13 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult Function(TapDescription value)? tapDescription,
     TResult Function(TogglePip value)? togglePip,
     TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getWatchInfo != null) {
@@ -372,6 +450,12 @@ class _$GetCommentDataImpl implements GetCommentData {
     required TResult Function() tapDescription,
     required TResult Function(bool value) togglePip,
     required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
   }) {
     return getCommentData(id);
   }
@@ -388,6 +472,11 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult? Function()? tapDescription,
     TResult? Function(bool value)? togglePip,
     TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
   }) {
     return getCommentData?.call(id);
   }
@@ -404,6 +493,11 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult Function()? tapDescription,
     TResult Function(bool value)? togglePip,
     TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getCommentData != null) {
@@ -426,6 +520,15 @@ class _$GetCommentDataImpl implements GetCommentData {
     required TResult Function(TapDescription value) tapDescription,
     required TResult Function(TogglePip value) togglePip,
     required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
   }) {
     return getCommentData(this);
   }
@@ -442,6 +545,13 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult? Function(TapDescription value)? tapDescription,
     TResult? Function(TogglePip value)? togglePip,
     TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
   }) {
     return getCommentData?.call(this);
   }
@@ -458,6 +568,13 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult Function(TapDescription value)? tapDescription,
     TResult Function(TogglePip value)? togglePip,
     TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getCommentData != null) {
@@ -561,6 +678,12 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     required TResult Function() tapDescription,
     required TResult Function(bool value) togglePip,
     required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
   }) {
     return getCommentRepliesData(id, nextPage);
   }
@@ -577,6 +700,11 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult? Function()? tapDescription,
     TResult? Function(bool value)? togglePip,
     TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
   }) {
     return getCommentRepliesData?.call(id, nextPage);
   }
@@ -593,6 +721,11 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult Function()? tapDescription,
     TResult Function(bool value)? togglePip,
     TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getCommentRepliesData != null) {
@@ -615,6 +748,15 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     required TResult Function(TapDescription value) tapDescription,
     required TResult Function(TogglePip value) togglePip,
     required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
   }) {
     return getCommentRepliesData(this);
   }
@@ -631,6 +773,13 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult? Function(TapDescription value)? tapDescription,
     TResult? Function(TogglePip value)? togglePip,
     TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
   }) {
     return getCommentRepliesData?.call(this);
   }
@@ -647,6 +796,13 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult Function(TapDescription value)? tapDescription,
     TResult Function(TogglePip value)? togglePip,
     TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getCommentRepliesData != null) {
@@ -752,6 +908,12 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     required TResult Function() tapDescription,
     required TResult Function(bool value) togglePip,
     required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
   }) {
     return getMoreCommentsData(id, nextPage);
   }
@@ -768,6 +930,11 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     TResult? Function()? tapDescription,
     TResult? Function(bool value)? togglePip,
     TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
   }) {
     return getMoreCommentsData?.call(id, nextPage);
   }
@@ -784,6 +951,11 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     TResult Function()? tapDescription,
     TResult Function(bool value)? togglePip,
     TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getMoreCommentsData != null) {
@@ -806,6 +978,15 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     required TResult Function(TapDescription value) tapDescription,
     required TResult Function(TogglePip value) togglePip,
     required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
   }) {
     return getMoreCommentsData(this);
   }
@@ -822,6 +1003,13 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     TResult? Function(TapDescription value)? tapDescription,
     TResult? Function(TogglePip value)? togglePip,
     TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
   }) {
     return getMoreCommentsData?.call(this);
   }
@@ -838,6 +1026,13 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     TResult Function(TapDescription value)? tapDescription,
     TResult Function(TogglePip value)? togglePip,
     TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getMoreCommentsData != null) {
@@ -945,6 +1140,12 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     required TResult Function() tapDescription,
     required TResult Function(bool value) togglePip,
     required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
   }) {
     return getMoreReplyCommentsData(id, nextPage);
   }
@@ -961,6 +1162,11 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     TResult? Function()? tapDescription,
     TResult? Function(bool value)? togglePip,
     TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
   }) {
     return getMoreReplyCommentsData?.call(id, nextPage);
   }
@@ -977,6 +1183,11 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     TResult Function()? tapDescription,
     TResult Function(bool value)? togglePip,
     TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getMoreReplyCommentsData != null) {
@@ -999,6 +1210,15 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     required TResult Function(TapDescription value) tapDescription,
     required TResult Function(TogglePip value) togglePip,
     required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
   }) {
     return getMoreReplyCommentsData(this);
   }
@@ -1015,6 +1235,13 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     TResult? Function(TapDescription value)? tapDescription,
     TResult? Function(TogglePip value)? togglePip,
     TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
   }) {
     return getMoreReplyCommentsData?.call(this);
   }
@@ -1031,6 +1258,13 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     TResult Function(TapDescription value)? tapDescription,
     TResult Function(TogglePip value)? togglePip,
     TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getMoreReplyCommentsData != null) {
@@ -1126,6 +1360,12 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     required TResult Function() tapDescription,
     required TResult Function(bool value) togglePip,
     required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
   }) {
     return getSubtitles(id);
   }
@@ -1142,6 +1382,11 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     TResult? Function()? tapDescription,
     TResult? Function(bool value)? togglePip,
     TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
   }) {
     return getSubtitles?.call(id);
   }
@@ -1158,6 +1403,11 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     TResult Function()? tapDescription,
     TResult Function(bool value)? togglePip,
     TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getSubtitles != null) {
@@ -1180,6 +1430,15 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     required TResult Function(TapDescription value) tapDescription,
     required TResult Function(TogglePip value) togglePip,
     required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
   }) {
     return getSubtitles(this);
   }
@@ -1196,6 +1455,13 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     TResult? Function(TapDescription value)? tapDescription,
     TResult? Function(TogglePip value)? togglePip,
     TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
   }) {
     return getSubtitles?.call(this);
   }
@@ -1212,6 +1478,13 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     TResult Function(TapDescription value)? tapDescription,
     TResult Function(TogglePip value)? togglePip,
     TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (getSubtitles != null) {
@@ -1278,6 +1551,12 @@ class _$TapDescriptionImpl implements TapDescription {
     required TResult Function() tapDescription,
     required TResult Function(bool value) togglePip,
     required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
   }) {
     return tapDescription();
   }
@@ -1294,6 +1573,11 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult? Function()? tapDescription,
     TResult? Function(bool value)? togglePip,
     TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
   }) {
     return tapDescription?.call();
   }
@@ -1310,6 +1594,11 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult Function()? tapDescription,
     TResult Function(bool value)? togglePip,
     TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (tapDescription != null) {
@@ -1332,6 +1621,15 @@ class _$TapDescriptionImpl implements TapDescription {
     required TResult Function(TapDescription value) tapDescription,
     required TResult Function(TogglePip value) togglePip,
     required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
   }) {
     return tapDescription(this);
   }
@@ -1348,6 +1646,13 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult? Function(TapDescription value)? tapDescription,
     TResult? Function(TogglePip value)? togglePip,
     TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
   }) {
     return tapDescription?.call(this);
   }
@@ -1364,6 +1669,13 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult Function(TapDescription value)? tapDescription,
     TResult Function(TogglePip value)? togglePip,
     TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (tapDescription != null) {
@@ -1451,6 +1763,12 @@ class _$TogglePipImpl implements TogglePip {
     required TResult Function() tapDescription,
     required TResult Function(bool value) togglePip,
     required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
   }) {
     return togglePip(value);
   }
@@ -1467,6 +1785,11 @@ class _$TogglePipImpl implements TogglePip {
     TResult? Function()? tapDescription,
     TResult? Function(bool value)? togglePip,
     TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
   }) {
     return togglePip?.call(value);
   }
@@ -1483,6 +1806,11 @@ class _$TogglePipImpl implements TogglePip {
     TResult Function()? tapDescription,
     TResult Function(bool value)? togglePip,
     TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (togglePip != null) {
@@ -1505,6 +1833,15 @@ class _$TogglePipImpl implements TogglePip {
     required TResult Function(TapDescription value) tapDescription,
     required TResult Function(TogglePip value) togglePip,
     required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
   }) {
     return togglePip(this);
   }
@@ -1521,6 +1858,13 @@ class _$TogglePipImpl implements TogglePip {
     TResult? Function(TapDescription value)? tapDescription,
     TResult? Function(TogglePip value)? togglePip,
     TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
   }) {
     return togglePip?.call(this);
   }
@@ -1537,6 +1881,13 @@ class _$TogglePipImpl implements TogglePip {
     TResult Function(TapDescription value)? tapDescription,
     TResult Function(TogglePip value)? togglePip,
     TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (togglePip != null) {
@@ -1629,6 +1980,12 @@ class _$AssignTitleImpl implements AssignTitle {
     required TResult Function() tapDescription,
     required TResult Function(bool value) togglePip,
     required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
   }) {
     return assignTitle(title);
   }
@@ -1645,6 +2002,11 @@ class _$AssignTitleImpl implements AssignTitle {
     TResult? Function()? tapDescription,
     TResult? Function(bool value)? togglePip,
     TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
   }) {
     return assignTitle?.call(title);
   }
@@ -1661,6 +2023,11 @@ class _$AssignTitleImpl implements AssignTitle {
     TResult Function()? tapDescription,
     TResult Function(bool value)? togglePip,
     TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (assignTitle != null) {
@@ -1683,6 +2050,15 @@ class _$AssignTitleImpl implements AssignTitle {
     required TResult Function(TapDescription value) tapDescription,
     required TResult Function(TogglePip value) togglePip,
     required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
   }) {
     return assignTitle(this);
   }
@@ -1699,6 +2075,13 @@ class _$AssignTitleImpl implements AssignTitle {
     TResult? Function(TapDescription value)? tapDescription,
     TResult? Function(TogglePip value)? togglePip,
     TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
   }) {
     return assignTitle?.call(this);
   }
@@ -1715,6 +2098,13 @@ class _$AssignTitleImpl implements AssignTitle {
     TResult Function(TapDescription value)? tapDescription,
     TResult Function(TogglePip value)? togglePip,
     TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
     required TResult orElse(),
   }) {
     if (assignTitle != null) {
@@ -1734,8 +2124,1116 @@ abstract class AssignTitle implements WatchEvent {
 }
 
 /// @nodoc
+abstract class _$$GetExplodeWatchInfoImplCopyWith<$Res> {
+  factory _$$GetExplodeWatchInfoImplCopyWith(_$GetExplodeWatchInfoImpl value,
+          $Res Function(_$GetExplodeWatchInfoImpl) then) =
+      __$$GetExplodeWatchInfoImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String id});
+}
+
+/// @nodoc
+class __$$GetExplodeWatchInfoImplCopyWithImpl<$Res>
+    extends _$WatchEventCopyWithImpl<$Res, _$GetExplodeWatchInfoImpl>
+    implements _$$GetExplodeWatchInfoImplCopyWith<$Res> {
+  __$$GetExplodeWatchInfoImplCopyWithImpl(_$GetExplodeWatchInfoImpl _value,
+      $Res Function(_$GetExplodeWatchInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$GetExplodeWatchInfoImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetExplodeWatchInfoImpl implements GetExplodeWatchInfo {
+  _$GetExplodeWatchInfoImpl({required this.id});
+
+  @override
+  final String id;
+
+  @override
+  String toString() {
+    return 'WatchEvent.getExplodeWatchInfo(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetExplodeWatchInfoImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetExplodeWatchInfoImplCopyWith<_$GetExplodeWatchInfoImpl> get copyWith =>
+      __$$GetExplodeWatchInfoImplCopyWithImpl<_$GetExplodeWatchInfoImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getWatchInfo,
+    required TResult Function(String id) getCommentData,
+    required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
+    required TResult Function() tapDescription,
+    required TResult Function(bool value) togglePip,
+    required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeWatchInfo(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getWatchInfo,
+    TResult? Function(String id)? getCommentData,
+    TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
+    TResult? Function()? tapDescription,
+    TResult? Function(bool value)? togglePip,
+    TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeWatchInfo?.call(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getWatchInfo,
+    TResult Function(String id)? getCommentData,
+    TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
+    TResult Function()? tapDescription,
+    TResult Function(bool value)? togglePip,
+    TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+    required TResult orElse(),
+  }) {
+    if (getExplodeWatchInfo != null) {
+      return getExplodeWatchInfo(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetWatchInfo value) getWatchInfo,
+    required TResult Function(GetCommentData value) getCommentData,
+    required TResult Function(GetCommentRepliesData value)
+        getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
+    required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
+    required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeWatchInfo(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetWatchInfo value)? getWatchInfo,
+    TResult? Function(GetCommentData value)? getCommentData,
+    TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
+    TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
+    TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeWatchInfo?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetWatchInfo value)? getWatchInfo,
+    TResult Function(GetCommentData value)? getCommentData,
+    TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
+    TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
+    TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+    required TResult orElse(),
+  }) {
+    if (getExplodeWatchInfo != null) {
+      return getExplodeWatchInfo(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetExplodeWatchInfo implements WatchEvent {
+  factory GetExplodeWatchInfo({required final String id}) =
+      _$GetExplodeWatchInfoImpl;
+
+  String get id;
+  @JsonKey(ignore: true)
+  _$$GetExplodeWatchInfoImplCopyWith<_$GetExplodeWatchInfoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GetExplodeRelatedVideoInfoImplCopyWith<$Res> {
+  factory _$$GetExplodeRelatedVideoInfoImplCopyWith(
+          _$GetExplodeRelatedVideoInfoImpl value,
+          $Res Function(_$GetExplodeRelatedVideoInfoImpl) then) =
+      __$$GetExplodeRelatedVideoInfoImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String id});
+}
+
+/// @nodoc
+class __$$GetExplodeRelatedVideoInfoImplCopyWithImpl<$Res>
+    extends _$WatchEventCopyWithImpl<$Res, _$GetExplodeRelatedVideoInfoImpl>
+    implements _$$GetExplodeRelatedVideoInfoImplCopyWith<$Res> {
+  __$$GetExplodeRelatedVideoInfoImplCopyWithImpl(
+      _$GetExplodeRelatedVideoInfoImpl _value,
+      $Res Function(_$GetExplodeRelatedVideoInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$GetExplodeRelatedVideoInfoImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetExplodeRelatedVideoInfoImpl implements GetExplodeRelatedVideoInfo {
+  _$GetExplodeRelatedVideoInfoImpl({required this.id});
+
+  @override
+  final String id;
+
+  @override
+  String toString() {
+    return 'WatchEvent.getExplodeRelatedVideoInfo(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetExplodeRelatedVideoInfoImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetExplodeRelatedVideoInfoImplCopyWith<_$GetExplodeRelatedVideoInfoImpl>
+      get copyWith => __$$GetExplodeRelatedVideoInfoImplCopyWithImpl<
+          _$GetExplodeRelatedVideoInfoImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getWatchInfo,
+    required TResult Function(String id) getCommentData,
+    required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
+    required TResult Function() tapDescription,
+    required TResult Function(bool value) togglePip,
+    required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeRelatedVideoInfo(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getWatchInfo,
+    TResult? Function(String id)? getCommentData,
+    TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
+    TResult? Function()? tapDescription,
+    TResult? Function(bool value)? togglePip,
+    TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeRelatedVideoInfo?.call(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getWatchInfo,
+    TResult Function(String id)? getCommentData,
+    TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
+    TResult Function()? tapDescription,
+    TResult Function(bool value)? togglePip,
+    TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+    required TResult orElse(),
+  }) {
+    if (getExplodeRelatedVideoInfo != null) {
+      return getExplodeRelatedVideoInfo(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetWatchInfo value) getWatchInfo,
+    required TResult Function(GetCommentData value) getCommentData,
+    required TResult Function(GetCommentRepliesData value)
+        getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
+    required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
+    required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeRelatedVideoInfo(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetWatchInfo value)? getWatchInfo,
+    TResult? Function(GetCommentData value)? getCommentData,
+    TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
+    TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
+    TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeRelatedVideoInfo?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetWatchInfo value)? getWatchInfo,
+    TResult Function(GetCommentData value)? getCommentData,
+    TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
+    TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
+    TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+    required TResult orElse(),
+  }) {
+    if (getExplodeRelatedVideoInfo != null) {
+      return getExplodeRelatedVideoInfo(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetExplodeRelatedVideoInfo implements WatchEvent {
+  factory GetExplodeRelatedVideoInfo({required final String id}) =
+      _$GetExplodeRelatedVideoInfoImpl;
+
+  String get id;
+  @JsonKey(ignore: true)
+  _$$GetExplodeRelatedVideoInfoImplCopyWith<_$GetExplodeRelatedVideoInfoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GetExplodeMuxStreamInfoImplCopyWith<$Res> {
+  factory _$$GetExplodeMuxStreamInfoImplCopyWith(
+          _$GetExplodeMuxStreamInfoImpl value,
+          $Res Function(_$GetExplodeMuxStreamInfoImpl) then) =
+      __$$GetExplodeMuxStreamInfoImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String id});
+}
+
+/// @nodoc
+class __$$GetExplodeMuxStreamInfoImplCopyWithImpl<$Res>
+    extends _$WatchEventCopyWithImpl<$Res, _$GetExplodeMuxStreamInfoImpl>
+    implements _$$GetExplodeMuxStreamInfoImplCopyWith<$Res> {
+  __$$GetExplodeMuxStreamInfoImplCopyWithImpl(
+      _$GetExplodeMuxStreamInfoImpl _value,
+      $Res Function(_$GetExplodeMuxStreamInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$GetExplodeMuxStreamInfoImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetExplodeMuxStreamInfoImpl implements GetExplodeMuxStreamInfo {
+  _$GetExplodeMuxStreamInfoImpl({required this.id});
+
+  @override
+  final String id;
+
+  @override
+  String toString() {
+    return 'WatchEvent.getExplodeMuxStreamInfo(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetExplodeMuxStreamInfoImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetExplodeMuxStreamInfoImplCopyWith<_$GetExplodeMuxStreamInfoImpl>
+      get copyWith => __$$GetExplodeMuxStreamInfoImplCopyWithImpl<
+          _$GetExplodeMuxStreamInfoImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getWatchInfo,
+    required TResult Function(String id) getCommentData,
+    required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
+    required TResult Function() tapDescription,
+    required TResult Function(bool value) togglePip,
+    required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeMuxStreamInfo(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getWatchInfo,
+    TResult? Function(String id)? getCommentData,
+    TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
+    TResult? Function()? tapDescription,
+    TResult? Function(bool value)? togglePip,
+    TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeMuxStreamInfo?.call(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getWatchInfo,
+    TResult Function(String id)? getCommentData,
+    TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
+    TResult Function()? tapDescription,
+    TResult Function(bool value)? togglePip,
+    TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+    required TResult orElse(),
+  }) {
+    if (getExplodeMuxStreamInfo != null) {
+      return getExplodeMuxStreamInfo(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetWatchInfo value) getWatchInfo,
+    required TResult Function(GetCommentData value) getCommentData,
+    required TResult Function(GetCommentRepliesData value)
+        getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
+    required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
+    required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeMuxStreamInfo(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetWatchInfo value)? getWatchInfo,
+    TResult? Function(GetCommentData value)? getCommentData,
+    TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
+    TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
+    TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeMuxStreamInfo?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetWatchInfo value)? getWatchInfo,
+    TResult Function(GetCommentData value)? getCommentData,
+    TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
+    TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
+    TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+    required TResult orElse(),
+  }) {
+    if (getExplodeMuxStreamInfo != null) {
+      return getExplodeMuxStreamInfo(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetExplodeMuxStreamInfo implements WatchEvent {
+  factory GetExplodeMuxStreamInfo({required final String id}) =
+      _$GetExplodeMuxStreamInfoImpl;
+
+  String get id;
+  @JsonKey(ignore: true)
+  _$$GetExplodeMuxStreamInfoImplCopyWith<_$GetExplodeMuxStreamInfoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GetExplodeLiveVideoInfoImplCopyWith<$Res> {
+  factory _$$GetExplodeLiveVideoInfoImplCopyWith(
+          _$GetExplodeLiveVideoInfoImpl value,
+          $Res Function(_$GetExplodeLiveVideoInfoImpl) then) =
+      __$$GetExplodeLiveVideoInfoImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String id});
+}
+
+/// @nodoc
+class __$$GetExplodeLiveVideoInfoImplCopyWithImpl<$Res>
+    extends _$WatchEventCopyWithImpl<$Res, _$GetExplodeLiveVideoInfoImpl>
+    implements _$$GetExplodeLiveVideoInfoImplCopyWith<$Res> {
+  __$$GetExplodeLiveVideoInfoImplCopyWithImpl(
+      _$GetExplodeLiveVideoInfoImpl _value,
+      $Res Function(_$GetExplodeLiveVideoInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$GetExplodeLiveVideoInfoImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetExplodeLiveVideoInfoImpl implements GetExplodeLiveVideoInfo {
+  _$GetExplodeLiveVideoInfoImpl({required this.id});
+
+  @override
+  final String id;
+
+  @override
+  String toString() {
+    return 'WatchEvent.getExplodeLiveVideoInfo(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetExplodeLiveVideoInfoImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetExplodeLiveVideoInfoImplCopyWith<_$GetExplodeLiveVideoInfoImpl>
+      get copyWith => __$$GetExplodeLiveVideoInfoImplCopyWithImpl<
+          _$GetExplodeLiveVideoInfoImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getWatchInfo,
+    required TResult Function(String id) getCommentData,
+    required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
+    required TResult Function() tapDescription,
+    required TResult Function(bool value) togglePip,
+    required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeLiveVideoInfo(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getWatchInfo,
+    TResult? Function(String id)? getCommentData,
+    TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
+    TResult? Function()? tapDescription,
+    TResult? Function(bool value)? togglePip,
+    TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeLiveVideoInfo?.call(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getWatchInfo,
+    TResult Function(String id)? getCommentData,
+    TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
+    TResult Function()? tapDescription,
+    TResult Function(bool value)? togglePip,
+    TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+    required TResult orElse(),
+  }) {
+    if (getExplodeLiveVideoInfo != null) {
+      return getExplodeLiveVideoInfo(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetWatchInfo value) getWatchInfo,
+    required TResult Function(GetCommentData value) getCommentData,
+    required TResult Function(GetCommentRepliesData value)
+        getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
+    required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
+    required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeLiveVideoInfo(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetWatchInfo value)? getWatchInfo,
+    TResult? Function(GetCommentData value)? getCommentData,
+    TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
+    TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
+    TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+  }) {
+    return getExplodeLiveVideoInfo?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetWatchInfo value)? getWatchInfo,
+    TResult Function(GetCommentData value)? getCommentData,
+    TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
+    TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
+    TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+    required TResult orElse(),
+  }) {
+    if (getExplodeLiveVideoInfo != null) {
+      return getExplodeLiveVideoInfo(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetExplodeLiveVideoInfo implements WatchEvent {
+  factory GetExplodeLiveVideoInfo({required final String id}) =
+      _$GetExplodeLiveVideoInfoImpl;
+
+  String get id;
+  @JsonKey(ignore: true)
+  _$$GetExplodeLiveVideoInfoImplCopyWith<_$GetExplodeLiveVideoInfoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SetSelectedVideoBasicDetailsImplCopyWith<$Res> {
+  factory _$$SetSelectedVideoBasicDetailsImplCopyWith(
+          _$SetSelectedVideoBasicDetailsImpl value,
+          $Res Function(_$SetSelectedVideoBasicDetailsImpl) then) =
+      __$$SetSelectedVideoBasicDetailsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({VideoBasicInfo details});
+}
+
+/// @nodoc
+class __$$SetSelectedVideoBasicDetailsImplCopyWithImpl<$Res>
+    extends _$WatchEventCopyWithImpl<$Res, _$SetSelectedVideoBasicDetailsImpl>
+    implements _$$SetSelectedVideoBasicDetailsImplCopyWith<$Res> {
+  __$$SetSelectedVideoBasicDetailsImplCopyWithImpl(
+      _$SetSelectedVideoBasicDetailsImpl _value,
+      $Res Function(_$SetSelectedVideoBasicDetailsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? details = null,
+  }) {
+    return _then(_$SetSelectedVideoBasicDetailsImpl(
+      details: null == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as VideoBasicInfo,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SetSelectedVideoBasicDetailsImpl
+    implements SetSelectedVideoBasicDetails {
+  _$SetSelectedVideoBasicDetailsImpl({required this.details});
+
+  @override
+  final VideoBasicInfo details;
+
+  @override
+  String toString() {
+    return 'WatchEvent.setSelectedVideoBasicDetails(details: $details)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SetSelectedVideoBasicDetailsImpl &&
+            (identical(other.details, details) || other.details == details));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, details);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SetSelectedVideoBasicDetailsImplCopyWith<
+          _$SetSelectedVideoBasicDetailsImpl>
+      get copyWith => __$$SetSelectedVideoBasicDetailsImplCopyWithImpl<
+          _$SetSelectedVideoBasicDetailsImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getWatchInfo,
+    required TResult Function(String id) getCommentData,
+    required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
+    required TResult Function() tapDescription,
+    required TResult Function(bool value) togglePip,
+    required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
+  }) {
+    return setSelectedVideoBasicDetails(details);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getWatchInfo,
+    TResult? Function(String id)? getCommentData,
+    TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
+    TResult? Function()? tapDescription,
+    TResult? Function(bool value)? togglePip,
+    TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+  }) {
+    return setSelectedVideoBasicDetails?.call(details);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getWatchInfo,
+    TResult Function(String id)? getCommentData,
+    TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
+    TResult Function()? tapDescription,
+    TResult Function(bool value)? togglePip,
+    TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+    required TResult orElse(),
+  }) {
+    if (setSelectedVideoBasicDetails != null) {
+      return setSelectedVideoBasicDetails(details);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetWatchInfo value) getWatchInfo,
+    required TResult Function(GetCommentData value) getCommentData,
+    required TResult Function(GetCommentRepliesData value)
+        getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
+    required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
+    required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
+  }) {
+    return setSelectedVideoBasicDetails(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetWatchInfo value)? getWatchInfo,
+    TResult? Function(GetCommentData value)? getCommentData,
+    TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
+    TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
+    TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+  }) {
+    return setSelectedVideoBasicDetails?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetWatchInfo value)? getWatchInfo,
+    TResult Function(GetCommentData value)? getCommentData,
+    TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
+    TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
+    TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+    required TResult orElse(),
+  }) {
+    if (setSelectedVideoBasicDetails != null) {
+      return setSelectedVideoBasicDetails(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SetSelectedVideoBasicDetails implements WatchEvent {
+  factory SetSelectedVideoBasicDetails(
+          {required final VideoBasicInfo details}) =
+      _$SetSelectedVideoBasicDetailsImpl;
+
+  VideoBasicInfo get details;
+  @JsonKey(ignore: true)
+  _$$SetSelectedVideoBasicDetailsImplCopyWith<
+          _$SetSelectedVideoBasicDetailsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$WatchState {
   WatchResp get watchResp => throw _privateConstructorUsedError;
+  ExplodeWatchResp get explodeWatchResp => throw _privateConstructorUsedError;
   CommentsResp get comments => throw _privateConstructorUsedError;
   CommentsResp get commentReplies => throw _privateConstructorUsedError;
   String? get oldId => throw _privateConstructorUsedError;
@@ -1760,6 +3258,18 @@ mixin _$WatchState {
   List<Map<String, String>> get subtitles => throw _privateConstructorUsedError;
   bool get isPipEnabled => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String? get liveStreamUrl => throw _privateConstructorUsedError;
+  bool get isLiveStreamLoading => throw _privateConstructorUsedError;
+  bool get isLiveStreamError => throw _privateConstructorUsedError;
+  List<MyRelatedVideo>? get relatedVideos => throw _privateConstructorUsedError;
+  bool get isRelatedVideosLoading => throw _privateConstructorUsedError;
+  bool get isRelatedVideosError => throw _privateConstructorUsedError;
+  List<MyMuxedStreamInfo>? get muxedStreams =>
+      throw _privateConstructorUsedError;
+  bool get isMuxedStreamsLoading => throw _privateConstructorUsedError;
+  bool get isMuxedStreamsError => throw _privateConstructorUsedError;
+  VideoBasicInfo? get selectedVideoBasicDetails =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WatchStateCopyWith<WatchState> get copyWith =>
@@ -1774,6 +3284,7 @@ abstract class $WatchStateCopyWith<$Res> {
   @useResult
   $Res call(
       {WatchResp watchResp,
+      ExplodeWatchResp explodeWatchResp,
       CommentsResp comments,
       CommentsResp commentReplies,
       String? oldId,
@@ -1796,7 +3307,17 @@ abstract class $WatchStateCopyWith<$Res> {
       bool isSubtitleError,
       List<Map<String, String>> subtitles,
       bool isPipEnabled,
-      String title});
+      String title,
+      String? liveStreamUrl,
+      bool isLiveStreamLoading,
+      bool isLiveStreamError,
+      List<MyRelatedVideo>? relatedVideos,
+      bool isRelatedVideosLoading,
+      bool isRelatedVideosError,
+      List<MyMuxedStreamInfo>? muxedStreams,
+      bool isMuxedStreamsLoading,
+      bool isMuxedStreamsError,
+      VideoBasicInfo? selectedVideoBasicDetails});
 }
 
 /// @nodoc
@@ -1813,6 +3334,7 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
   @override
   $Res call({
     Object? watchResp = null,
+    Object? explodeWatchResp = null,
     Object? comments = null,
     Object? commentReplies = null,
     Object? oldId = freezed,
@@ -1836,12 +3358,26 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
     Object? subtitles = null,
     Object? isPipEnabled = null,
     Object? title = null,
+    Object? liveStreamUrl = freezed,
+    Object? isLiveStreamLoading = null,
+    Object? isLiveStreamError = null,
+    Object? relatedVideos = freezed,
+    Object? isRelatedVideosLoading = null,
+    Object? isRelatedVideosError = null,
+    Object? muxedStreams = freezed,
+    Object? isMuxedStreamsLoading = null,
+    Object? isMuxedStreamsError = null,
+    Object? selectedVideoBasicDetails = freezed,
   }) {
     return _then(_value.copyWith(
       watchResp: null == watchResp
           ? _value.watchResp
           : watchResp // ignore: cast_nullable_to_non_nullable
               as WatchResp,
+      explodeWatchResp: null == explodeWatchResp
+          ? _value.explodeWatchResp
+          : explodeWatchResp // ignore: cast_nullable_to_non_nullable
+              as ExplodeWatchResp,
       comments: null == comments
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
@@ -1934,6 +3470,46 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      liveStreamUrl: freezed == liveStreamUrl
+          ? _value.liveStreamUrl
+          : liveStreamUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isLiveStreamLoading: null == isLiveStreamLoading
+          ? _value.isLiveStreamLoading
+          : isLiveStreamLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLiveStreamError: null == isLiveStreamError
+          ? _value.isLiveStreamError
+          : isLiveStreamError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      relatedVideos: freezed == relatedVideos
+          ? _value.relatedVideos
+          : relatedVideos // ignore: cast_nullable_to_non_nullable
+              as List<MyRelatedVideo>?,
+      isRelatedVideosLoading: null == isRelatedVideosLoading
+          ? _value.isRelatedVideosLoading
+          : isRelatedVideosLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isRelatedVideosError: null == isRelatedVideosError
+          ? _value.isRelatedVideosError
+          : isRelatedVideosError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      muxedStreams: freezed == muxedStreams
+          ? _value.muxedStreams
+          : muxedStreams // ignore: cast_nullable_to_non_nullable
+              as List<MyMuxedStreamInfo>?,
+      isMuxedStreamsLoading: null == isMuxedStreamsLoading
+          ? _value.isMuxedStreamsLoading
+          : isMuxedStreamsLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMuxedStreamsError: null == isMuxedStreamsError
+          ? _value.isMuxedStreamsError
+          : isMuxedStreamsError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectedVideoBasicDetails: freezed == selectedVideoBasicDetails
+          ? _value.selectedVideoBasicDetails
+          : selectedVideoBasicDetails // ignore: cast_nullable_to_non_nullable
+              as VideoBasicInfo?,
     ) as $Val);
   }
 }
@@ -1948,6 +3524,7 @@ abstract class _$$InitialImplCopyWith<$Res>
   @useResult
   $Res call(
       {WatchResp watchResp,
+      ExplodeWatchResp explodeWatchResp,
       CommentsResp comments,
       CommentsResp commentReplies,
       String? oldId,
@@ -1970,7 +3547,17 @@ abstract class _$$InitialImplCopyWith<$Res>
       bool isSubtitleError,
       List<Map<String, String>> subtitles,
       bool isPipEnabled,
-      String title});
+      String title,
+      String? liveStreamUrl,
+      bool isLiveStreamLoading,
+      bool isLiveStreamError,
+      List<MyRelatedVideo>? relatedVideos,
+      bool isRelatedVideosLoading,
+      bool isRelatedVideosError,
+      List<MyMuxedStreamInfo>? muxedStreams,
+      bool isMuxedStreamsLoading,
+      bool isMuxedStreamsError,
+      VideoBasicInfo? selectedVideoBasicDetails});
 }
 
 /// @nodoc
@@ -1985,6 +3572,7 @@ class __$$InitialImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? watchResp = null,
+    Object? explodeWatchResp = null,
     Object? comments = null,
     Object? commentReplies = null,
     Object? oldId = freezed,
@@ -2008,12 +3596,26 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? subtitles = null,
     Object? isPipEnabled = null,
     Object? title = null,
+    Object? liveStreamUrl = freezed,
+    Object? isLiveStreamLoading = null,
+    Object? isLiveStreamError = null,
+    Object? relatedVideos = freezed,
+    Object? isRelatedVideosLoading = null,
+    Object? isRelatedVideosError = null,
+    Object? muxedStreams = freezed,
+    Object? isMuxedStreamsLoading = null,
+    Object? isMuxedStreamsError = null,
+    Object? selectedVideoBasicDetails = freezed,
   }) {
     return _then(_$InitialImpl(
       watchResp: null == watchResp
           ? _value.watchResp
           : watchResp // ignore: cast_nullable_to_non_nullable
               as WatchResp,
+      explodeWatchResp: null == explodeWatchResp
+          ? _value.explodeWatchResp
+          : explodeWatchResp // ignore: cast_nullable_to_non_nullable
+              as ExplodeWatchResp,
       comments: null == comments
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
@@ -2106,6 +3708,46 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      liveStreamUrl: freezed == liveStreamUrl
+          ? _value.liveStreamUrl
+          : liveStreamUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isLiveStreamLoading: null == isLiveStreamLoading
+          ? _value.isLiveStreamLoading
+          : isLiveStreamLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLiveStreamError: null == isLiveStreamError
+          ? _value.isLiveStreamError
+          : isLiveStreamError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      relatedVideos: freezed == relatedVideos
+          ? _value._relatedVideos
+          : relatedVideos // ignore: cast_nullable_to_non_nullable
+              as List<MyRelatedVideo>?,
+      isRelatedVideosLoading: null == isRelatedVideosLoading
+          ? _value.isRelatedVideosLoading
+          : isRelatedVideosLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isRelatedVideosError: null == isRelatedVideosError
+          ? _value.isRelatedVideosError
+          : isRelatedVideosError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      muxedStreams: freezed == muxedStreams
+          ? _value._muxedStreams
+          : muxedStreams // ignore: cast_nullable_to_non_nullable
+              as List<MyMuxedStreamInfo>?,
+      isMuxedStreamsLoading: null == isMuxedStreamsLoading
+          ? _value.isMuxedStreamsLoading
+          : isMuxedStreamsLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMuxedStreamsError: null == isMuxedStreamsError
+          ? _value.isMuxedStreamsError
+          : isMuxedStreamsError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectedVideoBasicDetails: freezed == selectedVideoBasicDetails
+          ? _value.selectedVideoBasicDetails
+          : selectedVideoBasicDetails // ignore: cast_nullable_to_non_nullable
+              as VideoBasicInfo?,
     ));
   }
 }
@@ -2115,6 +3757,7 @@ class __$$InitialImplCopyWithImpl<$Res>
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
       {required this.watchResp,
+      required this.explodeWatchResp,
       required this.comments,
       required this.commentReplies,
       this.oldId,
@@ -2137,11 +3780,25 @@ class _$InitialImpl implements _Initial {
       required this.isSubtitleError,
       required final List<Map<String, String>> subtitles,
       required this.isPipEnabled,
-      required this.title})
-      : _subtitles = subtitles;
+      required this.title,
+      this.liveStreamUrl,
+      required this.isLiveStreamLoading,
+      required this.isLiveStreamError,
+      final List<MyRelatedVideo>? relatedVideos,
+      required this.isRelatedVideosLoading,
+      required this.isRelatedVideosError,
+      final List<MyMuxedStreamInfo>? muxedStreams,
+      required this.isMuxedStreamsLoading,
+      required this.isMuxedStreamsError,
+      this.selectedVideoBasicDetails})
+      : _subtitles = subtitles,
+        _relatedVideos = relatedVideos,
+        _muxedStreams = muxedStreams;
 
   @override
   final WatchResp watchResp;
+  @override
+  final ExplodeWatchResp explodeWatchResp;
   @override
   final CommentsResp comments;
   @override
@@ -2194,10 +3851,46 @@ class _$InitialImpl implements _Initial {
   final bool isPipEnabled;
   @override
   final String title;
+  @override
+  final String? liveStreamUrl;
+  @override
+  final bool isLiveStreamLoading;
+  @override
+  final bool isLiveStreamError;
+  final List<MyRelatedVideo>? _relatedVideos;
+  @override
+  List<MyRelatedVideo>? get relatedVideos {
+    final value = _relatedVideos;
+    if (value == null) return null;
+    if (_relatedVideos is EqualUnmodifiableListView) return _relatedVideos;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final bool isRelatedVideosLoading;
+  @override
+  final bool isRelatedVideosError;
+  final List<MyMuxedStreamInfo>? _muxedStreams;
+  @override
+  List<MyMuxedStreamInfo>? get muxedStreams {
+    final value = _muxedStreams;
+    if (value == null) return null;
+    if (_muxedStreams is EqualUnmodifiableListView) return _muxedStreams;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final bool isMuxedStreamsLoading;
+  @override
+  final bool isMuxedStreamsError;
+  @override
+  final VideoBasicInfo? selectedVideoBasicDetails;
 
   @override
   String toString() {
-    return 'WatchState(watchResp: $watchResp, comments: $comments, commentReplies: $commentReplies, oldId: $oldId, isLoading: $isLoading, isWatchInfoError: $isWatchInfoError, initialVideoPause: $initialVideoPause, isTapComments: $isTapComments, isCommentsLoading: $isCommentsLoading, isCommentRepliesLoading: $isCommentRepliesLoading, isCommentError: $isCommentError, isCommentRepliesError: $isCommentRepliesError, isDescriptionTapped: $isDescriptionTapped, isMoreCommetsFetchError: $isMoreCommetsFetchError, isMoreCommetsFetchLoading: $isMoreCommetsFetchLoading, isMoreCommetsFetchCompleted: $isMoreCommetsFetchCompleted, isMoreReplyCommetsFetchError: $isMoreReplyCommetsFetchError, isMoreReplyCommetsFetchLoading: $isMoreReplyCommetsFetchLoading, isMoreReplyCommetsFetchCompleted: $isMoreReplyCommetsFetchCompleted, isSubtitleLoading: $isSubtitleLoading, isSubtitleError: $isSubtitleError, subtitles: $subtitles, isPipEnabled: $isPipEnabled, title: $title)';
+    return 'WatchState(watchResp: $watchResp, explodeWatchResp: $explodeWatchResp, comments: $comments, commentReplies: $commentReplies, oldId: $oldId, isLoading: $isLoading, isWatchInfoError: $isWatchInfoError, initialVideoPause: $initialVideoPause, isTapComments: $isTapComments, isCommentsLoading: $isCommentsLoading, isCommentRepliesLoading: $isCommentRepliesLoading, isCommentError: $isCommentError, isCommentRepliesError: $isCommentRepliesError, isDescriptionTapped: $isDescriptionTapped, isMoreCommetsFetchError: $isMoreCommetsFetchError, isMoreCommetsFetchLoading: $isMoreCommetsFetchLoading, isMoreCommetsFetchCompleted: $isMoreCommetsFetchCompleted, isMoreReplyCommetsFetchError: $isMoreReplyCommetsFetchError, isMoreReplyCommetsFetchLoading: $isMoreReplyCommetsFetchLoading, isMoreReplyCommetsFetchCompleted: $isMoreReplyCommetsFetchCompleted, isSubtitleLoading: $isSubtitleLoading, isSubtitleError: $isSubtitleError, subtitles: $subtitles, isPipEnabled: $isPipEnabled, title: $title, liveStreamUrl: $liveStreamUrl, isLiveStreamLoading: $isLiveStreamLoading, isLiveStreamError: $isLiveStreamError, relatedVideos: $relatedVideos, isRelatedVideosLoading: $isRelatedVideosLoading, isRelatedVideosError: $isRelatedVideosError, muxedStreams: $muxedStreams, isMuxedStreamsLoading: $isMuxedStreamsLoading, isMuxedStreamsError: $isMuxedStreamsError, selectedVideoBasicDetails: $selectedVideoBasicDetails)';
   }
 
   @override
@@ -2207,6 +3900,8 @@ class _$InitialImpl implements _Initial {
             other is _$InitialImpl &&
             (identical(other.watchResp, watchResp) ||
                 other.watchResp == watchResp) &&
+            (identical(other.explodeWatchResp, explodeWatchResp) ||
+                other.explodeWatchResp == explodeWatchResp) &&
             (identical(other.comments, comments) ||
                 other.comments == comments) &&
             (identical(other.commentReplies, commentReplies) ||
@@ -2243,8 +3938,7 @@ class _$InitialImpl implements _Initial {
             (identical(other.isMoreReplyCommetsFetchLoading, isMoreReplyCommetsFetchLoading) ||
                 other.isMoreReplyCommetsFetchLoading ==
                     isMoreReplyCommetsFetchLoading) &&
-            (identical(other.isMoreReplyCommetsFetchCompleted,
-                    isMoreReplyCommetsFetchCompleted) ||
+            (identical(other.isMoreReplyCommetsFetchCompleted, isMoreReplyCommetsFetchCompleted) ||
                 other.isMoreReplyCommetsFetchCompleted ==
                     isMoreReplyCommetsFetchCompleted) &&
             (identical(other.isSubtitleLoading, isSubtitleLoading) ||
@@ -2255,13 +3949,26 @@ class _$InitialImpl implements _Initial {
                 .equals(other._subtitles, _subtitles) &&
             (identical(other.isPipEnabled, isPipEnabled) ||
                 other.isPipEnabled == isPipEnabled) &&
-            (identical(other.title, title) || other.title == title));
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.liveStreamUrl, liveStreamUrl) ||
+                other.liveStreamUrl == liveStreamUrl) &&
+            (identical(other.isLiveStreamLoading, isLiveStreamLoading) ||
+                other.isLiveStreamLoading == isLiveStreamLoading) &&
+            (identical(other.isLiveStreamError, isLiveStreamError) || other.isLiveStreamError == isLiveStreamError) &&
+            const DeepCollectionEquality().equals(other._relatedVideos, _relatedVideos) &&
+            (identical(other.isRelatedVideosLoading, isRelatedVideosLoading) || other.isRelatedVideosLoading == isRelatedVideosLoading) &&
+            (identical(other.isRelatedVideosError, isRelatedVideosError) || other.isRelatedVideosError == isRelatedVideosError) &&
+            const DeepCollectionEquality().equals(other._muxedStreams, _muxedStreams) &&
+            (identical(other.isMuxedStreamsLoading, isMuxedStreamsLoading) || other.isMuxedStreamsLoading == isMuxedStreamsLoading) &&
+            (identical(other.isMuxedStreamsError, isMuxedStreamsError) || other.isMuxedStreamsError == isMuxedStreamsError) &&
+            (identical(other.selectedVideoBasicDetails, selectedVideoBasicDetails) || other.selectedVideoBasicDetails == selectedVideoBasicDetails));
   }
 
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
         watchResp,
+        explodeWatchResp,
         comments,
         commentReplies,
         oldId,
@@ -2284,7 +3991,17 @@ class _$InitialImpl implements _Initial {
         isSubtitleError,
         const DeepCollectionEquality().hash(_subtitles),
         isPipEnabled,
-        title
+        title,
+        liveStreamUrl,
+        isLiveStreamLoading,
+        isLiveStreamError,
+        const DeepCollectionEquality().hash(_relatedVideos),
+        isRelatedVideosLoading,
+        isRelatedVideosError,
+        const DeepCollectionEquality().hash(_muxedStreams),
+        isMuxedStreamsLoading,
+        isMuxedStreamsError,
+        selectedVideoBasicDetails
       ]);
 
   @JsonKey(ignore: true)
@@ -2297,6 +4014,7 @@ class _$InitialImpl implements _Initial {
 abstract class _Initial implements WatchState {
   const factory _Initial(
       {required final WatchResp watchResp,
+      required final ExplodeWatchResp explodeWatchResp,
       required final CommentsResp comments,
       required final CommentsResp commentReplies,
       final String? oldId,
@@ -2319,10 +4037,22 @@ abstract class _Initial implements WatchState {
       required final bool isSubtitleError,
       required final List<Map<String, String>> subtitles,
       required final bool isPipEnabled,
-      required final String title}) = _$InitialImpl;
+      required final String title,
+      final String? liveStreamUrl,
+      required final bool isLiveStreamLoading,
+      required final bool isLiveStreamError,
+      final List<MyRelatedVideo>? relatedVideos,
+      required final bool isRelatedVideosLoading,
+      required final bool isRelatedVideosError,
+      final List<MyMuxedStreamInfo>? muxedStreams,
+      required final bool isMuxedStreamsLoading,
+      required final bool isMuxedStreamsError,
+      final VideoBasicInfo? selectedVideoBasicDetails}) = _$InitialImpl;
 
   @override
   WatchResp get watchResp;
+  @override
+  ExplodeWatchResp get explodeWatchResp;
   @override
   CommentsResp get comments;
   @override
@@ -2369,6 +4099,26 @@ abstract class _Initial implements WatchState {
   bool get isPipEnabled;
   @override
   String get title;
+  @override
+  String? get liveStreamUrl;
+  @override
+  bool get isLiveStreamLoading;
+  @override
+  bool get isLiveStreamError;
+  @override
+  List<MyRelatedVideo>? get relatedVideos;
+  @override
+  bool get isRelatedVideosLoading;
+  @override
+  bool get isRelatedVideosError;
+  @override
+  List<MyMuxedStreamInfo>? get muxedStreams;
+  @override
+  bool get isMuxedStreamsLoading;
+  @override
+  bool get isMuxedStreamsError;
+  @override
+  VideoBasicInfo? get selectedVideoBasicDetails;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

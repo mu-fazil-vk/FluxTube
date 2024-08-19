@@ -4,6 +4,7 @@ part of 'watch_bloc.dart';
 class WatchState with _$WatchState {
   const factory WatchState({
     required WatchResp watchResp,
+    required ExplodeWatchResp explodeWatchResp,
     required CommentsResp comments,
     required CommentsResp commentReplies,
     String? oldId,
@@ -27,10 +28,21 @@ class WatchState with _$WatchState {
     required List<Map<String, String>> subtitles,
     required bool isPipEnabled,
     required String title,
+    String? liveStreamUrl,
+    required bool isLiveStreamLoading,
+    required bool isLiveStreamError,
+    List<MyRelatedVideo>? relatedVideos,
+    required bool isRelatedVideosLoading,
+    required bool isRelatedVideosError,
+    List<MyMuxedStreamInfo>? muxedStreams,
+    required bool isMuxedStreamsLoading,
+    required bool isMuxedStreamsError,
+    VideoBasicInfo? selectedVideoBasicDetails,
   }) = _Initial;
 
   factory WatchState.initialize() => WatchState(
         watchResp: WatchResp(),
+        explodeWatchResp: ExplodeWatchResp.initial(),
         comments: CommentsResp(),
         commentReplies: CommentsResp(),
         oldId: null,
@@ -53,6 +65,16 @@ class WatchState with _$WatchState {
         isSubtitleError: false,
         subtitles: [],
         isPipEnabled: false,
-        title: ''
+        title: '',
+        liveStreamUrl: null,
+        isLiveStreamLoading: false,
+        isLiveStreamError: false,
+        relatedVideos: null,
+        isRelatedVideosLoading: false,
+        isRelatedVideosError: false,
+        muxedStreams: null,
+        isMuxedStreamsLoading: false,
+        isMuxedStreamsError: false,
+        selectedVideoBasicDetails: null,
       );
 }

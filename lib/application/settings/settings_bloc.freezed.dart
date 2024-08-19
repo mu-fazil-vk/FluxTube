@@ -30,6 +30,7 @@ mixin _$SettingsEvent {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -46,6 +47,7 @@ mixin _$SettingsEvent {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -62,6 +64,7 @@ mixin _$SettingsEvent {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -83,6 +86,7 @@ mixin _$SettingsEvent {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -100,6 +104,7 @@ mixin _$SettingsEvent {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -117,6 +122,7 @@ mixin _$SettingsEvent {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -190,6 +196,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return initializeSettings();
   }
@@ -209,6 +216,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return initializeSettings?.call();
   }
@@ -228,6 +236,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (initializeSettings != null) {
@@ -255,6 +264,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return initializeSettings(this);
   }
@@ -275,6 +285,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return initializeSettings?.call(this);
   }
@@ -295,6 +306,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (initializeSettings != null) {
@@ -386,6 +398,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return getDefaultLanguage(language);
   }
@@ -405,6 +418,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return getDefaultLanguage?.call(language);
   }
@@ -424,6 +438,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (getDefaultLanguage != null) {
@@ -451,6 +466,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return getDefaultLanguage(this);
   }
@@ -471,6 +487,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return getDefaultLanguage?.call(this);
   }
@@ -491,6 +508,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (getDefaultLanguage != null) {
@@ -587,6 +605,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return getDefaultQuality(quality);
   }
@@ -606,6 +625,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return getDefaultQuality?.call(quality);
   }
@@ -625,6 +645,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (getDefaultQuality != null) {
@@ -652,6 +673,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return getDefaultQuality(this);
   }
@@ -672,6 +694,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return getDefaultQuality?.call(this);
   }
@@ -692,6 +715,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (getDefaultQuality != null) {
@@ -788,6 +812,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return getDefaultRegion(region);
   }
@@ -807,6 +832,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return getDefaultRegion?.call(region);
   }
@@ -826,6 +852,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (getDefaultRegion != null) {
@@ -853,6 +880,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return getDefaultRegion(this);
   }
@@ -873,6 +901,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return getDefaultRegion?.call(this);
   }
@@ -893,6 +922,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (getDefaultRegion != null) {
@@ -989,6 +1019,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return changeTheme(themeMode);
   }
@@ -1008,6 +1039,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return changeTheme?.call(themeMode);
   }
@@ -1027,6 +1059,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (changeTheme != null) {
@@ -1054,6 +1087,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return changeTheme(this);
   }
@@ -1074,6 +1108,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return changeTheme?.call(this);
   }
@@ -1094,6 +1129,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (changeTheme != null) {
@@ -1165,6 +1201,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return toggleHistoryVisibility();
   }
@@ -1184,6 +1221,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return toggleHistoryVisibility?.call();
   }
@@ -1203,6 +1241,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (toggleHistoryVisibility != null) {
@@ -1230,6 +1269,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return toggleHistoryVisibility(this);
   }
@@ -1250,6 +1290,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return toggleHistoryVisibility?.call(this);
   }
@@ -1270,6 +1311,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (toggleHistoryVisibility != null) {
@@ -1336,6 +1378,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return toggleDislikeVisibility();
   }
@@ -1355,6 +1398,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return toggleDislikeVisibility?.call();
   }
@@ -1374,6 +1418,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (toggleDislikeVisibility != null) {
@@ -1401,6 +1446,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return toggleDislikeVisibility(this);
   }
@@ -1421,6 +1467,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return toggleDislikeVisibility?.call(this);
   }
@@ -1441,6 +1488,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (toggleDislikeVisibility != null) {
@@ -1504,6 +1552,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return toggleHlsPlayer();
   }
@@ -1523,6 +1572,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return toggleHlsPlayer?.call();
   }
@@ -1542,6 +1592,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (toggleHlsPlayer != null) {
@@ -1569,6 +1620,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return toggleHlsPlayer(this);
   }
@@ -1589,6 +1641,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return toggleHlsPlayer?.call(this);
   }
@@ -1609,6 +1662,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (toggleHlsPlayer != null) {
@@ -1675,6 +1729,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return toggleCommentVisibility();
   }
@@ -1694,6 +1749,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return toggleCommentVisibility?.call();
   }
@@ -1713,6 +1769,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (toggleCommentVisibility != null) {
@@ -1740,6 +1797,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return toggleCommentVisibility(this);
   }
@@ -1760,6 +1818,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return toggleCommentVisibility?.call(this);
   }
@@ -1780,6 +1839,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (toggleCommentVisibility != null) {
@@ -1848,6 +1908,7 @@ class _$ToggleRelatedVideoVisibilityImpl
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return toggleRelatedVideoVisibility();
   }
@@ -1867,6 +1928,7 @@ class _$ToggleRelatedVideoVisibilityImpl
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return toggleRelatedVideoVisibility?.call();
   }
@@ -1886,6 +1948,7 @@ class _$ToggleRelatedVideoVisibilityImpl
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (toggleRelatedVideoVisibility != null) {
@@ -1913,6 +1976,7 @@ class _$ToggleRelatedVideoVisibilityImpl
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return toggleRelatedVideoVisibility(this);
   }
@@ -1933,6 +1997,7 @@ class _$ToggleRelatedVideoVisibilityImpl
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return toggleRelatedVideoVisibility?.call(this);
   }
@@ -1953,6 +2018,7 @@ class _$ToggleRelatedVideoVisibilityImpl
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (toggleRelatedVideoVisibility != null) {
@@ -2016,6 +2082,7 @@ class _$FetchInstancesImpl implements FetchInstances {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return fetchInstances();
   }
@@ -2035,6 +2102,7 @@ class _$FetchInstancesImpl implements FetchInstances {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return fetchInstances?.call();
   }
@@ -2054,6 +2122,7 @@ class _$FetchInstancesImpl implements FetchInstances {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (fetchInstances != null) {
@@ -2081,6 +2150,7 @@ class _$FetchInstancesImpl implements FetchInstances {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return fetchInstances(this);
   }
@@ -2101,6 +2171,7 @@ class _$FetchInstancesImpl implements FetchInstances {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return fetchInstances?.call(this);
   }
@@ -2121,6 +2192,7 @@ class _$FetchInstancesImpl implements FetchInstances {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (fetchInstances != null) {
@@ -2211,6 +2283,7 @@ class _$SetInstanceImpl implements SetInstance {
     required TResult Function() toggleRelatedVideoVisibility,
     required TResult Function() fetchInstances,
     required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
   }) {
     return setInstance(instanceApi);
   }
@@ -2230,6 +2303,7 @@ class _$SetInstanceImpl implements SetInstance {
     TResult? Function()? toggleRelatedVideoVisibility,
     TResult? Function()? fetchInstances,
     TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
   }) {
     return setInstance?.call(instanceApi);
   }
@@ -2249,6 +2323,7 @@ class _$SetInstanceImpl implements SetInstance {
     TResult Function()? toggleRelatedVideoVisibility,
     TResult Function()? fetchInstances,
     TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
     required TResult orElse(),
   }) {
     if (setInstance != null) {
@@ -2276,6 +2351,7 @@ class _$SetInstanceImpl implements SetInstance {
         toggleRelatedVideoVisibility,
     required TResult Function(FetchInstances value) fetchInstances,
     required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
   }) {
     return setInstance(this);
   }
@@ -2296,6 +2372,7 @@ class _$SetInstanceImpl implements SetInstance {
         toggleRelatedVideoVisibility,
     TResult? Function(FetchInstances value)? fetchInstances,
     TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
   }) {
     return setInstance?.call(this);
   }
@@ -2316,6 +2393,7 @@ class _$SetInstanceImpl implements SetInstance {
         toggleRelatedVideoVisibility,
     TResult Function(FetchInstances value)? fetchInstances,
     TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
     required TResult orElse(),
   }) {
     if (setInstance != null) {
@@ -2335,6 +2413,211 @@ abstract class SetInstance implements SettingsEvent {
 }
 
 /// @nodoc
+abstract class _$$SetYTServiceImplCopyWith<$Res> {
+  factory _$$SetYTServiceImplCopyWith(
+          _$SetYTServiceImpl value, $Res Function(_$SetYTServiceImpl) then) =
+      __$$SetYTServiceImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String service});
+}
+
+/// @nodoc
+class __$$SetYTServiceImplCopyWithImpl<$Res>
+    extends _$SettingsEventCopyWithImpl<$Res, _$SetYTServiceImpl>
+    implements _$$SetYTServiceImplCopyWith<$Res> {
+  __$$SetYTServiceImplCopyWithImpl(
+      _$SetYTServiceImpl _value, $Res Function(_$SetYTServiceImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? service = null,
+  }) {
+    return _then(_$SetYTServiceImpl(
+      service: null == service
+          ? _value.service
+          : service // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SetYTServiceImpl implements SetYTService {
+  _$SetYTServiceImpl({required this.service});
+
+  @override
+  final String service;
+
+  @override
+  String toString() {
+    return 'SettingsEvent.setYTService(service: $service)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SetYTServiceImpl &&
+            (identical(other.service, service) || other.service == service));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, service);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SetYTServiceImplCopyWith<_$SetYTServiceImpl> get copyWith =>
+      __$$SetYTServiceImplCopyWithImpl<_$SetYTServiceImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initializeSettings,
+    required TResult Function(String? language) getDefaultLanguage,
+    required TResult Function(String? quality) getDefaultQuality,
+    required TResult Function(String? region) getDefaultRegion,
+    required TResult Function(String themeMode) changeTheme,
+    required TResult Function() toggleHistoryVisibility,
+    required TResult Function() toggleDislikeVisibility,
+    required TResult Function() toggleHlsPlayer,
+    required TResult Function() toggleCommentVisibility,
+    required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchInstances,
+    required TResult Function(String instanceApi) setInstance,
+    required TResult Function(String service) setYTService,
+  }) {
+    return setYTService(service);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initializeSettings,
+    TResult? Function(String? language)? getDefaultLanguage,
+    TResult? Function(String? quality)? getDefaultQuality,
+    TResult? Function(String? region)? getDefaultRegion,
+    TResult? Function(String themeMode)? changeTheme,
+    TResult? Function()? toggleHistoryVisibility,
+    TResult? Function()? toggleDislikeVisibility,
+    TResult? Function()? toggleHlsPlayer,
+    TResult? Function()? toggleCommentVisibility,
+    TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchInstances,
+    TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(String service)? setYTService,
+  }) {
+    return setYTService?.call(service);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initializeSettings,
+    TResult Function(String? language)? getDefaultLanguage,
+    TResult Function(String? quality)? getDefaultQuality,
+    TResult Function(String? region)? getDefaultRegion,
+    TResult Function(String themeMode)? changeTheme,
+    TResult Function()? toggleHistoryVisibility,
+    TResult Function()? toggleDislikeVisibility,
+    TResult Function()? toggleHlsPlayer,
+    TResult Function()? toggleCommentVisibility,
+    TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchInstances,
+    TResult Function(String instanceApi)? setInstance,
+    TResult Function(String service)? setYTService,
+    required TResult orElse(),
+  }) {
+    if (setYTService != null) {
+      return setYTService(service);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(InitializeSettings value) initializeSettings,
+    required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
+    required TResult Function(GetDefaultQuality value) getDefaultQuality,
+    required TResult Function(GetDefaultRegion value) getDefaultRegion,
+    required TResult Function(ChangeTheme value) changeTheme,
+    required TResult Function(ToggleHistoryVisibility value)
+        toggleHistoryVisibility,
+    required TResult Function(ToggleDislikeVisibility value)
+        toggleDislikeVisibility,
+    required TResult Function(ToggleHlsPlayer value) toggleHlsPlayer,
+    required TResult Function(ToggleCommentVisibility value)
+        toggleCommentVisibility,
+    required TResult Function(ToggleRelatedVideoVisibility value)
+        toggleRelatedVideoVisibility,
+    required TResult Function(FetchInstances value) fetchInstances,
+    required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
+  }) {
+    return setYTService(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(InitializeSettings value)? initializeSettings,
+    TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
+    TResult? Function(GetDefaultQuality value)? getDefaultQuality,
+    TResult? Function(GetDefaultRegion value)? getDefaultRegion,
+    TResult? Function(ChangeTheme value)? changeTheme,
+    TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
+    TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
+    TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
+    TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
+    TResult? Function(ToggleRelatedVideoVisibility value)?
+        toggleRelatedVideoVisibility,
+    TResult? Function(FetchInstances value)? fetchInstances,
+    TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
+  }) {
+    return setYTService?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(InitializeSettings value)? initializeSettings,
+    TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
+    TResult Function(GetDefaultQuality value)? getDefaultQuality,
+    TResult Function(GetDefaultRegion value)? getDefaultRegion,
+    TResult Function(ChangeTheme value)? changeTheme,
+    TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
+    TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
+    TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
+    TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
+    TResult Function(ToggleRelatedVideoVisibility value)?
+        toggleRelatedVideoVisibility,
+    TResult Function(FetchInstances value)? fetchInstances,
+    TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
+    required TResult orElse(),
+  }) {
+    if (setYTService != null) {
+      return setYTService(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SetYTService implements SettingsEvent {
+  factory SetYTService({required final String service}) = _$SetYTServiceImpl;
+
+  String get service;
+  @JsonKey(ignore: true)
+  _$$SetYTServiceImplCopyWith<_$SetYTServiceImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$SettingsState {
   String get defaultLanguage => throw _privateConstructorUsedError;
   String get defaultQuality => throw _privateConstructorUsedError;
@@ -2350,6 +2633,7 @@ mixin _$SettingsState {
   bool get instanceLoading => throw _privateConstructorUsedError;
   bool get instanceError => throw _privateConstructorUsedError;
   String get instance => throw _privateConstructorUsedError;
+  String get ytService => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingsStateCopyWith<SettingsState> get copyWith =>
@@ -2376,7 +2660,8 @@ abstract class $SettingsStateCopyWith<$Res> {
       List<Instance> instances,
       bool instanceLoading,
       bool instanceError,
-      String instance});
+      String instance,
+      String ytService});
 }
 
 /// @nodoc
@@ -2406,6 +2691,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? instanceLoading = null,
     Object? instanceError = null,
     Object? instance = null,
+    Object? ytService = null,
   }) {
     return _then(_value.copyWith(
       defaultLanguage: null == defaultLanguage
@@ -2464,6 +2750,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.instance
           : instance // ignore: cast_nullable_to_non_nullable
               as String,
+      ytService: null == ytService
+          ? _value.ytService
+          : ytService // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -2490,7 +2780,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       List<Instance> instances,
       bool instanceLoading,
       bool instanceError,
-      String instance});
+      String instance,
+      String ytService});
 }
 
 /// @nodoc
@@ -2518,6 +2809,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? instanceLoading = null,
     Object? instanceError = null,
     Object? instance = null,
+    Object? ytService = null,
   }) {
     return _then(_$InitialImpl(
       defaultLanguage: null == defaultLanguage
@@ -2576,6 +2868,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.instance
           : instance // ignore: cast_nullable_to_non_nullable
               as String,
+      ytService: null == ytService
+          ? _value.ytService
+          : ytService // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -2597,7 +2893,8 @@ class _$InitialImpl implements _Initial {
       required final List<Instance> instances,
       required this.instanceLoading,
       required this.instanceError,
-      required this.instance})
+      required this.instance,
+      required this.ytService})
       : _instances = instances;
 
   @override
@@ -2634,10 +2931,12 @@ class _$InitialImpl implements _Initial {
   final bool instanceError;
   @override
   final String instance;
+  @override
+  final String ytService;
 
   @override
   String toString() {
-    return 'SettingsState(defaultLanguage: $defaultLanguage, defaultQuality: $defaultQuality, defaultRegion: $defaultRegion, themeMode: $themeMode, version: $version, isHistoryVisible: $isHistoryVisible, isDislikeVisible: $isDislikeVisible, isHlsPlayer: $isHlsPlayer, isHideComments: $isHideComments, isHideRelated: $isHideRelated, instances: $instances, instanceLoading: $instanceLoading, instanceError: $instanceError, instance: $instance)';
+    return 'SettingsState(defaultLanguage: $defaultLanguage, defaultQuality: $defaultQuality, defaultRegion: $defaultRegion, themeMode: $themeMode, version: $version, isHistoryVisible: $isHistoryVisible, isDislikeVisible: $isDislikeVisible, isHlsPlayer: $isHlsPlayer, isHideComments: $isHideComments, isHideRelated: $isHideRelated, instances: $instances, instanceLoading: $instanceLoading, instanceError: $instanceError, instance: $instance, ytService: $ytService)';
   }
 
   @override
@@ -2671,7 +2970,9 @@ class _$InitialImpl implements _Initial {
             (identical(other.instanceError, instanceError) ||
                 other.instanceError == instanceError) &&
             (identical(other.instance, instance) ||
-                other.instance == instance));
+                other.instance == instance) &&
+            (identical(other.ytService, ytService) ||
+                other.ytService == ytService));
   }
 
   @override
@@ -2690,7 +2991,8 @@ class _$InitialImpl implements _Initial {
       const DeepCollectionEquality().hash(_instances),
       instanceLoading,
       instanceError,
-      instance);
+      instance,
+      ytService);
 
   @JsonKey(ignore: true)
   @override
@@ -2714,7 +3016,8 @@ abstract class _Initial implements SettingsState {
       required final List<Instance> instances,
       required final bool instanceLoading,
       required final bool instanceError,
-      required final String instance}) = _$InitialImpl;
+      required final String instance,
+      required final String ytService}) = _$InitialImpl;
 
   @override
   String get defaultLanguage;
@@ -2744,6 +3047,8 @@ abstract class _Initial implements SettingsState {
   bool get instanceError;
   @override
   String get instance;
+  @override
+  String get ytService;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

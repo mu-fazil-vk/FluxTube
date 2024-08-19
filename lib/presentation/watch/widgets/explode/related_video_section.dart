@@ -1,22 +1,26 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluxtube/application/watch/watch_bloc.dart';
-import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
-import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
-import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/widgets/related_video_widget.dart';
 import 'package:go_router/go_router.dart';
 
-class RelatedVideoSection extends StatelessWidget {
-  const RelatedVideoSection({
+import 'package:fluxtube/application/watch/watch_bloc.dart';
+import 'package:fluxtube/core/constants.dart';
+import 'package:fluxtube/domain/watch/models/explode/explode_watch.dart';
+import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/widgets/related_video_widget.dart';
+
+class ExplodeRelatedVideoSection extends StatelessWidget {
+  const ExplodeRelatedVideoSection({
     super.key,
     required this.locals,
     required this.watchInfo,
+    required this.related,
   });
 
   final S locals;
-  final WatchResp watchInfo;
+  final ExplodeWatchResp watchInfo;
+  final List<MyRelatedVideo> related;
 
   @override
   Widget build(BuildContext context) {
@@ -37,36 +41,29 @@ class RelatedVideoSection extends StatelessWidget {
           child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                final String videoId =
-                    watchInfo.relatedStreams![index].url!.split('=').last;
-                final String channelId = watchInfo.uploaderUrl!.split("/").last;
+                final String videoId = related[index].id;
+                final String channelId = related[index].channelId;
                 return GestureDetector(
                     onTap: () {
                       BlocProvider.of<WatchBloc>(context).add(
                           WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
-                                  title: watchInfo.relatedStreams![index].title,
-                                  thumbnailUrl: watchInfo
-                                      .relatedStreams![index].thumbnail,
-                                  channelName: watchInfo
-                                      .relatedStreams![index].uploaderName,
-                                  channelThumbnailUrl: watchInfo
-                                      .relatedStreams![index].uploaderAvatar,
+                                  title: related[index].title,
+                                  thumbnailUrl: related[index].thumbnailUrl,
+                                  channelName: related[index].author,
+                                  channelThumbnailUrl: null,
                                   channelId: channelId,
-                                  uploaderVerified: watchInfo
-                                      .relatedStreams![index]
-                                      .uploaderVerified)));
+                                  uploaderVerified: null)));
                       context.go('/watch/$videoId/$channelId');
                     },
                     child: RelatedVideoWidget(
-                      title: watchInfo.relatedStreams![index].title ??
-                          locals.noVideoTitle,
-                      thumbnailUrl: watchInfo.relatedStreams![index].thumbnail,
-                      duration: watchInfo.relatedStreams![index].duration,
+                      title: related[index].title,
+                      thumbnailUrl: related[index].thumbnailUrl,
+                      duration: related[index].duration.inSeconds,
                     ));
               },
               separatorBuilder: (context, index) => kWidthBox10,
-              itemCount: watchInfo.relatedStreams?.length ?? 0),
+              itemCount: related.length),
         ),
       ],
     );

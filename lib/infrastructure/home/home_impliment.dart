@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
@@ -26,9 +28,11 @@ class HomeImpliment extends HomeServices {
 
         return Right(result);
       } else {
+        log('Err on getHomeFeedData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
       }
-    } catch (_) {
+    } catch (e) {
+      log('Err on getHomeFeedData: $e');
       return const Left(MainFailure.clientFailure());
     }
   }

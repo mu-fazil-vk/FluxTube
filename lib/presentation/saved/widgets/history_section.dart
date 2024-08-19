@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
+import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/related_video_widget.dart';
 import 'package:go_router/go_router.dart';
@@ -54,8 +55,16 @@ class HistoryVideosSection extends StatelessWidget {
                       return GestureDetector(
                         onTap: () {
                           BlocProvider.of<WatchBloc>(context).add(
-                              WatchEvent.assignTitle(
-                                  title: historyVideo.title ?? ''));
+                              WatchEvent.setSelectedVideoBasicDetails(
+                                  details: VideoBasicInfo(
+                                      title: historyVideo.title,
+                                      thumbnailUrl: historyVideo.thumbnail,
+                                      channelName: historyVideo.uploaderName,
+                                      channelThumbnailUrl:
+                                          historyVideo.uploaderAvatar,
+                                      channelId: channelId,
+                                      uploaderVerified:
+                                          historyVideo.uploaderVerified)));
                           context.go('/watch/$videoId/$channelId');
                         },
                         child: RelatedVideoWidget(

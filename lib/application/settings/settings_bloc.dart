@@ -49,6 +49,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final String instanceApi =
           settingsMap[instanceApiUrl] ?? BaseUrl.kBaseUrl;
 
+      final String ytService =
+          settingsMap[youtubeService] ?? "piped";
+
       //package info
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
@@ -57,6 +60,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
       newState = newState.copyWith(version: packageInfo.version);
       newState = newState.copyWith(instance: instanceApi);
+      newState = newState.copyWith(ytService: ytService);
       BaseUrl.kBaseUrl = instanceApi;
 
       if (defaultLanguage != null) {
@@ -205,6 +209,16 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(instance: state.instance),
           (String r) => state.copyWith(instance: r));
+      emit(_state);
+    });
+
+    on<SetYTService>((event, emit) async {
+      final _result =
+          await settingsService.setTYService(service: event.service);
+      final _state = _result.fold(
+          (MainFailure f) => state.copyWith(ytService: state.ytService),
+          (String r) => state.copyWith(
+              ytService: r,));
       emit(_state);
     });
   }

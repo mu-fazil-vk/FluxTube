@@ -16,8 +16,8 @@ class SettingsState with _$SettingsState {
     required List<Instance> instances,
     required bool instanceLoading,
     required bool instanceError,
-    required String instance
-
+    required String instance,
+    required String ytService,
   }) = _Initial;
 
   factory SettingsState.initialize() => SettingsState(
@@ -34,6 +34,7 @@ class SettingsState with _$SettingsState {
         instances: [],
         instanceLoading: false,
         instanceError: false,
-        instance: BaseUrl.kBaseUrl
+        instance: BaseUrl.kBaseUrl,
+        ytService: 'piped',
       );
 }

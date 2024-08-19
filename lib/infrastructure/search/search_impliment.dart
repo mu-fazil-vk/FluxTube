@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
@@ -20,9 +22,11 @@ class SearchImplimentation implements SearchService {
 
         return Right(result);
       } else {
+        log('Err on getSearchResult: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
       }
     } catch (e) {
+      log('Err on getSearchResult: $e');
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -38,9 +42,11 @@ class SearchImplimentation implements SearchService {
 
         return Right(result);
       } else {
+        log('Err on getSearchSuggestion: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
       }
     } catch (e) {
+      log('Err on getSearchSuggestion: $e');
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -58,9 +64,11 @@ class SearchImplimentation implements SearchService {
 
         return Right(result);
       } else {
+        log('Err on getMoreSearchResult: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
       }
     } catch (e) {
+      log('Err on getMoreSearchResult: $e');
       return const Left(MainFailure.clientFailure());
     }
   }

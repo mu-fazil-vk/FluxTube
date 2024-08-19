@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
+import 'package:fluxtube/domain/watch/models/explode/explode_watch.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
 
 import 'models/comments/comments_resp.dart';
@@ -24,6 +25,23 @@ abstract class WatchService {
   });
 
   Future<Either<MainFailure, List<Map<String, String>>>> getSubtitles({
+    required String id,
+  });
+
+  //Explode 
+  Future<Either<MainFailure, ExplodeWatchResp>> getExplodeVideoData({
+    required String id,
+  });
+
+  Future<Either<MainFailure, List<MyRelatedVideo>>> getExplodeRelatedVideosData({
+    required String id,
+  });
+
+  Future<Either<MainFailure, List<MyMuxedStreamInfo>>> getExplodeMuxedStreamData({
+    required String id,
+  });
+
+  Future<Either<MainFailure, String>> getExplodeLiveStreamUrl({
     required String id,
   });
 }

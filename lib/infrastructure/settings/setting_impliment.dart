@@ -63,6 +63,7 @@ class SettingImpliment implements SettingsService {
       {"name": commentsVisibility, "default": "false"},
       {"name": relatedVideoVisibility, "default": "false"},
       {"name": instanceApiUrl, "default": BaseUrl.kBaseUrl},
+      {"name": youtubeService, "default": "piped"},
       // Add more settings here
     ];
 
@@ -423,6 +424,32 @@ class SettingImpliment implements SettingsService {
       });
 
       return Right(instanceApi);
+    } catch (e) {
+      return const Left(MainFailure.serverFailure());
+    }
+  }
+
+  @override
+  Future<Either<MainFailure, String>> setTYService({required String service}) async {
+    try {
+      await isar.writeTxn(() async {
+        final existingYTServiceSetting = await isar.settingsDBValues
+            .filter()
+            .nameEqualTo(youtubeService)
+            .findFirst();
+
+        if (existingYTServiceSetting == null) {
+          final newYTServiceSetting = SettingsDBValue()
+            ..name = youtubeService
+            ..value = service;
+          await isar.settingsDBValues.put(newYTServiceSetting);
+        } else {
+          existingYTServiceSetting.value = service;
+          await isar.settingsDBValues.put(existingYTServiceSetting);
+        }
+      });
+
+      return Right(service);
     } catch (e) {
       return const Left(MainFailure.serverFailure());
     }

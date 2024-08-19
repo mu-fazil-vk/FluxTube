@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:fluxtube/domain/channel/channel_services.dart';
@@ -19,9 +21,11 @@ class ChannelImpl extends ChannelServices {
 
         return Right(result);
       } else {
+        log('Err on GetChannelData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
       }
     } catch (e) {
+      log('Err on GetChannelData: $e');
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -37,9 +41,11 @@ class ChannelImpl extends ChannelServices {
 
         return Right(result);
       } else {
+        log('Err on getMoreChannelVideos: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
       }
     } catch (e) {
+      log('Err on getMoreChannelVideos: $e');
       return const Left(MainFailure.clientFailure());
     }
   }

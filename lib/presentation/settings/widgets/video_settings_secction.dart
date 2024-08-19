@@ -36,6 +36,17 @@ final _qualities = [
   ),
 ];
 
+final _services = [
+  const DropdownMenuItem(
+    value: "piped",
+    child: Text("Piped"),
+  ),
+  const DropdownMenuItem(
+    value: "explode",
+    child: Text("Explode"),
+  ),
+];
+
 SettingsSection videoSettingsSection(
     S locals, BuildContext context, SettingsState state) {
   return SettingsSection(
@@ -52,6 +63,15 @@ SettingsSection videoSettingsSection(
             items: _qualities,
             onChanged: (quality) => BlocProvider.of<SettingsBloc>(context).add(
                 SettingsEvent.getDefaultQuality(quality: quality.toString()))),
+      ),
+      SettingsTile(
+        title: const Text("YouTube Service"),
+        leading: const Icon(Icons.network_cell),
+        trailing: DropdownButton(
+            value: state.ytService,
+            items: _services,
+            onChanged: (service) => BlocProvider.of<SettingsBloc>(context)
+                .add(SettingsEvent.setYTService(service: service!))),
       ),
       SettingsTile.switchTile(
         initialValue: state.isHlsPlayer,

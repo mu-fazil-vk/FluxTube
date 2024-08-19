@@ -8,6 +8,7 @@ import 'package:fluxtube/presentation/channel/screen_channel.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_instances.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_language.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_translators.dart';
+import 'package:fluxtube/presentation/watch/explode_screen_watch.dart';
 import 'package:fluxtube/presentation/watch/screen_watch.dart';
 import 'package:go_router/go_router.dart';
 
@@ -47,6 +48,15 @@ final GoRouter _router = GoRouter(
           path: 'watch/:id/:channelId',
           builder: (BuildContext context, GoRouterState state) {
             return ScreenWatch(
+              id: state.pathParameters['id']!,
+              channelId: state.pathParameters['channelId']!,
+            );
+          },
+        ),
+        GoRoute(
+          path: 'watch-explode/:id/:channelId',
+          builder: (BuildContext context, GoRouterState state) {
+            return ExplodeScreenWatch(
               id: state.pathParameters['id']!,
               channelId: state.pathParameters['channelId']!,
             );

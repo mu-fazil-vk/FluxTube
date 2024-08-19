@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/domain/search/models/item.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
+import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -71,7 +72,14 @@ class SearcheResultSection extends StatelessWidget {
                 return GestureDetector(
                     onTap: () {
                       BlocProvider.of<WatchBloc>(context).add(
-                          WatchEvent.assignTitle(title: _result.title ?? ''));
+                          WatchEvent.setSelectedVideoBasicDetails(
+                              details: VideoBasicInfo(
+                                  title: _result.title,
+                                  thumbnailUrl: _result.thumbnail,
+                                  channelName: _result.uploaderName,
+                                  channelThumbnailUrl: _result.uploaderAvatar,
+                                  channelId: _channelId,
+                                  uploaderVerified: _result.uploaderVerified)));
                       context.go('/watch/$_videoId/$_channelId');
                     },
                     child: HomeVideoInfoCardWidget(
