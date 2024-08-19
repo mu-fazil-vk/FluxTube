@@ -45,6 +45,10 @@ final _services = [
     value: "explode",
     child: Text("Explode"),
   ),
+  const DropdownMenuItem(
+    value: "iframe",
+    child: Text("IFrame"),
+  ),
 ];
 
 SettingsSection videoSettingsSection(
