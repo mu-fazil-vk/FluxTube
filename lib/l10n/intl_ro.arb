@@ -1,191 +1,191 @@
 {
-  "home": "Home",
+  "home": "ഹോം",
   "@home": {
     "description": "Home label"
   },
-  "trending": "Trending",
+  "trending": "ട്രെൻഡിംഗ്",
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "Saved",
+  "saved": "സേവ് ചെയ്‌തത്",
   "@saved": {
     "description": "Saved label"
   },
-  "settings": "Settings",
+  "settings": "ക്രമീകരണങ്ങൾ",
   "@settings": {
     "description": "Settings label"
   },
-  "history": "History",
+  "history": "കണ്ടു കഴിഞ്ഞത്",
   "@history": {
     "description": "History label"
   },
-  "savedVideosTitle": "Saved Videos",
+  "savedVideosTitle": "സേവ് ചെയ്‌തവ",
   "@savedVideosTitle": {
     "description": "Saved videos app bar title"
   },
-  "noUploaderName": "No name",
+  "noUploaderName": "പേര് ലഭ്യമല്ല",
   "@noUploaderName": {
     "description": "There is no uploader (channel) name available"
   },
-  "noVideoTitle": "No title",
+  "noVideoTitle": "ശീർഷകം ഇല്ല",
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
-  "videoViews": "{count, plural, =0{No views} =1{view} other{views}}",
+  "videoViews": "{count, plural, =0{കാഴ്ചക്കാർ ഇല്ല} =1{കാഴ്ച} other{കാഴ്ചക്കാർ}}",
   "@videoViews": {
     "description": "{number} views"
   },
-  "channelSubscribers": "{count, plural, =0{No subscribers} =1{subscriber} other{subscribers}}",
+  "channelSubscribers": "{count, plural, =0{സബ്സ്ക്രൈബർമാർ ഇല്ല} =1{സബ്സ്ക്രൈബർ} other{സബ്സ്ക്രൈബർമാർ}}",
   "@channelSubscribers": {
     "description": "{number} subscribers"
   },
-  "subscribe": "Subscribe",
+  "subscribe": "സബ്സ്ക്രൈബ്",
   "@subscribe": {
     "description": "Subscribe button label"
   },
-  "noUploadDate": "No date",
+  "noUploadDate": "തീയതി ഇല്ല",
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "There are no saved videos",
+  "thereIsNoSavedVideos": "സേവ് ചെയ്‌ത വീഡിയോകൾ ഇല്ല",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "There are no saved/history videos",
+  "thereIsNoSavedOrHistoryVideos": "സേവ് ചെയ്‌ത/കണ്ടുകഴിഞ്ഞ വീഡിയോകൾ ഇല്ല",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "No video source available, automatically changed to hls",
+  "noVideoAvailableChangedToHls": "കാണാൻ സ്രോതസ്സ് ഇല്ല, സ്വയം HLS ആയി മാറ്റിയിരിക്കുന്നു",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
-  "unknownQuality": "Unknown Quality",
+  "unknownQuality": "അജ്ഞാത ക്വാളിറ്റി",
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "Hls Player",
+  "hlsPlayer": "HLS പ്ലെയർ",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "Enable HLS player to unlock all quality options. Disable if errors occur.",
+  "enableHlsPlayerDescription": "എല്ലാ ക്വാളിറ്റി ഓപ്ഷനുകളും ലഭ്യമാകാൻ HLS പ്ലെയർ ഓൺ ചെയ്യുക. പിശകുകൾ സംഭവിച്ചാൽ ഓഫ് ചെയ്യുക.",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
-  "disableVideoHistory": "Disable video history",
+  "disableVideoHistory": "കണ്ട വീഡിയോകൾ മറച്ചുവെക്കുക",
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Retrieve Dislikes",
+  "retrieveDislikes": "ഡിസ്ലൈക്കുകൾ വീണ്ടെടുക്കുക",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "Retrieve dislike counts",
+  "retrieveDislikeCounts": "ഡിസ്ലൈക്ക് എണ്ണങ്ങൾ വീണ്ടെടുക്കുക",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
-  "noVideoDescription": "No description",
+  "noVideoDescription": "വിവരണം ഇല്ല",
   "@noVideoDescription": {
     "description": "There is no video description available"
   },
-  "relatedTitle": "Related",
+  "relatedTitle": "സംബന്ധിച്ചവ",
   "@relatedTitle": {
     "description": "Related videos label"
   },
-  "commentAuthorNotFound": "Not found",
+  "commentAuthorNotFound": "കണ്ടെത്തിയില്ല",
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
-  "readMoreText": "Read more",
+  "readMoreText": "കൂടുതൽ വായിക്കുക",
   "@readMoreText": {
     "description": "Expand the comment text"
   },
-  "showLessText": "Show less",
+  "showLessText": "കുറച്ചത് കാണിക്കുക",
   "@showLessText": {
     "description": "Collapse the comment text"
   },
-  "commonSettingsTitle": "Common",
+  "commonSettingsTitle": "പൊതുവായവ",
   "@commonSettingsTitle": {
     "description": "Common settings label"
   },
-  "language": "Language",
+  "language": "ഭാഷ",
   "@language": {
     "description": "Language label"
   },
-  "region": "Region",
+  "region": "പ്രദേശം",
   "@region": {
     "description": "Region label"
   },
-  "theme": "Theme",
+  "theme": "തീം",
   "@theme": {
     "description": "Theme label"
   },
-  "developer": "Developer",
+  "developer": "ഡെവലപ്പർ",
   "@developer": {
     "description": "Developer label"
   },
-  "translators": "Translators",
+  "translators": "പരിഭാഷകർ",
   "@translators": {
     "description": "Translators label"
   },
-  "version": "Version",
+  "version": "പതിപ്പ്",
   "@version": {
     "description": "Version label"
   },
-  "about": "About",
+  "about": "എന്നെക്കുറിച്ച്",
   "@about": {
     "description": "About label"
   },
-  "video": "Video",
+  "video": "വീഡിയോ",
   "@video": {
     "description": "Video label"
   },
-  "unknown": "unknown",
+  "unknown": "അജ്ഞാതം",
   "@unknown": {
     "description": "Unknown label"
   },
-  "defaultQuality": "Default Quality",
+  "defaultQuality": "സാധാരണ ക്വാളിറ്റി",
   "@defaultQuality": {
     "description": "Default video quality label"
   },
-  "retry": "Retry",
+  "retry": "വീണ്ടും ശ്രമിക്കുക",
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{Reply} other{Replies}}",
+  "repliesPlural": "{count, plural, =1{മറുപടി} other{മറുപടികൾ}}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
-  "canada": "Canada",
-  "france": "France",
-  "india": "India",
-  "netherlands": "Netherlands",
-  "unitedKingdom": "United Kingdom",
-  "unitedStates": "United States",
-  "distractionFree": "Distraction Free",
+  "canada": "കാനഡ",
+  "france": "ഫ്രാൻസ്",
+  "india": "ഇന്ത്യ",
+  "netherlands": "നെതർലാൻഡ്‌സ്",
+  "unitedKingdom": "യുണൈറ്റഡ് കിംഗ്ഡം",
+  "unitedStates": "യുണൈറ്റഡ് സ്റ്റേറ്റ്സ്",
+  "hideComments": "കമൻ്റുകൾ മറയ്ക്കുക",
+  "distractionFree": "ശ്രദ്ധ തിരിയാതിരിക്കാൻ",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
-  "hideComments": "Hide Comments",
   "@hideComments": {
     "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "Hide comments button from watch screen.",
+  "hideCommentsButtonFromWatchScreen": "വാച്ച് സ്ക്രീനിൽ നിന്ന് കമൻ്റുകൾ മറയ്ക്കുക.",
   "@hideCommentsButtonFromWatchScreen": {
     "description": "Hide the comment button from video streaming screen."
   },
-  "hideRelated": "Hide Related",
+  "hideRelated": "അനുബന്ധപ്പെട്ടവ മറയ്ക്കുക",
   "@hideRelated": {
     "description": "Hide Related videos label."
   },
-  "hideRelatedVideosFromWatchScreen": "Hide related videos from watch screen",
+  "hideRelatedVideosFromWatchScreen": "വാച്ച് സ്ക്രീനിൽ നിന്ന് അനുബന്ധ വീഡിയോകൾ മറയ്ക്കുക",
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
   },
-  "share": "Share",
+  "share": "പങ്കിടുക",
   "@share": {
     "description": "Share label."
   },
-  "includeTitle": "Include title",
+  "includeTitle": "ശീർഷകം ഉൾപ്പെടുത്തുക",
   "@includeTitle": {
     "description": "Include title along with url"
   },
