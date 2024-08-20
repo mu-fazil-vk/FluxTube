@@ -34,6 +34,16 @@ class AppInfo {
       url: 'https://github.com/un-logic',
       description: 'Russian',
     ),
+    AppInfoModel(
+      name: 'longlegmax',
+      url: 'https://github.com/longlegmax',
+      description: 'Chinese (Simplified)',
+    ),
+    AppInfoModel(
+      name: 'Danilo Lutz',
+      url: 'https://danilolutz.dev',
+      description: 'Portuguese (Brazil)',
+    ),
     // more...
   ];
 }

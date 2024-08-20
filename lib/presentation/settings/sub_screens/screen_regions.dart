@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
-import 'package:fluxtube/core/model/region_model.dart';
 import 'package:fluxtube/core/regions.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
