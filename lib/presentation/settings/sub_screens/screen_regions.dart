@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/core/model/region_model.dart';
+import 'package:fluxtube/core/regions.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
 import '../widgets/widgets.dart';
@@ -14,15 +15,6 @@ class ScreenRegions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locals = S.of(context);
-    // regions
-    final List<RegionModel> regions = [
-      RegionModel(name: locals.canada, code: "CA"),
-      RegionModel(name: locals.france, code: "FR"),
-      RegionModel(name: locals.india, code: "IN"),
-      RegionModel(name: locals.netherlands, code: "NL"),
-      RegionModel(name: locals.unitedKingdom, code: "GB"),
-      RegionModel(name: locals.unitedStates, code: "US"),
-    ];
 
     return Scaffold(
         appBar: PreferredSize(

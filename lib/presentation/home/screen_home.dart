@@ -48,11 +48,9 @@ class ScreenHome extends StatelessWidget {
                 return BlocBuilder<TrendingBloc, TrendingState>(
                   builder: (context, trendingState) {
                     if (trendingState.trendingResult.isEmpty &&
-                        !trendingState.isError) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        trendingBloc.add(TrendingEvent.getTrendingData(
-                            region: settingsState.defaultRegion));
-                      });
+                        trendingState.isError) {
+                      trendingBloc.add(TrendingEvent.getTrendingData(
+                          region: settingsState.defaultRegion));
                     }
 
                     if (trendingState.isLoading) {
