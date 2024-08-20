@@ -1,5 +1,12 @@
 ## Changelog
 
+### v0.7.1
+- Added explode service.
+- Added iFrame service.
+- Added more regions.
+- Merged Chinese and Portuguese (Brazil).
+- Performance optimized.
+
 ### v0.7.0
 - Added instances selection.
 - Added Russian language.
