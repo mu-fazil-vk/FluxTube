@@ -1,137 +1,137 @@
 {
-  "home": "Ana Sayfa",
+  "home": "Home",
   "@home": {
     "description": "Home label"
   },
-  "trending": "Popüler",
+  "trending": "Trending",
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "Kaydedilenler",
+  "saved": "Saved",
   "@saved": {
     "description": "Saved label"
   },
-  "settings": "Ayarlar",
+  "settings": "Settings",
   "@settings": {
     "description": "Settings label"
   },
-  "history": "Geçmiş",
+  "history": "History",
   "@history": {
     "description": "History label"
   },
-  "savedVideosTitle": "Kaydedilen Videolar",
+  "savedVideosTitle": "Saved Videos",
   "@savedVideosTitle": {
     "description": "Saved videos app bar title"
   },
-  "noUploaderName": "İsim yok",
+  "noUploaderName": "No name",
   "@noUploaderName": {
     "description": "There is no uploader (channel) name available"
   },
-  "noVideoTitle": "Başlık yok",
+  "noVideoTitle": "No title",
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
-  "videoViews": "{count, plural, =0{Görüntüleme yok} =1{görüntüleme} other{görüntüleme}}",
+  "videoViews": "{count, plural, =0{No views} =1{view} other{views}}",
   "@videoViews": {
     "description": "{number} views"
   },
-  "channelSubscribers": "{count, plural, =0{Abone yok} =1{abone} other{abone}}",
+  "channelSubscribers": "{count, plural, =0{No subscribers} =1{subscriber} other{subscribers}}",
   "@channelSubscribers": {
     "description": "{number} subscribers"
   },
-  "subscribe": "Abone Ol",
+  "subscribe": "Subscribe",
   "@subscribe": {
     "description": "Subscribe button label"
   },
-  "noUploadDate": "Tarih yok",
+  "noUploadDate": "No date",
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "Kaydedilen video yok",
+  "thereIsNoSavedVideos": "There are no saved videos",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "Kaydedilen/geçmiş video yok",
+  "thereIsNoSavedOrHistoryVideos": "There are no saved/history videos",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "Mevcut video kaynağı yok, otomatik olarak hls'ye dönüştü",
+  "noVideoAvailableChangedToHls": "No video source available, automatically changed to hls",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
-  "unknownQuality": "Bilinmeyen Kalite",
+  "unknownQuality": "Unknown Quality",
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "Hls Oynatıcı",
+  "hlsPlayer": "Hls Player",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "Tüm kalite seçeneklerini açmak için HLS oynatıcıyı etkinleştirin. Hata oluşursa devre dışı bırakın.",
+  "enableHlsPlayerDescription": "Enable HLS player to unlock all quality options. Disable if errors occur.",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
-  "disableVideoHistory": "Video geçmişini devre dışı bırak",
+  "disableVideoHistory": "Disable video history",
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Beğenilmeyenleri Getir",
+  "retrieveDislikes": "Retrieve Dislikes",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "Beğenmeme sayısını getir",
+  "retrieveDislikeCounts": "Retrieve dislike counts",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
-  "noVideoDescription": "Açıklama yok",
+  "noVideoDescription": "No description",
   "@noVideoDescription": {
     "description": "There is no video description available"
   },
-  "relatedTitle": "İlgili",
+  "relatedTitle": "Related",
   "@relatedTitle": {
     "description": "Related videos label"
   },
-  "commentAuthorNotFound": "Bulunamadı",
+  "commentAuthorNotFound": "Not found",
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
-  "readMoreText": "Daha fazla oku",
+  "readMoreText": "Read more",
   "@readMoreText": {
     "description": "Expand the comment text"
   },
-  "showLessText": "Daha az göster",
+  "showLessText": "Show less",
   "@showLessText": {
     "description": "Collapse the comment text"
   },
-  "commonSettingsTitle": "Genel",
+  "commonSettingsTitle": "Common",
   "@commonSettingsTitle": {
     "description": "Common settings label"
   },
-  "language": "Dil",
+  "language": "Language",
   "@language": {
     "description": "Language label"
   },
-  "region": "Bölge",
+  "region": "Region",
   "@region": {
     "description": "Region label"
   },
-  "theme": "Tema",
+  "theme": "Theme",
   "@theme": {
     "description": "Theme label"
   },
-  "developer": "Geliştirici",
+  "developer": "Developer",
   "@developer": {
     "description": "Developer label"
   },
-  "translators": "Çevirmenler",
+  "translators": "Translators",
   "@translators": {
     "description": "Translators label"
   },
-  "version": "Sürüm",
+  "version": "Version",
   "@version": {
     "description": "Version label"
   },
-  "about": "Hakkında",
+  "about": "About",
   "@about": {
     "description": "About label"
   },
@@ -139,28 +139,28 @@
   "@video": {
     "description": "Video label"
   },
-  "unknown": "bilinmiyor",
+  "unknown": "unknown",
   "@unknown": {
     "description": "Unknown label"
   },
-  "defaultQuality": "Varsayılan Kalite",
+  "defaultQuality": "Default Quality",
   "@defaultQuality": {
     "description": "Default video quality label"
   },
-  "retry": "Tekrar Dene",
+  "retry": "Retry",
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{Yanıt} other{Yanıtlar}}",
+  "repliesPlural": "{count, plural, =1{Reply} other{Replies}}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
-  "canada": "Kanada",
-  "france": "Fransa",
-  "india": "Hindistan",
-  "netherlands": "Hollanda",
-  "unitedKingdom": "Birleşik Krallık",
-  "unitedStates": "Amerika Birleşik Devletleri",
+  "canada": "Canada",
+  "france": "France",
+  "india": "India",
+  "netherlands": "Netherlands",
+  "unitedKingdom": "United Kingdom",
+  "unitedStates": "United States",
   "distractionFree": "Distraction Free",
   "@distractionFree": {
     "description": "A section for control distracting elements."
@@ -189,5 +189,6 @@
   "@includeTitle": {
     "description": "Include title along with url"
   },
-  "instances": "Instances"
+  "instances": "Instances",
+  "switchRegion": "Please consider switching to a different region for better results."
 }
