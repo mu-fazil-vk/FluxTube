@@ -88,6 +88,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "share": MessageLookupByLibrary.simpleMessage("Поделиться"),
         "showLessText": MessageLookupByLibrary.simpleMessage("Скрыть"),
         "subscribe": MessageLookupByLibrary.simpleMessage("Подписаться"),
+        "switchRegion": MessageLookupByLibrary.simpleMessage(
+            "Please consider switching to a different region for better results."),
         "theme": MessageLookupByLibrary.simpleMessage("Оформление"),
         "thereIsNoSavedOrHistoryVideos": MessageLookupByLibrary.simpleMessage(
             "Сохранённых/просмотренных видео нет"),

@@ -5,6 +5,7 @@ import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 
@@ -42,7 +43,8 @@ class PipedScreenWatch extends StatelessWidget {
         return BlocBuilder<SavedBloc, SavedState>(
           builder: (context, savedState) {
             if ((state.oldId != id || state.oldId == null) &&
-                !state.isWatchInfoError) {
+                !(state.fetchWatchInfoStatus == ApiStatus.loaded ||
+                    state.fetchWatchInfoStatus == ApiStatus.loading)) {
               BlocProvider.of<WatchBloc>(context)
                   .add(WatchEvent.getWatchInfo(id: id));
               BlocProvider.of<WatchBloc>(context)
@@ -56,7 +58,7 @@ class PipedScreenWatch extends StatelessWidget {
                 ? true
                 : false;
 
-            if (state.isWatchInfoError ||
+            if (state.fetchWatchInfoStatus == ApiStatus.error ||
                 (settingsState.isHlsPlayer && watchInfo.hls == null)) {
               return ErrorRetryWidget(
                 lottie: 'assets/cat-404.zip',
@@ -89,14 +91,19 @@ class PipedScreenWatch extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              (state.isLoading || state.isSubtitleLoading)
+                              (state.fetchWatchInfoStatus ==
+                                          ApiStatus.initial ||
+                                      state.fetchWatchInfoStatus ==
+                                          ApiStatus.loading ||
+                                      state.fetchSubtitlesStatus ==
+                                          ApiStatus.loading)
                                   ? Container(
-                                    height: 200,
-                                    color: kBlackColor,
-                                    child: Center(
-                                      child: cIndicator(context),
-                                    ),
-                                  )
+                                      height: 200,
+                                      color: kBlackColor,
+                                      child: Center(
+                                        child: cIndicator(context),
+                                      ),
+                                    )
                                   : VideoPlayerWidget(
                                       videoId: id,
                                       watchInfo: state.watchResp,
@@ -107,7 +114,8 @@ class PipedScreenWatch extends StatelessWidget {
                                           0,
                                       isSaved: isSaved,
                                       isHlsPlayer: settingsState.isHlsPlayer,
-                                      subtitles: state.isSubtitleLoading
+                                      subtitles: state.fetchSubtitlesStatus ==
+                                              ApiStatus.loading
                                           ? []
                                           : state.subtitles,
                                     ),
@@ -119,9 +127,15 @@ class PipedScreenWatch extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       // * caption row
-                                      (state.isLoading)
+                                      (state.fetchWatchInfoStatus ==
+                                                  ApiStatus.initial ||
+                                              state.fetchWatchInfoStatus ==
+                                                  ApiStatus.loading)
                                           ? CaptionRowWidget(
-                                              caption: state.selectedVideoBasicDetails?.title ?? locals.noVideoTitle,
+                                              caption: state
+                                                      .selectedVideoBasicDetails
+                                                      ?.title ??
+                                                  locals.noVideoTitle,
                                               icon: state.isDescriptionTapped
                                                   ? CupertinoIcons.chevron_up
                                                   : CupertinoIcons.chevron_down,
@@ -145,7 +159,10 @@ class PipedScreenWatch extends StatelessWidget {
                                       kHeightBox5,
 
                                       // * views row
-                                      (state.isLoading)
+                                      (state.fetchWatchInfoStatus ==
+                                                  ApiStatus.initial ||
+                                              state.fetchWatchInfoStatus ==
+                                                  ApiStatus.loading)
                                           ? const SizedBox()
                                           : ViewRowWidget(
                                               views: watchInfo.views,
@@ -156,7 +173,10 @@ class PipedScreenWatch extends StatelessWidget {
                                       kHeightBox10,
 
                                       // * like row
-                                      (state.isLoading)
+                                      (state.fetchWatchInfoStatus ==
+                                                  ApiStatus.initial ||
+                                              state.fetchWatchInfoStatus ==
+                                                  ApiStatus.loading)
                                           ? const ShimmerLikeWidget()
                                           : LikeSection(
                                               id: id,
@@ -175,7 +195,10 @@ class PipedScreenWatch extends StatelessWidget {
                                       const Divider(),
 
                                       // * channel info row
-                                      (state.isLoading)
+                                      (state.fetchWatchInfoStatus ==
+                                                  ApiStatus.initial ||
+                                              state.fetchWatchInfoStatus ==
+                                                  ApiStatus.loading)
                                           ? const ShimmerSubscribeWidget()
                                           : ChannelInfoSection(
                                               state: state,
@@ -195,7 +218,11 @@ class PipedScreenWatch extends StatelessWidget {
                                           state.isTapComments == false
                                               ? settingsState.isHideRelated
                                                   ? const SizedBox()
-                                                  : (state.isLoading)
+                                                  : (state.fetchWatchInfoStatus ==
+                                                              ApiStatus
+                                                                  .initial ||
+                                                          state.fetchWatchInfoStatus ==
+                                                              ApiStatus.loading)
                                                       ? SizedBox(
                                                           height: 350,
                                                           child: ListView
@@ -266,7 +293,10 @@ class PipedScreenWatch extends StatelessWidget {
           playbackPosition: savedState.videoInfo?.playbackPosition ?? 0,
           isSaved: isSaved,
           isHlsPlayer: settingsState.isHlsPlayer,
-          subtitles: state.isSubtitleLoading ? [] : state.subtitles,
+          subtitles: (state.fetchSubtitlesStatus == ApiStatus.loading ||
+                  state.fetchSubtitlesStatus == ApiStatus.initial)
+              ? []
+              : state.subtitles,
         );
       }, //Optional
     ));

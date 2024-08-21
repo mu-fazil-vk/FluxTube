@@ -3,16 +3,14 @@ part of 'saved_bloc.dart';
 @freezed
 class SavedState with _$SavedState {
   const factory SavedState({
-    required bool isLoading,
-    required bool isError,
+    required ApiStatus savedVideosFetchStatus,
     required LocalStoreVideoInfo? videoInfo,
     required List<LocalStoreVideoInfo> localSavedVideos,
     required List<LocalStoreVideoInfo> localSavedHistoryVideos,
   }) = _Initial;
 
   factory SavedState.initialize() => const SavedState(
-      isLoading: false,
-      isError: false,
+      savedVideosFetchStatus: ApiStatus.initial,
       localSavedVideos: [],
       localSavedHistoryVideos: [],
       videoInfo: null);

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import 'package:fluxtube/application/application.dart';
@@ -91,7 +92,10 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // * caption row
-                              (state.isLoading)
+                              (state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.initial ||
+                                      state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.loading)
                                   ? CaptionRowWidget(
                                       caption: state.selectedVideoBasicDetails
                                               ?.title ??
@@ -115,7 +119,10 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
                               kHeightBox5,
 
                               // * views row
-                              (state.isLoading)
+                              (state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.initial ||
+                                      state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.loading)
                                   ? const SizedBox()
                                   : ViewRowWidget(
                                       views: watchInfo.viewCount,
@@ -126,7 +133,10 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
                               kHeightBox10,
 
                               // * like row
-                              (state.isLoading)
+                              (state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.initial ||
+                                      state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.loading)
                                   ? const ShimmerLikeWidget()
                                   : ExplodeLikeSection(
                                       id: widget.id,
@@ -145,7 +155,10 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
                               const Divider(),
 
                               // * channel info row
-                              (state.isLoading)
+                              (state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.initial ||
+                                      state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.loading)
                                   ? const ShimmerSubscribeWidget()
                                   : ExplodeChannelInfoSection(
                                       state: state,
@@ -165,7 +178,10 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
                                   state.isTapComments == false
                                       ? widget.settingsState.isHideRelated
                                           ? const SizedBox()
-                                          : (state.isRelatedVideosLoading)
+                                          : (state.fetchExplodedRelatedVideosStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchExplodedRelatedVideosStatus ==
+                                                      ApiStatus.loading)
                                               ? SizedBox(
                                                   height: 350,
                                                   child: ListView.separated(
@@ -232,7 +248,10 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
           isSaved: isSaved,
           liveUrl: state.liveStreamUrl,
           availableVideoTracks: state.muxedStreams ?? [],
-          subtitles: state.isSubtitleLoading ? [] : state.subtitles,
+          subtitles: (state.fetchSubtitlesStatus == ApiStatus.loading ||
+                  state.fetchSubtitlesStatus == ApiStatus.initial)
+              ? []
+              : state.subtitles,
         );
       }, //Optional
     ));

@@ -644,8 +644,7 @@ abstract class CheckSubscribeInfo implements SubscribeEvent {
 
 /// @nodoc
 mixin _$SubscribeState {
-  bool get isLoading => throw _privateConstructorUsedError;
-  bool get isError => throw _privateConstructorUsedError;
+  ApiStatus get subscribeStatus => throw _privateConstructorUsedError;
   Subscribe? get channelInfo => throw _privateConstructorUsedError;
   List<Subscribe> get subscribedChannels => throw _privateConstructorUsedError;
 
@@ -661,8 +660,7 @@ abstract class $SubscribeStateCopyWith<$Res> {
       _$SubscribeStateCopyWithImpl<$Res, SubscribeState>;
   @useResult
   $Res call(
-      {bool isLoading,
-      bool isError,
+      {ApiStatus subscribeStatus,
       Subscribe? channelInfo,
       List<Subscribe> subscribedChannels});
 }
@@ -680,20 +678,15 @@ class _$SubscribeStateCopyWithImpl<$Res, $Val extends SubscribeState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
-    Object? isError = null,
+    Object? subscribeStatus = null,
     Object? channelInfo = freezed,
     Object? subscribedChannels = null,
   }) {
     return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      subscribeStatus: null == subscribeStatus
+          ? _value.subscribeStatus
+          : subscribeStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       channelInfo: freezed == channelInfo
           ? _value.channelInfo
           : channelInfo // ignore: cast_nullable_to_non_nullable
@@ -715,8 +708,7 @@ abstract class _$$InitialImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading,
-      bool isError,
+      {ApiStatus subscribeStatus,
       Subscribe? channelInfo,
       List<Subscribe> subscribedChannels});
 }
@@ -732,20 +724,15 @@ class __$$InitialImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
-    Object? isError = null,
+    Object? subscribeStatus = null,
     Object? channelInfo = freezed,
     Object? subscribedChannels = null,
   }) {
     return _then(_$InitialImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      subscribeStatus: null == subscribeStatus
+          ? _value.subscribeStatus
+          : subscribeStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       channelInfo: freezed == channelInfo
           ? _value.channelInfo
           : channelInfo // ignore: cast_nullable_to_non_nullable
@@ -762,16 +749,13 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
-      {required this.isLoading,
-      required this.isError,
+      {required this.subscribeStatus,
       required this.channelInfo,
       required final List<Subscribe> subscribedChannels})
       : _subscribedChannels = subscribedChannels;
 
   @override
-  final bool isLoading;
-  @override
-  final bool isError;
+  final ApiStatus subscribeStatus;
   @override
   final Subscribe? channelInfo;
   final List<Subscribe> _subscribedChannels;
@@ -785,7 +769,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'SubscribeState(isLoading: $isLoading, isError: $isError, channelInfo: $channelInfo, subscribedChannels: $subscribedChannels)';
+    return 'SubscribeState(subscribeStatus: $subscribeStatus, channelInfo: $channelInfo, subscribedChannels: $subscribedChannels)';
   }
 
   @override
@@ -793,9 +777,8 @@ class _$InitialImpl implements _Initial {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InitialImpl &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.isError, isError) || other.isError == isError) &&
+            (identical(other.subscribeStatus, subscribeStatus) ||
+                other.subscribeStatus == subscribeStatus) &&
             (identical(other.channelInfo, channelInfo) ||
                 other.channelInfo == channelInfo) &&
             const DeepCollectionEquality()
@@ -803,7 +786,7 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isError, channelInfo,
+  int get hashCode => Object.hash(runtimeType, subscribeStatus, channelInfo,
       const DeepCollectionEquality().hash(_subscribedChannels));
 
   @JsonKey(ignore: true)
@@ -815,15 +798,12 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements SubscribeState {
   const factory _Initial(
-      {required final bool isLoading,
-      required final bool isError,
+      {required final ApiStatus subscribeStatus,
       required final Subscribe? channelInfo,
       required final List<Subscribe> subscribedChannels}) = _$InitialImpl;
 
   @override
-  bool get isLoading;
-  @override
-  bool get isError;
+  ApiStatus get subscribeStatus;
   @override
   Subscribe? get channelInfo;
   @override

@@ -86,6 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "share": MessageLookupByLibrary.simpleMessage("Share"),
         "showLessText": MessageLookupByLibrary.simpleMessage("Daha az göster"),
         "subscribe": MessageLookupByLibrary.simpleMessage("Abone Ol"),
+        "switchRegion": MessageLookupByLibrary.simpleMessage(
+            "Please consider switching to a different region for better results."),
         "theme": MessageLookupByLibrary.simpleMessage("Tema"),
         "thereIsNoSavedOrHistoryVideos":
             MessageLookupByLibrary.simpleMessage("Kaydedilen/geçmiş video yok"),

@@ -582,14 +582,13 @@ abstract class GetSearchSuggestion implements SearchEvent {
 /// @nodoc
 mixin _$SearchState {
   SearchResp? get result => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
-  bool get isError => throw _privateConstructorUsedError;
+  ApiStatus get fetchSearchResultStatus => throw _privateConstructorUsedError;
   List<dynamic> get suggestions => throw _privateConstructorUsedError;
-  bool get isSuggestionError => throw _privateConstructorUsedError;
   bool get isSuggestionDisplay => throw _privateConstructorUsedError;
-  bool get isMoreFetchLoading => throw _privateConstructorUsedError;
-  bool get isMoreFetchError => throw _privateConstructorUsedError;
   bool get isMoreFetchCompleted => throw _privateConstructorUsedError;
+  ApiStatus get fetchSuggestionStatus => throw _privateConstructorUsedError;
+  ApiStatus get fetchMoreSearchResultStatus =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SearchStateCopyWith<SearchState> get copyWith =>
@@ -604,14 +603,12 @@ abstract class $SearchStateCopyWith<$Res> {
   @useResult
   $Res call(
       {SearchResp? result,
-      bool isLoading,
-      bool isError,
+      ApiStatus fetchSearchResultStatus,
       List<dynamic> suggestions,
-      bool isSuggestionError,
       bool isSuggestionDisplay,
-      bool isMoreFetchLoading,
-      bool isMoreFetchError,
-      bool isMoreFetchCompleted});
+      bool isMoreFetchCompleted,
+      ApiStatus fetchSuggestionStatus,
+      ApiStatus fetchMoreSearchResultStatus});
 }
 
 /// @nodoc
@@ -628,52 +625,42 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
   @override
   $Res call({
     Object? result = freezed,
-    Object? isLoading = null,
-    Object? isError = null,
+    Object? fetchSearchResultStatus = null,
     Object? suggestions = null,
-    Object? isSuggestionError = null,
     Object? isSuggestionDisplay = null,
-    Object? isMoreFetchLoading = null,
-    Object? isMoreFetchError = null,
     Object? isMoreFetchCompleted = null,
+    Object? fetchSuggestionStatus = null,
+    Object? fetchMoreSearchResultStatus = null,
   }) {
     return _then(_value.copyWith(
       result: freezed == result
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
               as SearchResp?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchSearchResultStatus: null == fetchSearchResultStatus
+          ? _value.fetchSearchResultStatus
+          : fetchSearchResultStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       suggestions: null == suggestions
           ? _value.suggestions
           : suggestions // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
-      isSuggestionError: null == isSuggestionError
-          ? _value.isSuggestionError
-          : isSuggestionError // ignore: cast_nullable_to_non_nullable
-              as bool,
       isSuggestionDisplay: null == isSuggestionDisplay
           ? _value.isSuggestionDisplay
           : isSuggestionDisplay // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMoreFetchLoading: null == isMoreFetchLoading
-          ? _value.isMoreFetchLoading
-          : isMoreFetchLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMoreFetchError: null == isMoreFetchError
-          ? _value.isMoreFetchError
-          : isMoreFetchError // ignore: cast_nullable_to_non_nullable
               as bool,
       isMoreFetchCompleted: null == isMoreFetchCompleted
           ? _value.isMoreFetchCompleted
           : isMoreFetchCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      fetchSuggestionStatus: null == fetchSuggestionStatus
+          ? _value.fetchSuggestionStatus
+          : fetchSuggestionStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
+      fetchMoreSearchResultStatus: null == fetchMoreSearchResultStatus
+          ? _value.fetchMoreSearchResultStatus
+          : fetchMoreSearchResultStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
     ) as $Val);
   }
 }
@@ -688,14 +675,12 @@ abstract class _$$SearchStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {SearchResp? result,
-      bool isLoading,
-      bool isError,
+      ApiStatus fetchSearchResultStatus,
       List<dynamic> suggestions,
-      bool isSuggestionError,
       bool isSuggestionDisplay,
-      bool isMoreFetchLoading,
-      bool isMoreFetchError,
-      bool isMoreFetchCompleted});
+      bool isMoreFetchCompleted,
+      ApiStatus fetchSuggestionStatus,
+      ApiStatus fetchMoreSearchResultStatus});
 }
 
 /// @nodoc
@@ -710,52 +695,42 @@ class __$$SearchStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? result = freezed,
-    Object? isLoading = null,
-    Object? isError = null,
+    Object? fetchSearchResultStatus = null,
     Object? suggestions = null,
-    Object? isSuggestionError = null,
     Object? isSuggestionDisplay = null,
-    Object? isMoreFetchLoading = null,
-    Object? isMoreFetchError = null,
     Object? isMoreFetchCompleted = null,
+    Object? fetchSuggestionStatus = null,
+    Object? fetchMoreSearchResultStatus = null,
   }) {
     return _then(_$SearchStateImpl(
       result: freezed == result
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
               as SearchResp?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchSearchResultStatus: null == fetchSearchResultStatus
+          ? _value.fetchSearchResultStatus
+          : fetchSearchResultStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       suggestions: null == suggestions
           ? _value._suggestions
           : suggestions // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
-      isSuggestionError: null == isSuggestionError
-          ? _value.isSuggestionError
-          : isSuggestionError // ignore: cast_nullable_to_non_nullable
-              as bool,
       isSuggestionDisplay: null == isSuggestionDisplay
           ? _value.isSuggestionDisplay
           : isSuggestionDisplay // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMoreFetchLoading: null == isMoreFetchLoading
-          ? _value.isMoreFetchLoading
-          : isMoreFetchLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMoreFetchError: null == isMoreFetchError
-          ? _value.isMoreFetchError
-          : isMoreFetchError // ignore: cast_nullable_to_non_nullable
               as bool,
       isMoreFetchCompleted: null == isMoreFetchCompleted
           ? _value.isMoreFetchCompleted
           : isMoreFetchCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      fetchSuggestionStatus: null == fetchSuggestionStatus
+          ? _value.fetchSuggestionStatus
+          : fetchSuggestionStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
+      fetchMoreSearchResultStatus: null == fetchMoreSearchResultStatus
+          ? _value.fetchMoreSearchResultStatus
+          : fetchMoreSearchResultStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
     ));
   }
 }
@@ -765,22 +740,18 @@ class __$$SearchStateImplCopyWithImpl<$Res>
 class _$SearchStateImpl implements _SearchState {
   const _$SearchStateImpl(
       {required this.result,
-      required this.isLoading,
-      required this.isError,
+      required this.fetchSearchResultStatus,
       required final List<dynamic> suggestions,
-      required this.isSuggestionError,
       required this.isSuggestionDisplay,
-      required this.isMoreFetchLoading,
-      required this.isMoreFetchError,
-      required this.isMoreFetchCompleted})
+      required this.isMoreFetchCompleted,
+      required this.fetchSuggestionStatus,
+      required this.fetchMoreSearchResultStatus})
       : _suggestions = suggestions;
 
   @override
   final SearchResp? result;
   @override
-  final bool isLoading;
-  @override
-  final bool isError;
+  final ApiStatus fetchSearchResultStatus;
   final List<dynamic> _suggestions;
   @override
   List<dynamic> get suggestions {
@@ -790,19 +761,17 @@ class _$SearchStateImpl implements _SearchState {
   }
 
   @override
-  final bool isSuggestionError;
-  @override
   final bool isSuggestionDisplay;
   @override
-  final bool isMoreFetchLoading;
-  @override
-  final bool isMoreFetchError;
-  @override
   final bool isMoreFetchCompleted;
+  @override
+  final ApiStatus fetchSuggestionStatus;
+  @override
+  final ApiStatus fetchMoreSearchResultStatus;
 
   @override
   String toString() {
-    return 'SearchState(result: $result, isLoading: $isLoading, isError: $isError, suggestions: $suggestions, isSuggestionError: $isSuggestionError, isSuggestionDisplay: $isSuggestionDisplay, isMoreFetchLoading: $isMoreFetchLoading, isMoreFetchError: $isMoreFetchError, isMoreFetchCompleted: $isMoreFetchCompleted)';
+    return 'SearchState(result: $result, fetchSearchResultStatus: $fetchSearchResultStatus, suggestions: $suggestions, isSuggestionDisplay: $isSuggestionDisplay, isMoreFetchCompleted: $isMoreFetchCompleted, fetchSuggestionStatus: $fetchSuggestionStatus, fetchMoreSearchResultStatus: $fetchMoreSearchResultStatus)';
   }
 
   @override
@@ -811,35 +780,33 @@ class _$SearchStateImpl implements _SearchState {
         (other.runtimeType == runtimeType &&
             other is _$SearchStateImpl &&
             (identical(other.result, result) || other.result == result) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.isError, isError) || other.isError == isError) &&
+            (identical(
+                    other.fetchSearchResultStatus, fetchSearchResultStatus) ||
+                other.fetchSearchResultStatus == fetchSearchResultStatus) &&
             const DeepCollectionEquality()
                 .equals(other._suggestions, _suggestions) &&
-            (identical(other.isSuggestionError, isSuggestionError) ||
-                other.isSuggestionError == isSuggestionError) &&
             (identical(other.isSuggestionDisplay, isSuggestionDisplay) ||
                 other.isSuggestionDisplay == isSuggestionDisplay) &&
-            (identical(other.isMoreFetchLoading, isMoreFetchLoading) ||
-                other.isMoreFetchLoading == isMoreFetchLoading) &&
-            (identical(other.isMoreFetchError, isMoreFetchError) ||
-                other.isMoreFetchError == isMoreFetchError) &&
             (identical(other.isMoreFetchCompleted, isMoreFetchCompleted) ||
-                other.isMoreFetchCompleted == isMoreFetchCompleted));
+                other.isMoreFetchCompleted == isMoreFetchCompleted) &&
+            (identical(other.fetchSuggestionStatus, fetchSuggestionStatus) ||
+                other.fetchSuggestionStatus == fetchSuggestionStatus) &&
+            (identical(other.fetchMoreSearchResultStatus,
+                    fetchMoreSearchResultStatus) ||
+                other.fetchMoreSearchResultStatus ==
+                    fetchMoreSearchResultStatus));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       result,
-      isLoading,
-      isError,
+      fetchSearchResultStatus,
       const DeepCollectionEquality().hash(_suggestions),
-      isSuggestionError,
       isSuggestionDisplay,
-      isMoreFetchLoading,
-      isMoreFetchError,
-      isMoreFetchCompleted);
+      isMoreFetchCompleted,
+      fetchSuggestionStatus,
+      fetchMoreSearchResultStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -850,34 +817,29 @@ class _$SearchStateImpl implements _SearchState {
 
 abstract class _SearchState implements SearchState {
   const factory _SearchState(
-      {required final SearchResp? result,
-      required final bool isLoading,
-      required final bool isError,
-      required final List<dynamic> suggestions,
-      required final bool isSuggestionError,
-      required final bool isSuggestionDisplay,
-      required final bool isMoreFetchLoading,
-      required final bool isMoreFetchError,
-      required final bool isMoreFetchCompleted}) = _$SearchStateImpl;
+          {required final SearchResp? result,
+          required final ApiStatus fetchSearchResultStatus,
+          required final List<dynamic> suggestions,
+          required final bool isSuggestionDisplay,
+          required final bool isMoreFetchCompleted,
+          required final ApiStatus fetchSuggestionStatus,
+          required final ApiStatus fetchMoreSearchResultStatus}) =
+      _$SearchStateImpl;
 
   @override
   SearchResp? get result;
   @override
-  bool get isLoading;
-  @override
-  bool get isError;
+  ApiStatus get fetchSearchResultStatus;
   @override
   List<dynamic> get suggestions;
   @override
-  bool get isSuggestionError;
-  @override
   bool get isSuggestionDisplay;
   @override
-  bool get isMoreFetchLoading;
-  @override
-  bool get isMoreFetchError;
-  @override
   bool get isMoreFetchCompleted;
+  @override
+  ApiStatus get fetchSuggestionStatus;
+  @override
+  ApiStatus get fetchMoreSearchResultStatus;
   @override
   @JsonKey(ignore: true)
   _$$SearchStateImplCopyWith<_$SearchStateImpl> get copyWith =>

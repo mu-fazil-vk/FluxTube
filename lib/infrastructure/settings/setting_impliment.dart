@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
@@ -63,7 +64,7 @@ class SettingImpliment implements SettingsService {
       {"name": commentsVisibility, "default": "false"},
       {"name": relatedVideoVisibility, "default": "false"},
       {"name": instanceApiUrl, "default": BaseUrl.kBaseUrl},
-      {"name": youtubeService, "default": "piped"},
+      {"name": youtubeService, "default": YouTubeServices.piped.name},
       // Add more settings here
     ];
 
@@ -430,7 +431,7 @@ class SettingImpliment implements SettingsService {
   }
 
   @override
-  Future<Either<MainFailure, String>> setTYService({required String service}) async {
+  Future<Either<MainFailure, YouTubeServices>> setTYService({required YouTubeServices service}) async {
     try {
       await isar.writeTxn(() async {
         final existingYTServiceSetting = await isar.settingsDBValues
@@ -441,10 +442,10 @@ class SettingImpliment implements SettingsService {
         if (existingYTServiceSetting == null) {
           final newYTServiceSetting = SettingsDBValue()
             ..name = youtubeService
-            ..value = service;
+            ..value = service.name;
           await isar.settingsDBValues.put(newYTServiceSetting);
         } else {
-          existingYTServiceSetting.value = service;
+          existingYTServiceSetting.value = service.name;
           await isar.settingsDBValues.put(existingYTServiceSetting);
         }
       });

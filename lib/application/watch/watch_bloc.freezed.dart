@@ -3237,37 +3237,33 @@ mixin _$WatchState {
   CommentsResp get comments => throw _privateConstructorUsedError;
   CommentsResp get commentReplies => throw _privateConstructorUsedError;
   String? get oldId => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
-  bool get isWatchInfoError => throw _privateConstructorUsedError;
-  bool get initialVideoPause => throw _privateConstructorUsedError;
+  ApiStatus get fetchWatchInfoStatus => throw _privateConstructorUsedError;
+  ApiStatus get fetchExplodeWatchInfoStatus =>
+      throw _privateConstructorUsedError;
   bool get isTapComments => throw _privateConstructorUsedError;
-  bool get isCommentsLoading => throw _privateConstructorUsedError;
-  bool get isCommentRepliesLoading => throw _privateConstructorUsedError;
-  bool get isCommentError => throw _privateConstructorUsedError;
-  bool get isCommentRepliesError => throw _privateConstructorUsedError;
+  ApiStatus get fetchCommentsStatus => throw _privateConstructorUsedError;
+  ApiStatus get fetchCommentRepliesStatus => throw _privateConstructorUsedError;
   bool get isDescriptionTapped => throw _privateConstructorUsedError;
-  bool get isMoreCommetsFetchError => throw _privateConstructorUsedError;
-  bool get isMoreCommetsFetchLoading => throw _privateConstructorUsedError;
+  ApiStatus get fetchMoreCommentsStatus => throw _privateConstructorUsedError;
   bool get isMoreCommetsFetchCompleted => throw _privateConstructorUsedError;
-  bool get isMoreReplyCommetsFetchError => throw _privateConstructorUsedError;
-  bool get isMoreReplyCommetsFetchLoading => throw _privateConstructorUsedError;
+  ApiStatus get fetchMoreCommentRepliesStatus =>
+      throw _privateConstructorUsedError;
   bool get isMoreReplyCommetsFetchCompleted =>
       throw _privateConstructorUsedError;
-  bool get isSubtitleLoading => throw _privateConstructorUsedError;
-  bool get isSubtitleError => throw _privateConstructorUsedError;
+  ApiStatus get fetchSubtitlesStatus => throw _privateConstructorUsedError;
   List<Map<String, String>> get subtitles => throw _privateConstructorUsedError;
   bool get isPipEnabled => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String? get liveStreamUrl => throw _privateConstructorUsedError;
-  bool get isLiveStreamLoading => throw _privateConstructorUsedError;
-  bool get isLiveStreamError => throw _privateConstructorUsedError;
+  ApiStatus get fetchExplodeLiveStreamStatus =>
+      throw _privateConstructorUsedError;
   List<MyRelatedVideo>? get relatedVideos => throw _privateConstructorUsedError;
-  bool get isRelatedVideosLoading => throw _privateConstructorUsedError;
-  bool get isRelatedVideosError => throw _privateConstructorUsedError;
+  ApiStatus get fetchExplodedRelatedVideosStatus =>
+      throw _privateConstructorUsedError;
   List<MyMuxedStreamInfo>? get muxedStreams =>
       throw _privateConstructorUsedError;
-  bool get isMuxedStreamsLoading => throw _privateConstructorUsedError;
-  bool get isMuxedStreamsError => throw _privateConstructorUsedError;
+  ApiStatus get fetchExplodeMuxedStreamsStatus =>
+      throw _privateConstructorUsedError;
   VideoBasicInfo? get selectedVideoBasicDetails =>
       throw _privateConstructorUsedError;
 
@@ -3288,35 +3284,26 @@ abstract class $WatchStateCopyWith<$Res> {
       CommentsResp comments,
       CommentsResp commentReplies,
       String? oldId,
-      bool isLoading,
-      bool isWatchInfoError,
-      bool initialVideoPause,
+      ApiStatus fetchWatchInfoStatus,
+      ApiStatus fetchExplodeWatchInfoStatus,
       bool isTapComments,
-      bool isCommentsLoading,
-      bool isCommentRepliesLoading,
-      bool isCommentError,
-      bool isCommentRepliesError,
+      ApiStatus fetchCommentsStatus,
+      ApiStatus fetchCommentRepliesStatus,
       bool isDescriptionTapped,
-      bool isMoreCommetsFetchError,
-      bool isMoreCommetsFetchLoading,
+      ApiStatus fetchMoreCommentsStatus,
       bool isMoreCommetsFetchCompleted,
-      bool isMoreReplyCommetsFetchError,
-      bool isMoreReplyCommetsFetchLoading,
+      ApiStatus fetchMoreCommentRepliesStatus,
       bool isMoreReplyCommetsFetchCompleted,
-      bool isSubtitleLoading,
-      bool isSubtitleError,
+      ApiStatus fetchSubtitlesStatus,
       List<Map<String, String>> subtitles,
       bool isPipEnabled,
       String title,
       String? liveStreamUrl,
-      bool isLiveStreamLoading,
-      bool isLiveStreamError,
+      ApiStatus fetchExplodeLiveStreamStatus,
       List<MyRelatedVideo>? relatedVideos,
-      bool isRelatedVideosLoading,
-      bool isRelatedVideosError,
+      ApiStatus fetchExplodedRelatedVideosStatus,
       List<MyMuxedStreamInfo>? muxedStreams,
-      bool isMuxedStreamsLoading,
-      bool isMuxedStreamsError,
+      ApiStatus fetchExplodeMuxedStreamsStatus,
       VideoBasicInfo? selectedVideoBasicDetails});
 }
 
@@ -3338,35 +3325,26 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
     Object? comments = null,
     Object? commentReplies = null,
     Object? oldId = freezed,
-    Object? isLoading = null,
-    Object? isWatchInfoError = null,
-    Object? initialVideoPause = null,
+    Object? fetchWatchInfoStatus = null,
+    Object? fetchExplodeWatchInfoStatus = null,
     Object? isTapComments = null,
-    Object? isCommentsLoading = null,
-    Object? isCommentRepliesLoading = null,
-    Object? isCommentError = null,
-    Object? isCommentRepliesError = null,
+    Object? fetchCommentsStatus = null,
+    Object? fetchCommentRepliesStatus = null,
     Object? isDescriptionTapped = null,
-    Object? isMoreCommetsFetchError = null,
-    Object? isMoreCommetsFetchLoading = null,
+    Object? fetchMoreCommentsStatus = null,
     Object? isMoreCommetsFetchCompleted = null,
-    Object? isMoreReplyCommetsFetchError = null,
-    Object? isMoreReplyCommetsFetchLoading = null,
+    Object? fetchMoreCommentRepliesStatus = null,
     Object? isMoreReplyCommetsFetchCompleted = null,
-    Object? isSubtitleLoading = null,
-    Object? isSubtitleError = null,
+    Object? fetchSubtitlesStatus = null,
     Object? subtitles = null,
     Object? isPipEnabled = null,
     Object? title = null,
     Object? liveStreamUrl = freezed,
-    Object? isLiveStreamLoading = null,
-    Object? isLiveStreamError = null,
+    Object? fetchExplodeLiveStreamStatus = null,
     Object? relatedVideos = freezed,
-    Object? isRelatedVideosLoading = null,
-    Object? isRelatedVideosError = null,
+    Object? fetchExplodedRelatedVideosStatus = null,
     Object? muxedStreams = freezed,
-    Object? isMuxedStreamsLoading = null,
-    Object? isMuxedStreamsError = null,
+    Object? fetchExplodeMuxedStreamsStatus = null,
     Object? selectedVideoBasicDetails = freezed,
   }) {
     return _then(_value.copyWith(
@@ -3390,74 +3368,50 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
           ? _value.oldId
           : oldId // ignore: cast_nullable_to_non_nullable
               as String?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isWatchInfoError: null == isWatchInfoError
-          ? _value.isWatchInfoError
-          : isWatchInfoError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      initialVideoPause: null == initialVideoPause
-          ? _value.initialVideoPause
-          : initialVideoPause // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchWatchInfoStatus: null == fetchWatchInfoStatus
+          ? _value.fetchWatchInfoStatus
+          : fetchWatchInfoStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
+      fetchExplodeWatchInfoStatus: null == fetchExplodeWatchInfoStatus
+          ? _value.fetchExplodeWatchInfoStatus
+          : fetchExplodeWatchInfoStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       isTapComments: null == isTapComments
           ? _value.isTapComments
           : isTapComments // ignore: cast_nullable_to_non_nullable
               as bool,
-      isCommentsLoading: null == isCommentsLoading
-          ? _value.isCommentsLoading
-          : isCommentsLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCommentRepliesLoading: null == isCommentRepliesLoading
-          ? _value.isCommentRepliesLoading
-          : isCommentRepliesLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCommentError: null == isCommentError
-          ? _value.isCommentError
-          : isCommentError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCommentRepliesError: null == isCommentRepliesError
-          ? _value.isCommentRepliesError
-          : isCommentRepliesError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchCommentsStatus: null == fetchCommentsStatus
+          ? _value.fetchCommentsStatus
+          : fetchCommentsStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
+      fetchCommentRepliesStatus: null == fetchCommentRepliesStatus
+          ? _value.fetchCommentRepliesStatus
+          : fetchCommentRepliesStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       isDescriptionTapped: null == isDescriptionTapped
           ? _value.isDescriptionTapped
           : isDescriptionTapped // ignore: cast_nullable_to_non_nullable
               as bool,
-      isMoreCommetsFetchError: null == isMoreCommetsFetchError
-          ? _value.isMoreCommetsFetchError
-          : isMoreCommetsFetchError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMoreCommetsFetchLoading: null == isMoreCommetsFetchLoading
-          ? _value.isMoreCommetsFetchLoading
-          : isMoreCommetsFetchLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchMoreCommentsStatus: null == fetchMoreCommentsStatus
+          ? _value.fetchMoreCommentsStatus
+          : fetchMoreCommentsStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       isMoreCommetsFetchCompleted: null == isMoreCommetsFetchCompleted
           ? _value.isMoreCommetsFetchCompleted
           : isMoreCommetsFetchCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
-      isMoreReplyCommetsFetchError: null == isMoreReplyCommetsFetchError
-          ? _value.isMoreReplyCommetsFetchError
-          : isMoreReplyCommetsFetchError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMoreReplyCommetsFetchLoading: null == isMoreReplyCommetsFetchLoading
-          ? _value.isMoreReplyCommetsFetchLoading
-          : isMoreReplyCommetsFetchLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchMoreCommentRepliesStatus: null == fetchMoreCommentRepliesStatus
+          ? _value.fetchMoreCommentRepliesStatus
+          : fetchMoreCommentRepliesStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       isMoreReplyCommetsFetchCompleted: null == isMoreReplyCommetsFetchCompleted
           ? _value.isMoreReplyCommetsFetchCompleted
           : isMoreReplyCommetsFetchCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
-      isSubtitleLoading: null == isSubtitleLoading
-          ? _value.isSubtitleLoading
-          : isSubtitleLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSubtitleError: null == isSubtitleError
-          ? _value.isSubtitleError
-          : isSubtitleError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchSubtitlesStatus: null == fetchSubtitlesStatus
+          ? _value.fetchSubtitlesStatus
+          : fetchSubtitlesStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       subtitles: null == subtitles
           ? _value.subtitles
           : subtitles // ignore: cast_nullable_to_non_nullable
@@ -3474,38 +3428,26 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
           ? _value.liveStreamUrl
           : liveStreamUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      isLiveStreamLoading: null == isLiveStreamLoading
-          ? _value.isLiveStreamLoading
-          : isLiveStreamLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLiveStreamError: null == isLiveStreamError
-          ? _value.isLiveStreamError
-          : isLiveStreamError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchExplodeLiveStreamStatus: null == fetchExplodeLiveStreamStatus
+          ? _value.fetchExplodeLiveStreamStatus
+          : fetchExplodeLiveStreamStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       relatedVideos: freezed == relatedVideos
           ? _value.relatedVideos
           : relatedVideos // ignore: cast_nullable_to_non_nullable
               as List<MyRelatedVideo>?,
-      isRelatedVideosLoading: null == isRelatedVideosLoading
-          ? _value.isRelatedVideosLoading
-          : isRelatedVideosLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isRelatedVideosError: null == isRelatedVideosError
-          ? _value.isRelatedVideosError
-          : isRelatedVideosError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchExplodedRelatedVideosStatus: null == fetchExplodedRelatedVideosStatus
+          ? _value.fetchExplodedRelatedVideosStatus
+          : fetchExplodedRelatedVideosStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       muxedStreams: freezed == muxedStreams
           ? _value.muxedStreams
           : muxedStreams // ignore: cast_nullable_to_non_nullable
               as List<MyMuxedStreamInfo>?,
-      isMuxedStreamsLoading: null == isMuxedStreamsLoading
-          ? _value.isMuxedStreamsLoading
-          : isMuxedStreamsLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMuxedStreamsError: null == isMuxedStreamsError
-          ? _value.isMuxedStreamsError
-          : isMuxedStreamsError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchExplodeMuxedStreamsStatus: null == fetchExplodeMuxedStreamsStatus
+          ? _value.fetchExplodeMuxedStreamsStatus
+          : fetchExplodeMuxedStreamsStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       selectedVideoBasicDetails: freezed == selectedVideoBasicDetails
           ? _value.selectedVideoBasicDetails
           : selectedVideoBasicDetails // ignore: cast_nullable_to_non_nullable
@@ -3528,35 +3470,26 @@ abstract class _$$InitialImplCopyWith<$Res>
       CommentsResp comments,
       CommentsResp commentReplies,
       String? oldId,
-      bool isLoading,
-      bool isWatchInfoError,
-      bool initialVideoPause,
+      ApiStatus fetchWatchInfoStatus,
+      ApiStatus fetchExplodeWatchInfoStatus,
       bool isTapComments,
-      bool isCommentsLoading,
-      bool isCommentRepliesLoading,
-      bool isCommentError,
-      bool isCommentRepliesError,
+      ApiStatus fetchCommentsStatus,
+      ApiStatus fetchCommentRepliesStatus,
       bool isDescriptionTapped,
-      bool isMoreCommetsFetchError,
-      bool isMoreCommetsFetchLoading,
+      ApiStatus fetchMoreCommentsStatus,
       bool isMoreCommetsFetchCompleted,
-      bool isMoreReplyCommetsFetchError,
-      bool isMoreReplyCommetsFetchLoading,
+      ApiStatus fetchMoreCommentRepliesStatus,
       bool isMoreReplyCommetsFetchCompleted,
-      bool isSubtitleLoading,
-      bool isSubtitleError,
+      ApiStatus fetchSubtitlesStatus,
       List<Map<String, String>> subtitles,
       bool isPipEnabled,
       String title,
       String? liveStreamUrl,
-      bool isLiveStreamLoading,
-      bool isLiveStreamError,
+      ApiStatus fetchExplodeLiveStreamStatus,
       List<MyRelatedVideo>? relatedVideos,
-      bool isRelatedVideosLoading,
-      bool isRelatedVideosError,
+      ApiStatus fetchExplodedRelatedVideosStatus,
       List<MyMuxedStreamInfo>? muxedStreams,
-      bool isMuxedStreamsLoading,
-      bool isMuxedStreamsError,
+      ApiStatus fetchExplodeMuxedStreamsStatus,
       VideoBasicInfo? selectedVideoBasicDetails});
 }
 
@@ -3576,35 +3509,26 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? comments = null,
     Object? commentReplies = null,
     Object? oldId = freezed,
-    Object? isLoading = null,
-    Object? isWatchInfoError = null,
-    Object? initialVideoPause = null,
+    Object? fetchWatchInfoStatus = null,
+    Object? fetchExplodeWatchInfoStatus = null,
     Object? isTapComments = null,
-    Object? isCommentsLoading = null,
-    Object? isCommentRepliesLoading = null,
-    Object? isCommentError = null,
-    Object? isCommentRepliesError = null,
+    Object? fetchCommentsStatus = null,
+    Object? fetchCommentRepliesStatus = null,
     Object? isDescriptionTapped = null,
-    Object? isMoreCommetsFetchError = null,
-    Object? isMoreCommetsFetchLoading = null,
+    Object? fetchMoreCommentsStatus = null,
     Object? isMoreCommetsFetchCompleted = null,
-    Object? isMoreReplyCommetsFetchError = null,
-    Object? isMoreReplyCommetsFetchLoading = null,
+    Object? fetchMoreCommentRepliesStatus = null,
     Object? isMoreReplyCommetsFetchCompleted = null,
-    Object? isSubtitleLoading = null,
-    Object? isSubtitleError = null,
+    Object? fetchSubtitlesStatus = null,
     Object? subtitles = null,
     Object? isPipEnabled = null,
     Object? title = null,
     Object? liveStreamUrl = freezed,
-    Object? isLiveStreamLoading = null,
-    Object? isLiveStreamError = null,
+    Object? fetchExplodeLiveStreamStatus = null,
     Object? relatedVideos = freezed,
-    Object? isRelatedVideosLoading = null,
-    Object? isRelatedVideosError = null,
+    Object? fetchExplodedRelatedVideosStatus = null,
     Object? muxedStreams = freezed,
-    Object? isMuxedStreamsLoading = null,
-    Object? isMuxedStreamsError = null,
+    Object? fetchExplodeMuxedStreamsStatus = null,
     Object? selectedVideoBasicDetails = freezed,
   }) {
     return _then(_$InitialImpl(
@@ -3628,74 +3552,50 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.oldId
           : oldId // ignore: cast_nullable_to_non_nullable
               as String?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isWatchInfoError: null == isWatchInfoError
-          ? _value.isWatchInfoError
-          : isWatchInfoError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      initialVideoPause: null == initialVideoPause
-          ? _value.initialVideoPause
-          : initialVideoPause // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchWatchInfoStatus: null == fetchWatchInfoStatus
+          ? _value.fetchWatchInfoStatus
+          : fetchWatchInfoStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
+      fetchExplodeWatchInfoStatus: null == fetchExplodeWatchInfoStatus
+          ? _value.fetchExplodeWatchInfoStatus
+          : fetchExplodeWatchInfoStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       isTapComments: null == isTapComments
           ? _value.isTapComments
           : isTapComments // ignore: cast_nullable_to_non_nullable
               as bool,
-      isCommentsLoading: null == isCommentsLoading
-          ? _value.isCommentsLoading
-          : isCommentsLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCommentRepliesLoading: null == isCommentRepliesLoading
-          ? _value.isCommentRepliesLoading
-          : isCommentRepliesLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCommentError: null == isCommentError
-          ? _value.isCommentError
-          : isCommentError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCommentRepliesError: null == isCommentRepliesError
-          ? _value.isCommentRepliesError
-          : isCommentRepliesError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchCommentsStatus: null == fetchCommentsStatus
+          ? _value.fetchCommentsStatus
+          : fetchCommentsStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
+      fetchCommentRepliesStatus: null == fetchCommentRepliesStatus
+          ? _value.fetchCommentRepliesStatus
+          : fetchCommentRepliesStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       isDescriptionTapped: null == isDescriptionTapped
           ? _value.isDescriptionTapped
           : isDescriptionTapped // ignore: cast_nullable_to_non_nullable
               as bool,
-      isMoreCommetsFetchError: null == isMoreCommetsFetchError
-          ? _value.isMoreCommetsFetchError
-          : isMoreCommetsFetchError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMoreCommetsFetchLoading: null == isMoreCommetsFetchLoading
-          ? _value.isMoreCommetsFetchLoading
-          : isMoreCommetsFetchLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchMoreCommentsStatus: null == fetchMoreCommentsStatus
+          ? _value.fetchMoreCommentsStatus
+          : fetchMoreCommentsStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       isMoreCommetsFetchCompleted: null == isMoreCommetsFetchCompleted
           ? _value.isMoreCommetsFetchCompleted
           : isMoreCommetsFetchCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
-      isMoreReplyCommetsFetchError: null == isMoreReplyCommetsFetchError
-          ? _value.isMoreReplyCommetsFetchError
-          : isMoreReplyCommetsFetchError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMoreReplyCommetsFetchLoading: null == isMoreReplyCommetsFetchLoading
-          ? _value.isMoreReplyCommetsFetchLoading
-          : isMoreReplyCommetsFetchLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchMoreCommentRepliesStatus: null == fetchMoreCommentRepliesStatus
+          ? _value.fetchMoreCommentRepliesStatus
+          : fetchMoreCommentRepliesStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       isMoreReplyCommetsFetchCompleted: null == isMoreReplyCommetsFetchCompleted
           ? _value.isMoreReplyCommetsFetchCompleted
           : isMoreReplyCommetsFetchCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
-      isSubtitleLoading: null == isSubtitleLoading
-          ? _value.isSubtitleLoading
-          : isSubtitleLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSubtitleError: null == isSubtitleError
-          ? _value.isSubtitleError
-          : isSubtitleError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchSubtitlesStatus: null == fetchSubtitlesStatus
+          ? _value.fetchSubtitlesStatus
+          : fetchSubtitlesStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       subtitles: null == subtitles
           ? _value._subtitles
           : subtitles // ignore: cast_nullable_to_non_nullable
@@ -3712,38 +3612,26 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.liveStreamUrl
           : liveStreamUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      isLiveStreamLoading: null == isLiveStreamLoading
-          ? _value.isLiveStreamLoading
-          : isLiveStreamLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLiveStreamError: null == isLiveStreamError
-          ? _value.isLiveStreamError
-          : isLiveStreamError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchExplodeLiveStreamStatus: null == fetchExplodeLiveStreamStatus
+          ? _value.fetchExplodeLiveStreamStatus
+          : fetchExplodeLiveStreamStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       relatedVideos: freezed == relatedVideos
           ? _value._relatedVideos
           : relatedVideos // ignore: cast_nullable_to_non_nullable
               as List<MyRelatedVideo>?,
-      isRelatedVideosLoading: null == isRelatedVideosLoading
-          ? _value.isRelatedVideosLoading
-          : isRelatedVideosLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isRelatedVideosError: null == isRelatedVideosError
-          ? _value.isRelatedVideosError
-          : isRelatedVideosError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchExplodedRelatedVideosStatus: null == fetchExplodedRelatedVideosStatus
+          ? _value.fetchExplodedRelatedVideosStatus
+          : fetchExplodedRelatedVideosStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       muxedStreams: freezed == muxedStreams
           ? _value._muxedStreams
           : muxedStreams // ignore: cast_nullable_to_non_nullable
               as List<MyMuxedStreamInfo>?,
-      isMuxedStreamsLoading: null == isMuxedStreamsLoading
-          ? _value.isMuxedStreamsLoading
-          : isMuxedStreamsLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMuxedStreamsError: null == isMuxedStreamsError
-          ? _value.isMuxedStreamsError
-          : isMuxedStreamsError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchExplodeMuxedStreamsStatus: null == fetchExplodeMuxedStreamsStatus
+          ? _value.fetchExplodeMuxedStreamsStatus
+          : fetchExplodeMuxedStreamsStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       selectedVideoBasicDetails: freezed == selectedVideoBasicDetails
           ? _value.selectedVideoBasicDetails
           : selectedVideoBasicDetails // ignore: cast_nullable_to_non_nullable
@@ -3761,35 +3649,26 @@ class _$InitialImpl implements _Initial {
       required this.comments,
       required this.commentReplies,
       this.oldId,
-      required this.isLoading,
-      required this.isWatchInfoError,
-      required this.initialVideoPause,
+      required this.fetchWatchInfoStatus,
+      required this.fetchExplodeWatchInfoStatus,
       required this.isTapComments,
-      required this.isCommentsLoading,
-      required this.isCommentRepliesLoading,
-      required this.isCommentError,
-      required this.isCommentRepliesError,
+      required this.fetchCommentsStatus,
+      required this.fetchCommentRepliesStatus,
       required this.isDescriptionTapped,
-      required this.isMoreCommetsFetchError,
-      required this.isMoreCommetsFetchLoading,
+      required this.fetchMoreCommentsStatus,
       required this.isMoreCommetsFetchCompleted,
-      required this.isMoreReplyCommetsFetchError,
-      required this.isMoreReplyCommetsFetchLoading,
+      required this.fetchMoreCommentRepliesStatus,
       required this.isMoreReplyCommetsFetchCompleted,
-      required this.isSubtitleLoading,
-      required this.isSubtitleError,
+      required this.fetchSubtitlesStatus,
       required final List<Map<String, String>> subtitles,
       required this.isPipEnabled,
       required this.title,
       this.liveStreamUrl,
-      required this.isLiveStreamLoading,
-      required this.isLiveStreamError,
+      required this.fetchExplodeLiveStreamStatus,
       final List<MyRelatedVideo>? relatedVideos,
-      required this.isRelatedVideosLoading,
-      required this.isRelatedVideosError,
+      required this.fetchExplodedRelatedVideosStatus,
       final List<MyMuxedStreamInfo>? muxedStreams,
-      required this.isMuxedStreamsLoading,
-      required this.isMuxedStreamsError,
+      required this.fetchExplodeMuxedStreamsStatus,
       this.selectedVideoBasicDetails})
       : _subtitles = subtitles,
         _relatedVideos = relatedVideos,
@@ -3806,39 +3685,27 @@ class _$InitialImpl implements _Initial {
   @override
   final String? oldId;
   @override
-  final bool isLoading;
+  final ApiStatus fetchWatchInfoStatus;
   @override
-  final bool isWatchInfoError;
-  @override
-  final bool initialVideoPause;
+  final ApiStatus fetchExplodeWatchInfoStatus;
   @override
   final bool isTapComments;
   @override
-  final bool isCommentsLoading;
+  final ApiStatus fetchCommentsStatus;
   @override
-  final bool isCommentRepliesLoading;
-  @override
-  final bool isCommentError;
-  @override
-  final bool isCommentRepliesError;
+  final ApiStatus fetchCommentRepliesStatus;
   @override
   final bool isDescriptionTapped;
   @override
-  final bool isMoreCommetsFetchError;
-  @override
-  final bool isMoreCommetsFetchLoading;
+  final ApiStatus fetchMoreCommentsStatus;
   @override
   final bool isMoreCommetsFetchCompleted;
   @override
-  final bool isMoreReplyCommetsFetchError;
-  @override
-  final bool isMoreReplyCommetsFetchLoading;
+  final ApiStatus fetchMoreCommentRepliesStatus;
   @override
   final bool isMoreReplyCommetsFetchCompleted;
   @override
-  final bool isSubtitleLoading;
-  @override
-  final bool isSubtitleError;
+  final ApiStatus fetchSubtitlesStatus;
   final List<Map<String, String>> _subtitles;
   @override
   List<Map<String, String>> get subtitles {
@@ -3854,9 +3721,7 @@ class _$InitialImpl implements _Initial {
   @override
   final String? liveStreamUrl;
   @override
-  final bool isLiveStreamLoading;
-  @override
-  final bool isLiveStreamError;
+  final ApiStatus fetchExplodeLiveStreamStatus;
   final List<MyRelatedVideo>? _relatedVideos;
   @override
   List<MyRelatedVideo>? get relatedVideos {
@@ -3868,9 +3733,7 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
-  final bool isRelatedVideosLoading;
-  @override
-  final bool isRelatedVideosError;
+  final ApiStatus fetchExplodedRelatedVideosStatus;
   final List<MyMuxedStreamInfo>? _muxedStreams;
   @override
   List<MyMuxedStreamInfo>? get muxedStreams {
@@ -3882,15 +3745,13 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
-  final bool isMuxedStreamsLoading;
-  @override
-  final bool isMuxedStreamsError;
+  final ApiStatus fetchExplodeMuxedStreamsStatus;
   @override
   final VideoBasicInfo? selectedVideoBasicDetails;
 
   @override
   String toString() {
-    return 'WatchState(watchResp: $watchResp, explodeWatchResp: $explodeWatchResp, comments: $comments, commentReplies: $commentReplies, oldId: $oldId, isLoading: $isLoading, isWatchInfoError: $isWatchInfoError, initialVideoPause: $initialVideoPause, isTapComments: $isTapComments, isCommentsLoading: $isCommentsLoading, isCommentRepliesLoading: $isCommentRepliesLoading, isCommentError: $isCommentError, isCommentRepliesError: $isCommentRepliesError, isDescriptionTapped: $isDescriptionTapped, isMoreCommetsFetchError: $isMoreCommetsFetchError, isMoreCommetsFetchLoading: $isMoreCommetsFetchLoading, isMoreCommetsFetchCompleted: $isMoreCommetsFetchCompleted, isMoreReplyCommetsFetchError: $isMoreReplyCommetsFetchError, isMoreReplyCommetsFetchLoading: $isMoreReplyCommetsFetchLoading, isMoreReplyCommetsFetchCompleted: $isMoreReplyCommetsFetchCompleted, isSubtitleLoading: $isSubtitleLoading, isSubtitleError: $isSubtitleError, subtitles: $subtitles, isPipEnabled: $isPipEnabled, title: $title, liveStreamUrl: $liveStreamUrl, isLiveStreamLoading: $isLiveStreamLoading, isLiveStreamError: $isLiveStreamError, relatedVideos: $relatedVideos, isRelatedVideosLoading: $isRelatedVideosLoading, isRelatedVideosError: $isRelatedVideosError, muxedStreams: $muxedStreams, isMuxedStreamsLoading: $isMuxedStreamsLoading, isMuxedStreamsError: $isMuxedStreamsError, selectedVideoBasicDetails: $selectedVideoBasicDetails)';
+    return 'WatchState(watchResp: $watchResp, explodeWatchResp: $explodeWatchResp, comments: $comments, commentReplies: $commentReplies, oldId: $oldId, fetchWatchInfoStatus: $fetchWatchInfoStatus, fetchExplodeWatchInfoStatus: $fetchExplodeWatchInfoStatus, isTapComments: $isTapComments, fetchCommentsStatus: $fetchCommentsStatus, fetchCommentRepliesStatus: $fetchCommentRepliesStatus, isDescriptionTapped: $isDescriptionTapped, fetchMoreCommentsStatus: $fetchMoreCommentsStatus, isMoreCommetsFetchCompleted: $isMoreCommetsFetchCompleted, fetchMoreCommentRepliesStatus: $fetchMoreCommentRepliesStatus, isMoreReplyCommetsFetchCompleted: $isMoreReplyCommetsFetchCompleted, fetchSubtitlesStatus: $fetchSubtitlesStatus, subtitles: $subtitles, isPipEnabled: $isPipEnabled, title: $title, liveStreamUrl: $liveStreamUrl, fetchExplodeLiveStreamStatus: $fetchExplodeLiveStreamStatus, relatedVideos: $relatedVideos, fetchExplodedRelatedVideosStatus: $fetchExplodedRelatedVideosStatus, muxedStreams: $muxedStreams, fetchExplodeMuxedStreamsStatus: $fetchExplodeMuxedStreamsStatus, selectedVideoBasicDetails: $selectedVideoBasicDetails)';
   }
 
   @override
@@ -3907,44 +3768,32 @@ class _$InitialImpl implements _Initial {
             (identical(other.commentReplies, commentReplies) ||
                 other.commentReplies == commentReplies) &&
             (identical(other.oldId, oldId) || other.oldId == oldId) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.isWatchInfoError, isWatchInfoError) ||
-                other.isWatchInfoError == isWatchInfoError) &&
-            (identical(other.initialVideoPause, initialVideoPause) ||
-                other.initialVideoPause == initialVideoPause) &&
+            (identical(other.fetchWatchInfoStatus, fetchWatchInfoStatus) ||
+                other.fetchWatchInfoStatus == fetchWatchInfoStatus) &&
+            (identical(other.fetchExplodeWatchInfoStatus, fetchExplodeWatchInfoStatus) ||
+                other.fetchExplodeWatchInfoStatus ==
+                    fetchExplodeWatchInfoStatus) &&
             (identical(other.isTapComments, isTapComments) ||
                 other.isTapComments == isTapComments) &&
-            (identical(other.isCommentsLoading, isCommentsLoading) ||
-                other.isCommentsLoading == isCommentsLoading) &&
-            (identical(other.isCommentRepliesLoading, isCommentRepliesLoading) ||
-                other.isCommentRepliesLoading == isCommentRepliesLoading) &&
-            (identical(other.isCommentError, isCommentError) ||
-                other.isCommentError == isCommentError) &&
-            (identical(other.isCommentRepliesError, isCommentRepliesError) ||
-                other.isCommentRepliesError == isCommentRepliesError) &&
+            (identical(other.fetchCommentsStatus, fetchCommentsStatus) ||
+                other.fetchCommentsStatus == fetchCommentsStatus) &&
+            (identical(other.fetchCommentRepliesStatus, fetchCommentRepliesStatus) ||
+                other.fetchCommentRepliesStatus == fetchCommentRepliesStatus) &&
             (identical(other.isDescriptionTapped, isDescriptionTapped) ||
                 other.isDescriptionTapped == isDescriptionTapped) &&
-            (identical(other.isMoreCommetsFetchError, isMoreCommetsFetchError) ||
-                other.isMoreCommetsFetchError == isMoreCommetsFetchError) &&
-            (identical(other.isMoreCommetsFetchLoading, isMoreCommetsFetchLoading) ||
-                other.isMoreCommetsFetchLoading == isMoreCommetsFetchLoading) &&
+            (identical(other.fetchMoreCommentsStatus, fetchMoreCommentsStatus) ||
+                other.fetchMoreCommentsStatus == fetchMoreCommentsStatus) &&
             (identical(other.isMoreCommetsFetchCompleted, isMoreCommetsFetchCompleted) ||
                 other.isMoreCommetsFetchCompleted ==
                     isMoreCommetsFetchCompleted) &&
-            (identical(other.isMoreReplyCommetsFetchError, isMoreReplyCommetsFetchError) ||
-                other.isMoreReplyCommetsFetchError ==
-                    isMoreReplyCommetsFetchError) &&
-            (identical(other.isMoreReplyCommetsFetchLoading, isMoreReplyCommetsFetchLoading) ||
-                other.isMoreReplyCommetsFetchLoading ==
-                    isMoreReplyCommetsFetchLoading) &&
+            (identical(other.fetchMoreCommentRepliesStatus, fetchMoreCommentRepliesStatus) ||
+                other.fetchMoreCommentRepliesStatus ==
+                    fetchMoreCommentRepliesStatus) &&
             (identical(other.isMoreReplyCommetsFetchCompleted, isMoreReplyCommetsFetchCompleted) ||
                 other.isMoreReplyCommetsFetchCompleted ==
                     isMoreReplyCommetsFetchCompleted) &&
-            (identical(other.isSubtitleLoading, isSubtitleLoading) ||
-                other.isSubtitleLoading == isSubtitleLoading) &&
-            (identical(other.isSubtitleError, isSubtitleError) ||
-                other.isSubtitleError == isSubtitleError) &&
+            (identical(other.fetchSubtitlesStatus, fetchSubtitlesStatus) ||
+                other.fetchSubtitlesStatus == fetchSubtitlesStatus) &&
             const DeepCollectionEquality()
                 .equals(other._subtitles, _subtitles) &&
             (identical(other.isPipEnabled, isPipEnabled) ||
@@ -3952,15 +3801,16 @@ class _$InitialImpl implements _Initial {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.liveStreamUrl, liveStreamUrl) ||
                 other.liveStreamUrl == liveStreamUrl) &&
-            (identical(other.isLiveStreamLoading, isLiveStreamLoading) ||
-                other.isLiveStreamLoading == isLiveStreamLoading) &&
-            (identical(other.isLiveStreamError, isLiveStreamError) || other.isLiveStreamError == isLiveStreamError) &&
-            const DeepCollectionEquality().equals(other._relatedVideos, _relatedVideos) &&
-            (identical(other.isRelatedVideosLoading, isRelatedVideosLoading) || other.isRelatedVideosLoading == isRelatedVideosLoading) &&
-            (identical(other.isRelatedVideosError, isRelatedVideosError) || other.isRelatedVideosError == isRelatedVideosError) &&
+            (identical(other.fetchExplodeLiveStreamStatus, fetchExplodeLiveStreamStatus) ||
+                other.fetchExplodeLiveStreamStatus ==
+                    fetchExplodeLiveStreamStatus) &&
+            const DeepCollectionEquality()
+                .equals(other._relatedVideos, _relatedVideos) &&
+            (identical(other.fetchExplodedRelatedVideosStatus, fetchExplodedRelatedVideosStatus) ||
+                other.fetchExplodedRelatedVideosStatus ==
+                    fetchExplodedRelatedVideosStatus) &&
             const DeepCollectionEquality().equals(other._muxedStreams, _muxedStreams) &&
-            (identical(other.isMuxedStreamsLoading, isMuxedStreamsLoading) || other.isMuxedStreamsLoading == isMuxedStreamsLoading) &&
-            (identical(other.isMuxedStreamsError, isMuxedStreamsError) || other.isMuxedStreamsError == isMuxedStreamsError) &&
+            (identical(other.fetchExplodeMuxedStreamsStatus, fetchExplodeMuxedStreamsStatus) || other.fetchExplodeMuxedStreamsStatus == fetchExplodeMuxedStreamsStatus) &&
             (identical(other.selectedVideoBasicDetails, selectedVideoBasicDetails) || other.selectedVideoBasicDetails == selectedVideoBasicDetails));
   }
 
@@ -3972,35 +3822,26 @@ class _$InitialImpl implements _Initial {
         comments,
         commentReplies,
         oldId,
-        isLoading,
-        isWatchInfoError,
-        initialVideoPause,
+        fetchWatchInfoStatus,
+        fetchExplodeWatchInfoStatus,
         isTapComments,
-        isCommentsLoading,
-        isCommentRepliesLoading,
-        isCommentError,
-        isCommentRepliesError,
+        fetchCommentsStatus,
+        fetchCommentRepliesStatus,
         isDescriptionTapped,
-        isMoreCommetsFetchError,
-        isMoreCommetsFetchLoading,
+        fetchMoreCommentsStatus,
         isMoreCommetsFetchCompleted,
-        isMoreReplyCommetsFetchError,
-        isMoreReplyCommetsFetchLoading,
+        fetchMoreCommentRepliesStatus,
         isMoreReplyCommetsFetchCompleted,
-        isSubtitleLoading,
-        isSubtitleError,
+        fetchSubtitlesStatus,
         const DeepCollectionEquality().hash(_subtitles),
         isPipEnabled,
         title,
         liveStreamUrl,
-        isLiveStreamLoading,
-        isLiveStreamError,
+        fetchExplodeLiveStreamStatus,
         const DeepCollectionEquality().hash(_relatedVideos),
-        isRelatedVideosLoading,
-        isRelatedVideosError,
+        fetchExplodedRelatedVideosStatus,
         const DeepCollectionEquality().hash(_muxedStreams),
-        isMuxedStreamsLoading,
-        isMuxedStreamsError,
+        fetchExplodeMuxedStreamsStatus,
         selectedVideoBasicDetails
       ]);
 
@@ -4018,35 +3859,26 @@ abstract class _Initial implements WatchState {
       required final CommentsResp comments,
       required final CommentsResp commentReplies,
       final String? oldId,
-      required final bool isLoading,
-      required final bool isWatchInfoError,
-      required final bool initialVideoPause,
+      required final ApiStatus fetchWatchInfoStatus,
+      required final ApiStatus fetchExplodeWatchInfoStatus,
       required final bool isTapComments,
-      required final bool isCommentsLoading,
-      required final bool isCommentRepliesLoading,
-      required final bool isCommentError,
-      required final bool isCommentRepliesError,
+      required final ApiStatus fetchCommentsStatus,
+      required final ApiStatus fetchCommentRepliesStatus,
       required final bool isDescriptionTapped,
-      required final bool isMoreCommetsFetchError,
-      required final bool isMoreCommetsFetchLoading,
+      required final ApiStatus fetchMoreCommentsStatus,
       required final bool isMoreCommetsFetchCompleted,
-      required final bool isMoreReplyCommetsFetchError,
-      required final bool isMoreReplyCommetsFetchLoading,
+      required final ApiStatus fetchMoreCommentRepliesStatus,
       required final bool isMoreReplyCommetsFetchCompleted,
-      required final bool isSubtitleLoading,
-      required final bool isSubtitleError,
+      required final ApiStatus fetchSubtitlesStatus,
       required final List<Map<String, String>> subtitles,
       required final bool isPipEnabled,
       required final String title,
       final String? liveStreamUrl,
-      required final bool isLiveStreamLoading,
-      required final bool isLiveStreamError,
+      required final ApiStatus fetchExplodeLiveStreamStatus,
       final List<MyRelatedVideo>? relatedVideos,
-      required final bool isRelatedVideosLoading,
-      required final bool isRelatedVideosError,
+      required final ApiStatus fetchExplodedRelatedVideosStatus,
       final List<MyMuxedStreamInfo>? muxedStreams,
-      required final bool isMuxedStreamsLoading,
-      required final bool isMuxedStreamsError,
+      required final ApiStatus fetchExplodeMuxedStreamsStatus,
       final VideoBasicInfo? selectedVideoBasicDetails}) = _$InitialImpl;
 
   @override
@@ -4060,39 +3892,27 @@ abstract class _Initial implements WatchState {
   @override
   String? get oldId;
   @override
-  bool get isLoading;
+  ApiStatus get fetchWatchInfoStatus;
   @override
-  bool get isWatchInfoError;
-  @override
-  bool get initialVideoPause;
+  ApiStatus get fetchExplodeWatchInfoStatus;
   @override
   bool get isTapComments;
   @override
-  bool get isCommentsLoading;
+  ApiStatus get fetchCommentsStatus;
   @override
-  bool get isCommentRepliesLoading;
-  @override
-  bool get isCommentError;
-  @override
-  bool get isCommentRepliesError;
+  ApiStatus get fetchCommentRepliesStatus;
   @override
   bool get isDescriptionTapped;
   @override
-  bool get isMoreCommetsFetchError;
-  @override
-  bool get isMoreCommetsFetchLoading;
+  ApiStatus get fetchMoreCommentsStatus;
   @override
   bool get isMoreCommetsFetchCompleted;
   @override
-  bool get isMoreReplyCommetsFetchError;
-  @override
-  bool get isMoreReplyCommetsFetchLoading;
+  ApiStatus get fetchMoreCommentRepliesStatus;
   @override
   bool get isMoreReplyCommetsFetchCompleted;
   @override
-  bool get isSubtitleLoading;
-  @override
-  bool get isSubtitleError;
+  ApiStatus get fetchSubtitlesStatus;
   @override
   List<Map<String, String>> get subtitles;
   @override
@@ -4102,21 +3922,15 @@ abstract class _Initial implements WatchState {
   @override
   String? get liveStreamUrl;
   @override
-  bool get isLiveStreamLoading;
-  @override
-  bool get isLiveStreamError;
+  ApiStatus get fetchExplodeLiveStreamStatus;
   @override
   List<MyRelatedVideo>? get relatedVideos;
   @override
-  bool get isRelatedVideosLoading;
-  @override
-  bool get isRelatedVideosError;
+  ApiStatus get fetchExplodedRelatedVideosStatus;
   @override
   List<MyMuxedStreamInfo>? get muxedStreams;
   @override
-  bool get isMuxedStreamsLoading;
-  @override
-  bool get isMuxedStreamsError;
+  ApiStatus get fetchExplodeMuxedStreamsStatus;
   @override
   VideoBasicInfo? get selectedVideoBasicDetails;
   @override

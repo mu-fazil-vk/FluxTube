@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/trending/widgets/trending_videos_section.dart';
@@ -48,17 +49,23 @@ class ScreenHome extends StatelessWidget {
                 return BlocBuilder<TrendingBloc, TrendingState>(
                   builder: (context, trendingState) {
                     if (trendingState.trendingResult.isEmpty &&
-                        trendingState.isError) {
-                      trendingBloc.add(TrendingEvent.getTrendingData(
-                          region: settingsState.defaultRegion));
+                        !(trendingState.fetchTrendingStatus ==
+                            ApiStatus.error)) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        trendingBloc.add(TrendingEvent.getTrendingData(
+                            region: settingsState.defaultRegion));
+                      });
                     }
 
-                    if (trendingState.isLoading) {
+                    if (trendingState.fetchTrendingStatus ==
+                            ApiStatus.loading ||
+                        trendingState.fetchTrendingStatus ==
+                            ApiStatus.initial) {
                       return _buildLoadingList();
                     }
 
                     if (trendingState.feedResult.isEmpty ||
-                        trendingState.isFeedError) {
+                        trendingState.fetchFeedStatus == ApiStatus.error) {
                       return _buildErrorOrTrendingSection(
                         context,
                         trendingState,
@@ -99,7 +106,8 @@ class ScreenHome extends StatelessWidget {
     S locals,
     String defaultRegion,
   ) {
-    if (trendingState.isError || trendingState.trendingResult.isEmpty) {
+    if (trendingState.fetchTrendingStatus == ApiStatus.error ||
+        trendingState.trendingResult.isEmpty) {
       return ErrorRetryWidget(
         lottie: 'assets/dog.zip',
         onTap: () => BlocProvider.of<TrendingBloc>(context).add(

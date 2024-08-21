@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/search/models/search_resp.dart';
 import 'package:fluxtube/domain/search/search_service.dart';
@@ -17,12 +18,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<GetSearchResult>((event, emit) async {
       //loading
       emit(state.copyWith(
-          isLoading: true,
-          isError: false,
           result: null,
           suggestions: [],
-          isSuggestionError: false,
-          isSuggestionDisplay: false));
+          isSuggestionDisplay: false,
+          fetchSearchResultStatus: ApiStatus.loading,
+          fetchSuggestionStatus: ApiStatus.initial,
+          fetchMoreSearchResultStatus: ApiStatus.initial,
+          ));
 
       //get search details
       final _result = await searchService.getSearchResult(
@@ -32,19 +34,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final _state = _result.fold(
           (MainFailure failure) => state.copyWith(
                 result: null,
-                isLoading: false,
-                isError: true,
                 suggestions: [],
-                isSuggestionDisplay: false,
-                isSuggestionError: false,
+                fetchSearchResultStatus: ApiStatus.error,
               ),
           (SearchResp resp) => state.copyWith(
               result: resp,
-              isLoading: false,
-              isError: false,
               suggestions: [],
-              isSuggestionDisplay: false,
-              isSuggestionError: false));
+              fetchSearchResultStatus: ApiStatus.loaded,
+              ));
 
       //update to ui
       emit(_state);
@@ -54,12 +51,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<GetSearchSuggestion>((event, emit) async {
       //loading
       emit(state.copyWith(
-          isLoading: false,
-          isError: false,
           result: null,
           suggestions: [],
-          isSuggestionError: false,
-          isSuggestionDisplay: true));
+          fetchSuggestionStatus: ApiStatus.loading,
+          ));
 
       //get search details
       final _result =
@@ -69,11 +64,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final _state = _result.fold(
         (MainFailure failure) => state.copyWith(
           suggestions: [],
-          isSuggestionError: false,
+          fetchSuggestionStatus: ApiStatus.error,
         ),
         (List resp) => state.copyWith(
           suggestions: resp,
-          isSuggestionError: false,
+          isSuggestionDisplay: true,
+          fetchSuggestionStatus: ApiStatus.loaded,
         ),
       );
 
@@ -85,8 +81,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<GetMoreSearchResult>((event, emit) async {
       //loading
       emit(state.copyWith(
-          isMoreFetchLoading: true,
-          isMoreFetchError: false,
+          fetchMoreSearchResultStatus: ApiStatus.loading,
           isMoreFetchCompleted: false));
 
       //get search details
@@ -98,11 +93,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       //assign data
       final _state = _result.fold(
           (MainFailure failure) =>
-              state.copyWith(isMoreFetchLoading: false, isMoreFetchError: true),
+              state.copyWith(fetchMoreSearchResultStatus: ApiStatus.error),
           (SearchResp resp) {
         if (resp.nextpage == null) {
           return state.copyWith(
-            isMoreFetchLoading: false,
+            fetchMoreSearchResultStatus: ApiStatus.loaded,
             isMoreFetchCompleted: true,
           );
         } else if (state.result?.items != null) {
@@ -110,7 +105,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
           moreSearch!.items.addAll(resp.items);
           moreSearch.nextpage = resp.nextpage;
-          return state.copyWith(isMoreFetchLoading: false, result: moreSearch);
+          return state.copyWith(fetchMoreSearchResultStatus: ApiStatus.loaded, result: moreSearch);
         } else {
           return state;
         }

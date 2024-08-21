@@ -1,8 +1,8 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/widgets.dart';
@@ -28,7 +28,8 @@ class ScreenInstances extends StatelessWidget {
         body: SafeArea(
           child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
-              if (state.instanceLoading) {
+              if (state.instanceStatus == ApiStatus.loading ||
+                  state.instanceStatus == ApiStatus.initial) {
                 return Center(child: cIndicator(context));
               }
               return ListView.separated(

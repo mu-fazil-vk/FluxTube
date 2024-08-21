@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/subscribes/subscribe_services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -19,27 +20,27 @@ class SubscribeBloc extends Bloc<SubscribeEvent, SubscribeState> {
     // get all subscribed channel list from local storage
     on<GetAllSubscribeList>((event, emit) async {
       emit(state
-          .copyWith(isLoading: true, isError: false, subscribedChannels: []));
+          .copyWith(subscribeStatus: ApiStatus.loading, subscribedChannels: []));
 
       final _result = await _subscribeServices.getSubscriberInfoList();
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(isError: true, isLoading: false),
+          (MainFailure f) => state.copyWith(subscribeStatus: ApiStatus.error),
           (List<Subscribe> resp) =>
-              state.copyWith(isLoading: false, subscribedChannels: resp));
+              state.copyWith(subscribeStatus: ApiStatus.loaded, subscribedChannels: resp));
 
       emit(_state);
     });
 
     // add subscribed channel data to local storage
     on<AddSubscribe>((event, emit) async {
-      emit(state.copyWith(isLoading: true, isError: false));
+      emit(state.copyWith(subscribeStatus: ApiStatus.loading));
 
       final _result = await _subscribeServices.addSubscriberInfo(
           subscribeInfo: event.channelInfo);
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(isError: true, isLoading: false),
+          (MainFailure f) => state.copyWith(subscribeStatus: ApiStatus.error),
           (List<Subscribe> resp) =>
-              state.copyWith(isLoading: false, subscribedChannels: resp));
+              state.copyWith(subscribeStatus: ApiStatus.loaded, subscribedChannels: resp));
 
       emit(_state);
       add(CheckSubscribeInfo(id: event.channelInfo.id));
@@ -47,14 +48,14 @@ class SubscribeBloc extends Bloc<SubscribeEvent, SubscribeState> {
 
     // delete channel data from local storage
     on<DeleteSubscribeInfo>((event, emit) async {
-      emit(state.copyWith(isLoading: true, isError: false));
+      emit(state.copyWith(subscribeStatus: ApiStatus.loading));
 
       final _result =
           await _subscribeServices.deleteSubscriberInfo(id: fastHash(event.id));
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(isError: true, isLoading: false),
+          (MainFailure f) => state.copyWith(subscribeStatus: ApiStatus.error),
           (List<Subscribe> resp) =>
-              state.copyWith(isLoading: false, subscribedChannels: resp));
+              state.copyWith(subscribeStatus: ApiStatus.loaded, subscribedChannels: resp));
 
       emit(_state);
       add(const GetAllSubscribeList());

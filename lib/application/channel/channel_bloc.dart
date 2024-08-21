@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/channel/channel_services.dart';
 import 'package:fluxtube/domain/channel/models/channel_resp.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
@@ -15,7 +16,7 @@ class ChannelBloc extends Bloc<ChannelEvent, ChannelState> {
       : super(ChannelState.initialize()) {
     on<GetChannelData>((event, emit) async {
       //loading
-      emit(state.copyWith(isLoading: true, isError: false, result: null));
+      emit(state.copyWith(channelDetailsFetchStatus: ApiStatus.loading, result: null));
 
       //get channel info
       final _result =
@@ -24,9 +25,9 @@ class ChannelBloc extends Bloc<ChannelEvent, ChannelState> {
       //assign data
       final _state = _result.fold(
           (MainFailure f) =>
-              state.copyWith(isLoading: false, isError: true, result: null),
+              state.copyWith(channelDetailsFetchStatus: ApiStatus.error, result: null),
           (ChannelResp resp) =>
-              state.copyWith(isLoading: false, isError: false, result: resp));
+              state.copyWith(channelDetailsFetchStatus: ApiStatus.loaded, result: resp));
 
       //update to ui
       emit(_state);
@@ -36,8 +37,7 @@ class ChannelBloc extends Bloc<ChannelEvent, ChannelState> {
     on<GetMoreChannelVideos>((event, emit) async {
       //loading
       emit(state.copyWith(
-          isMoreFetchLoading: true,
-          isMoreFetchError: false,
+          moreChannelDetailsFetchStatus: ApiStatus.loading,
           isMoreFetchCompleted: false));
 
       //get channel info
@@ -47,14 +47,12 @@ class ChannelBloc extends Bloc<ChannelEvent, ChannelState> {
       //assign data
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(
-              isMoreFetchLoading: false,
-              isMoreFetchError: true,
+              moreChannelDetailsFetchStatus: ApiStatus.error,
               isMoreFetchCompleted: false),
           (ChannelResp resp) {
             if (resp.nextpage == null) {
           return state.copyWith(
-            isMoreFetchLoading: false,
-            isMoreFetchError: false,
+            moreChannelDetailsFetchStatus: ApiStatus.loaded,
             isMoreFetchCompleted: true,
           );
         } else if (state.result?.relatedStreams != null) {
@@ -62,7 +60,7 @@ class ChannelBloc extends Bloc<ChannelEvent, ChannelState> {
 
           moreSearch!.relatedStreams!.addAll(resp.relatedStreams!);
           moreSearch.nextpage = resp.nextpage;
-          return state.copyWith(isMoreFetchLoading: false, result: moreSearch);
+          return state.copyWith(moreChannelDetailsFetchStatus: ApiStatus.loaded, result: moreSearch);
         } else {
           return state;
         }

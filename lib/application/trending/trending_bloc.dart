@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/home/home_services.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
@@ -25,32 +26,32 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
       }
 
       //make loading
-      emit(state.copyWith(isError: false, isLoading: true));
+      emit(state.copyWith(fetchTrendingStatus: ApiStatus.loading));
 
       final result =
           await trendingService.getTrendingData(region: event.region);
 
       final _state = result.fold(
           (MainFailure failure) =>
-              state.copyWith(isError: true, isLoading: false),
+              state.copyWith(fetchTrendingStatus: ApiStatus.error),
           (List<TrendingResp> resp) => state.copyWith(
-              trendingResult: resp, isLoading: false, isError: false));
+              trendingResult: resp, fetchTrendingStatus: ApiStatus.loaded));
       emit(_state);
     });
 
 //get new trending data when refresh
     on<GetForcedTrendingData>((event, emit) async {
       //make loading
-      emit(state.copyWith(isError: false, isLoading: true));
+      emit(state.copyWith(fetchTrendingStatus: ApiStatus.loading));
 
       final result =
           await trendingService.getTrendingData(region: event.region);
 
       final _state = result.fold(
           (MainFailure failure) =>
-              state.copyWith(isError: true, isLoading: false),
+              state.copyWith(fetchTrendingStatus: ApiStatus.error),
           (List<TrendingResp> resp) => state.copyWith(
-              trendingResult: resp, isLoading: false, isError: false));
+              trendingResult: resp, fetchTrendingStatus: ApiStatus.loaded));
       emit(_state);
     });
 
@@ -61,17 +62,17 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
       }
 
       //make loading
-      emit(state.copyWith(isFeedError: false, isLoading: true));
+      emit(state.copyWith(fetchFeedStatus: ApiStatus.loading));
 
       final result =
           await homeServices.getHomeFeedData(channels: event.channels);
 
       final _state = result.fold(
           (MainFailure failure) =>
-              state.copyWith(isFeedError: true, isLoading: false),
+              state.copyWith(fetchFeedStatus: ApiStatus.error),
           (List<TrendingResp> resp) {
         return state.copyWith(
-            feedResult: resp, isLoading: false, isError: false);
+            feedResult: resp, fetchFeedStatus: ApiStatus.loaded);
       });
       emit(_state);
     });
@@ -79,17 +80,17 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
     // get data when refresh
     on<GetForcedHomeFeedData>((event, emit) async {
       //make loading
-      emit(state.copyWith(isFeedError: false, isLoading: true));
+      emit(state.copyWith(fetchFeedStatus: ApiStatus.loading));
 
       final result =
           await homeServices.getHomeFeedData(channels: event.channels);
 
       final _state = result.fold(
           (MainFailure failure) =>
-              state.copyWith(isFeedError: true, isLoading: false),
+              state.copyWith(fetchFeedStatus: ApiStatus.error),
           (List<TrendingResp> resp) {
         return state.copyWith(
-            feedResult: resp, isLoading: false, isError: false);
+            feedResult: resp, fetchFeedStatus: ApiStatus.loaded);
       });
       emit(_state);
     });

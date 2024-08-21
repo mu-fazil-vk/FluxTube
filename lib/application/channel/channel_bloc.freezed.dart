@@ -392,11 +392,10 @@ abstract class GetMoreChannelVideos implements ChannelEvent {
 
 /// @nodoc
 mixin _$ChannelState {
-  bool get isLoading => throw _privateConstructorUsedError;
-  bool get isError => throw _privateConstructorUsedError;
+  ApiStatus get channelDetailsFetchStatus => throw _privateConstructorUsedError;
   ChannelResp? get result => throw _privateConstructorUsedError;
-  bool get isMoreFetchLoading => throw _privateConstructorUsedError;
-  bool get isMoreFetchError => throw _privateConstructorUsedError;
+  ApiStatus get moreChannelDetailsFetchStatus =>
+      throw _privateConstructorUsedError;
   bool get isMoreFetchCompleted => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -411,11 +410,9 @@ abstract class $ChannelStateCopyWith<$Res> {
       _$ChannelStateCopyWithImpl<$Res, ChannelState>;
   @useResult
   $Res call(
-      {bool isLoading,
-      bool isError,
+      {ApiStatus channelDetailsFetchStatus,
       ChannelResp? result,
-      bool isMoreFetchLoading,
-      bool isMoreFetchError,
+      ApiStatus moreChannelDetailsFetchStatus,
       bool isMoreFetchCompleted});
 }
 
@@ -432,34 +429,24 @@ class _$ChannelStateCopyWithImpl<$Res, $Val extends ChannelState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
-    Object? isError = null,
+    Object? channelDetailsFetchStatus = null,
     Object? result = freezed,
-    Object? isMoreFetchLoading = null,
-    Object? isMoreFetchError = null,
+    Object? moreChannelDetailsFetchStatus = null,
     Object? isMoreFetchCompleted = null,
   }) {
     return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      channelDetailsFetchStatus: null == channelDetailsFetchStatus
+          ? _value.channelDetailsFetchStatus
+          : channelDetailsFetchStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       result: freezed == result
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
               as ChannelResp?,
-      isMoreFetchLoading: null == isMoreFetchLoading
-          ? _value.isMoreFetchLoading
-          : isMoreFetchLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMoreFetchError: null == isMoreFetchError
-          ? _value.isMoreFetchError
-          : isMoreFetchError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      moreChannelDetailsFetchStatus: null == moreChannelDetailsFetchStatus
+          ? _value.moreChannelDetailsFetchStatus
+          : moreChannelDetailsFetchStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       isMoreFetchCompleted: null == isMoreFetchCompleted
           ? _value.isMoreFetchCompleted
           : isMoreFetchCompleted // ignore: cast_nullable_to_non_nullable
@@ -477,11 +464,9 @@ abstract class _$$ChannelStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading,
-      bool isError,
+      {ApiStatus channelDetailsFetchStatus,
       ChannelResp? result,
-      bool isMoreFetchLoading,
-      bool isMoreFetchError,
+      ApiStatus moreChannelDetailsFetchStatus,
       bool isMoreFetchCompleted});
 }
 
@@ -496,34 +481,24 @@ class __$$ChannelStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
-    Object? isError = null,
+    Object? channelDetailsFetchStatus = null,
     Object? result = freezed,
-    Object? isMoreFetchLoading = null,
-    Object? isMoreFetchError = null,
+    Object? moreChannelDetailsFetchStatus = null,
     Object? isMoreFetchCompleted = null,
   }) {
     return _then(_$ChannelStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      channelDetailsFetchStatus: null == channelDetailsFetchStatus
+          ? _value.channelDetailsFetchStatus
+          : channelDetailsFetchStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       result: freezed == result
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
               as ChannelResp?,
-      isMoreFetchLoading: null == isMoreFetchLoading
-          ? _value.isMoreFetchLoading
-          : isMoreFetchLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMoreFetchError: null == isMoreFetchError
-          ? _value.isMoreFetchError
-          : isMoreFetchError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      moreChannelDetailsFetchStatus: null == moreChannelDetailsFetchStatus
+          ? _value.moreChannelDetailsFetchStatus
+          : moreChannelDetailsFetchStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       isMoreFetchCompleted: null == isMoreFetchCompleted
           ? _value.isMoreFetchCompleted
           : isMoreFetchCompleted // ignore: cast_nullable_to_non_nullable
@@ -536,29 +511,23 @@ class __$$ChannelStateImplCopyWithImpl<$Res>
 
 class _$ChannelStateImpl implements _ChannelState {
   _$ChannelStateImpl(
-      {required this.isLoading,
-      required this.isError,
+      {required this.channelDetailsFetchStatus,
       required this.result,
-      required this.isMoreFetchLoading,
-      required this.isMoreFetchError,
+      required this.moreChannelDetailsFetchStatus,
       required this.isMoreFetchCompleted});
 
   @override
-  final bool isLoading;
-  @override
-  final bool isError;
+  final ApiStatus channelDetailsFetchStatus;
   @override
   final ChannelResp? result;
   @override
-  final bool isMoreFetchLoading;
-  @override
-  final bool isMoreFetchError;
+  final ApiStatus moreChannelDetailsFetchStatus;
   @override
   final bool isMoreFetchCompleted;
 
   @override
   String toString() {
-    return 'ChannelState(isLoading: $isLoading, isError: $isError, result: $result, isMoreFetchLoading: $isMoreFetchLoading, isMoreFetchError: $isMoreFetchError, isMoreFetchCompleted: $isMoreFetchCompleted)';
+    return 'ChannelState(channelDetailsFetchStatus: $channelDetailsFetchStatus, result: $result, moreChannelDetailsFetchStatus: $moreChannelDetailsFetchStatus, isMoreFetchCompleted: $isMoreFetchCompleted)';
   }
 
   @override
@@ -566,21 +535,21 @@ class _$ChannelStateImpl implements _ChannelState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChannelStateImpl &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.isError, isError) || other.isError == isError) &&
+            (identical(other.channelDetailsFetchStatus,
+                    channelDetailsFetchStatus) ||
+                other.channelDetailsFetchStatus == channelDetailsFetchStatus) &&
             (identical(other.result, result) || other.result == result) &&
-            (identical(other.isMoreFetchLoading, isMoreFetchLoading) ||
-                other.isMoreFetchLoading == isMoreFetchLoading) &&
-            (identical(other.isMoreFetchError, isMoreFetchError) ||
-                other.isMoreFetchError == isMoreFetchError) &&
+            (identical(other.moreChannelDetailsFetchStatus,
+                    moreChannelDetailsFetchStatus) ||
+                other.moreChannelDetailsFetchStatus ==
+                    moreChannelDetailsFetchStatus) &&
             (identical(other.isMoreFetchCompleted, isMoreFetchCompleted) ||
                 other.isMoreFetchCompleted == isMoreFetchCompleted));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isError, result,
-      isMoreFetchLoading, isMoreFetchError, isMoreFetchCompleted);
+  int get hashCode => Object.hash(runtimeType, channelDetailsFetchStatus,
+      result, moreChannelDetailsFetchStatus, isMoreFetchCompleted);
 
   @JsonKey(ignore: true)
   @override
@@ -591,23 +560,17 @@ class _$ChannelStateImpl implements _ChannelState {
 
 abstract class _ChannelState implements ChannelState {
   factory _ChannelState(
-      {required final bool isLoading,
-      required final bool isError,
+      {required final ApiStatus channelDetailsFetchStatus,
       required final ChannelResp? result,
-      required final bool isMoreFetchLoading,
-      required final bool isMoreFetchError,
+      required final ApiStatus moreChannelDetailsFetchStatus,
       required final bool isMoreFetchCompleted}) = _$ChannelStateImpl;
 
   @override
-  bool get isLoading;
-  @override
-  bool get isError;
+  ApiStatus get channelDetailsFetchStatus;
   @override
   ChannelResp? get result;
   @override
-  bool get isMoreFetchLoading;
-  @override
-  bool get isMoreFetchError;
+  ApiStatus get moreChannelDetailsFetchStatus;
   @override
   bool get isMoreFetchCompleted;
   @override

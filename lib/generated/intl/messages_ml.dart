@@ -91,6 +91,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "showLessText":
             MessageLookupByLibrary.simpleMessage("കുറച്ചത് കാണിക്കുക"),
         "subscribe": MessageLookupByLibrary.simpleMessage("സബ്സ്ക്രൈബ്"),
+        "switchRegion": MessageLookupByLibrary.simpleMessage(
+            "Please consider switching to a different region for better results."),
         "theme": MessageLookupByLibrary.simpleMessage("തീം"),
         "thereIsNoSavedOrHistoryVideos": MessageLookupByLibrary.simpleMessage(
             "സേവ് ചെയ്‌ത/കണ്ടുകഴിഞ്ഞ വീഡിയോകൾ ഇല്ല"),

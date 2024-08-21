@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/colors.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 
@@ -36,19 +37,20 @@ class _ScreenSearchState extends State<ScreenSearch> {
       body: SafeArea(child: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state) {
           if (state.isSuggestionDisplay == true &&
-              state.isSuggestionError == false &&
+              state.fetchSuggestionStatus == ApiStatus.loaded &&
               state.suggestions.isNotEmpty &&
               _textEditingController.text.isNotEmpty) {
             return SearchSuggessionSection(
               textEditingController: _textEditingController,
               state: state,
             );
-          } else if (state.isLoading) {
+          } else if (state.fetchSearchResultStatus == ApiStatus.loading ||
+              state.fetchSearchResultStatus == ApiStatus.initial) {
             return cIndicator(context);
           } else if (state.isSuggestionDisplay ||
               _textEditingController.text.isEmpty) {
             return Container();
-          } else if (state.isError ||
+          } else if (state.fetchSearchResultStatus == ApiStatus.error ||
               state.result == null ||
               state.result!.items.isEmpty) {
             return ErrorRetryWidget(

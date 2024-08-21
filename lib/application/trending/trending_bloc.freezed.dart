@@ -704,9 +704,8 @@ abstract class GetForcedHomeFeedData implements TrendingEvent {
 mixin _$TrendingState {
   List<TrendingResp> get trendingResult => throw _privateConstructorUsedError;
   List<TrendingResp> get feedResult => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
-  bool get isError => throw _privateConstructorUsedError;
-  bool get isFeedError => throw _privateConstructorUsedError;
+  ApiStatus get fetchTrendingStatus => throw _privateConstructorUsedError;
+  ApiStatus get fetchFeedStatus => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TrendingStateCopyWith<TrendingState> get copyWith =>
@@ -722,9 +721,8 @@ abstract class $TrendingStateCopyWith<$Res> {
   $Res call(
       {List<TrendingResp> trendingResult,
       List<TrendingResp> feedResult,
-      bool isLoading,
-      bool isError,
-      bool isFeedError});
+      ApiStatus fetchTrendingStatus,
+      ApiStatus fetchFeedStatus});
 }
 
 /// @nodoc
@@ -742,9 +740,8 @@ class _$TrendingStateCopyWithImpl<$Res, $Val extends TrendingState>
   $Res call({
     Object? trendingResult = null,
     Object? feedResult = null,
-    Object? isLoading = null,
-    Object? isError = null,
-    Object? isFeedError = null,
+    Object? fetchTrendingStatus = null,
+    Object? fetchFeedStatus = null,
   }) {
     return _then(_value.copyWith(
       trendingResult: null == trendingResult
@@ -755,18 +752,14 @@ class _$TrendingStateCopyWithImpl<$Res, $Val extends TrendingState>
           ? _value.feedResult
           : feedResult // ignore: cast_nullable_to_non_nullable
               as List<TrendingResp>,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFeedError: null == isFeedError
-          ? _value.isFeedError
-          : isFeedError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchTrendingStatus: null == fetchTrendingStatus
+          ? _value.fetchTrendingStatus
+          : fetchTrendingStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
+      fetchFeedStatus: null == fetchFeedStatus
+          ? _value.fetchFeedStatus
+          : fetchFeedStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
     ) as $Val);
   }
 }
@@ -782,9 +775,8 @@ abstract class _$$InitialImplCopyWith<$Res>
   $Res call(
       {List<TrendingResp> trendingResult,
       List<TrendingResp> feedResult,
-      bool isLoading,
-      bool isError,
-      bool isFeedError});
+      ApiStatus fetchTrendingStatus,
+      ApiStatus fetchFeedStatus});
 }
 
 /// @nodoc
@@ -800,9 +792,8 @@ class __$$InitialImplCopyWithImpl<$Res>
   $Res call({
     Object? trendingResult = null,
     Object? feedResult = null,
-    Object? isLoading = null,
-    Object? isError = null,
-    Object? isFeedError = null,
+    Object? fetchTrendingStatus = null,
+    Object? fetchFeedStatus = null,
   }) {
     return _then(_$InitialImpl(
       trendingResult: null == trendingResult
@@ -813,18 +804,14 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value._feedResult
           : feedResult // ignore: cast_nullable_to_non_nullable
               as List<TrendingResp>,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFeedError: null == isFeedError
-          ? _value.isFeedError
-          : isFeedError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchTrendingStatus: null == fetchTrendingStatus
+          ? _value.fetchTrendingStatus
+          : fetchTrendingStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
+      fetchFeedStatus: null == fetchFeedStatus
+          ? _value.fetchFeedStatus
+          : fetchFeedStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
     ));
   }
 }
@@ -835,9 +822,8 @@ class _$InitialImpl implements _Initial {
   const _$InitialImpl(
       {required final List<TrendingResp> trendingResult,
       required final List<TrendingResp> feedResult,
-      required this.isLoading,
-      required this.isError,
-      required this.isFeedError})
+      required this.fetchTrendingStatus,
+      required this.fetchFeedStatus})
       : _trendingResult = trendingResult,
         _feedResult = feedResult;
 
@@ -858,15 +844,13 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
-  final bool isLoading;
+  final ApiStatus fetchTrendingStatus;
   @override
-  final bool isError;
-  @override
-  final bool isFeedError;
+  final ApiStatus fetchFeedStatus;
 
   @override
   String toString() {
-    return 'TrendingState(trendingResult: $trendingResult, feedResult: $feedResult, isLoading: $isLoading, isError: $isError, isFeedError: $isFeedError)';
+    return 'TrendingState(trendingResult: $trendingResult, feedResult: $feedResult, fetchTrendingStatus: $fetchTrendingStatus, fetchFeedStatus: $fetchFeedStatus)';
   }
 
   @override
@@ -878,11 +862,10 @@ class _$InitialImpl implements _Initial {
                 .equals(other._trendingResult, _trendingResult) &&
             const DeepCollectionEquality()
                 .equals(other._feedResult, _feedResult) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.isError, isError) || other.isError == isError) &&
-            (identical(other.isFeedError, isFeedError) ||
-                other.isFeedError == isFeedError));
+            (identical(other.fetchTrendingStatus, fetchTrendingStatus) ||
+                other.fetchTrendingStatus == fetchTrendingStatus) &&
+            (identical(other.fetchFeedStatus, fetchFeedStatus) ||
+                other.fetchFeedStatus == fetchFeedStatus));
   }
 
   @override
@@ -890,9 +873,8 @@ class _$InitialImpl implements _Initial {
       runtimeType,
       const DeepCollectionEquality().hash(_trendingResult),
       const DeepCollectionEquality().hash(_feedResult),
-      isLoading,
-      isError,
-      isFeedError);
+      fetchTrendingStatus,
+      fetchFeedStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -905,20 +887,17 @@ abstract class _Initial implements TrendingState {
   const factory _Initial(
       {required final List<TrendingResp> trendingResult,
       required final List<TrendingResp> feedResult,
-      required final bool isLoading,
-      required final bool isError,
-      required final bool isFeedError}) = _$InitialImpl;
+      required final ApiStatus fetchTrendingStatus,
+      required final ApiStatus fetchFeedStatus}) = _$InitialImpl;
 
   @override
   List<TrendingResp> get trendingResult;
   @override
   List<TrendingResp> get feedResult;
   @override
-  bool get isLoading;
+  ApiStatus get fetchTrendingStatus;
   @override
-  bool get isError;
-  @override
-  bool get isFeedError;
+  ApiStatus get fetchFeedStatus;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/channel/models/channel_resp.dart';
 import 'package:fluxtube/domain/channel/models/related_stream.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
@@ -30,7 +31,7 @@ class ChannelRelatedVideoSection extends StatelessWidget {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
               _scrollController.position.maxScrollExtent &&
-          !state.isMoreFetchLoading &&
+          !(state.moreChannelDetailsFetchStatus == ApiStatus.loading) &&
           !state.isMoreFetchCompleted) {
         BlocProvider.of<ChannelBloc>(context).add(
             ChannelEvent.getMoreChannelVideos(
@@ -82,7 +83,7 @@ class ChannelRelatedVideoSection extends StatelessWidget {
                   ),
                 );
               } else {
-                if (state.isMoreFetchLoading) {
+                if (state.moreChannelDetailsFetchStatus == ApiStatus.loading) {
                   return cIndicator(context);
                 } else if (state.isMoreFetchCompleted) {
                   return const SizedBox();

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/saved/saved_services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -19,12 +20,12 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
     // get all videos from local storage
     on<GetAllVideoInfoList>((event, emit) async {
       //initial loading go ui
-      emit(state.copyWith(isLoading: true, isError: false));
+      emit(state.copyWith(savedVideosFetchStatus: ApiStatus.loading));
 
       //get video list
       final _result = await _savedServices.getVideoInfoList();
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(isError: true, isLoading: false),
+          (MainFailure f) => state.copyWith(savedVideosFetchStatus: ApiStatus.error),
           (List<LocalStoreVideoInfo> resp) {
         final List<LocalStoreVideoInfo> historyVideos =
             resp.where((e) => e.isHistory ?? false).toList();
@@ -32,7 +33,7 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
             resp.where((e) => e.isSaved ?? false).toList();
 
         return state.copyWith(
-            isLoading: false,
+            savedVideosFetchStatus: ApiStatus.loaded,
             localSavedVideos: savedVideos,
             localSavedHistoryVideos: historyVideos);
       });
@@ -44,13 +45,13 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
     // add video data to local storage
     on<AddVideoInfo>((event, emit) async {
       //initial loading go ui
-      emit(state.copyWith(isLoading: true, isError: false));
+      emit(state.copyWith(savedVideosFetchStatus: ApiStatus.loading,));
 
       //add video info
       final _result =
           await _savedServices.addVideoInfo(videoInfo: event.videoInfo);
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(isError: true, isLoading: false),
+          (MainFailure f) => state.copyWith(savedVideosFetchStatus: ApiStatus.error),
           (List<LocalStoreVideoInfo> resp) {
         final List<LocalStoreVideoInfo> historyVideos =
             resp.where((e) => e.isHistory ?? false).toList();
@@ -58,7 +59,7 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
             resp.where((e) => e.isSaved ?? false).toList();
 
         return state.copyWith(
-            isLoading: false,
+            savedVideosFetchStatus: ApiStatus.loaded,
             localSavedVideos: savedVideos,
             localSavedHistoryVideos: historyVideos);
       });
@@ -72,13 +73,13 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
     // delete video data from local storage
     on<DeleteVideoInfo>((event, emit) async {
       //initial loading go ui
-      emit(state.copyWith(isLoading: true, isError: false));
+      emit(state.copyWith(savedVideosFetchStatus: ApiStatus.loading,));
 
       //delete video info , fast hash for covert string id to int hash
       final _result =
           await _savedServices.deleteVideoInfo(id: fastHash(event.id));
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(isError: true, isLoading: false),
+          (MainFailure f) => state.copyWith(savedVideosFetchStatus: ApiStatus.error),
           (List<LocalStoreVideoInfo> resp) {
         final List<LocalStoreVideoInfo> historyVideos =
             resp.where((e) => e.isHistory ?? false).toList();
@@ -86,7 +87,7 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
             resp.where((e) => e.isSaved ?? false).toList();
 
         return state.copyWith(
-            isLoading: false,
+            savedVideosFetchStatus: ApiStatus.loaded,
             localSavedVideos: savedVideos,
             localSavedHistoryVideos: historyVideos);
       });

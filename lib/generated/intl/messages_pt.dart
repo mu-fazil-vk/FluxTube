@@ -88,6 +88,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "share": MessageLookupByLibrary.simpleMessage("Compartilhar"),
         "showLessText": MessageLookupByLibrary.simpleMessage("Mostrar menos"),
         "subscribe": MessageLookupByLibrary.simpleMessage("Inscrever"),
+        "switchRegion": MessageLookupByLibrary.simpleMessage(
+            "Please consider switching to a different region for better results."),
         "theme": MessageLookupByLibrary.simpleMessage("Tema"),
         "thereIsNoSavedOrHistoryVideos": MessageLookupByLibrary.simpleMessage(
             "Não existem vídeos/histórico salvos"),

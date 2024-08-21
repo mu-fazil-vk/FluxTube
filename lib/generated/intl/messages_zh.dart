@@ -77,6 +77,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "share": MessageLookupByLibrary.simpleMessage("分享"),
         "showLessText": MessageLookupByLibrary.simpleMessage("显示更少"),
         "subscribe": MessageLookupByLibrary.simpleMessage("订阅"),
+        "switchRegion": MessageLookupByLibrary.simpleMessage(
+            "Please consider switching to a different region for better results."),
         "theme": MessageLookupByLibrary.simpleMessage("主题"),
         "thereIsNoSavedOrHistoryVideos":
             MessageLookupByLibrary.simpleMessage("没有已保存或历史视频"),

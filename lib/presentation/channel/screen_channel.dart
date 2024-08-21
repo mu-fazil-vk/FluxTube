@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/colors.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/channel/models/channel_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -34,9 +35,11 @@ class ScreenChannel extends StatelessWidget {
       builder: (context, subscribeState) {
         return BlocBuilder<ChannelBloc, ChannelState>(
           builder: (context, state) {
-            if (state.isLoading) {
+            if (state.channelDetailsFetchStatus == ApiStatus.loading ||
+                state.channelDetailsFetchStatus == ApiStatus.initial) {
               return Center(child: cIndicator(context));
-            } else if (state.isError || state.result == null) {
+            } else if (state.channelDetailsFetchStatus == ApiStatus.error ||
+                state.result == null) {
               return Center(
                   child: ErrorRetryWidget(
                 lottie: 'assets/black-cat.zip',

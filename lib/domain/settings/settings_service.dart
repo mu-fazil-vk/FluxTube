@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/settings/models/instance.dart';
 
@@ -23,6 +24,6 @@ abstract class SettingsService {
   Future<Either<MainFailure, List<Instance>>> fetchInstances();
   Future<Either<MainFailure, String>> setInstance(
       {required String instanceApi});
-  Future<Either<MainFailure, String>> setTYService(
-      {required String service});
+  Future<Either<MainFailure, YouTubeServices>> setTYService(
+      {required YouTubeServices service});
 }

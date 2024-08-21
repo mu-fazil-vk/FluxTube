@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
+import 'package:fluxtube/domain/watch/models/comments/comment.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/watch/widgets/shimmer_comment_widgets.dart';
 import 'package:fluxtube/widgets/indicator.dart';
@@ -33,7 +35,7 @@ class CommentSection extends StatelessWidget {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
               _scrollController.position.maxScrollExtent &&
-          !state.isMoreCommetsFetchLoading &&
+          !(state.fetchMoreCommentsStatus == ApiStatus.loading) &&
           !state.isMoreCommetsFetchCompleted) {
         BlocProvider.of<WatchBloc>(context).add(WatchEvent.getMoreCommentsData(
             id: videoId, nextPage: state.comments.nextpage));
@@ -44,7 +46,7 @@ class CommentSection extends StatelessWidget {
     _scrollControllerReply.addListener(() {
       if (_scrollControllerReply.position.pixels ==
               _scrollControllerReply.position.maxScrollExtent &&
-          !state.isMoreReplyCommetsFetchLoading &&
+          !(state.fetchMoreCommentRepliesStatus == ApiStatus.loading) &&
           !state.isMoreReplyCommetsFetchCompleted) {
         BlocProvider.of<WatchBloc>(context).add(
             WatchEvent.getMoreReplyCommentsData(
@@ -56,67 +58,80 @@ class CommentSection extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: LimitedBox(
         maxHeight: height * 0.45,
-        child: (state.isCommentsLoading || state.isCommentError)
+        child: (state.fetchCommentsStatus == ApiStatus.initial ||
+                state.fetchCommentsStatus == ApiStatus.loading)
             ? const ShimmerCommentWidget()
-            : ListView.separated(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                controller: _scrollController,
-                itemBuilder: (context, index) {
-                  if (index < state.comments.comments.length) {
-                    final storeComment = state.comments.comments[index];
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        CommentWidget(
-                          author: storeComment.author ??
-                              locals.commentAuthorNotFound,
-                          text: storeComment.commentText ?? '',
-                          likes: storeComment.likeCount ?? 0,
-                          authorImageUrl: storeComment.thumbnail ?? '',
-                          onProfileTap: () =>
-                              context.goNamed('channel', pathParameters: {
-                            'channelId':
-                                storeComment.commentorUrl!.split("/").last,
-                          }, queryParameters: {
-                            'avtarUrl': storeComment.thumbnail,
-                          }),
-                        ),
-                        if (storeComment.replyCount != null &&
-                            storeComment.replyCount != 0)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 70),
-                            child: TextButton(
-                                onPressed: () {
-                                  BlocProvider.of<WatchBloc>(context).add(
-                                      WatchEvent.getCommentRepliesData(
-                                          id: storeComment.commentId!,
-                                          nextPage: storeComment.repliesPage!));
+            : state.fetchCommentsStatus == ApiStatus.error
+                ? Center(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          BlocProvider.of<WatchBloc>(context)
+                              .add(WatchEvent.getCommentData(
+                            id: videoId,
+                          ));
+                        },
+                        child: Text(locals.retry)),
+                  )
+                : ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    controller: _scrollController,
+                    itemBuilder: (context, index) {
+                      if (index < state.comments.comments.length) {
+                        final storeComment = state.comments.comments[index];
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            CommentWidget(
+                              author: storeComment.author ??
+                                  locals.commentAuthorNotFound,
+                              text: storeComment.commentText ?? '',
+                              likes: storeComment.likeCount ?? 0,
+                              authorImageUrl: storeComment.thumbnail ?? '',
+                              onProfileTap: () =>
+                                  context.goNamed('channel', pathParameters: {
+                                'channelId':
+                                    storeComment.commentorUrl!.split("/").last,
+                              }, queryParameters: {
+                                'avtarUrl': storeComment.thumbnail,
+                              }),
+                            ),
+                            if (storeComment.replyCount != null &&
+                                storeComment.replyCount != 0)
+                              Padding(
+                                padding: const EdgeInsets.only(right: 70),
+                                child: TextButton(
+                                    onPressed: () {
+                                      BlocProvider.of<WatchBloc>(context).add(
+                                          WatchEvent.getCommentRepliesData(
+                                              id: storeComment.commentId!,
+                                              nextPage:
+                                                  storeComment.repliesPage!));
 
-                                  commentReplyBottomSheet(context, height,
-                                      locals, storeComment.replyCount ?? 0);
-                                },
-                                child: Text(
-                                    "${formatCount(storeComment.replyCount!)} ${locals.repliesPlural(storeComment.replyCount!)}")),
-                          )
-                      ],
-                    );
-                  } else {
-                    if (state.isMoreCommetsFetchCompleted) {
-                      return const SizedBox();
-                    } else {
-                      return cIndicator(context);
-                    }
-                  }
-                },
-                separatorBuilder: (context, index) => kHeightBox15,
-                itemCount: state.comments.comments.length + 1),
+                                      commentReplyBottomSheet(context, storeComment, height,
+                                          locals, storeComment.replyCount ?? 0);
+                                    },
+                                    child: Text(
+                                        "${formatCount(storeComment.replyCount!)} ${locals.repliesPlural(storeComment.replyCount!)}")),
+                              )
+                          ],
+                        );
+                      } else {
+                        if (state.isMoreCommetsFetchCompleted) {
+                          return const SizedBox();
+                        } else {
+                          return cIndicator(context);
+                        }
+                      }
+                    },
+                    separatorBuilder: (context, index) => kHeightBox15,
+                    itemCount: state.comments.comments.length + 1),
       ),
     );
   }
 
   Future<void> commentReplyBottomSheet(
-      BuildContext context, double _height, S locals, int commentCount) {
+      BuildContext context, Comment selectedComment, double _height, S locals, int commentCount) {
     return showModalBottomSheet<void>(
         showDragHandle: true,
         context: context,
@@ -127,10 +142,21 @@ class CommentSection extends StatelessWidget {
         builder: (BuildContext context) {
           return BlocBuilder<WatchBloc, WatchState>(
             builder: (context, state) {
-              if (state.isCommentRepliesLoading ||
-                  state.isCommentRepliesError) {
+              if (state.fetchCommentRepliesStatus == ApiStatus.initial ||
+                  state.fetchCommentRepliesStatus == ApiStatus.loading) {
                 return const ShimmerCommentWidget();
-              } else {
+              } else if(state.fetchCommentRepliesStatus == ApiStatus.error) {
+                return Center(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        BlocProvider.of<WatchBloc>(context).add(
+                            WatchEvent.getCommentRepliesData(
+                                id: videoId, nextPage: selectedComment.repliesPage!));
+                      },
+                      child: Text(locals.retry)),
+                );
+              }
+               else {
                 return SizedBox(
                   height: _height * 0.48,
                   child: Column(

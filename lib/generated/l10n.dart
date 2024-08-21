@@ -589,6 +589,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please consider switching to a different region for better results.`
+  String get switchRegion {
+    return Intl.message(
+      'Please consider switching to a different region for better results.',
+      name: 'switchRegion',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -189,5 +189,6 @@
   "@includeTitle": {
     "description": "Include title along with url"
   },
-  "instances": "Instances"
+  "instances": "Instances",
+  "switchRegion": "Please consider switching to a different region for better results."
 }

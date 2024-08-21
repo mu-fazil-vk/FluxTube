@@ -644,8 +644,7 @@ abstract class CheckVideoInfo implements SavedEvent {
 
 /// @nodoc
 mixin _$SavedState {
-  bool get isLoading => throw _privateConstructorUsedError;
-  bool get isError => throw _privateConstructorUsedError;
+  ApiStatus get savedVideosFetchStatus => throw _privateConstructorUsedError;
   LocalStoreVideoInfo? get videoInfo => throw _privateConstructorUsedError;
   List<LocalStoreVideoInfo> get localSavedVideos =>
       throw _privateConstructorUsedError;
@@ -664,8 +663,7 @@ abstract class $SavedStateCopyWith<$Res> {
       _$SavedStateCopyWithImpl<$Res, SavedState>;
   @useResult
   $Res call(
-      {bool isLoading,
-      bool isError,
+      {ApiStatus savedVideosFetchStatus,
       LocalStoreVideoInfo? videoInfo,
       List<LocalStoreVideoInfo> localSavedVideos,
       List<LocalStoreVideoInfo> localSavedHistoryVideos});
@@ -684,21 +682,16 @@ class _$SavedStateCopyWithImpl<$Res, $Val extends SavedState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
-    Object? isError = null,
+    Object? savedVideosFetchStatus = null,
     Object? videoInfo = freezed,
     Object? localSavedVideos = null,
     Object? localSavedHistoryVideos = null,
   }) {
     return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      savedVideosFetchStatus: null == savedVideosFetchStatus
+          ? _value.savedVideosFetchStatus
+          : savedVideosFetchStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       videoInfo: freezed == videoInfo
           ? _value.videoInfo
           : videoInfo // ignore: cast_nullable_to_non_nullable
@@ -724,8 +717,7 @@ abstract class _$$InitialImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading,
-      bool isError,
+      {ApiStatus savedVideosFetchStatus,
       LocalStoreVideoInfo? videoInfo,
       List<LocalStoreVideoInfo> localSavedVideos,
       List<LocalStoreVideoInfo> localSavedHistoryVideos});
@@ -742,21 +734,16 @@ class __$$InitialImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
-    Object? isError = null,
+    Object? savedVideosFetchStatus = null,
     Object? videoInfo = freezed,
     Object? localSavedVideos = null,
     Object? localSavedHistoryVideos = null,
   }) {
     return _then(_$InitialImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      savedVideosFetchStatus: null == savedVideosFetchStatus
+          ? _value.savedVideosFetchStatus
+          : savedVideosFetchStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
       videoInfo: freezed == videoInfo
           ? _value.videoInfo
           : videoInfo // ignore: cast_nullable_to_non_nullable
@@ -777,8 +764,7 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
-      {required this.isLoading,
-      required this.isError,
+      {required this.savedVideosFetchStatus,
       required this.videoInfo,
       required final List<LocalStoreVideoInfo> localSavedVideos,
       required final List<LocalStoreVideoInfo> localSavedHistoryVideos})
@@ -786,9 +772,7 @@ class _$InitialImpl implements _Initial {
         _localSavedHistoryVideos = localSavedHistoryVideos;
 
   @override
-  final bool isLoading;
-  @override
-  final bool isError;
+  final ApiStatus savedVideosFetchStatus;
   @override
   final LocalStoreVideoInfo? videoInfo;
   final List<LocalStoreVideoInfo> _localSavedVideos;
@@ -811,7 +795,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'SavedState(isLoading: $isLoading, isError: $isError, videoInfo: $videoInfo, localSavedVideos: $localSavedVideos, localSavedHistoryVideos: $localSavedHistoryVideos)';
+    return 'SavedState(savedVideosFetchStatus: $savedVideosFetchStatus, videoInfo: $videoInfo, localSavedVideos: $localSavedVideos, localSavedHistoryVideos: $localSavedHistoryVideos)';
   }
 
   @override
@@ -819,9 +803,8 @@ class _$InitialImpl implements _Initial {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InitialImpl &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.isError, isError) || other.isError == isError) &&
+            (identical(other.savedVideosFetchStatus, savedVideosFetchStatus) ||
+                other.savedVideosFetchStatus == savedVideosFetchStatus) &&
             (identical(other.videoInfo, videoInfo) ||
                 other.videoInfo == videoInfo) &&
             const DeepCollectionEquality()
@@ -833,8 +816,7 @@ class _$InitialImpl implements _Initial {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      isLoading,
-      isError,
+      savedVideosFetchStatus,
       videoInfo,
       const DeepCollectionEquality().hash(_localSavedVideos),
       const DeepCollectionEquality().hash(_localSavedHistoryVideos));
@@ -848,17 +830,14 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements SavedState {
   const factory _Initial(
-          {required final bool isLoading,
-          required final bool isError,
+          {required final ApiStatus savedVideosFetchStatus,
           required final LocalStoreVideoInfo? videoInfo,
           required final List<LocalStoreVideoInfo> localSavedVideos,
           required final List<LocalStoreVideoInfo> localSavedHistoryVideos}) =
       _$InitialImpl;
 
   @override
-  bool get isLoading;
-  @override
-  bool get isError;
+  ApiStatus get savedVideosFetchStatus;
   @override
   LocalStoreVideoInfo? get videoInfo;
   @override

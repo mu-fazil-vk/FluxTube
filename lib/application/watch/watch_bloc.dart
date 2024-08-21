@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/domain/watch/models/comments/comments_resp.dart';
@@ -21,22 +22,22 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
     on<GetWatchInfo>(
       (event, emit) async {
         emit(state.copyWith(
-            isLoading: true,
-            isWatchInfoError: false,
-            initialVideoPause: true,
-            isTapComments: false,
-            isDescriptionTapped: false));
+          fetchWatchInfoStatus: ApiStatus.loading,
+          isTapComments: false,
+          isDescriptionTapped: false,
+        ));
 
         //get stream info data
         final result = await watchService.getVideoData(id: event.id);
 
         final _state = result.fold(
             (MainFailure failure) => state.copyWith(
-                  isWatchInfoError: true,
-                  isLoading: false,
+                  fetchWatchInfoStatus: ApiStatus.error,
                 ),
             (WatchResp resp) => state.copyWith(
-                watchResp: resp, isLoading: false, oldId: event.id));
+                watchResp: resp,
+                fetchWatchInfoStatus: ApiStatus.loaded,
+                oldId: event.id));
         //update to ui
         emit(_state);
       },
@@ -45,7 +46,8 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
     on<GetCommentData>((event, emit) async {
       //initialte loading, and toggle comments
       emit(state.copyWith(
-          isCommentsLoading: true, isTapComments: !state.isTapComments));
+          fetchCommentsStatus: ApiStatus.initial,
+          isTapComments: !state.isTapComments));
 
       //get comments list
 
@@ -54,16 +56,14 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
 
         final _state = _result.fold(
             (MainFailure failure) =>
-                state.copyWith(isCommentError: true, isCommentsLoading: false),
+                state.copyWith(fetchCommentsStatus: ApiStatus.error),
             (CommentsResp resp) => state.copyWith(
-                isCommentError: false,
-                isCommentsLoading: false,
-                comments: resp));
+                fetchCommentsStatus: ApiStatus.loaded, comments: resp));
 
         //update to ui
         emit(_state);
       } else {
-        emit(state.copyWith(isCommentsLoading: false));
+        emit(state.copyWith(fetchCommentsStatus: ApiStatus.initial));
       }
     });
 
@@ -79,7 +79,7 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
 
     on<GetCommentRepliesData>((event, emit) async {
       //initialte loading, and toggle comments
-      emit(state.copyWith(isCommentRepliesLoading: true));
+      emit(state.copyWith(fetchCommentRepliesStatus: ApiStatus.loading));
 
       //get reply comments list
 
@@ -88,10 +88,10 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
 
       final _state = _result.fold(
           (MainFailure failure) => state.copyWith(
-              isCommentRepliesError: true, isCommentRepliesLoading: false),
+                fetchCommentRepliesStatus: ApiStatus.error,
+              ),
           (CommentsResp resp) => state.copyWith(
-              isCommentRepliesError: false,
-              isCommentRepliesLoading: false,
+              fetchCommentRepliesStatus: ApiStatus.loaded,
               commentReplies: resp));
 
       //update to ui
@@ -102,9 +102,9 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
     on<GetMoreCommentsData>((event, emit) async {
       //initialte loading, and toggle comments
       emit(state.copyWith(
-          isMoreCommetsFetchLoading: true,
-          isMoreCommetsFetchCompleted: false,
-          isMoreCommetsFetchError: false));
+        fetchMoreCommentsStatus: ApiStatus.loading,
+        isMoreCommetsFetchCompleted: false,
+      ));
 
       //get reply comments list
 
@@ -113,11 +113,11 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
 
       final _state = _result.fold(
           (MainFailure failure) => state.copyWith(
-              isMoreCommetsFetchLoading: false,
-              isMoreCommetsFetchError: true), (CommentsResp resp) {
+                fetchMoreCommentsStatus: ApiStatus.error,
+              ), (CommentsResp resp) {
         if (resp.nextpage == null) {
           return state.copyWith(
-            isMoreCommetsFetchLoading: false,
+            fetchMoreCommentsStatus: ApiStatus.loaded,
             isMoreCommetsFetchCompleted: true,
           );
         } else {
@@ -125,7 +125,9 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
           commentsModel.comments.addAll(resp.comments);
           commentsModel.nextpage = resp.nextpage;
           return state.copyWith(
-              isMoreCommetsFetchLoading: false, comments: commentsModel);
+            fetchMoreCommentsStatus: ApiStatus.loaded,
+            comments: commentsModel,
+          );
         }
       });
 
@@ -137,9 +139,9 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
     on<GetMoreReplyCommentsData>((event, emit) async {
       //initialte loading, and toggle comments
       emit(state.copyWith(
-          isMoreReplyCommetsFetchLoading: true,
-          isMoreReplyCommetsFetchCompleted: false,
-          isMoreReplyCommetsFetchError: false));
+        fetchMoreCommentRepliesStatus: ApiStatus.loading,
+        isMoreReplyCommetsFetchCompleted: false,
+      ));
 
       //get reply comments list
 
@@ -148,11 +150,11 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
 
       final _state = _result.fold(
           (MainFailure failure) => state.copyWith(
-              isMoreReplyCommetsFetchLoading: false,
-              isMoreReplyCommetsFetchError: true), (CommentsResp resp) {
+                fetchMoreCommentRepliesStatus: ApiStatus.error,
+              ), (CommentsResp resp) {
         if (resp.nextpage == null) {
           return state.copyWith(
-            isMoreReplyCommetsFetchLoading: false,
+            fetchMoreCommentRepliesStatus: ApiStatus.loaded,
             isMoreReplyCommetsFetchCompleted: true,
           );
         } else {
@@ -160,7 +162,7 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
           replyCommentsModel.comments.addAll(resp.comments);
           replyCommentsModel.nextpage = resp.nextpage;
           return state.copyWith(
-              isMoreReplyCommetsFetchLoading: false,
+              fetchMoreCommentRepliesStatus: ApiStatus.loaded,
               commentReplies: replyCommentsModel);
         }
       });
@@ -173,8 +175,7 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
     on<GetSubtitles>(
       (event, emit) async {
         emit(state.copyWith(
-          isSubtitleLoading: true,
-          isSubtitleError: false,
+          fetchSubtitlesStatus: ApiStatus.loading,
         ));
 
         //get stream info data
@@ -182,16 +183,14 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
 
         final _state = result.fold(
             (MainFailure failure) => state.copyWith(
-                  isSubtitleError: true,
-                  isSubtitleLoading: false,
+                  fetchSubtitlesStatus: ApiStatus.error,
                 ),
-            (List<Map<String, String>> resp) =>
-                state.copyWith(subtitles: resp, isSubtitleLoading: false));
+            (List<Map<String, String>> resp) => state.copyWith(
+                subtitles: resp, fetchSubtitlesStatus: ApiStatus.loaded));
         //update to ui
         emit(_state);
       },
     );
-
 
     //TOGGLE PIP
     on<TogglePip>(
@@ -211,14 +210,11 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
       },
     );
 
-
     // YOUTUBE EXPLODE
     on<GetExplodeWatchInfo>((event, emit) async {
       emit(state.copyWith(
         explodeWatchResp: ExplodeWatchResp.initial(),
-        isLoading: true,
-        isWatchInfoError: false,
-        initialVideoPause: true,
+        fetchExplodeWatchInfoStatus: ApiStatus.loading,
         isTapComments: false,
         isDescriptionTapped: false,
       ));
@@ -229,12 +225,11 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
       // Handle the result
       final _state = result.fold(
         (MainFailure failure) => state.copyWith(
-          isWatchInfoError: true,
-          isLoading: false,
+          fetchExplodeWatchInfoStatus: ApiStatus.error,
         ),
         (ExplodeWatchResp resp) => state.copyWith(
           explodeWatchResp: resp,
-          isLoading: false,
+          fetchExplodeWatchInfoStatus: ApiStatus.loaded,
           oldId: event.id,
         ),
       );
@@ -242,41 +237,56 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
       // Emit the updated state
       emit(_state);
     });
-    
+
     on<GetExplodeRelatedVideoInfo>((event, emit) async {
       emit(state.copyWith(
-          isRelatedVideosLoading: true, isRelatedVideosError: false));
-      final result = await watchService.getExplodeRelatedVideosData(id: event.id);
+        fetchExplodedRelatedVideosStatus: ApiStatus.loading,
+      ));
+      final result =
+          await watchService.getExplodeRelatedVideosData(id: event.id);
       final newState = result.fold(
         (failure) => state.copyWith(
-            isRelatedVideosError: true, isRelatedVideosLoading: false),
+          fetchExplodedRelatedVideosStatus: ApiStatus.error,
+          relatedVideos: null,
+        ),
         (relatedVideos) => state.copyWith(
-            relatedVideos: relatedVideos, isRelatedVideosLoading: false),
+          relatedVideos: relatedVideos,
+          fetchExplodedRelatedVideosStatus: ApiStatus.loaded,
+        ),
       );
       emit(newState);
     });
 
     on<GetExplodeMuxStreamInfo>((event, emit) async {
-      emit(state.copyWith(isMuxedStreamsLoading: true, isMuxedStreamsError: false, muxedStreams: null));
+      emit(state.copyWith(
+          fetchExplodeMuxedStreamsStatus: ApiStatus.loading,
+          muxedStreams: null));
       final result = await watchService.getExplodeMuxedStreamData(id: event.id);
       final newState = result.fold(
         (failure) => state.copyWith(
-            isMuxedStreamsError: true, isMuxedStreamsLoading: false),
+          fetchExplodeMuxedStreamsStatus: ApiStatus.error,
+          muxedStreams: null,
+        ),
         (muxedStreams) => state.copyWith(
-            muxedStreams: muxedStreams, isMuxedStreamsLoading: false),
+          muxedStreams: muxedStreams,
+          fetchExplodeMuxedStreamsStatus: ApiStatus.loaded,
+        ),
       );
       emit(newState);
     });
-  
 
     on<GetExplodeLiveVideoInfo>((event, emit) async {
-      emit(state.copyWith(isLiveStreamLoading: true, isLiveStreamError: false));
+      emit(state.copyWith(fetchExplodeLiveStreamStatus: ApiStatus.loading));
       final result = await watchService.getExplodeLiveStreamUrl(id: event.id);
       final newState = result.fold(
         (failure) => state.copyWith(
-            isLiveStreamError: true, isLiveStreamLoading: false),
+          fetchExplodeLiveStreamStatus: ApiStatus.error,
+          liveStreamUrl: null,
+        ),
         (liveStreamUrl) => state.copyWith(
-            liveStreamUrl: liveStreamUrl, isLiveStreamLoading: false),
+          liveStreamUrl: liveStreamUrl,
+          fetchExplodeLiveStreamStatus: ApiStatus.loaded,
+        ),
       );
       emit(newState);
     });

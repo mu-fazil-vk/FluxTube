@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/search/models/item.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
@@ -26,7 +27,7 @@ class SearcheResultSection extends StatelessWidget {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
               _scrollController.position.maxScrollExtent &&
-          !state.isMoreFetchLoading &&
+          !(state.fetchMoreSearchResultStatus == ApiStatus.loading) &&
           !state.isMoreFetchCompleted) {
         BlocProvider.of<SearchBloc>(context).add(
             SearchEvent.getMoreSearchResult(

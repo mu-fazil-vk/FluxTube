@@ -5,15 +5,14 @@ class TrendingState with _$TrendingState {
   const factory TrendingState({
     required List<TrendingResp> trendingResult,
     required List<TrendingResp> feedResult,
-    required bool isLoading,
-    required bool isError,
-    required bool isFeedError,
+    required ApiStatus fetchTrendingStatus,
+    required ApiStatus fetchFeedStatus,
   }) = _Initial;
 
   factory TrendingState.initialize() => const TrendingState(
-      trendingResult: [],
-      feedResult: [],
-      isLoading: false,
-      isError: false,
-      isFeedError: false);
+        trendingResult: [],
+        feedResult: [],
+        fetchTrendingStatus: ApiStatus.initial,
+        fetchFeedStatus: ApiStatus.initial,
+      );
 }

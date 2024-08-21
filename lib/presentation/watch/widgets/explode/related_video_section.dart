@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
@@ -45,6 +44,7 @@ class ExplodeRelatedVideoSection extends StatelessWidget {
                 final String channelId = related[index].channelId;
                 return GestureDetector(
                     onTap: () {
+
                       BlocProvider.of<WatchBloc>(context).add(
                           WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
@@ -54,6 +54,7 @@ class ExplodeRelatedVideoSection extends StatelessWidget {
                                   channelThumbnailUrl: null,
                                   channelId: channelId,
                                   uploaderVerified: null)));
+                                  
                       context.go('/watch/$videoId/$channelId');
                     },
                     child: RelatedVideoWidget(

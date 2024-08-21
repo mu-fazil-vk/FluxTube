@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
 import 'package:fluxtube/application/application.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/presentation/watch/content/iframe.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 
@@ -37,14 +38,15 @@ class _IFramScreenWatchState extends State<IFramScreenWatch> {
     return BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {
       return BlocBuilder<WatchBloc, WatchState>(buildWhen: (previous, current) {
-        return previous.isLoading != current.isLoading ||
-            previous.isSubtitleLoading != current.isSubtitleLoading ||
-            previous.isWatchInfoError != current.isWatchInfoError;
+        return previous.fetchExplodeWatchInfoStatus !=
+                current.fetchExplodeWatchInfoStatus ||
+            previous.fetchSubtitlesStatus != current.fetchSubtitlesStatus;
       }, builder: (context, state) {
         return BlocBuilder<SavedBloc, SavedState>(
           builder: (context, savedState) {
             if ((state.oldId != widget.id || state.oldId == null) &&
-                !state.isWatchInfoError) {
+                !(state.fetchExplodeWatchInfoStatus == ApiStatus.loaded ||
+                    state.fetchExplodeWatchInfoStatus == ApiStatus.loading)) {
               BlocProvider.of<WatchBloc>(context)
                   .add(WatchEvent.getExplodeWatchInfo(id: widget.id));
               BlocProvider.of<WatchBloc>(context)
@@ -60,7 +62,7 @@ class _IFramScreenWatchState extends State<IFramScreenWatch> {
                 ? true
                 : false;
 
-            if (state.isWatchInfoError) {
+            if (state.fetchExplodeWatchInfoStatus == ApiStatus.error) {
               return ErrorRetryWidget(
                 lottie: 'assets/cat-404.zip',
                 onTap: () {
@@ -137,7 +139,10 @@ class _IFramScreenWatchState extends State<IFramScreenWatch> {
           isSaved: isSaved,
           liveUrl: state.liveStreamUrl,
           availableVideoTracks: state.muxedStreams ?? [],
-          subtitles: state.isSubtitleLoading ? [] : state.subtitles,
+          subtitles: (state.fetchSubtitlesStatus == ApiStatus.loading ||
+                  state.fetchSubtitlesStatus == ApiStatus.initial)
+              ? []
+              : state.subtitles,
         );
       }, //Optional
     ));

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/saved/widgets/history_section.dart';
 import 'package:fluxtube/presentation/saved/widgets/saved_section.dart';
@@ -35,7 +36,10 @@ class ScreenSaved extends StatelessWidget {
               builder: (context, settingsState) {
                 return BlocBuilder<SavedBloc, SavedState>(
                   builder: (context, savedState) {
-                    if (savedState.isLoading) {
+                    if (savedState.savedVideosFetchStatus ==
+                            ApiStatus.loading ||
+                        savedState.savedVideosFetchStatus ==
+                            ApiStatus.initial) {
                       return ListView.separated(
                         separatorBuilder: (context, index) => kHeightBox10,
                         itemBuilder: (context, index) {
@@ -45,7 +49,9 @@ class ScreenSaved extends StatelessWidget {
                         },
                         itemCount: 10,
                       );
-                    } else if (savedState.isError) {
+                    } else if ((savedState.localSavedVideos.isEmpty &&
+                            savedState.localSavedHistoryVideos.isEmpty) ||
+                        savedState.savedVideosFetchStatus == ApiStatus.error) {
                       return Center(
                         child: Text(locals.thereIsNoSavedOrHistoryVideos),
                       );

@@ -14,8 +14,7 @@ class SettingsState with _$SettingsState {
     required bool isHideComments,
     required bool isHideRelated,
     required List<Instance> instances,
-    required bool instanceLoading,
-    required bool instanceError,
+    required ApiStatus instanceStatus,
     required String instance,
     required String ytService,
   }) = _Initial;
@@ -32,9 +31,8 @@ class SettingsState with _$SettingsState {
         isHideComments: false,
         isHideRelated: false,
         instances: [],
-        instanceLoading: false,
-        instanceError: false,
+        instanceStatus: ApiStatus.initial,
         instance: BaseUrl.kBaseUrl,
-        ytService: 'piped',
+        ytService: YouTubeServices.piped.name,
       );
 }

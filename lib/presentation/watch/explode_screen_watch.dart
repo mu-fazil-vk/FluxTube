@@ -5,6 +5,7 @@ import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/watch/widgets/explode/description_section.dart';
 import 'package:fluxtube/presentation/watch/widgets/explode/like_section.dart';
@@ -42,14 +43,14 @@ class ExplodeScreenWatch extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {
       return BlocBuilder<WatchBloc, WatchState>(buildWhen: (previous, current) {
-        return previous.isLoading != current.isLoading ||
-            previous.isSubtitleLoading != current.isSubtitleLoading ||
-            previous.isWatchInfoError != current.isWatchInfoError;
+        return previous.fetchExplodeWatchInfoStatus !=
+                current.fetchExplodeWatchInfoStatus ||
+            previous.fetchSubtitlesStatus != current.fetchSubtitlesStatus;
       }, builder: (context, state) {
         return BlocBuilder<SavedBloc, SavedState>(
           builder: (context, savedState) {
             if ((state.oldId != id || state.oldId == null) &&
-                !state.isWatchInfoError) {
+                (!(state.fetchExplodeWatchInfoStatus == ApiStatus.loading))) {
               BlocProvider.of<WatchBloc>(context)
                   .add(WatchEvent.getExplodeWatchInfo(id: id));
               BlocProvider.of<WatchBloc>(context)
@@ -67,7 +68,7 @@ class ExplodeScreenWatch extends StatelessWidget {
                 ? true
                 : false;
 
-            if (state.isWatchInfoError) {
+            if (state.fetchExplodeWatchInfoStatus == ApiStatus.error) {
               return ErrorRetryWidget(
                 lottie: 'assets/cat-404.zip',
                 onTap: () {
@@ -105,7 +106,12 @@ class ExplodeScreenWatch extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              (state.isLoading || state.isSubtitleLoading)
+                              (state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.initial ||
+                                      state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.loading ||
+                                      state.fetchSubtitlesStatus ==
+                                          ApiStatus.loading)
                                   ? Container(
                                       height: 230,
                                       color: kBlackColor,
@@ -125,7 +131,10 @@ class ExplodeScreenWatch extends StatelessWidget {
                                       liveUrl: state.liveStreamUrl,
                                       availableVideoTracks:
                                           state.muxedStreams ?? [],
-                                      subtitles: state.isSubtitleLoading
+                                      subtitles: (state.fetchSubtitlesStatus ==
+                                                  ApiStatus.loading ||
+                                              state.fetchSubtitlesStatus ==
+                                                  ApiStatus.initial)
                                           ? []
                                           : state.subtitles,
                                       selectedVideoBasicDetails:
@@ -141,7 +150,10 @@ class ExplodeScreenWatch extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           // * caption row
-                                          (state.isLoading)
+                                          (state.fetchExplodeWatchInfoStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchExplodeWatchInfoStatus ==
+                                                      ApiStatus.loading)
                                               ? CaptionRowWidget(
                                                   caption: state
                                                           .selectedVideoBasicDetails
@@ -173,7 +185,10 @@ class ExplodeScreenWatch extends StatelessWidget {
                                           kHeightBox5,
 
                                           // * views row
-                                          (state.isLoading)
+                                          (state.fetchExplodeWatchInfoStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchExplodeWatchInfoStatus ==
+                                                      ApiStatus.loading)
                                               ? const SizedBox()
                                               : ViewRowWidget(
                                                   views: watchInfo.viewCount,
@@ -185,7 +200,10 @@ class ExplodeScreenWatch extends StatelessWidget {
                                           kHeightBox10,
 
                                           // * like row
-                                          (state.isLoading)
+                                          (state.fetchExplodeWatchInfoStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchExplodeWatchInfoStatus ==
+                                                      ApiStatus.loading)
                                               ? const ShimmerLikeWidget()
                                               : ExplodeLikeSection(
                                                   id: id,
@@ -205,7 +223,10 @@ class ExplodeScreenWatch extends StatelessWidget {
                                           const Divider(),
 
                                           // * channel info row
-                                          (state.isLoading)
+                                          (state.fetchExplodeWatchInfoStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchExplodeWatchInfoStatus ==
+                                                      ApiStatus.loading)
                                               ? const ShimmerSubscribeWidget()
                                               : ExplodeChannelInfoSection(
                                                   state: state,
@@ -226,7 +247,12 @@ class ExplodeScreenWatch extends StatelessWidget {
                                               state.isTapComments == false
                                                   ? settingsState.isHideRelated
                                                       ? const SizedBox()
-                                                      : (state.isRelatedVideosLoading)
+                                                      : (state.fetchExplodedRelatedVideosStatus ==
+                                                                  ApiStatus
+                                                                      .initial ||
+                                                              state.fetchExplodedRelatedVideosStatus ==
+                                                                  ApiStatus
+                                                                      .loading)
                                                           ? SizedBox(
                                                               height: 350,
                                                               child: ListView
@@ -303,7 +329,10 @@ class ExplodeScreenWatch extends StatelessWidget {
           isSaved: isSaved,
           liveUrl: state.liveStreamUrl,
           availableVideoTracks: state.muxedStreams ?? [],
-          subtitles: state.isSubtitleLoading ? [] : state.subtitles,
+          subtitles: (state.fetchSubtitlesStatus == ApiStatus.loading ||
+                  state.fetchSubtitlesStatus == ApiStatus.initial)
+              ? []
+              : state.subtitles,
         );
       }, //Optional
     ));

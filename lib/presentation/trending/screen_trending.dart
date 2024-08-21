@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/trending/widgets/trending_videos_section.dart';
 import 'package:fluxtube/widgets/widgets.dart';
@@ -33,7 +35,8 @@ class ScreenTrending extends StatelessWidget {
                           region: settingsState.defaultRegion)),
                   child: BlocBuilder<TrendingBloc, TrendingState>(
                     builder: (context, state) {
-                      if (state.isLoading) {
+                      if (state.fetchTrendingStatus == ApiStatus.loading ||
+                          state.fetchTrendingStatus == ApiStatus.initial) {
                         return ListView.separated(
                           separatorBuilder: (context, index) => kHeightBox10,
                           itemBuilder: (context, index) {
@@ -41,8 +44,15 @@ class ScreenTrending extends StatelessWidget {
                           },
                           itemCount: 10,
                         );
-                      } else if (state.isError ||
+                      } else if (state.fetchTrendingStatus == ApiStatus.error ||
                           state.trendingResult.isEmpty) {
+                        if (state.trendingResult.isEmpty) {
+                          Fluttertoast.showToast(
+                            msg: locals.switchRegion,
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM,
+                          );
+                        }
                         return ErrorRetryWidget(
                           lottie: 'assets/black-cat.zip',
                           onTap: () => BlocProvider.of<TrendingBloc>(context)

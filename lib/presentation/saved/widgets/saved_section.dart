@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/widgets.dart';
@@ -23,9 +24,12 @@ class SavedVideosSection extends StatelessWidget {
           ? Center(
               child: Text(locals.thereIsNoSavedVideos),
             )
-          : savedState.isLoading //loading check
+          : (savedState.savedVideosFetchStatus == ApiStatus.loading ||
+                  savedState.savedVideosFetchStatus ==
+                      ApiStatus.initial) //loading check
               ? cIndicator(context)
-              : savedState.isError //empty list check
+              : savedState.savedVideosFetchStatus ==
+                      ApiStatus.error //empty list check
                   ? ErrorRetryWidget(
                       lottie: 'assets/black-cat.zip',
                       onTap: () => BlocProvider.of<SavedBloc>(context)

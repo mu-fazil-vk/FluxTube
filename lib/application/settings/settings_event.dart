@@ -17,5 +17,5 @@ class SettingsEvent with _$SettingsEvent {
   factory SettingsEvent.toggleRelatedVideoVisibility() = ToggleRelatedVideoVisibility;
   factory SettingsEvent.fetchInstances() = FetchInstances;
   factory SettingsEvent.setInstance({required String instanceApi}) = SetInstance;
-  factory SettingsEvent.setYTService({required String service}) = SetYTService;
+  factory SettingsEvent.setYTService({required YouTubeServices service}) = SetYTService;
 }

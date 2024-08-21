@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
 final _qualities = [
@@ -38,15 +39,15 @@ final _qualities = [
 
 final _services = [
   const DropdownMenuItem(
-    value: "piped",
+    value: YouTubeServices.piped,
     child: Text("Piped"),
   ),
   const DropdownMenuItem(
-    value: "explode",
+    value: YouTubeServices.explode,
     child: Text("Explode"),
   ),
   const DropdownMenuItem(
-    value: "iframe",
+    value: YouTubeServices.iframe,
     child: Text("IFrame"),
   ),
 ];
@@ -72,7 +73,7 @@ SettingsSection videoSettingsSection(
         title: const Text("YouTube Service"),
         leading: const Icon(Icons.network_cell),
         trailing: DropdownButton(
-            value: state.ytService,
+            value: YouTubeServices.values.firstWhere((e) => e.name == state.ytService),
             items: _services,
             onChanged: (service) => BlocProvider.of<SettingsBloc>(context)
                 .add(SettingsEvent.setYTService(service: service!))),
