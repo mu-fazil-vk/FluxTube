@@ -131,13 +131,13 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       videoFormat: widget.isHlsPlayer
           ? BetterPlayerVideoFormat.hls
           : BetterPlayerVideoFormat.other,
-      cacheConfiguration: const BetterPlayerCacheConfiguration(
-        useCache: true,
-        preCacheSize: 10 * 1024 * 1024, // 10 MB
-        maxCacheSize: 30 * 1024 * 1024, // 30 MB
-        maxCacheFileSize: 30 * 1024 * 1024,
-        key: "ftCacheKey",
-      ),
+      // cacheConfiguration: const BetterPlayerCacheConfiguration(
+      //   useCache: true,
+      //   preCacheSize: 10 * 1024 * 1024, // 10 MB
+      //   maxCacheSize: 30 * 1024 * 1024, // 30 MB
+      //   maxCacheFileSize: 30 * 1024 * 1024,
+      //   key: "ftCacheKey",
+      // ),
     );
 
     _betterPlayerController = BetterPlayerController(

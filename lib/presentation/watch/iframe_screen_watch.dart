@@ -45,7 +45,7 @@ class _IFramScreenWatchState extends State<IFramScreenWatch> {
         return BlocBuilder<SavedBloc, SavedState>(
           builder: (context, savedState) {
             if ((state.oldId != widget.id || state.oldId == null) &&
-                !(state.fetchExplodeWatchInfoStatus == ApiStatus.loaded ||
+                !(state.fetchExplodeWatchInfoStatus == ApiStatus.error ||
                     state.fetchExplodeWatchInfoStatus == ApiStatus.loading)) {
               BlocProvider.of<WatchBloc>(context)
                   .add(WatchEvent.getExplodeWatchInfo(id: widget.id));

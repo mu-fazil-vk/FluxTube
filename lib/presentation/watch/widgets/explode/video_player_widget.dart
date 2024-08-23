@@ -38,7 +38,8 @@ class ExplodeVideoPlayerWidget extends StatefulWidget {
   State<ExplodeVideoPlayerWidget> createState() => _ExplodeVideoPlayerWidget();
 }
 
-class _ExplodeVideoPlayerWidget extends State<ExplodeVideoPlayerWidget> with AutomaticKeepAliveClientMixin {
+class _ExplodeVideoPlayerWidget extends State<ExplodeVideoPlayerWidget>
+    with AutomaticKeepAliveClientMixin {
   BetterPlayerController? _betterPlayerController;
   MyMuxedStreamInfo? selectedVideoTrack;
   late final double aspectRatio;
@@ -69,7 +70,7 @@ class _ExplodeVideoPlayerWidget extends State<ExplodeVideoPlayerWidget> with Aut
   Widget build(BuildContext context) {
     // Ensure that AutomaticKeepAliveClientMixin is correctly applied.
     super.build(context);
-    
+
     return AspectRatio(
       aspectRatio: aspectRatio,
       child: _betterPlayerController != null
@@ -149,27 +150,26 @@ class _ExplodeVideoPlayerWidget extends State<ExplodeVideoPlayerWidget> with Aut
 
     _betterPlayerController = BetterPlayerController(
       BetterPlayerConfiguration(
-        controlsConfiguration: const BetterPlayerControlsConfiguration(
-          controlBarColor: Colors.black26,
-          iconsColor: Colors.white,
-          playIcon: Icons.play_arrow_outlined,
-          progressBarPlayedColor: Colors.indigo,
-          progressBarHandleColor: Colors.indigo,
-          controlBarHeight: 40,
-          loadingColor: Colors.red,
-          overflowModalColor: Colors.black54,
-          overflowModalTextColor: Colors.white,
-          overflowMenuIconsColor: Colors.white,
-        ),
-        autoPlay: true,
-        startAt: Duration(seconds: startPosition),
-        aspectRatio: aspectRatio,
-        allowedScreenSleep: false,
-        expandToFill: false,
-        autoDispose: true,
-        fit: BoxFit.contain,
-        handleLifecycle: true
-      ),
+          controlsConfiguration: const BetterPlayerControlsConfiguration(
+            controlBarColor: Colors.black26,
+            iconsColor: Colors.white,
+            playIcon: Icons.play_arrow_outlined,
+            progressBarPlayedColor: Colors.indigo,
+            progressBarHandleColor: Colors.indigo,
+            controlBarHeight: 40,
+            loadingColor: Colors.red,
+            overflowModalColor: Colors.black54,
+            overflowModalTextColor: Colors.white,
+            overflowMenuIconsColor: Colors.white,
+          ),
+          autoPlay: true,
+          startAt: Duration(seconds: startPosition),
+          aspectRatio: aspectRatio,
+          allowedScreenSleep: false,
+          expandToFill: false,
+          autoDispose: true,
+          fit: BoxFit.contain,
+          handleLifecycle: true),
       betterPlayerDataSource: betterPlayerDataSource,
     );
   }
@@ -214,7 +214,8 @@ class _ExplodeVideoPlayerWidget extends State<ExplodeVideoPlayerWidget> with Aut
         uploaderId: widget.watchInfo.channelId,
         uploaderSubscriberCount: null,
         duration: widget.watchInfo.duration.inSeconds,
-        uploaderVerified: widget.selectedVideoBasicDetails?.uploaderVerified ?? false,
+        uploaderVerified:
+            widget.selectedVideoBasicDetails?.uploaderVerified ?? false,
         isHistory: true,
         isLive: widget.watchInfo.isLive,
         isSaved: widget.isSaved,

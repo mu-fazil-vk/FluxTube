@@ -8,6 +8,7 @@ import 'package:fluxtube/domain/watch/models/explode/explode_watch.dart';
 import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
 import 'package:fluxtube/domain/watch/watch_service.dart';
 import 'package:injectable/injectable.dart';
+import 'package:native_dio_adapter/native_dio_adapter.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import '../../domain/core/api_end_points.dart';
@@ -18,9 +19,17 @@ class WatchImpliment implements WatchService {
   @override
   Future<Either<MainFailure, WatchResp>> getVideoData(
       {required String id}) async {
+    final dioClient = Dio();
     try {
-      final Response response =
-          await Dio(BaseOptions()).get(ApiEndPoints.watch + id);
+      dioClient.httpClientAdapter = NativeAdapter();
+      final Response response = await dioClient.get(
+        ApiEndPoints.watch + id,
+        options: Options(
+          followRedirects: false,
+          // will not throw errors
+          validateStatus: (status) => true,
+        ),
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final WatchResp result = WatchResp.fromJson(response.data);
 
@@ -32,6 +41,8 @@ class WatchImpliment implements WatchService {
     } catch (e) {
       log('Err on getVideoData: $e');
       return const Left(MainFailure.clientFailure());
+    } finally {
+      dioClient.close();
     }
   }
 
@@ -39,9 +50,17 @@ class WatchImpliment implements WatchService {
   @override
   Future<Either<MainFailure, CommentsResp>> getCommentsData(
       {required String id}) async {
+    final dioClient = Dio();
     try {
-      final Response response =
-          await Dio(BaseOptions()).get(ApiEndPoints.comments + id);
+      dioClient.httpClientAdapter = NativeAdapter();
+      final Response response = await dioClient.get(
+        ApiEndPoints.comments + id,
+        options: Options(
+          followRedirects: false,
+          // will not throw errors
+          validateStatus: (status) => true,
+        ),
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final CommentsResp result = CommentsResp.fromJson(response.data);
 
@@ -53,15 +72,25 @@ class WatchImpliment implements WatchService {
     } catch (e) {
       log('Err on getCommentsData: $e');
       return const Left(MainFailure.clientFailure());
+    } finally {
+      dioClient.close();
     }
   }
 
   @override
   Future<Either<MainFailure, CommentsResp>> getCommentRepliesData(
       {required String id, required String repliesPage}) async {
+    final dioClient = Dio();
     try {
-      final Response response = await Dio(BaseOptions())
-          .get('${ApiEndPoints.commentReplies}$id/?nextpage=$repliesPage');
+      dioClient.httpClientAdapter = NativeAdapter();
+      final Response response = await dioClient.get(
+        '${ApiEndPoints.commentReplies}$id/?nextpage=$repliesPage',
+        options: Options(
+          followRedirects: false,
+          // will not throw errors
+          validateStatus: (status) => true,
+        ),
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final CommentsResp result = CommentsResp.fromJson(response.data);
 
@@ -73,6 +102,8 @@ class WatchImpliment implements WatchService {
     } catch (e) {
       log('Err on getCommentRepliesData: $e');
       return const Left(MainFailure.clientFailure());
+    } finally {
+      dioClient.close();
     }
   }
 
@@ -80,9 +111,17 @@ class WatchImpliment implements WatchService {
   @override
   Future<Either<MainFailure, CommentsResp>> getMoreCommentsData(
       {required String id, String? nextPage}) async {
+    final dioClient = Dio();
     try {
-      final Response response = await Dio(BaseOptions())
-          .get('${ApiEndPoints.commentReplies}$id/?nextpage=$nextPage');
+      dioClient.httpClientAdapter = NativeAdapter();
+      final Response response = await dioClient.get(
+        '${ApiEndPoints.commentReplies}$id/?nextpage=$nextPage',
+        options: Options(
+          followRedirects: false,
+          // will not throw errors
+          validateStatus: (status) => true,
+        ),
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final CommentsResp result = CommentsResp.fromJson(response.data);
         return Right(result);
@@ -93,6 +132,8 @@ class WatchImpliment implements WatchService {
     } catch (e) {
       log('Err on getMoreCommentsData: $e');
       return const Left(MainFailure.clientFailure());
+    } finally {
+      dioClient.close();
     }
   }
 
@@ -126,9 +167,10 @@ class WatchImpliment implements WatchService {
       return const Left(MainFailure.clientFailure());
     }
   }
-  
+
   @override
-  Future<Either<MainFailure, ExplodeWatchResp>> getExplodeVideoData({required String id}) async {
+  Future<Either<MainFailure, ExplodeWatchResp>> getExplodeVideoData(
+      {required String id}) async {
     final YoutubeExplode _youtubeExplode = YoutubeExplode();
     try {
       var video = await _youtubeExplode.videos.get(id);
@@ -143,53 +185,59 @@ class WatchImpliment implements WatchService {
       _youtubeExplode.close(); // Close the YoutubeExplode instance
     }
   }
-  
+
   @override
-  Future<Either<MainFailure, List<MyMuxedStreamInfo>>> getExplodeMuxedStreamData({required String id}) async {
+  Future<Either<MainFailure, List<MyMuxedStreamInfo>>>
+      getExplodeMuxedStreamData({required String id}) async {
     final YoutubeExplode _youtubeExplode = YoutubeExplode();
     try {
       var manifest = await _youtubeExplode.videos.streamsClient.getManifest(id);
-      List<MyMuxedStreamInfo> muxedStreams = manifest.muxed.map((stream) => MyMuxedStreamInfo.fromYoutubeStream(stream)).toList();
+      List<MyMuxedStreamInfo> muxedStreams = manifest.muxed
+          .map((stream) => MyMuxedStreamInfo.fromYoutubeStream(stream))
+          .toList();
 
       return Right(muxedStreams);
     } catch (e) {
       log('Error fetching muxed streams: $e');
       return const Left(MainFailure.clientFailure());
-    }
-    finally {
+    } finally {
       _youtubeExplode.close(); // Close the YoutubeExplode instance
     }
   }
-  
+
   @override
-  Future<Either<MainFailure, List<MyRelatedVideo>>> getExplodeRelatedVideosData({required String id}) async {
+  Future<Either<MainFailure, List<MyRelatedVideo>>> getExplodeRelatedVideosData(
+      {required String id}) async {
     final YoutubeExplode _youtubeExplode = YoutubeExplode();
     try {
       var video = await _youtubeExplode.videos.get(id);
       var relatedVideos = await _youtubeExplode.videos.getRelatedVideos(video);
-      List<MyRelatedVideo> relatedVideoList = relatedVideos!.map((video) => MyRelatedVideo.fromYoutubeVideo(video)).toList();
+      List<MyRelatedVideo> relatedVideoList = relatedVideos!
+          .map((video) => MyRelatedVideo.fromYoutubeVideo(video))
+          .toList();
 
       return Right(relatedVideoList);
     } catch (e) {
       log('Error fetching related videos: $e');
       return const Left(MainFailure.clientFailure());
-    } 
-    finally {
+    } finally {
       _youtubeExplode.close(); // Close the YoutubeExplode instance
     }
   }
-  
+
   @override
-  Future<Either<MainFailure, String>> getExplodeLiveStreamUrl({required String id}) async {
+  Future<Either<MainFailure, String>> getExplodeLiveStreamUrl(
+      {required String id}) async {
     final YoutubeExplode _youtubeExplode = YoutubeExplode();
-  try {
-    var liveStreamUrl = await _youtubeExplode.videos.streamsClient.getHttpLiveStreamUrl(VideoId(id));
-    return Right(liveStreamUrl);
-  } catch (e) {
-    log('Error fetching live stream URL: $e');
-    return const Left(MainFailure.clientFailure());
-  } finally {
+    try {
+      var liveStreamUrl = await _youtubeExplode.videos.streamsClient
+          .getHttpLiveStreamUrl(VideoId(id));
+      return Right(liveStreamUrl);
+    } catch (e) {
+      log('Error fetching live stream URL: $e');
+      return const Left(MainFailure.clientFailure());
+    } finally {
       _youtubeExplode.close(); // Close the YoutubeExplode instance
     }
-}
+  }
 }

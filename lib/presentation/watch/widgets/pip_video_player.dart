@@ -209,13 +209,13 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
           resolutions: resolutions,
           liveStream: widget.watchInfo.livestream,
           videoFormat: BetterPlayerVideoFormat.other,
-          cacheConfiguration: const BetterPlayerCacheConfiguration(
-            useCache: false,
-            preCacheSize: 10 * 1024 * 1024, // 10 mb
-            maxCacheSize: 30 * 1024 * 1024, // 30 mb
-            maxCacheFileSize: 30 * 1024 * 1024,
-            key: "ftCacheKey",
-          ),
+          // cacheConfiguration: const BetterPlayerCacheConfiguration(
+          //   useCache: false,
+          //   preCacheSize: 10 * 1024 * 1024, // 10 mb
+          //   maxCacheSize: 30 * 1024 * 1024, // 30 mb
+          //   maxCacheFileSize: 30 * 1024 * 1024,
+          //   key: "ftCacheKey",
+          // ),
           videoExtension: selectedVideoTrack?.format ?? 'mp4');
     } else {
       if (!widget.isHlsPlayer) {

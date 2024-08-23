@@ -43,8 +43,8 @@ class PipedScreenWatch extends StatelessWidget {
         return BlocBuilder<SavedBloc, SavedState>(
           builder: (context, savedState) {
             if ((state.oldId != id || state.oldId == null) &&
-                !(state.fetchWatchInfoStatus == ApiStatus.loaded ||
-                    state.fetchWatchInfoStatus == ApiStatus.loading)) {
+                !(state.fetchWatchInfoStatus == ApiStatus.loading ||
+                    state.fetchWatchInfoStatus == ApiStatus.error)) {
               BlocProvider.of<WatchBloc>(context)
                   .add(WatchEvent.getWatchInfo(id: id));
               BlocProvider.of<WatchBloc>(context)

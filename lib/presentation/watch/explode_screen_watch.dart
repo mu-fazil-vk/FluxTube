@@ -50,7 +50,8 @@ class ExplodeScreenWatch extends StatelessWidget {
         return BlocBuilder<SavedBloc, SavedState>(
           builder: (context, savedState) {
             if ((state.oldId != id || state.oldId == null) &&
-                (!(state.fetchExplodeWatchInfoStatus == ApiStatus.loading))) {
+                (!(state.fetchExplodeWatchInfoStatus == ApiStatus.loading ||
+                    state.fetchExplodeWatchInfoStatus == ApiStatus.error))) {
               BlocProvider.of<WatchBloc>(context)
                   .add(WatchEvent.getExplodeWatchInfo(id: id));
               BlocProvider.of<WatchBloc>(context)
