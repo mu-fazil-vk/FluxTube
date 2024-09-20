@@ -12,3 +12,14 @@ class ApiEndPoints {
   static String channel = "${BaseUrl.kBaseUrl}/channel/";
   static String moreChannelVideos = "${BaseUrl.kBaseUrl}/nextpage/channel/";
 }
+
+class InvidiousApiEndpoints {
+  static String trending =
+      "${BaseUrl.kInvidiousBaseUrl}/api/v1/trending?region=";
+  static String search = "${BaseUrl.kInvidiousBaseUrl}/api/v1/search?q=";
+  static String suggestions =
+      "${BaseUrl.kInvidiousBaseUrl}/api/v1/search/suggestions?q=";
+  static String watch = "${BaseUrl.kInvidiousBaseUrl}/api/v1/videos/";
+  static String comments = "${BaseUrl.kInvidiousBaseUrl}/api/v1/comments/";
+  static String channel = "${BaseUrl.kInvidiousBaseUrl}/api/v1/channels/";
+}

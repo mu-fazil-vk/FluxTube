@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_in_app_pip/picture_in_picture.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluxtube/application/application.dart';
-import 'package:fluxtube/domain/watch/models/video/video_stream.dart';
-import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
+import 'package:fluxtube/domain/watch/models/piped/video/video_stream.dart';
+import 'package:fluxtube/domain/watch/models/piped/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
 import '../../../domain/saved/models/local_store.dart';
@@ -115,23 +115,22 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
   }
 
   BetterPlayerControlsConfiguration controlsConfiguration =
-        const BetterPlayerControlsConfiguration(
-      controlBarColor: Colors.black26,
-      iconsColor: Colors.white,
-      playIcon: Icons.play_arrow_outlined,
-      progressBarPlayedColor: Colors.indigo,
-      progressBarHandleColor: Colors.indigo,
-      controlBarHeight: 40,
-      loadingColor: Colors.red,
-      overflowModalColor: Colors.black54,
-      overflowModalTextColor: Colors.white,
-      overflowMenuIconsColor: Colors.white,
-      enableFullscreen: false,
-      enableOverflowMenu: false,
-      enablePip: false,
-      enableProgressText: false,
-    );
-
+      const BetterPlayerControlsConfiguration(
+    controlBarColor: Colors.black26,
+    iconsColor: Colors.white,
+    playIcon: Icons.play_arrow_outlined,
+    progressBarPlayedColor: Colors.indigo,
+    progressBarHandleColor: Colors.indigo,
+    controlBarHeight: 40,
+    loadingColor: Colors.red,
+    overflowModalColor: Colors.black54,
+    overflowModalTextColor: Colors.white,
+    overflowMenuIconsColor: Colors.white,
+    enableFullscreen: false,
+    enableOverflowMenu: false,
+    enablePip: false,
+    enableProgressText: false,
+  );
 
   double selectAspectRatio() {
     if (widget.watchInfo.videoStreams.isNotEmpty) {
@@ -278,7 +277,7 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
           uploaderAvatar: widget.watchInfo.uploaderAvatar,
           uploaderName: widget.watchInfo.uploader,
           uploaderId: widget.watchInfo.uploaderUrl!.split("/").last,
-          uploaderSubscriberCount: widget.watchInfo.uploaderSubscriberCount,
+          uploaderSubscriberCount: widget.watchInfo.uploaderSubscriberCount.toString(),
           duration: widget.watchInfo.duration,
           uploaderVerified: widget.watchInfo.uploaderVerified,
           isHistory: true,

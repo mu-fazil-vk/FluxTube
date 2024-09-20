@@ -34,38 +34,91 @@ class _ScreenSearchState extends State<ScreenSearch> {
         title: SearchBarSection(
             textEditingController: _textEditingController, theme: theme),
       ),
-      body: SafeArea(child: BlocBuilder<SearchBloc, SearchState>(
-        builder: (context, state) {
-          if (state.isSuggestionDisplay == true &&
-              state.fetchSuggestionStatus == ApiStatus.loaded &&
-              state.suggestions.isNotEmpty &&
-              _textEditingController.text.isNotEmpty) {
-            return SearchSuggessionSection(
-              textEditingController: _textEditingController,
-              state: state,
-            );
-          } else if (state.fetchSearchResultStatus == ApiStatus.loading ||
-              state.fetchSearchResultStatus == ApiStatus.initial) {
-            return cIndicator(context);
-          } else if (state.isSuggestionDisplay ||
-              _textEditingController.text.isEmpty) {
-            return Container();
-          } else if (state.fetchSearchResultStatus == ApiStatus.error ||
-              state.result == null ||
-              state.result!.items.isEmpty) {
-            return ErrorRetryWidget(
-              lottie: 'assets/cup.zip',
-              onTap: () => BlocProvider.of<SearchBloc>(context).add(
-                  SearchEvent.getSearchResult(
-                      query: _textEditingController.text, filter: "all")),
-            );
-          } else {
-            return SearcheResultSection(
-              locals: locals,
-              state: state,
-              searchQuery: _textEditingController.text,
-            );
-          }
+      body: SafeArea(child: BlocBuilder<SettingsBloc, SettingsState>(
+        builder: (context, settingsState) {
+          return BlocBuilder<SearchBloc, SearchState>(
+            builder: (context, state) {
+              
+              // PIPED API
+              if (settingsState.ytService == YouTubeServices.piped.name) {
+                if (state.isSuggestionDisplay == true &&
+                    state.fetchSuggestionStatus == ApiStatus.loaded &&
+                    (state.fetchSearchResultStatus == ApiStatus.loading ||
+                        state.fetchSearchResultStatus == ApiStatus.loaded) &&
+                    state.suggestions.isNotEmpty &&
+                    _textEditingController.text.isNotEmpty) {
+                  return SearchSuggessionSection(
+                    textEditingController: _textEditingController,
+                    state: state,
+                  );
+                } else if (state.fetchSearchResultStatus == ApiStatus.loading ||
+                    state.fetchSearchResultStatus == ApiStatus.initial) {
+                  return cIndicator(context);
+                } else if (state.isSuggestionDisplay ||
+                    _textEditingController.text.isEmpty) {
+                  return Container();
+                } else if (state.fetchSearchResultStatus == ApiStatus.error ||
+                    state.result == null ||
+                    state.result!.items.isEmpty) {
+                  return ErrorRetryWidget(
+                    lottie: 'assets/cup.zip',
+                    onTap: () => BlocProvider.of<SearchBloc>(context).add(
+                        SearchEvent.getSearchResult(
+                            query: _textEditingController.text,
+                            filter: "all",
+                            serviceType: settingsState.ytService)),
+                  );
+                } else {
+                  return SearcheResultSection(
+                    locals: locals,
+                    state: state,
+                    searchQuery: _textEditingController.text,
+                  );
+                }
+              } else {
+
+                // INVIDIOUS
+                if (state.isSuggestionDisplay == true &&
+                    state.fetchInvidiousSuggestionStatus == ApiStatus.loaded &&
+                    !(state.fetchInvidiousSearchResultStatus ==
+                            ApiStatus.loading ||
+                        state.fetchInvidiousSearchResultStatus ==
+                            ApiStatus.loaded) &&
+                    state.invidiousSuggestionResult.isNotEmpty &&
+                    _textEditingController.text.isNotEmpty) {
+                  return InvidiousSearchSuggessionSection(
+                    textEditingController: _textEditingController,
+                    state: state,
+                  );
+                } else if (state.fetchInvidiousSearchResultStatus ==
+                        ApiStatus.loading ||
+                    state.fetchInvidiousSearchResultStatus ==
+                        ApiStatus.initial) {
+                  return cIndicator(context);
+                } else if (state.isSuggestionDisplay ||
+                    _textEditingController.text.isEmpty) {
+                  return Container();
+                } else if (state.fetchInvidiousSearchResultStatus ==
+                        ApiStatus.error ||
+                    state.invidiousSearchResult.isEmpty) {
+                  return ErrorRetryWidget(
+                    lottie: 'assets/cup.zip',
+                    onTap: () => BlocProvider.of<SearchBloc>(context).add(
+                        SearchEvent.getSearchResult(
+                            query: _textEditingController.text,
+                            filter: "all",
+                            serviceType: settingsState.ytService)),
+                  );
+                } else {
+                  return InvidiousSearcheResultSection(
+                    locals: locals,
+                    state: state,
+                    searchQuery: _textEditingController.text,
+                  );
+                }
+              }
+            },
+          );
         },
       )),
     );

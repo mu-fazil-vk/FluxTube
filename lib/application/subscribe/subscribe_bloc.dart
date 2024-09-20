@@ -19,14 +19,14 @@ class SubscribeBloc extends Bloc<SubscribeEvent, SubscribeState> {
   SubscribeBloc(this._subscribeServices) : super(SubscribeState.initialize()) {
     // get all subscribed channel list from local storage
     on<GetAllSubscribeList>((event, emit) async {
-      emit(state
-          .copyWith(subscribeStatus: ApiStatus.loading, subscribedChannels: []));
+      emit(state.copyWith(
+          subscribeStatus: ApiStatus.loading, subscribedChannels: []));
 
       final _result = await _subscribeServices.getSubscriberInfoList();
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(subscribeStatus: ApiStatus.error),
-          (List<Subscribe> resp) =>
-              state.copyWith(subscribeStatus: ApiStatus.loaded, subscribedChannels: resp));
+          (List<Subscribe> resp) => state.copyWith(
+              subscribeStatus: ApiStatus.loaded, subscribedChannels: resp));
 
       emit(_state);
     });
@@ -39,8 +39,8 @@ class SubscribeBloc extends Bloc<SubscribeEvent, SubscribeState> {
           subscribeInfo: event.channelInfo);
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(subscribeStatus: ApiStatus.error),
-          (List<Subscribe> resp) =>
-              state.copyWith(subscribeStatus: ApiStatus.loaded, subscribedChannels: resp));
+          (List<Subscribe> resp) => state.copyWith(
+              subscribeStatus: ApiStatus.loaded, subscribedChannels: resp));
 
       emit(_state);
       add(CheckSubscribeInfo(id: event.channelInfo.id));
@@ -54,8 +54,8 @@ class SubscribeBloc extends Bloc<SubscribeEvent, SubscribeState> {
           await _subscribeServices.deleteSubscriberInfo(id: fastHash(event.id));
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(subscribeStatus: ApiStatus.error),
-          (List<Subscribe> resp) =>
-              state.copyWith(subscribeStatus: ApiStatus.loaded, subscribedChannels: resp));
+          (List<Subscribe> resp) => state.copyWith(
+              subscribeStatus: ApiStatus.loaded, subscribedChannels: resp));
 
       emit(_state);
       add(const GetAllSubscribeList());

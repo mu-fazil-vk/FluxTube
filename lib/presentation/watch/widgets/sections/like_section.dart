@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
-import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
+import 'package:fluxtube/domain/watch/models/piped/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/settings/functions/launch_url.dart';
 import 'package:fluxtube/presentation/watch/widgets/like_widgets.dart';
@@ -37,49 +37,48 @@ class LikeSection extends StatelessWidget {
         return BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, settingsState) {
             return LikeRowWidget(
-              like: watchInfo.likes ?? 0,
-              dislikes: watchInfo.dislikes ?? 0,
-              isDislikeVisible: settingsState.isDislikeVisible,
-              isCommentTapped: state.isTapComments,
-              onTapComment: () {
-                if (state.isDescriptionTapped) {
+                like: watchInfo.likes ?? 0,
+                dislikes: watchInfo.dislikes ?? 0,
+                isDislikeVisible: settingsState.isDislikeVisible,
+                isCommentTapped: state.isTapComments,
+                onTapComment: () {
+                  if (state.isDescriptionTapped) {
+                    BlocProvider.of<WatchBloc>(context)
+                        .add(WatchEvent.tapDescription());
+                  }
                   BlocProvider.of<WatchBloc>(context)
-                      .add(WatchEvent.tapDescription());
-                }
-                BlocProvider.of<WatchBloc>(context)
-                    .add(WatchEvent.getCommentData(id: id));
-              },
-              onTapShare: () {
-                alertboxMethod(context, locals);
-              },
-              isSaveTapped: isSaved,
-              onTapSave: () {
-                BlocProvider.of<SavedBloc>(context).add(
-                  SavedEvent.addVideoInfo(
-                    videoInfo: LocalStoreVideoInfo(
-                        id: id,
-                        title: watchInfo.title,
-                        views: watchInfo.views,
-                        thumbnail: watchInfo.thumbnailUrl,
-                        uploadedDate: watchInfo.uploadDate,
-                        uploaderAvatar: watchInfo.uploaderAvatar,
-                        uploaderName: watchInfo.uploader,
-                        uploaderId: watchInfo.uploaderUrl!.split("/").last,
-                        uploaderSubscriberCount:
-                            watchInfo.uploaderSubscriberCount,
-                        duration: watchInfo.duration,
-                        playbackPosition:
-                            savedState.videoInfo?.playbackPosition,
-                        uploaderVerified: watchInfo.uploaderVerified,
-                        isSaved: !isSaved,
-                        isLive: watchInfo.livestream,
-                        isHistory: savedState.videoInfo?.isHistory),
-                  ),
-                );
-              },
-              onTapYoutube: () async => await urlLaunch('$kYTBaseUrl$id'),
-              pipClicked: pipClicked
-            );
+                      .add(WatchEvent.getCommentData(id: id));
+                },
+                onTapShare: () {
+                  alertboxMethod(context, locals);
+                },
+                isSaveTapped: isSaved,
+                onTapSave: () {
+                  BlocProvider.of<SavedBloc>(context).add(
+                    SavedEvent.addVideoInfo(
+                      videoInfo: LocalStoreVideoInfo(
+                          id: id,
+                          title: watchInfo.title,
+                          views: watchInfo.views,
+                          thumbnail: watchInfo.thumbnailUrl,
+                          uploadedDate: watchInfo.uploadDate,
+                          uploaderAvatar: watchInfo.uploaderAvatar,
+                          uploaderName: watchInfo.uploader,
+                          uploaderId: watchInfo.uploaderUrl!.split("/").last,
+                          uploaderSubscriberCount:
+                              watchInfo.uploaderSubscriberCount.toString(),
+                          duration: watchInfo.duration,
+                          playbackPosition:
+                              savedState.videoInfo?.playbackPosition,
+                          uploaderVerified: watchInfo.uploaderVerified,
+                          isSaved: !isSaved,
+                          isLive: watchInfo.livestream,
+                          isHistory: savedState.videoInfo?.isHistory),
+                    ),
+                  );
+                },
+                onTapYoutube: () async => await urlLaunch('$kYTBaseUrl$id'),
+                pipClicked: pipClicked);
           },
         );
       },

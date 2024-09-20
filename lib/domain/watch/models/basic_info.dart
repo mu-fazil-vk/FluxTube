@@ -16,7 +16,6 @@ class VideoBasicInfo {
     this.channelId,
     this.uploaderVerified,
   });
- 
 
   VideoBasicInfo copyWith({
     String? title,
@@ -50,17 +49,24 @@ class VideoBasicInfo {
   factory VideoBasicInfo.fromMap(Map<String, dynamic> map) {
     return VideoBasicInfo(
       title: map['title'] != null ? map['title'] as String : null,
-      thumbnailUrl: map['thumbnailUrl'] != null ? map['thumbnailUrl'] as String : null,
-      channelName: map['channelName'] != null ? map['channelName'] as String : null,
-      channelThumbnailUrl: map['channelThumbnailUrl'] != null ? map['channelThumbnailUrl'] as String : null,
+      thumbnailUrl:
+          map['thumbnailUrl'] != null ? map['thumbnailUrl'] as String : null,
+      channelName:
+          map['channelName'] != null ? map['channelName'] as String : null,
+      channelThumbnailUrl: map['channelThumbnailUrl'] != null
+          ? map['channelThumbnailUrl'] as String
+          : null,
       channelId: map['channelId'] != null ? map['channelId'] as String : null,
-      uploaderVerified: map['uploaderVerified'] != null ? map['uploaderVerified'] as bool : null,
+      uploaderVerified: map['uploaderVerified'] != null
+          ? map['uploaderVerified'] as bool
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory VideoBasicInfo.fromJson(String source) => VideoBasicInfo.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory VideoBasicInfo.fromJson(String source) =>
+      VideoBasicInfo.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -70,23 +76,22 @@ class VideoBasicInfo {
   @override
   bool operator ==(covariant VideoBasicInfo other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.title == title &&
-      other.thumbnailUrl == thumbnailUrl &&
-      other.channelName == channelName &&
-      other.channelThumbnailUrl == channelThumbnailUrl &&
-      other.channelId == channelId &&
-      other.uploaderVerified == uploaderVerified;
+
+    return other.title == title &&
+        other.thumbnailUrl == thumbnailUrl &&
+        other.channelName == channelName &&
+        other.channelThumbnailUrl == channelThumbnailUrl &&
+        other.channelId == channelId &&
+        other.uploaderVerified == uploaderVerified;
   }
 
   @override
   int get hashCode {
     return title.hashCode ^
-      thumbnailUrl.hashCode ^
-      channelName.hashCode ^
-      channelThumbnailUrl.hashCode ^
-      channelId.hashCode ^
-      uploaderVerified.hashCode;
+        thumbnailUrl.hashCode ^
+        channelName.hashCode ^
+        channelThumbnailUrl.hashCode ^
+        channelId.hashCode ^
+        uploaderVerified.hashCode;
   }
 }

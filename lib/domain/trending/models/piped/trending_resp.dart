@@ -2,6 +2,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'trending_resp.g.dart';
 
+//--------MAIN PIPED TRENDING RESPONSE MODEL--------//
+// `flutter pub run build_runner build` to generate file
+
 @JsonSerializable()
 class TrendingResp {
   String? url;

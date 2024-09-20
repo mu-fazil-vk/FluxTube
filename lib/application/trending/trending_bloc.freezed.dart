@@ -18,24 +18,24 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TrendingEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String region) getTrendingData,
-    required TResult Function(String region) getForcedTrendingData,
+    required TResult Function(String serviceType) getTrendingData,
+    required TResult Function(String serviceType) getForcedTrendingData,
     required TResult Function(List<Subscribe> channels) getHomeFeedData,
     required TResult Function(List<Subscribe> channels) getForcedHomeFeedData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String region)? getTrendingData,
-    TResult? Function(String region)? getForcedTrendingData,
+    TResult? Function(String serviceType)? getTrendingData,
+    TResult? Function(String serviceType)? getForcedTrendingData,
     TResult? Function(List<Subscribe> channels)? getHomeFeedData,
     TResult? Function(List<Subscribe> channels)? getForcedHomeFeedData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String region)? getTrendingData,
-    TResult Function(String region)? getForcedTrendingData,
+    TResult Function(String serviceType)? getTrendingData,
+    TResult Function(String serviceType)? getForcedTrendingData,
     TResult Function(List<Subscribe> channels)? getHomeFeedData,
     TResult Function(List<Subscribe> channels)? getForcedHomeFeedData,
     required TResult orElse(),
@@ -94,7 +94,7 @@ abstract class _$$GetTrendingDataImplCopyWith<$Res> {
           $Res Function(_$GetTrendingDataImpl) then) =
       __$$GetTrendingDataImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String region});
+  $Res call({String serviceType});
 }
 
 /// @nodoc
@@ -108,12 +108,12 @@ class __$$GetTrendingDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? region = null,
+    Object? serviceType = null,
   }) {
     return _then(_$GetTrendingDataImpl(
-      region: null == region
-          ? _value.region
-          : region // ignore: cast_nullable_to_non_nullable
+      serviceType: null == serviceType
+          ? _value.serviceType
+          : serviceType // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -122,14 +122,14 @@ class __$$GetTrendingDataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GetTrendingDataImpl implements GetTrendingData {
-  const _$GetTrendingDataImpl({required this.region});
+  const _$GetTrendingDataImpl({required this.serviceType});
 
   @override
-  final String region;
+  final String serviceType;
 
   @override
   String toString() {
-    return 'TrendingEvent.getTrendingData(region: $region)';
+    return 'TrendingEvent.getTrendingData(serviceType: $serviceType)';
   }
 
   @override
@@ -137,11 +137,12 @@ class _$GetTrendingDataImpl implements GetTrendingData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetTrendingDataImpl &&
-            (identical(other.region, region) || other.region == region));
+            (identical(other.serviceType, serviceType) ||
+                other.serviceType == serviceType));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, region);
+  int get hashCode => Object.hash(runtimeType, serviceType);
 
   @JsonKey(ignore: true)
   @override
@@ -153,36 +154,36 @@ class _$GetTrendingDataImpl implements GetTrendingData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String region) getTrendingData,
-    required TResult Function(String region) getForcedTrendingData,
+    required TResult Function(String serviceType) getTrendingData,
+    required TResult Function(String serviceType) getForcedTrendingData,
     required TResult Function(List<Subscribe> channels) getHomeFeedData,
     required TResult Function(List<Subscribe> channels) getForcedHomeFeedData,
   }) {
-    return getTrendingData(region);
+    return getTrendingData(serviceType);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String region)? getTrendingData,
-    TResult? Function(String region)? getForcedTrendingData,
+    TResult? Function(String serviceType)? getTrendingData,
+    TResult? Function(String serviceType)? getForcedTrendingData,
     TResult? Function(List<Subscribe> channels)? getHomeFeedData,
     TResult? Function(List<Subscribe> channels)? getForcedHomeFeedData,
   }) {
-    return getTrendingData?.call(region);
+    return getTrendingData?.call(serviceType);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String region)? getTrendingData,
-    TResult Function(String region)? getForcedTrendingData,
+    TResult Function(String serviceType)? getTrendingData,
+    TResult Function(String serviceType)? getForcedTrendingData,
     TResult Function(List<Subscribe> channels)? getHomeFeedData,
     TResult Function(List<Subscribe> channels)? getForcedHomeFeedData,
     required TResult orElse(),
   }) {
     if (getTrendingData != null) {
-      return getTrendingData(region);
+      return getTrendingData(serviceType);
     }
     return orElse();
   }
@@ -228,10 +229,10 @@ class _$GetTrendingDataImpl implements GetTrendingData {
 }
 
 abstract class GetTrendingData implements TrendingEvent {
-  const factory GetTrendingData({required final String region}) =
+  const factory GetTrendingData({required final String serviceType}) =
       _$GetTrendingDataImpl;
 
-  String get region;
+  String get serviceType;
   @JsonKey(ignore: true)
   _$$GetTrendingDataImplCopyWith<_$GetTrendingDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -244,7 +245,7 @@ abstract class _$$GetForcedTrendingDataImplCopyWith<$Res> {
           $Res Function(_$GetForcedTrendingDataImpl) then) =
       __$$GetForcedTrendingDataImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String region});
+  $Res call({String serviceType});
 }
 
 /// @nodoc
@@ -258,12 +259,12 @@ class __$$GetForcedTrendingDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? region = null,
+    Object? serviceType = null,
   }) {
     return _then(_$GetForcedTrendingDataImpl(
-      region: null == region
-          ? _value.region
-          : region // ignore: cast_nullable_to_non_nullable
+      serviceType: null == serviceType
+          ? _value.serviceType
+          : serviceType // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -272,14 +273,14 @@ class __$$GetForcedTrendingDataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GetForcedTrendingDataImpl implements GetForcedTrendingData {
-  const _$GetForcedTrendingDataImpl({required this.region});
+  const _$GetForcedTrendingDataImpl({required this.serviceType});
 
   @override
-  final String region;
+  final String serviceType;
 
   @override
   String toString() {
-    return 'TrendingEvent.getForcedTrendingData(region: $region)';
+    return 'TrendingEvent.getForcedTrendingData(serviceType: $serviceType)';
   }
 
   @override
@@ -287,11 +288,12 @@ class _$GetForcedTrendingDataImpl implements GetForcedTrendingData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetForcedTrendingDataImpl &&
-            (identical(other.region, region) || other.region == region));
+            (identical(other.serviceType, serviceType) ||
+                other.serviceType == serviceType));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, region);
+  int get hashCode => Object.hash(runtimeType, serviceType);
 
   @JsonKey(ignore: true)
   @override
@@ -303,36 +305,36 @@ class _$GetForcedTrendingDataImpl implements GetForcedTrendingData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String region) getTrendingData,
-    required TResult Function(String region) getForcedTrendingData,
+    required TResult Function(String serviceType) getTrendingData,
+    required TResult Function(String serviceType) getForcedTrendingData,
     required TResult Function(List<Subscribe> channels) getHomeFeedData,
     required TResult Function(List<Subscribe> channels) getForcedHomeFeedData,
   }) {
-    return getForcedTrendingData(region);
+    return getForcedTrendingData(serviceType);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String region)? getTrendingData,
-    TResult? Function(String region)? getForcedTrendingData,
+    TResult? Function(String serviceType)? getTrendingData,
+    TResult? Function(String serviceType)? getForcedTrendingData,
     TResult? Function(List<Subscribe> channels)? getHomeFeedData,
     TResult? Function(List<Subscribe> channels)? getForcedHomeFeedData,
   }) {
-    return getForcedTrendingData?.call(region);
+    return getForcedTrendingData?.call(serviceType);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String region)? getTrendingData,
-    TResult Function(String region)? getForcedTrendingData,
+    TResult Function(String serviceType)? getTrendingData,
+    TResult Function(String serviceType)? getForcedTrendingData,
     TResult Function(List<Subscribe> channels)? getHomeFeedData,
     TResult Function(List<Subscribe> channels)? getForcedHomeFeedData,
     required TResult orElse(),
   }) {
     if (getForcedTrendingData != null) {
-      return getForcedTrendingData(region);
+      return getForcedTrendingData(serviceType);
     }
     return orElse();
   }
@@ -378,10 +380,10 @@ class _$GetForcedTrendingDataImpl implements GetForcedTrendingData {
 }
 
 abstract class GetForcedTrendingData implements TrendingEvent {
-  const factory GetForcedTrendingData({required final String region}) =
+  const factory GetForcedTrendingData({required final String serviceType}) =
       _$GetForcedTrendingDataImpl;
 
-  String get region;
+  String get serviceType;
   @JsonKey(ignore: true)
   _$$GetForcedTrendingDataImplCopyWith<_$GetForcedTrendingDataImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -459,8 +461,8 @@ class _$GetHomeFeedDataImpl implements GetHomeFeedData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String region) getTrendingData,
-    required TResult Function(String region) getForcedTrendingData,
+    required TResult Function(String serviceType) getTrendingData,
+    required TResult Function(String serviceType) getForcedTrendingData,
     required TResult Function(List<Subscribe> channels) getHomeFeedData,
     required TResult Function(List<Subscribe> channels) getForcedHomeFeedData,
   }) {
@@ -470,8 +472,8 @@ class _$GetHomeFeedDataImpl implements GetHomeFeedData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String region)? getTrendingData,
-    TResult? Function(String region)? getForcedTrendingData,
+    TResult? Function(String serviceType)? getTrendingData,
+    TResult? Function(String serviceType)? getForcedTrendingData,
     TResult? Function(List<Subscribe> channels)? getHomeFeedData,
     TResult? Function(List<Subscribe> channels)? getForcedHomeFeedData,
   }) {
@@ -481,8 +483,8 @@ class _$GetHomeFeedDataImpl implements GetHomeFeedData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String region)? getTrendingData,
-    TResult Function(String region)? getForcedTrendingData,
+    TResult Function(String serviceType)? getTrendingData,
+    TResult Function(String serviceType)? getForcedTrendingData,
     TResult Function(List<Subscribe> channels)? getHomeFeedData,
     TResult Function(List<Subscribe> channels)? getForcedHomeFeedData,
     required TResult orElse(),
@@ -616,8 +618,8 @@ class _$GetForcedHomeFeedDataImpl implements GetForcedHomeFeedData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String region) getTrendingData,
-    required TResult Function(String region) getForcedTrendingData,
+    required TResult Function(String serviceType) getTrendingData,
+    required TResult Function(String serviceType) getForcedTrendingData,
     required TResult Function(List<Subscribe> channels) getHomeFeedData,
     required TResult Function(List<Subscribe> channels) getForcedHomeFeedData,
   }) {
@@ -627,8 +629,8 @@ class _$GetForcedHomeFeedDataImpl implements GetForcedHomeFeedData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String region)? getTrendingData,
-    TResult? Function(String region)? getForcedTrendingData,
+    TResult? Function(String serviceType)? getTrendingData,
+    TResult? Function(String serviceType)? getForcedTrendingData,
     TResult? Function(List<Subscribe> channels)? getHomeFeedData,
     TResult? Function(List<Subscribe> channels)? getForcedHomeFeedData,
   }) {
@@ -638,8 +640,8 @@ class _$GetForcedHomeFeedDataImpl implements GetForcedHomeFeedData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String region)? getTrendingData,
-    TResult Function(String region)? getForcedTrendingData,
+    TResult Function(String serviceType)? getTrendingData,
+    TResult Function(String serviceType)? getForcedTrendingData,
     TResult Function(List<Subscribe> channels)? getHomeFeedData,
     TResult Function(List<Subscribe> channels)? getForcedHomeFeedData,
     required TResult orElse(),
@@ -702,10 +704,16 @@ abstract class GetForcedHomeFeedData implements TrendingEvent {
 
 /// @nodoc
 mixin _$TrendingState {
+// PIPED
   List<TrendingResp> get trendingResult => throw _privateConstructorUsedError;
   List<TrendingResp> get feedResult => throw _privateConstructorUsedError;
   ApiStatus get fetchTrendingStatus => throw _privateConstructorUsedError;
-  ApiStatus get fetchFeedStatus => throw _privateConstructorUsedError;
+  ApiStatus get fetchFeedStatus =>
+      throw _privateConstructorUsedError; // EXPLODE
+  ApiStatus get fetchInvidiousTrendingStatus =>
+      throw _privateConstructorUsedError;
+  List<InvidiousTrendingResp> get invidiousTrendingResult =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TrendingStateCopyWith<TrendingState> get copyWith =>
@@ -722,7 +730,9 @@ abstract class $TrendingStateCopyWith<$Res> {
       {List<TrendingResp> trendingResult,
       List<TrendingResp> feedResult,
       ApiStatus fetchTrendingStatus,
-      ApiStatus fetchFeedStatus});
+      ApiStatus fetchFeedStatus,
+      ApiStatus fetchInvidiousTrendingStatus,
+      List<InvidiousTrendingResp> invidiousTrendingResult});
 }
 
 /// @nodoc
@@ -742,6 +752,8 @@ class _$TrendingStateCopyWithImpl<$Res, $Val extends TrendingState>
     Object? feedResult = null,
     Object? fetchTrendingStatus = null,
     Object? fetchFeedStatus = null,
+    Object? fetchInvidiousTrendingStatus = null,
+    Object? invidiousTrendingResult = null,
   }) {
     return _then(_value.copyWith(
       trendingResult: null == trendingResult
@@ -760,6 +772,14 @@ class _$TrendingStateCopyWithImpl<$Res, $Val extends TrendingState>
           ? _value.fetchFeedStatus
           : fetchFeedStatus // ignore: cast_nullable_to_non_nullable
               as ApiStatus,
+      fetchInvidiousTrendingStatus: null == fetchInvidiousTrendingStatus
+          ? _value.fetchInvidiousTrendingStatus
+          : fetchInvidiousTrendingStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
+      invidiousTrendingResult: null == invidiousTrendingResult
+          ? _value.invidiousTrendingResult
+          : invidiousTrendingResult // ignore: cast_nullable_to_non_nullable
+              as List<InvidiousTrendingResp>,
     ) as $Val);
   }
 }
@@ -776,7 +796,9 @@ abstract class _$$InitialImplCopyWith<$Res>
       {List<TrendingResp> trendingResult,
       List<TrendingResp> feedResult,
       ApiStatus fetchTrendingStatus,
-      ApiStatus fetchFeedStatus});
+      ApiStatus fetchFeedStatus,
+      ApiStatus fetchInvidiousTrendingStatus,
+      List<InvidiousTrendingResp> invidiousTrendingResult});
 }
 
 /// @nodoc
@@ -794,6 +816,8 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? feedResult = null,
     Object? fetchTrendingStatus = null,
     Object? fetchFeedStatus = null,
+    Object? fetchInvidiousTrendingStatus = null,
+    Object? invidiousTrendingResult = null,
   }) {
     return _then(_$InitialImpl(
       trendingResult: null == trendingResult
@@ -812,6 +836,14 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.fetchFeedStatus
           : fetchFeedStatus // ignore: cast_nullable_to_non_nullable
               as ApiStatus,
+      fetchInvidiousTrendingStatus: null == fetchInvidiousTrendingStatus
+          ? _value.fetchInvidiousTrendingStatus
+          : fetchInvidiousTrendingStatus // ignore: cast_nullable_to_non_nullable
+              as ApiStatus,
+      invidiousTrendingResult: null == invidiousTrendingResult
+          ? _value._invidiousTrendingResult
+          : invidiousTrendingResult // ignore: cast_nullable_to_non_nullable
+              as List<InvidiousTrendingResp>,
     ));
   }
 }
@@ -823,11 +855,16 @@ class _$InitialImpl implements _Initial {
       {required final List<TrendingResp> trendingResult,
       required final List<TrendingResp> feedResult,
       required this.fetchTrendingStatus,
-      required this.fetchFeedStatus})
+      required this.fetchFeedStatus,
+      required this.fetchInvidiousTrendingStatus,
+      required final List<InvidiousTrendingResp> invidiousTrendingResult})
       : _trendingResult = trendingResult,
-        _feedResult = feedResult;
+        _feedResult = feedResult,
+        _invidiousTrendingResult = invidiousTrendingResult;
 
+// PIPED
   final List<TrendingResp> _trendingResult;
+// PIPED
   @override
   List<TrendingResp> get trendingResult {
     if (_trendingResult is EqualUnmodifiableListView) return _trendingResult;
@@ -847,10 +884,21 @@ class _$InitialImpl implements _Initial {
   final ApiStatus fetchTrendingStatus;
   @override
   final ApiStatus fetchFeedStatus;
+// EXPLODE
+  @override
+  final ApiStatus fetchInvidiousTrendingStatus;
+  final List<InvidiousTrendingResp> _invidiousTrendingResult;
+  @override
+  List<InvidiousTrendingResp> get invidiousTrendingResult {
+    if (_invidiousTrendingResult is EqualUnmodifiableListView)
+      return _invidiousTrendingResult;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_invidiousTrendingResult);
+  }
 
   @override
   String toString() {
-    return 'TrendingState(trendingResult: $trendingResult, feedResult: $feedResult, fetchTrendingStatus: $fetchTrendingStatus, fetchFeedStatus: $fetchFeedStatus)';
+    return 'TrendingState(trendingResult: $trendingResult, feedResult: $feedResult, fetchTrendingStatus: $fetchTrendingStatus, fetchFeedStatus: $fetchFeedStatus, fetchInvidiousTrendingStatus: $fetchInvidiousTrendingStatus, invidiousTrendingResult: $invidiousTrendingResult)';
   }
 
   @override
@@ -865,7 +913,13 @@ class _$InitialImpl implements _Initial {
             (identical(other.fetchTrendingStatus, fetchTrendingStatus) ||
                 other.fetchTrendingStatus == fetchTrendingStatus) &&
             (identical(other.fetchFeedStatus, fetchFeedStatus) ||
-                other.fetchFeedStatus == fetchFeedStatus));
+                other.fetchFeedStatus == fetchFeedStatus) &&
+            (identical(other.fetchInvidiousTrendingStatus,
+                    fetchInvidiousTrendingStatus) ||
+                other.fetchInvidiousTrendingStatus ==
+                    fetchInvidiousTrendingStatus) &&
+            const DeepCollectionEquality().equals(
+                other._invidiousTrendingResult, _invidiousTrendingResult));
   }
 
   @override
@@ -874,7 +928,9 @@ class _$InitialImpl implements _Initial {
       const DeepCollectionEquality().hash(_trendingResult),
       const DeepCollectionEquality().hash(_feedResult),
       fetchTrendingStatus,
-      fetchFeedStatus);
+      fetchFeedStatus,
+      fetchInvidiousTrendingStatus,
+      const DeepCollectionEquality().hash(_invidiousTrendingResult));
 
   @JsonKey(ignore: true)
   @override
@@ -885,12 +941,15 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements TrendingState {
   const factory _Initial(
-      {required final List<TrendingResp> trendingResult,
-      required final List<TrendingResp> feedResult,
-      required final ApiStatus fetchTrendingStatus,
-      required final ApiStatus fetchFeedStatus}) = _$InitialImpl;
+          {required final List<TrendingResp> trendingResult,
+          required final List<TrendingResp> feedResult,
+          required final ApiStatus fetchTrendingStatus,
+          required final ApiStatus fetchFeedStatus,
+          required final ApiStatus fetchInvidiousTrendingStatus,
+          required final List<InvidiousTrendingResp> invidiousTrendingResult}) =
+      _$InitialImpl;
 
-  @override
+  @override // PIPED
   List<TrendingResp> get trendingResult;
   @override
   List<TrendingResp> get feedResult;
@@ -898,6 +957,10 @@ abstract class _Initial implements TrendingState {
   ApiStatus get fetchTrendingStatus;
   @override
   ApiStatus get fetchFeedStatus;
+  @override // EXPLODE
+  ApiStatus get fetchInvidiousTrendingStatus;
+  @override
+  List<InvidiousTrendingResp> get invidiousTrendingResult;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

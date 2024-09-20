@@ -36,8 +36,8 @@ class LikeRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _formattedLikes = formatCount(like);
-    String _formattedDislikes = formatCount(dislikes);
+    String _formattedLikes = formatCount(like.toString());
+    String _formattedDislikes = formatCount(dislikes.toString());
     return SizedBox(
       height: 50,
       child: SingleChildScrollView(

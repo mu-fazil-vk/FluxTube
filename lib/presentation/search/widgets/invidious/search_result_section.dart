@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/enums.dart';
-import 'package:fluxtube/domain/search/models/item.dart';
+import 'package:fluxtube/domain/search/models/invidious/invidious_search_resp.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/search/widgets/widgets.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-class SearcheResultSection extends StatelessWidget {
-  SearcheResultSection(
+class InvidiousSearcheResultSection extends StatelessWidget {
+  InvidiousSearcheResultSection(
       {super.key,
       required this.locals,
       required this.state,
@@ -33,7 +34,8 @@ class SearcheResultSection extends StatelessWidget {
             SearchEvent.getMoreSearchResult(
                 query: searchQuery,
                 filter: "all",
-                nextPage: state.result?.nextpage));
+                nextPage: null,
+                serviceType: YouTubeServices.invidious.name));
       }
     });
     return BlocBuilder<SubscribeBloc, SubscribeState>(
@@ -43,11 +45,12 @@ class SearcheResultSection extends StatelessWidget {
         return ListView.builder(
           controller: _scrollController,
           itemBuilder: (context, index) {
-            if (index < state.result!.items.length) {
-              final Item _result = state.result!.items[index];
+            if (index < state.invidiousSearchResult.length) {
+              final InvidiousSearchResp _result =
+                  state.invidiousSearchResult[index];
 
               if (_result.type == "channel") {
-                final String _channelId = _result.url!.split("/").last;
+                final String _channelId = _result.authorId!;
                 final bool _isSubscribed = subscribeState.subscribedChannels
                     .where((channel) => channel.id == _channelId)
                     .isNotEmpty;
@@ -56,34 +59,35 @@ class SearcheResultSection extends StatelessWidget {
                   padding: const EdgeInsets.only(
                       top: 5, left: 20, right: 20, bottom: 10),
                   child: ChannelWidget(
-                      channelName: _result.name,
-                      isVerified: _result.verified,
-                      subscriberCount: _result.subscribers,
-                      thumbnail: _result.thumbnail,
+                      channelName: _result.author,
+                      isVerified: _result.authorVerified,
+                      subscriberCount: _result.subCount,
+                      thumbnail: 'https:${_result.authorThumbnails?.last.url}',
                       isSubscribed: _isSubscribed,
                       channelId: _channelId,
                       locals: locals),
                 );
-              } else if (_result.type == "stream") {
-                final String _videoId = _result.url!.split('=').last;
-                final String _channelId = _result.uploaderUrl!.split("/").last;
+              } else if (_result.type == "video") {
+                final String _videoId = _result.videoId!;
+                final String _channelId = _result.authorId!;
                 final bool _isSubscribed = subscribeState.subscribedChannels
                     .where((channel) => channel.id == _channelId)
                     .isNotEmpty;
                 return GestureDetector(
                     onTap: () {
-                      BlocProvider.of<WatchBloc>(context).add(
-                          WatchEvent.setSelectedVideoBasicDetails(
+                      BlocProvider.of<WatchBloc>(context)
+                          .add(WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
-                                  title: _result.title,
-                                  thumbnailUrl: _result.thumbnail,
-                                  channelName: _result.uploaderName,
-                                  channelThumbnailUrl: _result.uploaderAvatar,
-                                  channelId: _channelId,
-                                  uploaderVerified: _result.uploaderVerified)));
+                        title: _result.title,
+                        thumbnailUrl: _result.videoThumbnails!.first.url,
+                        channelName: _result.author,
+                        channelThumbnailUrl: null,
+                        channelId: _channelId,
+                        uploaderVerified: _result.authorVerified,
+                      )));
                       context.go('/watch/$_videoId/$_channelId');
                     },
-                    child: HomeVideoInfoCardWidget(
+                    child: InvidiousSearchVideoInfoCardWidget(
                       channelId: _channelId,
                       cardInfo: _result,
                       isSubscribed: _isSubscribed,
@@ -97,10 +101,10 @@ class SearcheResultSection extends StatelessWidget {
                               SubscribeEvent.addSubscribe(
                                   channelInfo: Subscribe(
                                       id: _channelId,
-                                      channelName: _result.uploaderName ??
+                                      channelName: _result.author ??
                                           locals.noUploaderName,
                                       isVerified:
-                                          _result.uploaderVerified ?? false)));
+                                          _result.authorVerified ?? false)));
                         }
                       },
                     ));
@@ -108,14 +112,14 @@ class SearcheResultSection extends StatelessWidget {
                 return const SizedBox();
               }
             } else {
-              if (state.isMoreFetchCompleted) {
+              if (state.isMoreInvidiousFetchCompleted) {
                 return const SizedBox();
               } else {
                 return cIndicator(context);
               }
             }
           },
-          itemCount: (state.result?.items.length ?? 0) + 1,
+          itemCount: (state.invidiousSearchResult.length) + 1,
         );
       },
     );

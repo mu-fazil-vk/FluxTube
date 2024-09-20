@@ -37,49 +37,47 @@ class ExplodeLikeSection extends StatelessWidget {
         return BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, settingsState) {
             return LikeRowWidget(
-              like: watchInfo.likeCount,
-              dislikes: watchInfo.dislikeCount,
-              isDislikeVisible: settingsState.isDislikeVisible,
-              isCommentTapped: state.isTapComments,
-              onTapComment: () {
-                if (state.isDescriptionTapped) {
+                like: watchInfo.likeCount,
+                dislikes: watchInfo.dislikeCount,
+                isDislikeVisible: settingsState.isDislikeVisible,
+                isCommentTapped: state.isTapComments,
+                onTapComment: () {
+                  if (state.isDescriptionTapped) {
+                    BlocProvider.of<WatchBloc>(context)
+                        .add(WatchEvent.tapDescription());
+                  }
                   BlocProvider.of<WatchBloc>(context)
-                      .add(WatchEvent.tapDescription());
-                }
-                BlocProvider.of<WatchBloc>(context)
-                    .add(WatchEvent.getCommentData(id: id));
-              },
-              onTapShare: () {
-                alertboxMethod(context, locals);
-              },
-              isSaveTapped: isSaved,
-              onTapSave: () {
-                BlocProvider.of<SavedBloc>(context).add(
-                  SavedEvent.addVideoInfo(
-                    videoInfo: LocalStoreVideoInfo(
-                        id: id,
-                        title: watchInfo.title,
-                        views: watchInfo.viewCount,
-                        thumbnail: watchInfo.thumbnailUrl,
-                        uploadedDate: watchInfo.uploadDate.toString(),
-                        uploaderAvatar: null,
-                        uploaderName: watchInfo.author,
-                        uploaderId: watchInfo.channelId,
-                        uploaderSubscriberCount:
-                            null,
-                        duration: watchInfo.duration.inSeconds,
-                        playbackPosition:
-                            savedState.videoInfo?.playbackPosition,
-                        uploaderVerified: false,
-                        isSaved: !isSaved,
-                        isLive: watchInfo.isLive,
-                        isHistory: savedState.videoInfo?.isHistory),
-                  ),
-                );
-              },
-              onTapYoutube: () async => await urlLaunch('$kYTBaseUrl$id'),
-              pipClicked: pipClicked
-            );
+                      .add(WatchEvent.getCommentData(id: id));
+                },
+                onTapShare: () {
+                  alertboxMethod(context, locals);
+                },
+                isSaveTapped: isSaved,
+                onTapSave: () {
+                  BlocProvider.of<SavedBloc>(context).add(
+                    SavedEvent.addVideoInfo(
+                      videoInfo: LocalStoreVideoInfo(
+                          id: id,
+                          title: watchInfo.title,
+                          views: watchInfo.viewCount,
+                          thumbnail: watchInfo.thumbnailUrl,
+                          uploadedDate: watchInfo.uploadDate.toString(),
+                          uploaderAvatar: null,
+                          uploaderName: watchInfo.author,
+                          uploaderId: watchInfo.channelId,
+                          uploaderSubscriberCount: null,
+                          duration: watchInfo.duration.inSeconds,
+                          playbackPosition:
+                              savedState.videoInfo?.playbackPosition,
+                          uploaderVerified: false,
+                          isSaved: !isSaved,
+                          isLive: watchInfo.isLive,
+                          isHistory: savedState.videoInfo?.isHistory),
+                    ),
+                  );
+                },
+                onTapYoutube: () async => await urlLaunch('$kYTBaseUrl$id'),
+                pipClicked: pipClicked);
           },
         );
       },

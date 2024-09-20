@@ -4,6 +4,9 @@ import 'comment.dart';
 
 part 'comments_resp.g.dart';
 
+//--------MAIN PIPED COMMENTS RESPONSE MODEL--------//
+// `flutter pub run build_runner build` to generate file
+
 @JsonSerializable()
 class CommentsResp {
   List<Comment> comments;

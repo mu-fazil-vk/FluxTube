@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
-import 'package:fluxtube/domain/channel/models/channel_resp.dart';
-import 'package:fluxtube/domain/channel/models/related_stream.dart';
+import 'package:fluxtube/domain/channel/models/piped/channel_resp.dart';
+import 'package:fluxtube/domain/channel/models/piped/related_stream.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/widgets.dart';
@@ -35,7 +35,9 @@ class ChannelRelatedVideoSection extends StatelessWidget {
           !state.isMoreFetchCompleted) {
         BlocProvider.of<ChannelBloc>(context).add(
             ChannelEvent.getMoreChannelVideos(
-                channelId: channelId, nextPage: state.result?.nextpage));
+                channelId: channelId,
+                nextPage: state.pipedChannelResp?.nextpage,
+                serviceType: YouTubeServices.piped.name));
       }
     });
     return Column(
@@ -57,7 +59,7 @@ class ChannelRelatedVideoSection extends StatelessWidget {
             controller: _scrollController,
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
-              if (index < state.result!.relatedStreams!.length) {
+              if (index < state.pipedChannelResp!.relatedStreams!.length) {
                 final RelatedStream videoInfo =
                     channelInfo.relatedStreams![index];
                 final String videoId = videoInfo.url!.split('=').last;

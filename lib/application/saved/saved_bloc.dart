@@ -25,7 +25,8 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
       //get video list
       final _result = await _savedServices.getVideoInfoList();
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(savedVideosFetchStatus: ApiStatus.error),
+          (MainFailure f) =>
+              state.copyWith(savedVideosFetchStatus: ApiStatus.error),
           (List<LocalStoreVideoInfo> resp) {
         final List<LocalStoreVideoInfo> historyVideos =
             resp.where((e) => e.isHistory ?? false).toList();
@@ -45,13 +46,16 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
     // add video data to local storage
     on<AddVideoInfo>((event, emit) async {
       //initial loading go ui
-      emit(state.copyWith(savedVideosFetchStatus: ApiStatus.loading,));
+      emit(state.copyWith(
+        savedVideosFetchStatus: ApiStatus.loading,
+      ));
 
       //add video info
       final _result =
           await _savedServices.addVideoInfo(videoInfo: event.videoInfo);
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(savedVideosFetchStatus: ApiStatus.error),
+          (MainFailure f) =>
+              state.copyWith(savedVideosFetchStatus: ApiStatus.error),
           (List<LocalStoreVideoInfo> resp) {
         final List<LocalStoreVideoInfo> historyVideos =
             resp.where((e) => e.isHistory ?? false).toList();
@@ -73,13 +77,16 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
     // delete video data from local storage
     on<DeleteVideoInfo>((event, emit) async {
       //initial loading go ui
-      emit(state.copyWith(savedVideosFetchStatus: ApiStatus.loading,));
+      emit(state.copyWith(
+        savedVideosFetchStatus: ApiStatus.loading,
+      ));
 
       //delete video info , fast hash for covert string id to int hash
       final _result =
           await _savedServices.deleteVideoInfo(id: fastHash(event.id));
       final _state = _result.fold(
-          (MainFailure f) => state.copyWith(savedVideosFetchStatus: ApiStatus.error),
+          (MainFailure f) =>
+              state.copyWith(savedVideosFetchStatus: ApiStatus.error),
           (List<LocalStoreVideoInfo> resp) {
         final List<LocalStoreVideoInfo> historyVideos =
             resp.where((e) => e.isHistory ?? false).toList();

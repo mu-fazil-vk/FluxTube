@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class BaseUrl {
-  static String kBaseUrl = 'https://pipedapi.kavin.rocks/';
+  static String kBaseUrl = 'https://pipedapi.kavin.rocks';
+  static String kInvidiousBaseUrl = 'https://invidious.perennialte.ch';
 }
 
 const String kYTBaseUrl = 'https://www.youtube.com/watch?v=';

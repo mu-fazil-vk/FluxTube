@@ -50,6 +50,10 @@ final _services = [
     value: YouTubeServices.iframe,
     child: Text("IFrame"),
   ),
+  const DropdownMenuItem(
+    value: YouTubeServices.invidious,
+    child: Text("Invidious"),
+  ),
 ];
 
 SettingsSection videoSettingsSection(
@@ -73,7 +77,8 @@ SettingsSection videoSettingsSection(
         title: const Text("YouTube Service"),
         leading: const Icon(Icons.network_cell),
         trailing: DropdownButton(
-            value: YouTubeServices.values.firstWhere((e) => e.name == state.ytService),
+            value: YouTubeServices.values
+                .firstWhere((e) => e.name == state.ytService),
             items: _services,
             onChanged: (service) => BlocProvider.of<SettingsBloc>(context)
                 .add(SettingsEvent.setYTService(service: service!))),

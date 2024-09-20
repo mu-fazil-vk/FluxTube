@@ -8,6 +8,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:fluxtube/application/application.dart' as _i26;
 import 'package:fluxtube/application/channel/channel_bloc.dart' as _i22;
 import 'package:fluxtube/application/saved/saved_bloc.dart' as _i24;
 import 'package:fluxtube/application/search/search_bloc.dart' as _i23;
@@ -66,6 +67,7 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i23.SearchBloc(gh<_i17.SearchService>()));
     gh.factory<_i24.SavedBloc>(() => _i24.SavedBloc(gh<_i5.SavedServices>()));
     gh.factory<_i25.TrendingBloc>(() => _i25.TrendingBloc(
+          gh<_i26.SettingsBloc>(),
           gh<_i19.TrendingService>(),
           gh<_i11.HomeServices>(),
         ));

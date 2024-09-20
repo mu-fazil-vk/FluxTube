@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+
+//--------PIPED INSTANCE MODEL--------//
+
 class Instance {
   final String name;
   final String api;
@@ -46,7 +49,8 @@ class Instance {
 
   String toJson() => json.encode(toMap());
 
-  factory Instance.fromJson(String source) => Instance.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Instance.fromJson(String source) =>
+      Instance.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -56,19 +60,15 @@ class Instance {
   @override
   bool operator ==(covariant Instance other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.name == name &&
-      other.api == api &&
-      other.locations == locations &&
-      other.cdn == cdn;
+
+    return other.name == name &&
+        other.api == api &&
+        other.locations == locations &&
+        other.cdn == cdn;
   }
 
   @override
   int get hashCode {
-    return name.hashCode ^
-      api.hashCode ^
-      locations.hashCode ^
-      cdn.hashCode;
+    return name.hashCode ^ api.hashCode ^ locations.hashCode ^ cdn.hashCode;
   }
 }

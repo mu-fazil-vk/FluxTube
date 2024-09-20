@@ -7,7 +7,6 @@ import 'package:fluxtube/presentation/settings/functions/launch_url.dart';
 
 import '../widgets/widgets.dart';
 
-
 class ScreenTranslators extends StatelessWidget {
   const ScreenTranslators({super.key});
 

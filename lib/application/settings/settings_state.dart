@@ -33,6 +33,6 @@ class SettingsState with _$SettingsState {
         instances: [],
         instanceStatus: ApiStatus.initial,
         instance: BaseUrl.kBaseUrl,
-        ytService: YouTubeServices.piped.name,
+        ytService: YouTubeServices.explode.name,
       );
 }

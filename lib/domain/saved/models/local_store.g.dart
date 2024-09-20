@@ -81,7 +81,7 @@ const LocalStoreVideoInfoSchema = CollectionSchema(
     r'uploaderSubscriberCount': PropertySchema(
       id: 12,
       name: r'uploaderSubscriberCount',
-      type: IsarType.long,
+      type: IsarType.string,
     ),
     r'uploaderVerified': PropertySchema(
       id: 13,
@@ -151,6 +151,12 @@ int _localStoreVideoInfoEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.uploaderSubscriberCount;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -172,7 +178,7 @@ void _localStoreVideoInfoSerialize(
   writer.writeString(offsets[9], object.uploaderAvatar);
   writer.writeString(offsets[10], object.uploaderId);
   writer.writeString(offsets[11], object.uploaderName);
-  writer.writeLong(offsets[12], object.uploaderSubscriberCount);
+  writer.writeString(offsets[12], object.uploaderSubscriberCount);
   writer.writeBool(offsets[13], object.uploaderVerified);
   writer.writeLong(offsets[14], object.views);
 }
@@ -196,7 +202,7 @@ LocalStoreVideoInfo _localStoreVideoInfoDeserialize(
     uploaderAvatar: reader.readStringOrNull(offsets[9]),
     uploaderId: reader.readStringOrNull(offsets[10]),
     uploaderName: reader.readStringOrNull(offsets[11]),
-    uploaderSubscriberCount: reader.readLongOrNull(offsets[12]),
+    uploaderSubscriberCount: reader.readStringOrNull(offsets[12]),
     uploaderVerified: reader.readBoolOrNull(offsets[13]),
     views: reader.readLongOrNull(offsets[14]),
   );
@@ -235,7 +241,7 @@ P _localStoreVideoInfoDeserializeProp<P>(
     case 11:
       return (reader.readStringOrNull(offset)) as P;
     case 12:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 13:
       return (reader.readBoolOrNull(offset)) as P;
     case 14:
@@ -1707,49 +1713,58 @@ extension LocalStoreVideoInfoQueryFilter on QueryBuilder<LocalStoreVideoInfo,
   }
 
   QueryBuilder<LocalStoreVideoInfo, LocalStoreVideoInfo, QAfterFilterCondition>
-      uploaderSubscriberCountEqualTo(int? value) {
+      uploaderSubscriberCountEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'uploaderSubscriberCount',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<LocalStoreVideoInfo, LocalStoreVideoInfo, QAfterFilterCondition>
       uploaderSubscriberCountGreaterThan(
-    int? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'uploaderSubscriberCount',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<LocalStoreVideoInfo, LocalStoreVideoInfo, QAfterFilterCondition>
       uploaderSubscriberCountLessThan(
-    int? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'uploaderSubscriberCount',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<LocalStoreVideoInfo, LocalStoreVideoInfo, QAfterFilterCondition>
       uploaderSubscriberCountBetween(
-    int? lower,
-    int? upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1758,6 +1773,79 @@ extension LocalStoreVideoInfoQueryFilter on QueryBuilder<LocalStoreVideoInfo,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LocalStoreVideoInfo, LocalStoreVideoInfo, QAfterFilterCondition>
+      uploaderSubscriberCountStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'uploaderSubscriberCount',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LocalStoreVideoInfo, LocalStoreVideoInfo, QAfterFilterCondition>
+      uploaderSubscriberCountEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'uploaderSubscriberCount',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LocalStoreVideoInfo, LocalStoreVideoInfo, QAfterFilterCondition>
+      uploaderSubscriberCountContains(String value,
+          {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'uploaderSubscriberCount',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LocalStoreVideoInfo, LocalStoreVideoInfo, QAfterFilterCondition>
+      uploaderSubscriberCountMatches(String pattern,
+          {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'uploaderSubscriberCount',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LocalStoreVideoInfo, LocalStoreVideoInfo, QAfterFilterCondition>
+      uploaderSubscriberCountIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'uploaderSubscriberCount',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<LocalStoreVideoInfo, LocalStoreVideoInfo, QAfterFilterCondition>
+      uploaderSubscriberCountIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'uploaderSubscriberCount',
+        value: '',
       ));
     });
   }
@@ -2399,9 +2487,10 @@ extension LocalStoreVideoInfoQueryWhereDistinct
   }
 
   QueryBuilder<LocalStoreVideoInfo, LocalStoreVideoInfo, QDistinct>
-      distinctByUploaderSubscriberCount() {
+      distinctByUploaderSubscriberCount({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'uploaderSubscriberCount');
+      return query.addDistinctBy(r'uploaderSubscriberCount',
+          caseSensitive: caseSensitive);
     });
   }
 
@@ -2507,7 +2596,7 @@ extension LocalStoreVideoInfoQueryProperty
     });
   }
 
-  QueryBuilder<LocalStoreVideoInfo, int?, QQueryOperations>
+  QueryBuilder<LocalStoreVideoInfo, String?, QQueryOperations>
       uploaderSubscriberCountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'uploaderSubscriberCount');

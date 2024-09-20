@@ -44,7 +44,6 @@ class ExplodeRelatedVideoSection extends StatelessWidget {
                 final String channelId = related[index].channelId;
                 return GestureDetector(
                     onTap: () {
-
                       BlocProvider.of<WatchBloc>(context).add(
                           WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
@@ -54,7 +53,7 @@ class ExplodeRelatedVideoSection extends StatelessWidget {
                                   channelThumbnailUrl: null,
                                   channelId: channelId,
                                   uploaderVerified: null)));
-                                  
+
                       context.go('/watch/$videoId/$channelId');
                     },
                     child: RelatedVideoWidget(

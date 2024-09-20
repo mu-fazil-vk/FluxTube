@@ -1,5 +1,7 @@
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
+//--------MAIN EXPLODE WATCH DETAILS MODEL--------//
+
 class ExplodeWatchResp {
   final String id;
   final String title;

@@ -431,7 +431,8 @@ class SettingImpliment implements SettingsService {
   }
 
   @override
-  Future<Either<MainFailure, YouTubeServices>> setTYService({required YouTubeServices service}) async {
+  Future<Either<MainFailure, YouTubeServices>> setTYService(
+      {required YouTubeServices service}) async {
     try {
       await isar.writeTxn(() async {
         final existingYTServiceSetting = await isar.settingsDBValues

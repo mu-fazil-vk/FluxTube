@@ -8,6 +8,9 @@ import 'video_stream.dart';
 
 part 'watch_resp.g.dart';
 
+//--------MAIN PIPED WATCH SCREEN VIDEO RESPONSE MODEL--------//
+// `flutter pub run build_runner build` to generate file
+
 @JsonSerializable()
 class WatchResp {
   String? title;

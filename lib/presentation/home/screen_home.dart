@@ -5,7 +5,7 @@ import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/presentation/trending/widgets/trending_videos_section.dart';
+import 'package:fluxtube/presentation/trending/widgets/invidious/trending_videos_section.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 
 import 'widgets/widgets.dart';
@@ -48,38 +48,25 @@ class ScreenHome extends StatelessWidget {
 
                 return BlocBuilder<TrendingBloc, TrendingState>(
                   builder: (context, trendingState) {
-                    if (trendingState.trendingResult.isEmpty &&
-                        !(trendingState.fetchTrendingStatus ==
-                            ApiStatus.error)) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        trendingBloc.add(TrendingEvent.getTrendingData(
-                            region: settingsState.defaultRegion));
-                      });
-                    }
-
-                    if (trendingState.fetchTrendingStatus ==
-                            ApiStatus.loading ||
-                        trendingState.fetchTrendingStatus ==
-                            ApiStatus.initial) {
-                      return _buildLoadingList();
-                    }
-
-                    if (trendingState.feedResult.isEmpty ||
-                        trendingState.fetchFeedStatus == ApiStatus.error) {
-                      return _buildErrorOrTrendingSection(
-                        context,
+                    if (settingsState.ytService == YouTubeServices.piped.name) {
+                      return _buildPipedTrendingSection(
                         trendingState,
                         locals,
-                        settingsState.defaultRegion,
+                        context,
+                        subscribeState,
+                        trendingBloc,
+                        settingsState,
+                      );
+                    } else {
+                      return _buildInvidiousTrendingSection(
+                        trendingState,
+                        locals,
+                        context,
+                        subscribeState,
+                        trendingBloc,
+                        settingsState,
                       );
                     }
-
-                    return _buildFeedSection(
-                      trendingState,
-                      locals,
-                      subscribeState,
-                      trendingBloc,
-                    );
                   },
                 );
               },
@@ -87,6 +74,90 @@ class ScreenHome extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildPipedTrendingSection(
+      TrendingState trendingState,
+      S locals,
+      BuildContext context,
+      SubscribeState subscribeState,
+      TrendingBloc trendingBloc,
+      SettingsState settingsState) {
+    if (trendingState.trendingResult.isEmpty &&
+        !(trendingState.fetchTrendingStatus == ApiStatus.error)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        trendingBloc.add(TrendingEvent.getTrendingData(
+            serviceType: settingsState.ytService));
+      });
+    }
+
+    if (trendingState.fetchTrendingStatus == ApiStatus.loading ||
+        trendingState.fetchTrendingStatus == ApiStatus.initial) {
+      return _buildLoadingList();
+    }
+
+    if (trendingState.fetchFeedStatus == ApiStatus.loading) {
+      return _buildLoadingList();
+    }
+
+    if (trendingState.feedResult.isEmpty ||
+        trendingState.fetchFeedStatus == ApiStatus.error) {
+      return _buildErrorOrTrendingSection(
+        context,
+        trendingState,
+        locals,
+        settingsState,
+      );
+    }
+
+    return _buildFeedSection(
+      trendingState,
+      locals,
+      subscribeState,
+      trendingBloc,
+    );
+  }
+
+  Widget _buildInvidiousTrendingSection(
+      TrendingState trendingState,
+      S locals,
+      BuildContext context,
+      SubscribeState subscribeState,
+      TrendingBloc trendingBloc,
+      SettingsState settingsState) {
+    if (trendingState.invidiousTrendingResult.isEmpty &&
+        !(trendingState.fetchInvidiousTrendingStatus == ApiStatus.error)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        trendingBloc.add(TrendingEvent.getTrendingData(
+            serviceType: settingsState.ytService));
+      });
+    }
+
+    if (trendingState.fetchInvidiousTrendingStatus == ApiStatus.loading ||
+        trendingState.fetchInvidiousTrendingStatus == ApiStatus.initial) {
+      return _buildLoadingList();
+    }
+
+    if (trendingState.fetchFeedStatus == ApiStatus.loading) {
+      return _buildLoadingList();
+    }
+
+    if (trendingState.feedResult.isEmpty ||
+        trendingState.fetchFeedStatus == ApiStatus.error) {
+      return _buildErrorOrTrendingSection(
+        context,
+        trendingState,
+        locals,
+        settingsState,
+      );
+    }
+
+    return _buildFeedSection(
+      trendingState,
+      locals,
+      subscribeState,
+      trendingBloc,
     );
   }
 
@@ -104,19 +175,33 @@ class ScreenHome extends StatelessWidget {
     BuildContext context,
     TrendingState trendingState,
     S locals,
-    String defaultRegion,
+    SettingsState settingsState,
   ) {
-    if (trendingState.fetchTrendingStatus == ApiStatus.error ||
-        trendingState.trendingResult.isEmpty) {
-      return ErrorRetryWidget(
-        lottie: 'assets/dog.zip',
-        onTap: () => BlocProvider.of<TrendingBloc>(context).add(
-          TrendingEvent.getForcedTrendingData(region: defaultRegion),
-        ),
-      );
+    if (settingsState.ytService == YouTubeServices.piped.name) {
+      if (trendingState.fetchTrendingStatus == ApiStatus.error ||
+          trendingState.trendingResult.isEmpty) {
+        return ErrorRetryWidget(
+          lottie: 'assets/dog.zip',
+          onTap: () => BlocProvider.of<TrendingBloc>(context).add(
+            TrendingEvent.getForcedTrendingData(
+                serviceType: settingsState.ytService),
+          ),
+        );
+      }
+    } else {
+      if (trendingState.fetchInvidiousTrendingStatus == ApiStatus.error ||
+          trendingState.invidiousTrendingResult.isEmpty) {
+        return ErrorRetryWidget(
+          lottie: 'assets/dog.zip',
+          onTap: () => BlocProvider.of<TrendingBloc>(context).add(
+            TrendingEvent.getForcedTrendingData(
+                serviceType: settingsState.ytService),
+          ),
+        );
+      }
     }
 
-    return TrendingVideosSection(
+    return InvidiousTrendingVideosSection(
       locals: locals,
       state: trendingState,
     );

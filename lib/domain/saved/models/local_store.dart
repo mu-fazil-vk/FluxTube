@@ -7,6 +7,9 @@ import '../../../core/operations/math_operations.dart';
 
 part 'local_store.g.dart';
 
+//--------LOCAL STORAGE MODEL--------//
+// `flutter pub run build_runner build` to generate file
+
 @Collection()
 class LocalStoreVideoInfo {
   String id;
@@ -18,7 +21,7 @@ class LocalStoreVideoInfo {
   String? uploaderName;
   String? uploaderId;
   String? uploaderAvatar;
-  int? uploaderSubscriberCount;
+  String? uploaderSubscriberCount;
   int? duration;
   bool? uploaderVerified;
   bool? isSaved;

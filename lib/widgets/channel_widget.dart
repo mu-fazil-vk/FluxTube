@@ -38,19 +38,20 @@ class ChannelWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          !isTapEnabled ? null : context.goNamed('channel', pathParameters: {
-            'channelId': _channelId,
-          }, queryParameters: {
-            'avtarUrl': _thumbnail,
-          }),
+      onTap: () => !isTapEnabled
+          ? null
+          : context.goNamed('channel', pathParameters: {
+              'channelId': _channelId,
+            }, queryParameters: {
+              'avtarUrl': _thumbnail,
+            }),
       child: SizedBox(
         height: 150,
         width: double.infinity,
         child: SubscribeRowWidget(
           uploader: _channelName,
           isVerified: _isVerified,
-          subcount: _subscriberCount,
+          subcount: _subscriberCount.toString(),
           subscribed: _isSubscribed,
           uploaderUrl: _thumbnail,
           radius: 35,

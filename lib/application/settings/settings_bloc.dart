@@ -51,7 +51,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           settingsMap[instanceApiUrl] ?? BaseUrl.kBaseUrl;
 
       final String ytService =
-          settingsMap[youtubeService] ?? YouTubeServices.piped.name;
+          settingsMap[youtubeService] ?? YouTubeServices.explode.name;
 
       //package info
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -194,11 +194,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     });
 
     on<FetchInstances>((event, emit) async {
-      emit(state.copyWith(instanceStatus: ApiStatus.loading,));
+      emit(state.copyWith(
+        instanceStatus: ApiStatus.loading,
+      ));
       final _result = await settingsService.fetchInstances();
       final _state = _result.fold(
-          (MainFailure f) =>
-              state.copyWith(instanceStatus: ApiStatus.error, instances: state.instances),
+          (MainFailure f) => state.copyWith(
+              instanceStatus: ApiStatus.error, instances: state.instances),
           (List<Instance> r) =>
               state.copyWith(instanceStatus: ApiStatus.loaded, instances: r));
       emit(_state);
@@ -219,7 +221,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(ytService: state.ytService),
           (YouTubeServices r) => state.copyWith(
-              ytService: r.name,));
+                ytService: r.name,
+              ));
       emit(_state);
     });
   }

@@ -14,8 +14,11 @@ class SettingsEvent with _$SettingsEvent {
   factory SettingsEvent.toggleDislikeVisibility() = ToggleDislikeVisibility;
   factory SettingsEvent.toggleHlsPlayer() = ToggleHlsPlayer;
   factory SettingsEvent.toggleCommentVisibility() = ToggleCommentVisibility;
-  factory SettingsEvent.toggleRelatedVideoVisibility() = ToggleRelatedVideoVisibility;
+  factory SettingsEvent.toggleRelatedVideoVisibility() =
+      ToggleRelatedVideoVisibility;
   factory SettingsEvent.fetchInstances() = FetchInstances;
-  factory SettingsEvent.setInstance({required String instanceApi}) = SetInstance;
-  factory SettingsEvent.setYTService({required YouTubeServices service}) = SetYTService;
+  factory SettingsEvent.setInstance({required String instanceApi}) =
+      SetInstance;
+  factory SettingsEvent.setYTService({required YouTubeServices service}) =
+      SetYTService;
 }

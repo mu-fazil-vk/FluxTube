@@ -21,8 +21,7 @@ class ExplodeDescriptionSection extends StatelessWidget {
       height: _height * 0.40,
       child: SingleChildScrollView(
         child: RichText(
-          text: HTML.toTextSpan(
-              context, watchInfo.description,
+          text: HTML.toTextSpan(context, watchInfo.description,
               defaultTextStyle: Theme.of(context).textTheme.bodyMedium),
         ),
       ),
