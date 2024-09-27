@@ -16,6 +16,7 @@ class TrendingImpliment implements TrendingService {
   @override
   Future<Either<MainFailure, List<TrendingResp>>> getTrendingData(
       {required String region}) async {
+    log(ApiEndPoints.trending + region);
     final dioClient = Dio();
     try {
       dioClient.httpClientAdapter = NativeAdapter();
@@ -49,6 +50,7 @@ class TrendingImpliment implements TrendingService {
   @override
   Future<Either<MainFailure, List<InvidiousTrendingResp>>>
       getInvidiousTrendingData({required String region}) async {
+    log(InvidiousApiEndpoints.trending + region);
     final dioClient = Dio();
     try {
       dioClient.httpClientAdapter = NativeAdapter();

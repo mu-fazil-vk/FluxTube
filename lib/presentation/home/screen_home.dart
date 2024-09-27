@@ -6,6 +6,7 @@ import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/trending/widgets/invidious/trending_videos_section.dart';
+import 'package:fluxtube/presentation/trending/widgets/piped/trending_videos_section.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 
 import 'widgets/widgets.dart';
@@ -15,14 +16,12 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsBloc = BlocProvider.of<SettingsBloc>(context);
     final subscribeBloc = BlocProvider.of<SubscribeBloc>(context);
     final trendingBloc = BlocProvider.of<TrendingBloc>(context);
     final locals = S.of(context);
 
     // Initialize settings and subscription data on first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      settingsBloc.add(SettingsEvent.initializeSettings());
       subscribeBloc.add(const SubscribeEvent.getAllSubscribeList());
     });
 
@@ -199,6 +198,13 @@ class ScreenHome extends StatelessWidget {
           ),
         );
       }
+    }
+
+    if (settingsState.ytService == YouTubeServices.piped.name) {
+      return TrendingVideosSection(
+        locals: locals,
+        state: trendingState,
+      );
     }
 
     return InvidiousTrendingVideosSection(

@@ -23,6 +23,7 @@ class WatchImpliment implements WatchService {
   @override
   Future<Either<MainFailure, WatchResp>> getVideoData(
       {required String id}) async {
+    log(ApiEndPoints.watch + id);
     final dioClient = Dio();
     try {
       dioClient.httpClientAdapter = NativeAdapter();
@@ -294,6 +295,7 @@ class WatchImpliment implements WatchService {
       {required String id}) async {
     final dioClient = Dio();
     try {
+      log(InvidiousApiEndpoints.watch + id);
       dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         InvidiousApiEndpoints.watch + id,

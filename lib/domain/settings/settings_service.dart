@@ -22,6 +22,7 @@ abstract class SettingsService {
   Future<Either<MainFailure, bool>> toggleHideRelatedVideos(
       {required bool isHideRelated});
   Future<Either<MainFailure, List<Instance>>> fetchInstances();
+  Future<Either<MainFailure, List<Instance>>> fetchInvidiousInstances();
   Future<Either<MainFailure, String>> setInstance(
       {required String instanceApi});
   Future<Either<MainFailure, YouTubeServices>> setTYService(

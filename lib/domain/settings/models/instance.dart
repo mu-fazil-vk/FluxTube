@@ -7,12 +7,10 @@ class Instance {
   final String name;
   final String api;
   final String locations;
-  final String cdn;
   Instance({
     required this.name,
     required this.api,
     required this.locations,
-    required this.cdn,
   });
 
   Instance copyWith({
@@ -25,7 +23,6 @@ class Instance {
       name: name ?? this.name,
       api: api ?? this.api,
       locations: locations ?? this.locations,
-      cdn: cdn ?? this.cdn,
     );
   }
 
@@ -34,7 +31,6 @@ class Instance {
       'name': name,
       'api': api,
       'locations': locations,
-      'cdn': cdn,
     };
   }
 
@@ -43,7 +39,6 @@ class Instance {
       name: map['name'] as String,
       api: map['api'] as String,
       locations: map['locations'] as String,
-      cdn: map['cdn'] as String,
     );
   }
 
@@ -54,7 +49,7 @@ class Instance {
 
   @override
   String toString() {
-    return 'Instance(name: $name, api: $api, locations: $locations, cdn: $cdn)';
+    return 'Instance(name: $name, api: $api, locations: $locations,)';
   }
 
   @override
@@ -63,12 +58,11 @@ class Instance {
 
     return other.name == name &&
         other.api == api &&
-        other.locations == locations &&
-        other.cdn == cdn;
+        other.locations == locations;
   }
 
   @override
   int get hashCode {
-    return name.hashCode ^ api.hashCode ^ locations.hashCode ^ cdn.hashCode;
+    return name.hashCode ^ api.hashCode ^ locations.hashCode;
   }
 }

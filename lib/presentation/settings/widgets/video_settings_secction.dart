@@ -80,8 +80,17 @@ SettingsSection videoSettingsSection(
             value: YouTubeServices.values
                 .firstWhere((e) => e.name == state.ytService),
             items: _services,
-            onChanged: (service) => BlocProvider.of<SettingsBloc>(context)
-                .add(SettingsEvent.setYTService(service: service!))),
+            onChanged: (service) {
+              BlocProvider.of<SettingsBloc>(context)
+                  .add(SettingsEvent.setYTService(service: service!));
+              if (state.ytService != YouTubeServices.piped.name) {
+                BlocProvider.of<SettingsBloc>(context)
+                    .add(SettingsEvent.fetchInvidiousInstances());
+              } else {
+                BlocProvider.of<SettingsBloc>(context)
+                    .add(SettingsEvent.fetchPipedInstances());
+              }
+            }),
       ),
       SettingsTile.switchTile(
         initialValue: state.isHlsPlayer,

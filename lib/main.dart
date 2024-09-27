@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluxtube/application/channel/channel_bloc.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/channel/screen_channel.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_instances.dart';
@@ -132,6 +133,15 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
+          BlocProvider.of<SettingsBloc>(context)
+              .add(SettingsEvent.initializeSettings());
+          if (state.ytService != YouTubeServices.piped.name) {
+            BlocProvider.of<SettingsBloc>(context)
+                .add(SettingsEvent.fetchInvidiousInstances());
+          } else {
+            BlocProvider.of<SettingsBloc>(context)
+                .add(SettingsEvent.fetchPipedInstances());
+          }
           return PiPMaterialApp.router(
             title: AppInfo.myApp.name,
             theme: AppTheme.lightTheme,
