@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/core/enums.dart';
-import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 
@@ -44,7 +43,6 @@ class ScreenInstances extends StatelessWidget {
 }
 
 class PipedInstanceListView extends StatelessWidget {
-
   const PipedInstanceListView({super.key});
 
   @override
@@ -69,7 +67,7 @@ class PipedInstanceListView extends StatelessWidget {
                 SettingsEvent.setInstance(instanceApi: instances[index].api),
               );
 
-              BaseUrl.kBaseUrl = instances[index].api;
+              // BaseUrl.kBaseUrl = instances[index].api;
             },
             leading: state.instance == instances[index].api
                 ? const Icon(CupertinoIcons.check_mark)
@@ -100,7 +98,6 @@ class PipedInstanceListView extends StatelessWidget {
 }
 
 class InvidiousInstanceListView extends StatelessWidget {
-
   const InvidiousInstanceListView({super.key});
 
   @override
@@ -125,7 +122,7 @@ class InvidiousInstanceListView extends StatelessWidget {
                 SettingsEvent.setInstance(instanceApi: instances[index].api),
               );
 
-              BaseUrl.kBaseUrl = instances[index].api;
+              // BaseUrl.kBaseUrl = instances[index].api;
             },
             leading: state.instance == instances[index].api
                 ? const Icon(CupertinoIcons.check_mark)

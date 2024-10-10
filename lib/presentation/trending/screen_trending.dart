@@ -15,14 +15,22 @@ class ScreenTrending extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locals = S.of(context);
-    BlocProvider.of<SubscribeBloc>(context)
-        .add(const SubscribeEvent.getAllSubscribeList());
+    final trendingBloc = BlocProvider.of<TrendingBloc>(context);
+    final subscribeBloc = BlocProvider.of<SubscribeBloc>(context);
+
+    subscribeBloc.add(
+      const SubscribeEvent.getAllSubscribeList(),
+    );
 
     return BlocBuilder<SettingsBloc, SettingsState>(
-      builder: (context, settingsState) {
-        BlocProvider.of<TrendingBloc>(context).add(
-            TrendingEvent.getTrendingData(
-                serviceType: settingsState.ytService));
+      builder: (
+        context,
+        settingsState,
+      ) {
+        BlocProvider.of<TrendingBloc>(context)
+            .add(TrendingEvent.getTrendingData(
+          serviceType: settingsState.ytService,
+        ));
         return SafeArea(
             child: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -32,9 +40,15 @@ class ScreenTrending extends StatelessWidget {
                       )
                     ],
                 body: RefreshIndicator(
-                  onRefresh: () async => BlocProvider.of<TrendingBloc>(context)
-                      .add(TrendingEvent.getForcedTrendingData(
-                          serviceType: settingsState.ytService)),
+                  onRefresh: () async {
+                    if (trendingBloc.state.fetchTrendingStatus ==
+                        ApiStatus.loading) {
+                      return;
+                    }
+                    BlocProvider.of<TrendingBloc>(context).add(
+                        TrendingEvent.getForcedTrendingData(
+                            serviceType: settingsState.ytService));
+                  },
                   child: BlocBuilder<TrendingBloc, TrendingState>(
                     builder: (context, state) {
                       if (settingsState.ytService ==

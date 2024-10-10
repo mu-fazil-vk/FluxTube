@@ -2919,6 +2919,7 @@ mixin _$SettingsState {
   List<Instance> get invidiousInstances => throw _privateConstructorUsedError;
   ApiStatus get invidiousInstanceStatus => throw _privateConstructorUsedError;
   String get ytService => throw _privateConstructorUsedError;
+  bool get initialized => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingsStateCopyWith<SettingsState> get copyWith =>
@@ -2947,7 +2948,8 @@ abstract class $SettingsStateCopyWith<$Res> {
       String instance,
       List<Instance> invidiousInstances,
       ApiStatus invidiousInstanceStatus,
-      String ytService});
+      String ytService,
+      bool initialized});
 }
 
 /// @nodoc
@@ -2979,6 +2981,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? invidiousInstances = null,
     Object? invidiousInstanceStatus = null,
     Object? ytService = null,
+    Object? initialized = null,
   }) {
     return _then(_value.copyWith(
       defaultLanguage: null == defaultLanguage
@@ -3045,6 +3048,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.ytService
           : ytService // ignore: cast_nullable_to_non_nullable
               as String,
+      initialized: null == initialized
+          ? _value.initialized
+          : initialized // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -3073,7 +3080,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       String instance,
       List<Instance> invidiousInstances,
       ApiStatus invidiousInstanceStatus,
-      String ytService});
+      String ytService,
+      bool initialized});
 }
 
 /// @nodoc
@@ -3103,6 +3111,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? invidiousInstances = null,
     Object? invidiousInstanceStatus = null,
     Object? ytService = null,
+    Object? initialized = null,
   }) {
     return _then(_$InitialImpl(
       defaultLanguage: null == defaultLanguage
@@ -3169,6 +3178,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.ytService
           : ytService // ignore: cast_nullable_to_non_nullable
               as String,
+      initialized: null == initialized
+          ? _value.initialized
+          : initialized // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -3192,7 +3205,8 @@ class _$InitialImpl implements _Initial {
       required this.instance,
       required final List<Instance> invidiousInstances,
       required this.invidiousInstanceStatus,
-      required this.ytService})
+      required this.ytService,
+      required this.initialized})
       : _pipedInstances = pipedInstances,
         _invidiousInstances = invidiousInstances;
 
@@ -3241,10 +3255,12 @@ class _$InitialImpl implements _Initial {
   final ApiStatus invidiousInstanceStatus;
   @override
   final String ytService;
+  @override
+  final bool initialized;
 
   @override
   String toString() {
-    return 'SettingsState(defaultLanguage: $defaultLanguage, defaultQuality: $defaultQuality, defaultRegion: $defaultRegion, themeMode: $themeMode, version: $version, isHistoryVisible: $isHistoryVisible, isDislikeVisible: $isDislikeVisible, isHlsPlayer: $isHlsPlayer, isHideComments: $isHideComments, isHideRelated: $isHideRelated, pipedInstances: $pipedInstances, pipedInstanceStatus: $pipedInstanceStatus, instance: $instance, invidiousInstances: $invidiousInstances, invidiousInstanceStatus: $invidiousInstanceStatus, ytService: $ytService)';
+    return 'SettingsState(defaultLanguage: $defaultLanguage, defaultQuality: $defaultQuality, defaultRegion: $defaultRegion, themeMode: $themeMode, version: $version, isHistoryVisible: $isHistoryVisible, isDislikeVisible: $isDislikeVisible, isHlsPlayer: $isHlsPlayer, isHideComments: $isHideComments, isHideRelated: $isHideRelated, pipedInstances: $pipedInstances, pipedInstanceStatus: $pipedInstanceStatus, instance: $instance, invidiousInstances: $invidiousInstances, invidiousInstanceStatus: $invidiousInstanceStatus, ytService: $ytService, initialized: $initialized)';
   }
 
   @override
@@ -3283,7 +3299,9 @@ class _$InitialImpl implements _Initial {
                     other.invidiousInstanceStatus, invidiousInstanceStatus) ||
                 other.invidiousInstanceStatus == invidiousInstanceStatus) &&
             (identical(other.ytService, ytService) ||
-                other.ytService == ytService));
+                other.ytService == ytService) &&
+            (identical(other.initialized, initialized) ||
+                other.initialized == initialized));
   }
 
   @override
@@ -3304,7 +3322,8 @@ class _$InitialImpl implements _Initial {
       instance,
       const DeepCollectionEquality().hash(_invidiousInstances),
       invidiousInstanceStatus,
-      ytService);
+      ytService,
+      initialized);
 
   @JsonKey(ignore: true)
   @override
@@ -3330,7 +3349,8 @@ abstract class _Initial implements SettingsState {
       required final String instance,
       required final List<Instance> invidiousInstances,
       required final ApiStatus invidiousInstanceStatus,
-      required final String ytService}) = _$InitialImpl;
+      required final String ytService,
+      required final bool initialized}) = _$InitialImpl;
 
   @override
   String get defaultLanguage;
@@ -3364,6 +3384,8 @@ abstract class _Initial implements SettingsState {
   ApiStatus get invidiousInstanceStatus;
   @override
   String get ytService;
+  @override
+  bool get initialized;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

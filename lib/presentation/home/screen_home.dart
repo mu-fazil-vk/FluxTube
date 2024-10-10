@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
-import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/trending/widgets/invidious/trending_videos_section.dart';
 import 'package:fluxtube/presentation/trending/widgets/piped/trending_videos_section.dart';
@@ -16,39 +17,41 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subscribeBloc = BlocProvider.of<SubscribeBloc>(context);
     final trendingBloc = BlocProvider.of<TrendingBloc>(context);
     final locals = S.of(context);
-
-    // Initialize settings and subscription data on first frame
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      subscribeBloc.add(const SubscribeEvent.getAllSubscribeList());
-    });
 
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, settingsState) {
         return SafeArea(
           child: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                [const HomeAppBar()],
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              const HomeAppBar(),
+            ],
             body: BlocBuilder<SubscribeBloc, SubscribeState>(
               buildWhen: (previous, current) =>
                   previous.subscribedChannels != current.subscribedChannels,
               builder: (context, subscribeState) {
-                final List<Subscribe> subscribeList =
-                    subscribeState.subscribedChannels;
-
-                if (subscribeList.isNotEmpty) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    trendingBloc.add(TrendingEvent.getForcedHomeFeedData(
-                        channels: subscribeList));
-                  });
+                if (subscribeState.subscribedChannels.isNotEmpty &&
+                    subscribeState.oldList.length !=
+                        subscribeState.subscribedChannels.length) {
+                  trendingBloc.add(GetForcedHomeFeedData(
+                      channels: subscribeState.subscribedChannels));
+                  BlocProvider.of<SubscribeBloc>(context).add(
+                      UpdateSubscribeOldList(
+                          subscribedChannels:
+                              subscribeState.subscribedChannels));
                 }
-
                 return BlocBuilder<TrendingBloc, TrendingState>(
+                  buildWhen: (previous, current) {
+                    return previous.fetchTrendingStatus !=
+                            current.fetchTrendingStatus ||
+                        previous.fetchInvidiousTrendingStatus !=
+                            current.fetchInvidiousTrendingStatus ||
+                        previous.fetchFeedStatus != current.fetchFeedStatus;
+                  },
                   builder: (context, trendingState) {
                     if (settingsState.ytService == YouTubeServices.piped.name) {
-                      return _buildPipedTrendingSection(
+                      return _buildPipedTrendingOrFeedSection(
                         trendingState,
                         locals,
                         context,
@@ -57,7 +60,7 @@ class ScreenHome extends StatelessWidget {
                         settingsState,
                       );
                     } else {
-                      return _buildInvidiousTrendingSection(
+                      return _buildInvidiousTrendingOrFeedSection(
                         trendingState,
                         locals,
                         context,
@@ -76,7 +79,7 @@ class ScreenHome extends StatelessWidget {
     );
   }
 
-  Widget _buildPipedTrendingSection(
+  Widget _buildPipedTrendingOrFeedSection(
       TrendingState trendingState,
       S locals,
       BuildContext context,
@@ -102,6 +105,7 @@ class ScreenHome extends StatelessWidget {
 
     if (trendingState.feedResult.isEmpty ||
         trendingState.fetchFeedStatus == ApiStatus.error) {
+      log("Feed Error");
       return _buildErrorOrTrendingSection(
         context,
         trendingState,
@@ -118,13 +122,14 @@ class ScreenHome extends StatelessWidget {
     );
   }
 
-  Widget _buildInvidiousTrendingSection(
-      TrendingState trendingState,
-      S locals,
-      BuildContext context,
-      SubscribeState subscribeState,
-      TrendingBloc trendingBloc,
-      SettingsState settingsState) {
+  Widget _buildInvidiousTrendingOrFeedSection(
+    TrendingState trendingState,
+    S locals,
+    BuildContext context,
+    SubscribeState subscribeState,
+    TrendingBloc trendingBloc,
+    SettingsState settingsState,
+  ) {
     if (trendingState.invidiousTrendingResult.isEmpty &&
         !(trendingState.fetchInvidiousTrendingStatus == ApiStatus.error)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {

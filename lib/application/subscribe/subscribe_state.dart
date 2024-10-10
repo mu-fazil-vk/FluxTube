@@ -6,10 +6,12 @@ class SubscribeState with _$SubscribeState {
     required ApiStatus subscribeStatus,
     required Subscribe? channelInfo,
     required List<Subscribe> subscribedChannels,
+    required List<Subscribe> oldList,
   }) = _Initial;
 
   factory SubscribeState.initialize() => const SubscribeState(
       subscribeStatus: ApiStatus.initial,
       channelInfo: null,
-      subscribedChannels: []);
+      subscribedChannels: [],
+      oldList: []);
 }

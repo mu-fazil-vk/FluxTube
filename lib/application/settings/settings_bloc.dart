@@ -63,14 +63,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       // Update the state with the collected settings
       var newState = state;
 
-      newState = newState.copyWith(version: packageInfo.version);
       newState = newState.copyWith(instance: instanceApi);
       newState = newState.copyWith(ytService: ytService);
-      // if (ytService == YouTubeServices.piped.name) {
-      //   BaseUrl.kBaseUrl = instanceApi;
-      // } else {
-      //   BaseUrl.kInvidiousBaseUrl = instanceApi;
-      // }
 
       if (defaultLanguage != null) {
         newState = newState.copyWith(defaultLanguage: defaultLanguage);
@@ -84,12 +78,19 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         newState = newState.copyWith(defaultRegion: defaultRegion);
       }
 
-      newState = newState.copyWith(themeMode: defaultThemeMode);
-
       newState = newState.copyWith(
+          version: packageInfo.version,
+          themeMode: defaultThemeMode,
           isHistoryVisible: defaultHistoryVisibility,
           isDislikeVisible: defaultDislikeVisibility,
-          isHlsPlayer: defaultHlsPlayer);
+          isHlsPlayer: defaultHlsPlayer,
+          initialized: true);
+
+      if (ytService == YouTubeServices.piped.name) {
+        BaseUrl.updateBaseUrl(instanceApi);
+      } else {
+        BaseUrl.updateInvidiousBaseUrl(instanceApi);
+      }
 
       // Emit the new state
       emit(newState);
@@ -217,7 +218,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             (element) => element.api == state.instance,
             orElse: () => r.first);
 
-        BaseUrl.kBaseUrl = instance.api;
+        BaseUrl.updateBaseUrl(instance.api);
 
         return state.copyWith(
             pipedInstanceStatus: ApiStatus.loaded,
@@ -235,9 +236,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           .fold((MainFailure f) => state.copyWith(instance: state.instance),
               (String r) {
         if (state.ytService == YouTubeServices.piped.name) {
-          BaseUrl.kBaseUrl = r;
+          BaseUrl.updateBaseUrl(r);
         } else {
-          BaseUrl.kInvidiousBaseUrl = r;
+          BaseUrl.updateInvidiousBaseUrl(r);
         }
         return state.copyWith(instance: r);
       });
@@ -261,7 +262,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             (element) => element.api == state.instance,
             orElse: () => r.first);
 
-        BaseUrl.kInvidiousBaseUrl = instance.api;
+        BaseUrl.updateInvidiousBaseUrl(instance.api);
 
         return state.copyWith(
             invidiousInstanceStatus: ApiStatus.loaded,

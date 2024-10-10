@@ -68,7 +68,7 @@ class InvidiousTrendingVideosSection extends StatelessWidget {
               ),
             );
           },
-          itemCount: state.trendingResult.length,
+          itemCount: state.invidiousTrendingResult.length,
         );
       },
     );

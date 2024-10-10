@@ -16,7 +16,8 @@ part 'subscribe_bloc.freezed.dart';
 class SubscribeBloc extends Bloc<SubscribeEvent, SubscribeState> {
   final SubscribeServices _subscribeServices;
 
-  SubscribeBloc(this._subscribeServices) : super(SubscribeState.initialize()) {
+  SubscribeBloc(this._subscribeServices,)
+      : super(SubscribeState.initialize()) {
     // get all subscribed channel list from local storage
     on<GetAllSubscribeList>((event, emit) async {
       emit(state.copyWith(
@@ -25,10 +26,22 @@ class SubscribeBloc extends Bloc<SubscribeEvent, SubscribeState> {
       final _result = await _subscribeServices.getSubscriberInfoList();
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(subscribeStatus: ApiStatus.error),
-          (List<Subscribe> resp) => state.copyWith(
-              subscribeStatus: ApiStatus.loaded, subscribedChannels: resp));
+          (List<Subscribe> resp) {
+        if (state.subscribedChannels != resp) {
+          return state.copyWith(
+              subscribeStatus: ApiStatus.loaded,
+              subscribedChannels: resp,);
+        } else {
+          return state;
+        }
+      });
 
       emit(_state);
+    });
+
+    // update old subscribed channels list
+    on<UpdateSubscribeOldList>((event, emit) async {
+      emit(state.copyWith(oldList: event.subscribedChannels));
     });
 
     // add subscribed channel data to local storage
@@ -44,6 +57,7 @@ class SubscribeBloc extends Bloc<SubscribeEvent, SubscribeState> {
 
       emit(_state);
       add(CheckSubscribeInfo(id: event.channelInfo.id));
+      add(const GetAllSubscribeList());
     });
 
     // delete channel data from local storage

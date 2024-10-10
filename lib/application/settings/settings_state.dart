@@ -19,6 +19,7 @@ class SettingsState with _$SettingsState {
     required List<Instance> invidiousInstances,
     required ApiStatus invidiousInstanceStatus,
     required String ytService,
+    required bool initialized,
   }) = _Initial;
 
   factory SettingsState.initialize() => SettingsState(
@@ -39,5 +40,6 @@ class SettingsState with _$SettingsState {
         invidiousInstances: [],
         invidiousInstanceStatus: ApiStatus.initial,
         ytService: YouTubeServices.explode.name,
+        initialized: false,
       );
 }
