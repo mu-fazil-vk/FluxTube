@@ -21,18 +21,16 @@ part 'trending_state.dart';
 class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
   final SettingsBloc settingsBloc;
   final TrendingService trendingService;
-  final HomeServices homeServices;  
+  final HomeServices homeServices;
+  final SubscribeBloc subscribeBloc;
   TrendingBloc(
     this.settingsBloc,
     this.trendingService,
     this.homeServices,
+    this.subscribeBloc,
   ) : super(TrendingState.initialize()) {
-
-
     // fetch trending videos
     on<GetTrendingData>((event, emit) async {
-
-
       if (event.serviceType == YouTubeServices.piped.name) {
         if (state.trendingResult.isNotEmpty) {
           return emit(state);
@@ -52,7 +50,6 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
 
     //get new trending data when refresh
     on<GetForcedTrendingData>((event, emit) async {
-
       if (event.serviceType == YouTubeServices.piped.name) {
         await _fetchPipedTrendingInfo(event, emit);
       } else {
@@ -76,6 +73,8 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
           (MainFailure failure) =>
               state.copyWith(fetchFeedStatus: ApiStatus.error),
           (List<TrendingResp> resp) {
+        subscribeBloc.add(SubscribeEvent.updateSubscribeOldList(
+            subscribedChannels: event.channels));
         return state.copyWith(
             feedResult: resp, fetchFeedStatus: ApiStatus.loaded);
       });
@@ -94,6 +93,8 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
           (MainFailure failure) =>
               state.copyWith(fetchFeedStatus: ApiStatus.error),
           (List<TrendingResp> resp) {
+        subscribeBloc.add(SubscribeEvent.updateSubscribeOldList(
+            subscribedChannels: event.channels));
         return state.copyWith(
             feedResult: resp, fetchFeedStatus: ApiStatus.loaded);
       });

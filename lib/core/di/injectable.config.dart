@@ -70,6 +70,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i26.SettingsBloc>(),
           gh<_i19.TrendingService>(),
           gh<_i11.HomeServices>(),
+          gh<_i26.SubscribeBloc>(),
         ));
     return this;
   }

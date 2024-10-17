@@ -54,7 +54,10 @@ class ExplodeRelatedVideoSection extends StatelessWidget {
                                   channelId: channelId,
                                   uploaderVerified: null)));
 
-                      context.go('/watch/$videoId/$channelId');
+                      context.goNamed('watch', pathParameters: {
+                        'videoId': videoId,
+                        'channelId': channelId,
+                      });
                     },
                     child: RelatedVideoWidget(
                       title: related[index].title,

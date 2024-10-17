@@ -36,93 +36,95 @@ class PipedScreenWatch extends StatelessWidget {
         .add(SubscribeEvent.checkSubscribeInfo(id: channelId));
 
     return BlocBuilder<SettingsBloc, SettingsState>(
-        builder: (context, settingsState) {
-      return BlocBuilder<WatchBloc, WatchState>(buildWhen: (previous, current) {
-        return current != previous;
-      }, builder: (context, state) {
-        return BlocBuilder<SavedBloc, SavedState>(
-          builder: (context, savedState) {
-            if ((state.oldId != id || state.oldId == null) &&
-                !(state.fetchWatchInfoStatus == ApiStatus.loading ||
-                    state.fetchWatchInfoStatus == ApiStatus.error)) {
-              BlocProvider.of<WatchBloc>(context)
-                  .add(WatchEvent.getWatchInfo(id: id));
-              BlocProvider.of<WatchBloc>(context)
-                  .add(WatchEvent.getSubtitles(id: id));
-            }
+      builder: (context, settingsState) {
+        return BlocBuilder<WatchBloc, WatchState>(
+          buildWhen: (previous, current) {
+            return current != previous;
+          },
+          builder: (context, state) {
+            return BlocBuilder<SavedBloc, SavedState>(
+              builder: (context, savedState) {
+                if ((state.oldId != id || state.oldId == null) &&
+                    !(state.fetchWatchInfoStatus == ApiStatus.loading ||
+                        state.fetchWatchInfoStatus == ApiStatus.error)) {
+                  BlocProvider.of<WatchBloc>(context)
+                      .add(WatchEvent.getWatchInfo(id: id));
+                  BlocProvider.of<WatchBloc>(context)
+                      .add(WatchEvent.getSubtitles(id: id));
+                }
 
-            final watchInfo = state.watchResp;
+                final watchInfo = state.watchResp;
 
-            bool isSaved = (savedState.videoInfo?.id == id &&
-                    savedState.videoInfo?.isSaved == true)
-                ? true
-                : false;
+                bool isSaved = (savedState.videoInfo?.id == id &&
+                        savedState.videoInfo?.isSaved == true)
+                    ? true
+                    : false;
 
-            if (state.fetchWatchInfoStatus == ApiStatus.error ||
-                (settingsState.isHlsPlayer && watchInfo.hls == null)) {
-              return ErrorRetryWidget(
-                lottie: 'assets/cat-404.zip',
-                onTap: () => BlocProvider.of<WatchBloc>(context)
-                    .add(WatchEvent.getWatchInfo(id: id)),
-              );
-            } else {
-              return Dismissible(
-                direction: DismissDirection.down,
-                onDismissed: (direction) {
-                  buildPip(
-                      context: context,
-                      isSaved: isSaved,
-                      savedState: savedState,
-                      settingsState: settingsState,
-                      state: state);
-                },
-                key: ValueKey(id),
-                child: PopScope(
-                  canPop: false,
-                  onPopInvoked: (didPop) => buildPip(
-                      context: context,
-                      isSaved: isSaved,
-                      savedState: savedState,
-                      settingsState: settingsState,
-                      state: state),
-                  child: Scaffold(
-                    body: SafeArea(
-                      child: SingleChildScrollView(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              (state.fetchWatchInfoStatus ==
-                                          ApiStatus.initial ||
-                                      state.fetchWatchInfoStatus ==
-                                          ApiStatus.loading ||
-                                      state.fetchSubtitlesStatus ==
-                                          ApiStatus.loading)
-                                  ? Container(
-                                      height: 200,
-                                      color: kBlackColor,
-                                      child: Center(
-                                        child: cIndicator(context),
+                if (state.fetchWatchInfoStatus == ApiStatus.error ||
+                    (settingsState.isHlsPlayer && watchInfo.hls == null)) {
+                  return ErrorRetryWidget(
+                    lottie: 'assets/cat-404.zip',
+                    onTap: () => BlocProvider.of<WatchBloc>(context)
+                        .add(WatchEvent.getWatchInfo(id: id)),
+                  );
+                } else {
+                  return Dismissible(
+                    direction: DismissDirection.down,
+                    onDismissed: (direction) {
+                      buildPip(
+                          context: context,
+                          isSaved: isSaved,
+                          savedState: savedState,
+                          settingsState: settingsState,
+                          state: state);
+                    },
+                    key: ValueKey(id),
+                    child: PopScope(
+                      canPop: false,
+                      onPopInvoked: (didPop) => buildPip(
+                          context: context,
+                          isSaved: isSaved,
+                          savedState: savedState,
+                          settingsState: settingsState,
+                          state: state),
+                      child: Scaffold(
+                        body: SafeArea(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                (state.fetchWatchInfoStatus ==
+                                            ApiStatus.initial ||
+                                        state.fetchWatchInfoStatus ==
+                                            ApiStatus.loading ||
+                                        state.fetchSubtitlesStatus ==
+                                            ApiStatus.loading)
+                                    ? Container(
+                                        height: 200,
+                                        color: kBlackColor,
+                                        child: Center(
+                                          child: cIndicator(context),
+                                        ),
+                                      )
+                                    : VideoPlayerWidget(
+                                        videoId: id,
+                                        watchInfo: state.watchResp,
+                                        defaultQuality:
+                                            settingsState.defaultQuality,
+                                        playbackPosition: savedState
+                                                .videoInfo?.playbackPosition ??
+                                            0,
+                                        isSaved: isSaved,
+                                        isHlsPlayer: settingsState.isHlsPlayer,
+                                        subtitles: state.fetchSubtitlesStatus ==
+                                                ApiStatus.loading
+                                            ? []
+                                            : state.subtitles,
                                       ),
-                                    )
-                                  : VideoPlayerWidget(
-                                      videoId: id,
-                                      watchInfo: state.watchResp,
-                                      defaultQuality:
-                                          settingsState.defaultQuality,
-                                      playbackPosition: savedState
-                                              .videoInfo?.playbackPosition ??
-                                          0,
-                                      isSaved: isSaved,
-                                      isHlsPlayer: settingsState.isHlsPlayer,
-                                      subtitles: state.fetchSubtitlesStatus ==
-                                              ApiStatus.loading
-                                          ? []
-                                          : state.subtitles,
-                                    ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 12, left: 20, right: 20),
-                                child: Column(
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 12, left: 20, right: 20),
+                                  child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -250,20 +252,24 @@ class PipedScreenWatch extends StatelessWidget {
                                                   state: state,
                                                   height: _height,
                                                   locals: locals,
-                                                )
-                                    ]),
-                              ),
-                            ]),
+                                                ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              );
-            }
+                  );
+                }
+              },
+            );
           },
         );
-      });
-    });
+      },
+    );
   }
 
   void buildPip(
@@ -278,27 +284,28 @@ class PipedScreenWatch extends StatelessWidget {
     }
     BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: true));
     PictureInPicture.startPiP(
-        pipWidget: NavigatablePiPWidget(
-      onPiPClose: () {
-        BlocProvider.of<WatchBloc>(context)
-            .add(WatchEvent.togglePip(value: false));
-      },
-      elevation: 10, //Optional
-      pipBorderRadius: 10,
-      builder: (BuildContext context) {
-        return PipVideoPlayerWidget(
-          videoId: id,
-          watchInfo: state.watchResp,
-          defaultQuality: settingsState.defaultQuality,
-          playbackPosition: savedState.videoInfo?.playbackPosition ?? 0,
-          isSaved: isSaved,
-          isHlsPlayer: settingsState.isHlsPlayer,
-          subtitles: (state.fetchSubtitlesStatus == ApiStatus.loading ||
-                  state.fetchSubtitlesStatus == ApiStatus.initial)
-              ? []
-              : state.subtitles,
-        );
-      }, //Optional
-    ));
+      pipWidget: NavigatablePiPWidget(
+        onPiPClose: () {
+          BlocProvider.of<WatchBloc>(context)
+              .add(WatchEvent.togglePip(value: false));
+        },
+        elevation: 10, //Optional
+        pipBorderRadius: 10,
+        builder: (BuildContext context) {
+          return PipVideoPlayerWidget(
+            videoId: id,
+            watchInfo: state.watchResp,
+            defaultQuality: settingsState.defaultQuality,
+            playbackPosition: savedState.videoInfo?.playbackPosition ?? 0,
+            isSaved: isSaved,
+            isHlsPlayer: settingsState.isHlsPlayer,
+            subtitles: (state.fetchSubtitlesStatus == ApiStatus.loading ||
+                    state.fetchSubtitlesStatus == ApiStatus.initial)
+                ? []
+                : state.subtitles,
+          );
+        }, //Optional
+      ),
+    );
   }
 }

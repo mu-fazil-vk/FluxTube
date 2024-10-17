@@ -76,7 +76,10 @@ class InvidiousChannelRelatedVideoSection extends StatelessWidget {
                                     channelInfo.authorThumbnails!.last.url!,
                                 channelId: channelId,
                                 uploaderVerified: videoInfo.authorVerified)));
-                    context.go('/watch/$videoId/$channelId');
+                    context.goNamed('watch', pathParameters: {
+                      'videoId': videoId,
+                      'channelId': channelId,
+                    });
                   },
                   child: InvidiousChannelRelatedVideoInfoCardWidget(
                     channelId: channelId,

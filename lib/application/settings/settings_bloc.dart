@@ -20,7 +20,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) : super(SettingsState.initialize()) {
     // INITIAIZE SETTINGS
     on<InitializeSettings>((event, emit) async {
-      emit(state);
+      emit(state.copyWith(settingsStatus: ApiStatus.loading));
       final List<Map<String, String>> _result =
           await settingsService.initializeSettings();
 
@@ -93,7 +93,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       }
 
       // Emit the new state
-      emit(newState);
+      emit(newState.copyWith(settingsStatus: ApiStatus.loaded));
     });
 
     // UPDATE LANGUAGE

@@ -19,8 +19,6 @@ class ScreenSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locals = S.of(context);
-    BlocProvider.of<SettingsBloc>(context)
-        .add(SettingsEvent.initializeSettings());
     return SafeArea(
         child: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) => [

@@ -29,12 +29,13 @@ class SearcheResultSection extends StatelessWidget {
               _scrollController.position.maxScrollExtent &&
           !(state.fetchMoreSearchResultStatus == ApiStatus.loading) &&
           !state.isMoreFetchCompleted) {
-        BlocProvider.of<SearchBloc>(context).add(
-            SearchEvent.getMoreSearchResult(
-                query: searchQuery,
-                filter: "all",
-                nextPage: state.result?.nextpage,
-                serviceType: YouTubeServices.piped.name,));
+        BlocProvider.of<SearchBloc>(context)
+            .add(SearchEvent.getMoreSearchResult(
+          query: searchQuery,
+          filter: "all",
+          nextPage: state.result?.nextpage,
+          serviceType: YouTubeServices.piped.name,
+        ));
       }
     });
     return BlocBuilder<SubscribeBloc, SubscribeState>(
@@ -82,7 +83,10 @@ class SearcheResultSection extends StatelessWidget {
                                   channelThumbnailUrl: _result.uploaderAvatar,
                                   channelId: _channelId,
                                   uploaderVerified: _result.uploaderVerified)));
-                      context.go('/watch/$_videoId/$_channelId');
+                      context.goNamed('watch', pathParameters: {
+                        'videoId': _videoId,
+                        'channelId': _channelId,
+                      });
                     },
                     child: HomeVideoInfoCardWidget(
                       channelId: _channelId,

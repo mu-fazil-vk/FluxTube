@@ -39,15 +39,20 @@ class InvidiousRelatedVideoSection extends StatelessWidget {
               itemBuilder: (context, index) {
                 final String videoId =
                     watchInfo.recommendedVideos![index].videoId!;
-                final String channelId = watchInfo.recommendedVideos![index].authorId!;
+                final String channelId =
+                    watchInfo.recommendedVideos![index].authorId!;
                 return GestureDetector(
                     onTap: () {
                       BlocProvider.of<WatchBloc>(context).add(
                           WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
-                                  title: watchInfo.recommendedVideos![index].title,
+                                  title:
+                                      watchInfo.recommendedVideos![index].title,
                                   thumbnailUrl: watchInfo
-                                      .recommendedVideos![index].videoThumbnails!.first.url,
+                                      .recommendedVideos![index]
+                                      .videoThumbnails!
+                                      .first
+                                      .url,
                                   channelName: watchInfo
                                       .recommendedVideos![index].author,
                                   channelThumbnailUrl: null,
@@ -55,13 +60,18 @@ class InvidiousRelatedVideoSection extends StatelessWidget {
                                   uploaderVerified: watchInfo
                                       .recommendedVideos![index]
                                       .authorVerified)));
-                      context.go('/watch/$videoId/$channelId');
+                      context.goNamed('watch', pathParameters: {
+                        'videoId': videoId,
+                        'channelId': channelId,
+                      });
                     },
                     child: RelatedVideoWidget(
                       title: watchInfo.recommendedVideos![index].title ??
                           locals.noVideoTitle,
-                      thumbnailUrl: watchInfo.recommendedVideos![index].videoThumbnails!.first.url,
-                      duration: watchInfo.recommendedVideos![index].lengthSeconds,
+                      thumbnailUrl: watchInfo
+                          .recommendedVideos![index].videoThumbnails!.first.url,
+                      duration:
+                          watchInfo.recommendedVideos![index].lengthSeconds,
                     ));
               },
               separatorBuilder: (context, index) => kWidthBox10,

@@ -6,7 +6,7 @@ import 'package:fluxtube/presentation/settings/sub_screens/screen_instances.dart
 import 'package:fluxtube/presentation/settings/sub_screens/screen_language.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_regions.dart';
 import 'package:fluxtube/presentation/settings/sub_screens/screen_translators.dart';
-import 'package:fluxtube/presentation/watch/explode_screen_watch.dart';
+import 'package:fluxtube/presentation/splash/screen_splash.dart';
 import 'package:fluxtube/presentation/watch/screen_watch.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,61 +14,64 @@ final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/',
-      builder: (BuildContext context, GoRouterState state) {
-        return MainNavigation();
-      },
+      builder: (context, state) => const SplashScreen(),
       routes: <RouteBase>[
         GoRoute(
-          path: 'watch/:id/:channelId',
+          name: 'main',
+          path: 'main',
           builder: (BuildContext context, GoRouterState state) {
-            return ScreenWatch(
-              id: state.pathParameters['id']!,
-              channelId: state.pathParameters['channelId']!,
-            );
+            return MainNavigation();
           },
-        ),
-        GoRoute(
-          path: 'watch-explode/:id/:channelId',
-          builder: (BuildContext context, GoRouterState state) {
-            return ExplodeScreenWatch(
-              id: state.pathParameters['id']!,
-              channelId: state.pathParameters['channelId']!,
-            );
-          },
-        ),
-        GoRoute(
-          name: 'channel',
-          path: 'channel/:channelId',
-          builder: (BuildContext context, GoRouterState state) {
-            return ScreenChannel(
-              channelId: state.pathParameters['channelId']!,
-              avtarUrl: state.uri.queryParameters['avtarUrl'],
-            );
-          },
-        ),
-        GoRoute(
-          path: 'regions',
-          builder: (BuildContext context, GoRouterState state) {
-            return const ScreenRegions();
-          },
-        ),
-        GoRoute(
-          path: 'translators',
-          builder: (BuildContext context, GoRouterState state) {
-            return const ScreenTranslators();
-          },
-        ),
-        GoRoute(
-          path: 'languages',
-          builder: (BuildContext context, GoRouterState state) {
-            return const ScreenLanguage();
-          },
-        ),
-        GoRoute(
-          path: 'instances',
-          builder: (BuildContext context, GoRouterState state) {
-            return const ScreenInstances();
-          },
+          routes: <RouteBase>[
+            GoRoute(
+              name: 'watch',
+              path: 'watch/:videoId/:channelId',
+              builder: (BuildContext context, GoRouterState state) {
+                return ScreenWatch(
+                  id: state.pathParameters['videoId']!,
+                  channelId: state.pathParameters['channelId']!,
+                );
+              },
+            ),
+            GoRoute(
+              name: 'channel',
+              path: 'channel/:channelId',
+              builder: (BuildContext context, GoRouterState state) {
+                return ScreenChannel(
+                  channelId: state.pathParameters['channelId']!,
+                  avtarUrl: state.uri.queryParameters['avtarUrl'],
+                );
+              },
+            ),
+            GoRoute(
+              name: 'regions',
+              path: 'regions',
+              builder: (BuildContext context, GoRouterState state) {
+                return const ScreenRegions();
+              },
+            ),
+            GoRoute(
+              name: 'translators',
+              path: 'translators',
+              builder: (BuildContext context, GoRouterState state) {
+                return const ScreenTranslators();
+              },
+            ),
+            GoRoute(
+              name: 'languages',
+              path: 'languages',
+              builder: (BuildContext context, GoRouterState state) {
+                return const ScreenLanguage();
+              },
+            ),
+            GoRoute(
+              name: 'instances',
+              path: 'instances',
+              builder: (BuildContext context, GoRouterState state) {
+                return const ScreenInstances();
+              },
+            ),
+          ],
         ),
       ],
     ),

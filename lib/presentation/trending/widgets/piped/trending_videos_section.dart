@@ -45,7 +45,10 @@ class TrendingVideosSection extends StatelessWidget {
                             channelThumbnailUrl: trending.uploaderAvatar,
                             channelId: channelId,
                             uploaderVerified: trending.uploaderVerified)));
-                context.go('/watch/$videoId/$channelId');
+                context.goNamed('watch', pathParameters: {
+                  'videoId': videoId,
+                  'channelId': channelId,
+                });
               },
               child: HomeVideoInfoCardWidget(
                 channelId: channelId,

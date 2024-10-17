@@ -26,7 +26,7 @@ SettingsSection aboutSection(
       SettingsTile(
         title: Text(locals.translators),
         leading: const Icon(Icons.translate_rounded),
-        onPressed: (BuildContext ctx) => context.go('/translators'),
+        onPressed: (BuildContext ctx) => context.goNamed('translators'),
       ),
       SettingsTile(
         title: Text(locals.version),

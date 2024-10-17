@@ -85,7 +85,10 @@ class InvidiousSearcheResultSection extends StatelessWidget {
                         channelId: _channelId,
                         uploaderVerified: _result.authorVerified,
                       )));
-                      context.go('/watch/$_videoId/$_channelId');
+                      context.goNamed('watch', pathParameters: {
+                        'videoId': _videoId,
+                        'channelId': _channelId,
+                      });
                     },
                     child: InvidiousSearchVideoInfoCardWidget(
                       channelId: _channelId,

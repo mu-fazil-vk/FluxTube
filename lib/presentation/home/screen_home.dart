@@ -29,15 +29,17 @@ class ScreenHome extends StatelessWidget {
             ],
             body: BlocBuilder<SubscribeBloc, SubscribeState>(
               buildWhen: (previous, current) =>
-                  previous.subscribedChannels != current.subscribedChannels,
+                  previous.subscribedChannels.length !=
+                  current.subscribedChannels.length,
               builder: (context, subscribeState) {
                 if (subscribeState.subscribedChannels.isNotEmpty &&
                     subscribeState.oldList.length !=
                         subscribeState.subscribedChannels.length) {
+                  log("oldList: ${subscribeState.oldList.length} & subscribedChannels: ${subscribeState.subscribedChannels.length}");
                   trendingBloc.add(GetForcedHomeFeedData(
                       channels: subscribeState.subscribedChannels));
                   BlocProvider.of<SubscribeBloc>(context).add(
-                      UpdateSubscribeOldList(
+                      SubscribeEvent.updateSubscribeOldList(
                           subscribedChannels:
                               subscribeState.subscribedChannels));
                 }
