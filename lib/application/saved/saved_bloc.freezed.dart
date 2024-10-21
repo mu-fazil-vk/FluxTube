@@ -84,6 +84,9 @@ class _$SavedEventCopyWithImpl<$Res, $Val extends SavedEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SavedEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -103,6 +106,8 @@ class __$$AddVideoInfoImplCopyWithImpl<$Res>
       _$AddVideoInfoImpl _value, $Res Function(_$AddVideoInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SavedEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -142,7 +147,9 @@ class _$AddVideoInfoImpl implements AddVideoInfo {
   @override
   int get hashCode => Object.hash(runtimeType, videoInfo);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SavedEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AddVideoInfoImplCopyWith<_$AddVideoInfoImpl> get copyWith =>
@@ -228,7 +235,10 @@ abstract class AddVideoInfo implements SavedEvent {
       _$AddVideoInfoImpl;
 
   LocalStoreVideoInfo get videoInfo;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SavedEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AddVideoInfoImplCopyWith<_$AddVideoInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -250,6 +260,8 @@ class __$$DeleteVideoInfoImplCopyWithImpl<$Res>
       _$DeleteVideoInfoImpl _value, $Res Function(_$DeleteVideoInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SavedEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -288,7 +300,9 @@ class _$DeleteVideoInfoImpl implements DeleteVideoInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SavedEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeleteVideoInfoImplCopyWith<_$DeleteVideoInfoImpl> get copyWith =>
@@ -375,7 +389,10 @@ abstract class DeleteVideoInfo implements SavedEvent {
       _$DeleteVideoInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SavedEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeleteVideoInfoImplCopyWith<_$DeleteVideoInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -394,6 +411,9 @@ class __$$GetAllVideoInfoListImplCopyWithImpl<$Res>
   __$$GetAllVideoInfoListImplCopyWithImpl(_$GetAllVideoInfoListImpl _value,
       $Res Function(_$GetAllVideoInfoListImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SavedEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -512,6 +532,8 @@ class __$$CheckVideoInfoImplCopyWithImpl<$Res>
       _$CheckVideoInfoImpl _value, $Res Function(_$CheckVideoInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SavedEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -550,7 +572,9 @@ class _$CheckVideoInfoImpl implements CheckVideoInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SavedEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CheckVideoInfoImplCopyWith<_$CheckVideoInfoImpl> get copyWith =>
@@ -637,7 +661,10 @@ abstract class CheckVideoInfo implements SavedEvent {
       _$CheckVideoInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SavedEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CheckVideoInfoImplCopyWith<_$CheckVideoInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -651,7 +678,9 @@ mixin _$SavedState {
   List<LocalStoreVideoInfo> get localSavedHistoryVideos =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SavedState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SavedStateCopyWith<SavedState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -679,6 +708,8 @@ class _$SavedStateCopyWithImpl<$Res, $Val extends SavedState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SavedState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -731,6 +762,8 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SavedState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -821,7 +854,9 @@ class _$InitialImpl implements _Initial {
       const DeepCollectionEquality().hash(_localSavedVideos),
       const DeepCollectionEquality().hash(_localSavedHistoryVideos));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SavedState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -844,8 +879,11 @@ abstract class _Initial implements SavedState {
   List<LocalStoreVideoInfo> get localSavedVideos;
   @override
   List<LocalStoreVideoInfo> get localSavedHistoryVideos;
+
+  /// Create a copy of SavedState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

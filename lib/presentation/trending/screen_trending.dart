@@ -16,11 +16,11 @@ class ScreenTrending extends StatelessWidget {
   Widget build(BuildContext context) {
     final locals = S.of(context);
     final trendingBloc = BlocProvider.of<TrendingBloc>(context);
-    final subscribeBloc = BlocProvider.of<SubscribeBloc>(context);
+    //final subscribeBloc = BlocProvider.of<SubscribeBloc>(context);
 
-    subscribeBloc.add(
-      const SubscribeEvent.getAllSubscribeList(),
-    );
+    // subscribeBloc.add(
+    //   const SubscribeEvent.getAllSubscribeList(),
+    // );
 
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (

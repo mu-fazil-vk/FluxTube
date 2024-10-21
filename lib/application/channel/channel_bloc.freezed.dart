@@ -62,7 +62,9 @@ mixin _$ChannelEvent {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChannelEventCopyWith<ChannelEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -86,6 +88,8 @@ class _$ChannelEventCopyWithImpl<$Res, $Val extends ChannelEvent>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -124,6 +128,8 @@ class __$$GetChannelDataImplCopyWithImpl<$Res>
       _$GetChannelDataImpl _value, $Res Function(_$GetChannelDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -173,7 +179,9 @@ class _$GetChannelDataImpl implements GetChannelData {
   @override
   int get hashCode => Object.hash(runtimeType, serviceType, channelId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetChannelDataImplCopyWith<_$GetChannelDataImpl> get copyWith =>
@@ -257,8 +265,11 @@ abstract class GetChannelData implements ChannelEvent {
   String get serviceType;
   @override
   String get channelId;
+
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetChannelDataImplCopyWith<_$GetChannelDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -282,6 +293,8 @@ class __$$GetMoreChannelVideosImplCopyWithImpl<$Res>
       $Res Function(_$GetMoreChannelVideosImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -343,7 +356,9 @@ class _$GetMoreChannelVideosImpl implements GetMoreChannelVideos {
   int get hashCode =>
       Object.hash(runtimeType, serviceType, channelId, nextPage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetMoreChannelVideosImplCopyWith<_$GetMoreChannelVideosImpl>
@@ -430,8 +445,11 @@ abstract class GetMoreChannelVideos implements ChannelEvent {
   @override
   String get channelId;
   String? get nextPage;
+
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetMoreChannelVideosImplCopyWith<_$GetMoreChannelVideosImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -447,7 +465,9 @@ mixin _$ChannelState {
   InvidiousChannelResp? get invidiousChannelResp =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChannelState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChannelStateCopyWith<ChannelState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -476,6 +496,8 @@ class _$ChannelStateCopyWithImpl<$Res, $Val extends ChannelState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChannelState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -534,6 +556,8 @@ class __$$ChannelStateImplCopyWithImpl<$Res>
       _$ChannelStateImpl _value, $Res Function(_$ChannelStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChannelState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -626,7 +650,9 @@ class _$ChannelStateImpl implements _ChannelState {
       moreChannelDetailsFetchStatus,
       invidiousChannelResp);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChannelState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChannelStateImplCopyWith<_$ChannelStateImpl> get copyWith =>
@@ -642,18 +668,22 @@ abstract class _ChannelState implements ChannelState {
           required final InvidiousChannelResp? invidiousChannelResp}) =
       _$ChannelStateImpl;
 
-  @override //
-  bool get isMoreFetchCompleted;
-  @override // PIPED
+//
+  @override
+  bool get isMoreFetchCompleted; // PIPED
+  @override
   ApiStatus get channelDetailsFetchStatus;
   @override
   ChannelResp? get pipedChannelResp;
   @override
-  ApiStatus get moreChannelDetailsFetchStatus;
-  @override // INVIDIOUS
-  InvidiousChannelResp? get invidiousChannelResp;
+  ApiStatus get moreChannelDetailsFetchStatus; // INVIDIOUS
   @override
-  @JsonKey(ignore: true)
+  InvidiousChannelResp? get invidiousChannelResp;
+
+  /// Create a copy of ChannelState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChannelStateImplCopyWith<_$ChannelStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

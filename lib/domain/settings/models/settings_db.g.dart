@@ -39,7 +39,7 @@ const SettingsDBValueSchema = CollectionSchema(
   getId: _settingsDBValueGetId,
   getLinks: _settingsDBValueGetLinks,
   attach: _settingsDBValueAttach,
-  version: '3.1.0+1',
+  version: '3.1.8',
 );
 
 int _settingsDBValueEstimateSize(

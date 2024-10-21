@@ -202,6 +202,9 @@ class _$WatchEventCopyWithImpl<$Res, $Val extends WatchEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -221,6 +224,8 @@ class __$$GetWatchInfoImplCopyWithImpl<$Res>
       _$GetWatchInfoImpl _value, $Res Function(_$GetWatchInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -259,7 +264,9 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetWatchInfoImplCopyWith<_$GetWatchInfoImpl> get copyWith =>
@@ -462,7 +469,10 @@ abstract class GetWatchInfo implements WatchEvent {
   factory GetWatchInfo({required final String id}) = _$GetWatchInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetWatchInfoImplCopyWith<_$GetWatchInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -484,6 +494,8 @@ class __$$GetCommentDataImplCopyWithImpl<$Res>
       _$GetCommentDataImpl _value, $Res Function(_$GetCommentDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -522,7 +534,9 @@ class _$GetCommentDataImpl implements GetCommentData {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetCommentDataImplCopyWith<_$GetCommentDataImpl> get copyWith =>
@@ -726,7 +740,10 @@ abstract class GetCommentData implements WatchEvent {
   factory GetCommentData({required final String id}) = _$GetCommentDataImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetCommentDataImplCopyWith<_$GetCommentDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -749,6 +766,8 @@ class __$$GetCommentRepliesDataImplCopyWithImpl<$Res>
       $Res Function(_$GetCommentRepliesDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -796,7 +815,9 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
   @override
   int get hashCode => Object.hash(runtimeType, id, nextPage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetCommentRepliesDataImplCopyWith<_$GetCommentRepliesDataImpl>
@@ -1003,7 +1024,10 @@ abstract class GetCommentRepliesData implements WatchEvent {
 
   String get id;
   String get nextPage;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetCommentRepliesDataImplCopyWith<_$GetCommentRepliesDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1025,6 +1049,8 @@ class __$$GetMoreCommentsDataImplCopyWithImpl<$Res>
       $Res Function(_$GetMoreCommentsDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1072,7 +1098,9 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
   @override
   int get hashCode => Object.hash(runtimeType, id, nextPage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetMoreCommentsDataImplCopyWith<_$GetMoreCommentsDataImpl> get copyWith =>
@@ -1279,7 +1307,10 @@ abstract class GetMoreCommentsData implements WatchEvent {
 
   String get id;
   String? get nextPage;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetMoreCommentsDataImplCopyWith<_$GetMoreCommentsDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1303,6 +1334,8 @@ class __$$GetMoreReplyCommentsDataImplCopyWithImpl<$Res>
       $Res Function(_$GetMoreReplyCommentsDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1350,7 +1383,9 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
   @override
   int get hashCode => Object.hash(runtimeType, id, nextPage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetMoreReplyCommentsDataImplCopyWith<_$GetMoreReplyCommentsDataImpl>
@@ -1557,7 +1592,10 @@ abstract class GetMoreReplyCommentsData implements WatchEvent {
 
   String get id;
   String? get nextPage;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetMoreReplyCommentsDataImplCopyWith<_$GetMoreReplyCommentsDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1579,6 +1617,8 @@ class __$$GetSubtitlesImplCopyWithImpl<$Res>
       _$GetSubtitlesImpl _value, $Res Function(_$GetSubtitlesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1617,7 +1657,9 @@ class _$GetSubtitlesImpl implements GetSubtitles {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetSubtitlesImplCopyWith<_$GetSubtitlesImpl> get copyWith =>
@@ -1820,7 +1862,10 @@ abstract class GetSubtitles implements WatchEvent {
   factory GetSubtitles({required final String id}) = _$GetSubtitlesImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetSubtitlesImplCopyWith<_$GetSubtitlesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1839,6 +1884,9 @@ class __$$TapDescriptionImplCopyWithImpl<$Res>
   __$$TapDescriptionImplCopyWithImpl(
       _$TapDescriptionImpl _value, $Res Function(_$TapDescriptionImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2074,6 +2122,8 @@ class __$$TogglePipImplCopyWithImpl<$Res>
       _$TogglePipImpl _value, $Res Function(_$TogglePipImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2112,7 +2162,9 @@ class _$TogglePipImpl implements TogglePip {
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TogglePipImplCopyWith<_$TogglePipImpl> get copyWith =>
@@ -2315,7 +2367,10 @@ abstract class TogglePip implements WatchEvent {
   factory TogglePip({required final bool value}) = _$TogglePipImpl;
 
   bool get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TogglePipImplCopyWith<_$TogglePipImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2337,6 +2392,8 @@ class __$$AssignTitleImplCopyWithImpl<$Res>
       _$AssignTitleImpl _value, $Res Function(_$AssignTitleImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2375,7 +2432,9 @@ class _$AssignTitleImpl implements AssignTitle {
   @override
   int get hashCode => Object.hash(runtimeType, title);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssignTitleImplCopyWith<_$AssignTitleImpl> get copyWith =>
@@ -2578,7 +2637,10 @@ abstract class AssignTitle implements WatchEvent {
   factory AssignTitle({required final String title}) = _$AssignTitleImpl;
 
   String get title;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssignTitleImplCopyWith<_$AssignTitleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2600,6 +2662,8 @@ class __$$GetExplodeWatchInfoImplCopyWithImpl<$Res>
       $Res Function(_$GetExplodeWatchInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2638,7 +2702,9 @@ class _$GetExplodeWatchInfoImpl implements GetExplodeWatchInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetExplodeWatchInfoImplCopyWith<_$GetExplodeWatchInfoImpl> get copyWith =>
@@ -2843,7 +2909,10 @@ abstract class GetExplodeWatchInfo implements WatchEvent {
       _$GetExplodeWatchInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetExplodeWatchInfoImplCopyWith<_$GetExplodeWatchInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2867,6 +2936,8 @@ class __$$GetExplodeRelatedVideoInfoImplCopyWithImpl<$Res>
       $Res Function(_$GetExplodeRelatedVideoInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2905,7 +2976,9 @@ class _$GetExplodeRelatedVideoInfoImpl implements GetExplodeRelatedVideoInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetExplodeRelatedVideoInfoImplCopyWith<_$GetExplodeRelatedVideoInfoImpl>
@@ -3110,7 +3183,10 @@ abstract class GetExplodeRelatedVideoInfo implements WatchEvent {
       _$GetExplodeRelatedVideoInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetExplodeRelatedVideoInfoImplCopyWith<_$GetExplodeRelatedVideoInfoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -3134,6 +3210,8 @@ class __$$GetExplodeMuxStreamInfoImplCopyWithImpl<$Res>
       $Res Function(_$GetExplodeMuxStreamInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3172,7 +3250,9 @@ class _$GetExplodeMuxStreamInfoImpl implements GetExplodeMuxStreamInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetExplodeMuxStreamInfoImplCopyWith<_$GetExplodeMuxStreamInfoImpl>
@@ -3377,7 +3457,10 @@ abstract class GetExplodeMuxStreamInfo implements WatchEvent {
       _$GetExplodeMuxStreamInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetExplodeMuxStreamInfoImplCopyWith<_$GetExplodeMuxStreamInfoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -3401,6 +3484,8 @@ class __$$GetExplodeLiveVideoInfoImplCopyWithImpl<$Res>
       $Res Function(_$GetExplodeLiveVideoInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3439,7 +3524,9 @@ class _$GetExplodeLiveVideoInfoImpl implements GetExplodeLiveVideoInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetExplodeLiveVideoInfoImplCopyWith<_$GetExplodeLiveVideoInfoImpl>
@@ -3644,7 +3731,10 @@ abstract class GetExplodeLiveVideoInfo implements WatchEvent {
       _$GetExplodeLiveVideoInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetExplodeLiveVideoInfoImplCopyWith<_$GetExplodeLiveVideoInfoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -3668,6 +3758,8 @@ class __$$SetSelectedVideoBasicDetailsImplCopyWithImpl<$Res>
       $Res Function(_$SetSelectedVideoBasicDetailsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3707,7 +3799,9 @@ class _$SetSelectedVideoBasicDetailsImpl
   @override
   int get hashCode => Object.hash(runtimeType, details);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SetSelectedVideoBasicDetailsImplCopyWith<
@@ -3914,7 +4008,10 @@ abstract class SetSelectedVideoBasicDetails implements WatchEvent {
       _$SetSelectedVideoBasicDetailsImpl;
 
   VideoBasicInfo get details;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SetSelectedVideoBasicDetailsImplCopyWith<
           _$SetSelectedVideoBasicDetailsImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -3938,6 +4035,8 @@ class __$$GetInvidiousWatchInfoImplCopyWithImpl<$Res>
       $Res Function(_$GetInvidiousWatchInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3976,7 +4075,9 @@ class _$GetInvidiousWatchInfoImpl implements GetInvidiousWatchInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetInvidiousWatchInfoImplCopyWith<_$GetInvidiousWatchInfoImpl>
@@ -4181,7 +4282,10 @@ abstract class GetInvidiousWatchInfo implements WatchEvent {
       _$GetInvidiousWatchInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetInvidiousWatchInfoImplCopyWith<_$GetInvidiousWatchInfoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -4203,6 +4307,8 @@ class __$$GetInvidiousCommentsImplCopyWithImpl<$Res>
       $Res Function(_$GetInvidiousCommentsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4241,7 +4347,9 @@ class _$GetInvidiousCommentsImpl implements GetInvidiousComments {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetInvidiousCommentsImplCopyWith<_$GetInvidiousCommentsImpl>
@@ -4447,7 +4555,10 @@ abstract class GetInvidiousComments implements WatchEvent {
       _$GetInvidiousCommentsImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetInvidiousCommentsImplCopyWith<_$GetInvidiousCommentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -4471,6 +4582,8 @@ class __$$GetInvidiousCommentRepliesImplCopyWithImpl<$Res>
       $Res Function(_$GetInvidiousCommentRepliesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4519,7 +4632,9 @@ class _$GetInvidiousCommentRepliesImpl implements GetInvidiousCommentReplies {
   @override
   int get hashCode => Object.hash(runtimeType, id, continuation);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetInvidiousCommentRepliesImplCopyWith<_$GetInvidiousCommentRepliesImpl>
@@ -4726,7 +4841,10 @@ abstract class GetInvidiousCommentReplies implements WatchEvent {
 
   String get id;
   String get continuation;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetInvidiousCommentRepliesImplCopyWith<_$GetInvidiousCommentRepliesImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -4750,6 +4868,8 @@ class __$$GetMoreInvidiousCommentsImplCopyWithImpl<$Res>
       $Res Function(_$GetMoreInvidiousCommentsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4798,7 +4918,9 @@ class _$GetMoreInvidiousCommentsImpl implements GetMoreInvidiousComments {
   @override
   int get hashCode => Object.hash(runtimeType, id, continuation);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetMoreInvidiousCommentsImplCopyWith<_$GetMoreInvidiousCommentsImpl>
@@ -5005,7 +5127,10 @@ abstract class GetMoreInvidiousComments implements WatchEvent {
 
   String get id;
   String? get continuation;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetMoreInvidiousCommentsImplCopyWith<_$GetMoreInvidiousCommentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -5029,6 +5154,8 @@ class __$$GetMoreInvidiousReplyCommentsImplCopyWithImpl<$Res>
       $Res Function(_$GetMoreInvidiousReplyCommentsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5078,7 +5205,9 @@ class _$GetMoreInvidiousReplyCommentsImpl
   @override
   int get hashCode => Object.hash(runtimeType, id, continuation);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetMoreInvidiousReplyCommentsImplCopyWith<
@@ -5286,7 +5415,10 @@ abstract class GetMoreInvidiousReplyComments implements WatchEvent {
 
   String get id;
   String? get continuation;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetMoreInvidiousReplyCommentsImplCopyWith<
           _$GetMoreInvidiousReplyCommentsImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -5350,7 +5482,9 @@ mixin _$WatchState {
   bool get isMoreInvidiousReplyCommetsFetchCompleted =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WatchStateCopyWith<WatchState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5410,6 +5544,8 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WatchState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5658,6 +5794,8 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6108,7 +6246,9 @@ class _$InitialImpl implements _Initial {
         isMoreInvidiousReplyCommetsFetchCompleted
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -6155,7 +6295,8 @@ abstract class _Initial implements WatchState {
           required final bool isMoreInvidiousReplyCommetsFetchCompleted}) =
       _$InitialImpl;
 
-  @override //
+//
+  @override
   String? get oldId;
   @override
   bool get isTapComments;
@@ -6166,8 +6307,8 @@ abstract class _Initial implements WatchState {
   @override
   String get title;
   @override
-  VideoBasicInfo? get selectedVideoBasicDetails;
-  @override // PIPED
+  VideoBasicInfo? get selectedVideoBasicDetails; // PIPED
+  @override
   WatchResp get watchResp;
   @override
   CommentsResp get comments;
@@ -6186,8 +6327,8 @@ abstract class _Initial implements WatchState {
   @override
   ApiStatus get fetchMoreCommentRepliesStatus;
   @override
-  bool get isMoreReplyCommetsFetchCompleted;
-  @override //EXPLODE
+  bool get isMoreReplyCommetsFetchCompleted; //EXPLODE
+  @override
   ExplodeWatchResp get explodeWatchResp;
   @override
   ApiStatus get fetchExplodeWatchInfoStatus;
@@ -6206,8 +6347,8 @@ abstract class _Initial implements WatchState {
   @override
   List<MyMuxedStreamInfo>? get muxedStreams;
   @override
-  ApiStatus get fetchExplodeMuxedStreamsStatus;
-  @override // INVIDIOUS
+  ApiStatus get fetchExplodeMuxedStreamsStatus; // INVIDIOUS
+  @override
   InvidiousWatchResp get invidiousWatchResp;
   @override
   ApiStatus get fetchInvidiousWatchInfoStatus;
@@ -6227,8 +6368,11 @@ abstract class _Initial implements WatchState {
   ApiStatus get fetchMoreInvidiousCommentRepliesStatus;
   @override
   bool get isMoreInvidiousReplyCommetsFetchCompleted;
+
+  /// Create a copy of WatchState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

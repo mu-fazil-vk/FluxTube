@@ -12,7 +12,7 @@ import 'package:fluxtube/domain/channel/models/piped/channel_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/channel/widgets/invidious/related_videos.dart';
 import 'package:fluxtube/presentation/channel/widgets/piped/related_videos.dart';
-import 'package:fluxtube/presentation/settings/functions/launch_url.dart';
+import 'package:fluxtube/presentation/settings/utils/launch_url.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 
 class ScreenChannel extends StatelessWidget {

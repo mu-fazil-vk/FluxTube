@@ -4,7 +4,7 @@ import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/core/app_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/presentation/settings/functions/launch_url.dart';
+import 'package:fluxtube/presentation/settings/utils/launch_url.dart';
 import 'package:go_router/go_router.dart';
 
 SettingsSection aboutSection(

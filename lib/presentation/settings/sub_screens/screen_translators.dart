@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluxtube/core/app_info.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/presentation/settings/functions/launch_url.dart';
+import 'package:fluxtube/presentation/settings/utils/launch_url.dart';
 
 import '../widgets/widgets.dart';
 

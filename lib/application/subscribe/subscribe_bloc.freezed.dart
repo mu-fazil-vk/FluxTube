@@ -94,6 +94,9 @@ class _$SubscribeEventCopyWithImpl<$Res, $Val extends SubscribeEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -113,6 +116,8 @@ class __$$AddSubscribeImplCopyWithImpl<$Res>
       _$AddSubscribeImpl _value, $Res Function(_$AddSubscribeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -152,7 +157,9 @@ class _$AddSubscribeImpl implements AddSubscribe {
   @override
   int get hashCode => Object.hash(runtimeType, channelInfo);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AddSubscribeImplCopyWith<_$AddSubscribeImpl> get copyWith =>
@@ -248,7 +255,10 @@ abstract class AddSubscribe implements SubscribeEvent {
       _$AddSubscribeImpl;
 
   Subscribe get channelInfo;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AddSubscribeImplCopyWith<_$AddSubscribeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -270,6 +280,8 @@ class __$$DeleteSubscribeInfoImplCopyWithImpl<$Res>
       $Res Function(_$DeleteSubscribeInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -308,7 +320,9 @@ class _$DeleteSubscribeInfoImpl implements DeleteSubscribeInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeleteSubscribeInfoImplCopyWith<_$DeleteSubscribeInfoImpl> get copyWith =>
@@ -405,7 +419,10 @@ abstract class DeleteSubscribeInfo implements SubscribeEvent {
       _$DeleteSubscribeInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeleteSubscribeInfoImplCopyWith<_$DeleteSubscribeInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -424,6 +441,9 @@ class __$$GetAllSubscribeListImplCopyWithImpl<$Res>
   __$$GetAllSubscribeListImplCopyWithImpl(_$GetAllSubscribeListImpl _value,
       $Res Function(_$GetAllSubscribeListImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -552,6 +572,8 @@ class __$$CheckSubscribeInfoImplCopyWithImpl<$Res>
       $Res Function(_$CheckSubscribeInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -590,7 +612,9 @@ class _$CheckSubscribeInfoImpl implements CheckSubscribeInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CheckSubscribeInfoImplCopyWith<_$CheckSubscribeInfoImpl> get copyWith =>
@@ -687,7 +711,10 @@ abstract class CheckSubscribeInfo implements SubscribeEvent {
       _$CheckSubscribeInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CheckSubscribeInfoImplCopyWith<_$CheckSubscribeInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -711,6 +738,8 @@ class __$$UpdateSubscribeOldListImplCopyWithImpl<$Res>
       $Res Function(_$UpdateSubscribeOldListImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -759,7 +788,9 @@ class _$UpdateSubscribeOldListImpl implements UpdateSubscribeOldList {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_subscribedChannels));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateSubscribeOldListImplCopyWith<_$UpdateSubscribeOldListImpl>
@@ -857,7 +888,10 @@ abstract class UpdateSubscribeOldList implements SubscribeEvent {
       _$UpdateSubscribeOldListImpl;
 
   List<Subscribe> get subscribedChannels;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UpdateSubscribeOldListImplCopyWith<_$UpdateSubscribeOldListImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -869,7 +903,9 @@ mixin _$SubscribeState {
   List<Subscribe> get subscribedChannels => throw _privateConstructorUsedError;
   List<Subscribe> get oldList => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubscribeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SubscribeStateCopyWith<SubscribeState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -897,6 +933,8 @@ class _$SubscribeStateCopyWithImpl<$Res, $Val extends SubscribeState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SubscribeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -949,6 +987,8 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SubscribeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1037,7 +1077,9 @@ class _$InitialImpl implements _Initial {
       const DeepCollectionEquality().hash(_subscribedChannels),
       const DeepCollectionEquality().hash(_oldList));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubscribeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -1059,8 +1101,11 @@ abstract class _Initial implements SubscribeState {
   List<Subscribe> get subscribedChannels;
   @override
   List<Subscribe> get oldList;
+
+  /// Create a copy of SubscribeState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

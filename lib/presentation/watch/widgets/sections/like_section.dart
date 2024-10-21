@@ -5,7 +5,7 @@ import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/domain/watch/models/piped/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/presentation/settings/functions/launch_url.dart';
+import 'package:fluxtube/presentation/settings/utils/launch_url.dart';
 import 'package:fluxtube/presentation/watch/widgets/like_widgets.dart';
 import 'package:share_plus/share_plus.dart';
 

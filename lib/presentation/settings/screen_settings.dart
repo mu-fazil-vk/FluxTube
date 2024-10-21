@@ -20,46 +20,46 @@ class ScreenSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     final locals = S.of(context);
     return SafeArea(
-        child: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                  CustomAppBar(
-                    title: locals.settings,
-                  )
-                ],
-            body: BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                // get language name by using language code
-                final language = languages.firstWhere(
-                  (name) => name.code == state.defaultLanguage,
-                  orElse: () =>
-                      LanguageModel(name: locals.unknown, code: locals.unknown),
-                );
-                // get region name by using region code
-                final region = regions.firstWhere(
-                  (name) => name.code == state.defaultRegion,
-                  orElse: () =>
-                      RegionModel(name: locals.unknown, code: locals.unknown),
-                );
-                return SettingsList(
-                  lightTheme: const SettingsThemeData(
-                      settingsListBackground: kWhiteColor),
-                  darkTheme:
-                      SettingsThemeData(settingsListBackground: kDarkColor),
-                  sections: [
-                    // COMMON SETTINGS
-                    commonSettingsSection(
-                        locals, context, language, region, state),
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          CustomAppBar(
+            title: locals.settings,
+          )
+        ],
+        body: BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            // get language name by using language code
+            final language = languages.firstWhere(
+              (name) => name.code == state.defaultLanguage,
+              orElse: () =>
+                  LanguageModel(name: locals.unknown, code: locals.unknown),
+            );
+            // get region name by using region code
+            final region = regions.firstWhere(
+              (name) => name.code == state.defaultRegion,
+              orElse: () =>
+                  RegionModel(name: locals.unknown, code: locals.unknown),
+            );
+            return SettingsList(
+              lightTheme:
+                  const SettingsThemeData(settingsListBackground: kWhiteColor),
+              darkTheme: SettingsThemeData(settingsListBackground: kDarkColor),
+              sections: [
+                // COMMON SETTINGS
+                commonSettingsSection(locals, context, language, region, state),
 
-                    // VIDEO SETTINGS
-                    videoSettingsSection(locals, context, state),
+                // VIDEO SETTINGS
+                videoSettingsSection(locals, context, state),
 
-                    distractionFreeSettingsSection(locals, context, state),
+                distractionFreeSettingsSection(locals, context, state),
 
-                    // ABOUT SECTION
-                    aboutSection(locals, context, state),
-                  ],
-                );
-              },
-            )));
+                // ABOUT SECTION
+                aboutSection(locals, context, state),
+              ],
+            );
+          },
+        ),
+      ),
+    );
   }
 }

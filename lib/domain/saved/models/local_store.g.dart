@@ -105,7 +105,7 @@ const LocalStoreVideoInfoSchema = CollectionSchema(
   getId: _localStoreVideoInfoGetId,
   getLinks: _localStoreVideoInfoGetLinks,
   attach: _localStoreVideoInfoAttach,
-  version: '3.1.0+1',
+  version: '3.1.8',
 );
 
 int _localStoreVideoInfoEstimateSize(

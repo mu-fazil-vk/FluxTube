@@ -72,6 +72,9 @@ class _$MainFailureCopyWithImpl<$Res, $Val extends MainFailure>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of MainFailure
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -88,6 +91,9 @@ class __$$ClientFailureImplCopyWithImpl<$Res>
   __$$ClientFailureImplCopyWithImpl(
       _$ClientFailureImpl _value, $Res Function(_$ClientFailureImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of MainFailure
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -190,6 +196,9 @@ class __$$ServerFailureImplCopyWithImpl<$Res>
   __$$ServerFailureImplCopyWithImpl(
       _$ServerFailureImpl _value, $Res Function(_$ServerFailureImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of MainFailure
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

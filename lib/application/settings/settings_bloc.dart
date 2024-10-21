@@ -214,16 +214,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           (MainFailure f) => state.copyWith(
               pipedInstanceStatus: ApiStatus.error,
               pipedInstances: state.pipedInstances), (List<Instance> r) {
-        final instance = r.firstWhere(
-            (element) => element.api == state.instance,
-            orElse: () => r.first);
+        if (state.ytService == YouTubeServices.piped.name) {
+          final instance = r.firstWhere(
+              (element) => element.api == state.instance,
+              orElse: () => r.first);
 
-        BaseUrl.updateBaseUrl(instance.api);
+          BaseUrl.updateBaseUrl(instance.api);
 
-        return state.copyWith(
-            pipedInstanceStatus: ApiStatus.loaded,
-            pipedInstances: r,
-            instance: instance.api);
+          return state.copyWith(
+              pipedInstanceStatus: ApiStatus.loaded,
+              pipedInstances: r,
+              instance: instance.api);
+        } else {
+          return state.copyWith(
+              pipedInstanceStatus: ApiStatus.loaded, pipedInstances: r);
+        }
       });
       emit(_state);
       add(SetInstance(instanceApi: state.instance));
@@ -258,16 +263,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
               invidiousInstanceStatus: ApiStatus.error,
               invidiousInstances: state.invidiousInstances),
           (List<Instance> r) {
-        final instance = r.firstWhere(
-            (element) => element.api == state.instance,
-            orElse: () => r.first);
+        if (state.ytService != YouTubeServices.piped.name) {
+          final instance = r.firstWhere(
+              (element) => element.api == state.instance,
+              orElse: () => r.first);
 
-        BaseUrl.updateInvidiousBaseUrl(instance.api);
+          BaseUrl.updateInvidiousBaseUrl(instance.api);
 
-        return state.copyWith(
-            invidiousInstanceStatus: ApiStatus.loaded,
-            invidiousInstances: r,
-            instance: instance.api);
+          return state.copyWith(
+              invidiousInstanceStatus: ApiStatus.loaded,
+              invidiousInstances: r,
+              instance: instance.api);
+        } else {
+          return state.copyWith(
+              invidiousInstanceStatus: ApiStatus.loaded,
+              invidiousInstances: r);
+        }
       });
       emit(_state);
       add(SetInstance(instanceApi: state.instance));

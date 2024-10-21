@@ -86,6 +86,9 @@ class _$TrendingEventCopyWithImpl<$Res, $Val extends TrendingEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -105,6 +108,8 @@ class __$$GetTrendingDataImplCopyWithImpl<$Res>
       _$GetTrendingDataImpl _value, $Res Function(_$GetTrendingDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -144,7 +149,9 @@ class _$GetTrendingDataImpl implements GetTrendingData {
   @override
   int get hashCode => Object.hash(runtimeType, serviceType);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetTrendingDataImplCopyWith<_$GetTrendingDataImpl> get copyWith =>
@@ -233,7 +240,10 @@ abstract class GetTrendingData implements TrendingEvent {
       _$GetTrendingDataImpl;
 
   String get serviceType;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetTrendingDataImplCopyWith<_$GetTrendingDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -256,6 +266,8 @@ class __$$GetForcedTrendingDataImplCopyWithImpl<$Res>
       $Res Function(_$GetForcedTrendingDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -295,7 +307,9 @@ class _$GetForcedTrendingDataImpl implements GetForcedTrendingData {
   @override
   int get hashCode => Object.hash(runtimeType, serviceType);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetForcedTrendingDataImplCopyWith<_$GetForcedTrendingDataImpl>
@@ -384,7 +398,10 @@ abstract class GetForcedTrendingData implements TrendingEvent {
       _$GetForcedTrendingDataImpl;
 
   String get serviceType;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetForcedTrendingDataImplCopyWith<_$GetForcedTrendingDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -406,6 +423,8 @@ class __$$GetHomeFeedDataImplCopyWithImpl<$Res>
       _$GetHomeFeedDataImpl _value, $Res Function(_$GetHomeFeedDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -451,7 +470,9 @@ class _$GetHomeFeedDataImpl implements GetHomeFeedData {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_channels));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetHomeFeedDataImplCopyWith<_$GetHomeFeedDataImpl> get copyWith =>
@@ -540,7 +561,10 @@ abstract class GetHomeFeedData implements TrendingEvent {
       _$GetHomeFeedDataImpl;
 
   List<Subscribe> get channels;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetHomeFeedDataImplCopyWith<_$GetHomeFeedDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -563,6 +587,8 @@ class __$$GetForcedHomeFeedDataImplCopyWithImpl<$Res>
       $Res Function(_$GetForcedHomeFeedDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -608,7 +634,9 @@ class _$GetForcedHomeFeedDataImpl implements GetForcedHomeFeedData {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_channels));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetForcedHomeFeedDataImplCopyWith<_$GetForcedHomeFeedDataImpl>
@@ -697,7 +725,10 @@ abstract class GetForcedHomeFeedData implements TrendingEvent {
       {required final List<Subscribe> channels}) = _$GetForcedHomeFeedDataImpl;
 
   List<Subscribe> get channels;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TrendingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetForcedHomeFeedDataImplCopyWith<_$GetForcedHomeFeedDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -715,7 +746,9 @@ mixin _$TrendingState {
   List<InvidiousTrendingResp> get invidiousTrendingResult =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TrendingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TrendingStateCopyWith<TrendingState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -745,6 +778,8 @@ class _$TrendingStateCopyWithImpl<$Res, $Val extends TrendingState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TrendingState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -809,6 +844,8 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TrendingState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -932,7 +969,9 @@ class _$InitialImpl implements _Initial {
       fetchInvidiousTrendingStatus,
       const DeepCollectionEquality().hash(_invidiousTrendingResult));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TrendingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -949,20 +988,24 @@ abstract class _Initial implements TrendingState {
           required final List<InvidiousTrendingResp> invidiousTrendingResult}) =
       _$InitialImpl;
 
-  @override // PIPED
+// PIPED
+  @override
   List<TrendingResp> get trendingResult;
   @override
   List<TrendingResp> get feedResult;
   @override
   ApiStatus get fetchTrendingStatus;
   @override
-  ApiStatus get fetchFeedStatus;
-  @override // EXPLODE
+  ApiStatus get fetchFeedStatus; // EXPLODE
+  @override
   ApiStatus get fetchInvidiousTrendingStatus;
   @override
   List<InvidiousTrendingResp> get invidiousTrendingResult;
+
+  /// Create a copy of TrendingState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

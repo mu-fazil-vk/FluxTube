@@ -20,10 +20,10 @@ class SplashScreenState extends State<SplashScreen> {
 
   void _initializeSettings() {
     // Initialize the settings bloc
-    final settingsBloc = BlocProvider.of<SettingsBloc>(context);
-    final subscribeBloc = BlocProvider.of<SubscribeBloc>(context);
-    settingsBloc.add(SettingsEvent.initializeSettings());
-    subscribeBloc.add(const SubscribeEvent.getAllSubscribeList());
+    BlocProvider.of<SettingsBloc>(context)
+        .add(SettingsEvent.initializeSettings());
+    BlocProvider.of<SubscribeBloc>(context)
+        .add(const SubscribeEvent.getAllSubscribeList());
   }
 
   @override
@@ -46,7 +46,7 @@ class SplashScreenState extends State<SplashScreen> {
             } else {
               _handleState(state, subscribeState);
               return const Center(
-                child: Text('Error loading settings'),
+                child: CircularProgressIndicator(),
               );
             }
           },
@@ -79,9 +79,10 @@ class SplashScreenState extends State<SplashScreen> {
         (subscribeState.subscribeStatus == ApiStatus.loaded ||
             subscribeState.subscribeStatus == ApiStatus.error)) {
       {
-        await Future.delayed(const Duration(), () {
+        await Future.delayed(const Duration());
+        if (mounted) {
           context.pushReplacementNamed('main');
-        });
+        }
       }
     }
   }

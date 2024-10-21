@@ -44,7 +44,7 @@ const SubscribeSchema = CollectionSchema(
   getId: _subscribeGetId,
   getLinks: _subscribeGetLinks,
   attach: _subscribeAttach,
-  version: '3.1.0+1',
+  version: '3.1.8',
 );
 
 int _subscribeEstimateSize(
