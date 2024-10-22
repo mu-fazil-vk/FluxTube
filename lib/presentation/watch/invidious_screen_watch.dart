@@ -44,10 +44,8 @@ class InvidiousScreenWatch extends StatelessWidget {
       builder: (context, settingsState) {
         return BlocBuilder<WatchBloc, WatchState>(
           buildWhen: (previous, current) {
-            return previous.fetchInvidiousWatchInfoStatus !=
-                current.fetchInvidiousWatchInfoStatus ||
-            previous.fetchSubtitlesStatus != current.fetchSubtitlesStatus;
-      },
+            return previous != current;
+          },
           builder: (context, state) {
             return BlocBuilder<SavedBloc, SavedState>(
               builder: (context, savedState) {

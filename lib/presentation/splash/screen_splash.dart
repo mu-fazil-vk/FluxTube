@@ -81,7 +81,10 @@ class SplashScreenState extends State<SplashScreen> {
       {
         await Future.delayed(const Duration());
         if (mounted) {
-          context.pushReplacementNamed('main');
+          Router.neglect(context, () {
+            context
+                .goNamed('main');
+          });
         }
       }
     }

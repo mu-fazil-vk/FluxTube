@@ -77,69 +77,77 @@ class InvidiousCommentSection extends StatelessWidget {
                         },
                         child: Text(locals.retry)),
                   )
-                : ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    controller: _scrollController,
-                    itemBuilder: (context, index) {
-                      if (index <
-                          (state.invidiousComments.comments?.length ?? 0)) {
-                        final storeComment =
-                            state.invidiousComments.comments![index];
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            CommentWidget(
-                              author: storeComment.author ??
-                                  locals.commentAuthorNotFound,
-                              text: storeComment.content ?? '',
-                              likes: storeComment.likeCount ?? 0,
-                              authorImageUrl:
-                                  storeComment.authorThumbnails!.first.url ??
+                : state.invidiousComments.comments?.isEmpty == true
+                    ? const Center(
+                        child: Text("No Comments Found"),
+                      )
+                    : ListView.separated(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        controller: _scrollController,
+                        itemBuilder: (context, index) {
+                          if (index <
+                              (state.invidiousComments.comments?.length ?? 0)) {
+                            final storeComment =
+                                state.invidiousComments.comments![index];
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                CommentWidget(
+                                  author: storeComment.author ??
+                                      locals.commentAuthorNotFound,
+                                  text: storeComment.content ?? '',
+                                  likes: storeComment.likeCount ?? 0,
+                                  authorImageUrl: storeComment
+                                          .authorThumbnails!.first.url ??
                                       '',
-                              onProfileTap: () =>
-                                  context.goNamed('channel', pathParameters: {
-                                'channelId': storeComment.authorId!,
-                              }, queryParameters: {
-                                'avtarUrl':
-                                    storeComment.authorThumbnails!.first.url,
-                              }),
-                            ),
-                            if (storeComment.replies != null &&
-                                storeComment.replies!.replyCount != 0)
-                              Padding(
-                                padding: const EdgeInsets.only(right: 70),
-                                child: TextButton(
-                                    onPressed: () {
-                                      BlocProvider.of<WatchBloc>(context).add(
-                                          WatchEvent.getInvidiousCommentReplies(
-                                              id: storeComment.commentId!,
-                                              continuation: storeComment
-                                                  .replies!.continuation!));
+                                  onProfileTap: () => context
+                                      .goNamed('channel', pathParameters: {
+                                    'channelId': storeComment.authorId!,
+                                  }, queryParameters: {
+                                    'avtarUrl': storeComment
+                                        .authorThumbnails!.first.url,
+                                  }),
+                                ),
+                                if (storeComment.replies != null &&
+                                    storeComment.replies!.replyCount != 0)
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 70),
+                                    child: TextButton(
+                                        onPressed: () {
+                                          BlocProvider.of<WatchBloc>(context)
+                                              .add(WatchEvent
+                                                  .getInvidiousCommentReplies(
+                                                      id: storeComment
+                                                          .commentId!,
+                                                      continuation: storeComment
+                                                          .replies!
+                                                          .continuation!));
 
-                                      commentReplyBottomSheet(
-                                          context,
-                                          storeComment,
-                                          height,
-                                          locals,
-                                          storeComment.replies?.replyCount ??
-                                              0);
-                                    },
-                                    child: Text(
-                                        "${formatCount(storeComment.replies!.replyCount.toString())} ${locals.repliesPlural(storeComment.replies?.replyCount ?? 0)}")),
-                              )
-                          ],
-                        );
-                      } else {
-                        if (state.isMoreInvidiousCommetsFetchCompleted) {
-                          return const SizedBox();
-                        } else {
-                          return cIndicator(context);
-                        }
-                      }
-                    },
-                    separatorBuilder: (context, index) => kHeightBox15,
-                    itemCount: state.comments.comments.length + 1),
+                                          commentReplyBottomSheet(
+                                              context,
+                                              storeComment,
+                                              height,
+                                              locals,
+                                              storeComment
+                                                      .replies?.replyCount ??
+                                                  0);
+                                        },
+                                        child: Text(
+                                            "${formatCount(storeComment.replies!.replyCount.toString())} ${locals.repliesPlural(storeComment.replies?.replyCount ?? 0)}")),
+                                  )
+                              ],
+                            );
+                          } else {
+                            if (state.isMoreInvidiousCommetsFetchCompleted) {
+                              return const SizedBox();
+                            } else {
+                              return cIndicator(context);
+                            }
+                          }
+                        },
+                        separatorBuilder: (context, index) => kHeightBox15,
+                        itemCount: state.comments.comments.length + 1),
       ),
     );
   }

@@ -1,15 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_settings_ui/flutter_settings_ui.dart';
-import 'package:fluxtube/core/colors.dart';
-import 'package:fluxtube/core/locals.dart';
-import 'package:fluxtube/core/model/language_model.dart';
-import 'package:fluxtube/core/model/region_model.dart';
-import 'package:fluxtube/core/regions.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
-import '../../application/settings/settings_bloc.dart';
 import '../../widgets/custom_app_bar.dart';
 import 'widgets/widgets.dart';
 
@@ -26,39 +18,38 @@ class ScreenSettings extends StatelessWidget {
             title: locals.settings,
           )
         ],
-        body: BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            // get language name by using language code
-            final language = languages.firstWhere(
-              (name) => name.code == state.defaultLanguage,
-              orElse: () =>
-                  LanguageModel(name: locals.unknown, code: locals.unknown),
-            );
-            // get region name by using region code
-            final region = regions.firstWhere(
-              (name) => name.code == state.defaultRegion,
-              orElse: () =>
-                  RegionModel(name: locals.unknown, code: locals.unknown),
-            );
-            return SettingsList(
-              lightTheme:
-                  const SettingsThemeData(settingsListBackground: kWhiteColor),
-              darkTheme: SettingsThemeData(settingsListBackground: kDarkColor),
-              sections: [
-                // COMMON SETTINGS
-                commonSettingsSection(locals, context, language, region, state),
-
-                // VIDEO SETTINGS
-                videoSettingsSection(locals, context, state),
-
-                distractionFreeSettingsSection(locals, context, state),
-
-                // ABOUT SECTION
-                aboutSection(locals, context, state),
+        body: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CommonSettingsSection(),
+                DistractionFreeSettingsSection(),
+                VideoSettingsSecction(),
+                AboutSection()
               ],
-            );
-          },
+            ),
+          ),
         ),
+
+        // return SettingsList(
+        //   lightTheme:
+        //       const SettingsThemeData(settingsListBackground: kWhiteColor),
+        //   darkTheme: SettingsThemeData(settingsListBackground: kDarkColor),
+        //   sections: [
+        //     // COMMON SETTINGS
+        //     //commonSettingsSection(locals, context, language, region, state),
+
+        //     // VIDEO SETTINGS
+        //     videoSettingsSection(locals, context, state),
+
+        //     distractionFreeSettingsSection(locals, context, state),
+
+        //     // ABOUT SECTION
+        //     aboutSection(locals, context, state),
+        //   ],
+        // );
       ),
     );
   }

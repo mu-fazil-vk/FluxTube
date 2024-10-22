@@ -72,7 +72,11 @@ class CommentSection extends StatelessWidget {
                         },
                         child: Text(locals.retry)),
                   )
-                : ListView.separated(
+                : state.comments.comments.isEmpty == true
+                    ? const Center(
+                        child: Text("No Comments Found"),
+                      )
+                    : ListView.separated(
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                     controller: _scrollController,
