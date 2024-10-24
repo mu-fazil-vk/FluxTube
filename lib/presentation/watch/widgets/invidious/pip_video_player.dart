@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluxtube/application/application.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/domain/watch/models/invidious/video/format_stream.dart';
 import 'package:fluxtube/domain/watch/models/invidious/video/invidious_watch_resp.dart';
@@ -19,6 +20,7 @@ class InvidiousPipVideoPlayerWidget extends StatefulWidget {
     this.isSaved = false,
     this.isHlsPlayer = false,
     required this.subtitles,
+    required this.watchState,
   });
 
   final InvidiousWatchResp watchInfo;
@@ -28,6 +30,7 @@ class InvidiousPipVideoPlayerWidget extends StatefulWidget {
   final bool isSaved;
   final bool isHlsPlayer;
   final List<Map<String, String>> subtitles;
+  final WatchState watchState;
 
   @override
   State<InvidiousPipVideoPlayerWidget> createState() =>
@@ -127,12 +130,14 @@ class _InvidiousPipVideoPlayerWidgetState
       width: 300,
       height: 200,
       child: Stack(children: [
-        AspectRatio(
-          aspectRatio: 16 / 8,
-          child: _betterPlayerController != null
-              ? BetterPlayer(controller: _betterPlayerController!)
-              : const Center(child: CircularProgressIndicator()),
-        ),
+        widget.watchState.fetchInvidiousWatchInfoStatus == ApiStatus.loading
+            ? const Center(child: CircularProgressIndicator())
+            : AspectRatio(
+                aspectRatio: 16 / 8,
+                child: _betterPlayerController != null
+                    ? BetterPlayer(controller: _betterPlayerController!)
+                    : const Center(child: CircularProgressIndicator()),
+              ),
         Align(
           alignment: Alignment.topRight,
           child: IconButton(

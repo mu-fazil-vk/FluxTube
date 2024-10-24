@@ -119,6 +119,32 @@ class VideoSettingsSecction extends StatelessWidget {
                 },
               ),
             ),
+            ListTile(
+              title: Text(locals.history,
+                  style: Theme.of(context).textTheme.titleMedium),
+              subtitle: Text(locals.disableVideoHistory),
+              leading: const Icon(Icons.history),
+              trailing: Switch(
+                value: !state.isHistoryVisible,
+                onChanged: (_) {
+                  BlocProvider.of<SettingsBloc>(context)
+                      .add(SettingsEvent.toggleHistoryVisibility());
+                },
+              ),
+            ),
+            ListTile(
+              title: Text(locals.retrieveDislikes,
+                  style: Theme.of(context).textTheme.titleMedium),
+              subtitle: Text(locals.retrieveDislikeCounts),
+              leading: const Icon(CupertinoIcons.hand_thumbsdown),
+              trailing: Switch(
+                value: state.isDislikeVisible,
+                onChanged: (_) {
+                  BlocProvider.of<SettingsBloc>(context)
+                      .add(SettingsEvent.toggleDislikeVisibility());
+                },
+              ),
+            ),
           ],
         );
       },

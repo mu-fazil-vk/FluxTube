@@ -46,7 +46,6 @@ dependencies:
   share_plus: ^10.0.3
   shimmer: ^3.0.0
   simple_html_css: ^5.0.0
-  talker_bloc_logger: ^4.4.1
   url_launcher: ^6.3.0
   youtube_explode_dart: ^2.2.1
   youtube_player_iframe: ^5.2.0

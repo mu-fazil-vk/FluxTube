@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/core/app_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/settings/utils/launch_url.dart';
@@ -31,11 +33,15 @@ class AboutSection extends StatelessWidget {
           leading: const Icon(Icons.translate_rounded),
           onTap: () => context.goNamed('translators'),
         ),
-        ListTile(
-          title: Text(S.of(context).version,
-              style: Theme.of(context).textTheme.titleMedium),
-          subtitle: Text(S.of(context).version),
-          leading: const Icon(CupertinoIcons.info),
+        BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            return ListTile(
+              title: Text(S.of(context).version,
+                  style: Theme.of(context).textTheme.titleMedium),
+              subtitle: Text(state.version ?? ""),
+              leading: const Icon(CupertinoIcons.info),
+            );
+          },
         ),
       ],
     );

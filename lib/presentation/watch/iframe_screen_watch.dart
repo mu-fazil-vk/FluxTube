@@ -1,4 +1,3 @@
-import 'package:dismissible_page/dismissible_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,8 +23,7 @@ class IFramScreenWatch extends StatefulWidget {
 class _IFramScreenWatchState extends State<IFramScreenWatch> {
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<WatchBloc>(context)
-        .add(WatchEvent.togglePip(value: false));
+    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
     BlocProvider.of<SavedBloc>(context)
         .add(const SavedEvent.getAllVideoInfoList());
     BlocProvider.of<SavedBloc>(context)
@@ -73,28 +71,18 @@ class _IFramScreenWatchState extends State<IFramScreenWatch> {
                 },
               );
             } else {
-              return DismissiblePage(
-                    direction: DismissiblePageDismissDirection.down,
-                    onDismissed: () {
-                      BlocProvider.of<WatchBloc>(context)
-                          .add(WatchEvent.togglePip(value: true));
-                      Navigator.pop(context);
-                    },
-                    isFullScreen: true,
-                key: ValueKey(widget.id),
-                child: PopScope(
-                  canPop: true,
-                  onPopInvokedWithResult: (didPop, _) =>
-                      BlocProvider.of<WatchBloc>(context)
-                          .add(WatchEvent.togglePip(value: true)),
-                  child: IFrameVideoPlayerContent(
-                    id: widget.id,
-                    isLive: state.explodeWatchResp.isLive,
-                    channelId: widget.channelId,
-                    settingsState: settingsState,
-                    isSaved: isSaved,
-                    savedState: savedState,
-                  ),
+              return PopScope(
+                canPop: true,
+                onPopInvokedWithResult: (didPop, _) =>
+                    BlocProvider.of<WatchBloc>(context)
+                        .add(WatchEvent.togglePip(value: true)),
+                child: IFrameVideoPlayerContent(
+                  id: widget.id,
+                  isLive: state.explodeWatchResp.isLive,
+                  channelId: widget.channelId,
+                  settingsState: settingsState,
+                  isSaved: isSaved,
+                  savedState: savedState,
                 ),
               );
             }

@@ -85,6 +85,7 @@ class MainNavigationState extends State<MainNavigation> {
                                       savedState.videoInfo?.isSaved == true),
                                   isHlsPlayer: settingsState.isHlsPlayer,
                                   subtitles: state.subtitles,
+                                  watchState: state,
                                 ),
                               ),
 
@@ -105,6 +106,7 @@ class MainNavigationState extends State<MainNavigation> {
                                       savedState.videoInfo?.isSaved == true),
                                   isHlsPlayer: settingsState.isHlsPlayer,
                                   subtitles: state.subtitles,
+                                  watchState: state,
                                 ),
                               ),
 
@@ -129,29 +131,28 @@ class MainNavigationState extends State<MainNavigation> {
                                 ),
                               ),
 
-                              // Explode pip video player
-                              if (state.isPipEnabled &&
-                                  state.selectedVideoBasicDetails?.id != null &&
-                                  settingsState.ytService ==
-                                      YouTubeServices.explode.name)
-                                Positioned(
-                                  child: ExplodePipVideoPlayerWidget(
-                                    watchInfo: state.explodeWatchResp,
-                                    videoId:
-                                        state.selectedVideoBasicDetails!.id,
-                                    playbackPosition: savedState
-                                            .videoInfo?.playbackPosition ??
-                                        0,
-                                    isSaved: (savedState.videoInfo?.id ==
-                                            state.selectedVideoBasicDetails
-                                                ?.id &&
-                                        savedState.videoInfo?.isSaved == true),
-                                    liveUrl: state.liveStreamUrl,
-                                    availableVideoTracks:
-                                        state.muxedStreams ?? [],
-                                    subtitles: state.subtitles,
-                                  ),
+                            // Explode pip video player
+                            if (state.isPipEnabled &&
+                                state.selectedVideoBasicDetails?.id != null &&
+                                settingsState.ytService ==
+                                    YouTubeServices.explode.name)
+                              Positioned(
+                                child: ExplodePipVideoPlayerWidget(
+                                  watchInfo: state.explodeWatchResp,
+                                  videoId: state.selectedVideoBasicDetails!.id,
+                                  playbackPosition:
+                                      savedState.videoInfo?.playbackPosition ??
+                                          0,
+                                  isSaved: (savedState.videoInfo?.id ==
+                                          state.selectedVideoBasicDetails?.id &&
+                                      savedState.videoInfo?.isSaved == true),
+                                  liveUrl: state.liveStreamUrl,
+                                  availableVideoTracks:
+                                      state.muxedStreams ?? [],
+                                  subtitles: state.subtitles,
+                                  watchState: state,
                                 ),
+                              ),
                           ],
                         );
                       },

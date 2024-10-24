@@ -1,8 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dismissible_page/dismissible_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluxtube/core/enums.dart';
+import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import 'package:fluxtube/application/application.dart';
@@ -42,11 +45,42 @@ class IFrameVideoPlayerContent extends StatefulWidget {
 class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
   late YoutubePlayerController _controller;
 
+  bool _isDismissibleDisabled = true;
+
+  FToast? fToast;
+
   @override
   void initState() {
+    fToast = FToast();
+    fToast?.init(context);
     _controller = YoutubePlayerController.fromVideoId(
       videoId: widget.id,
       autoPlay: true,
+      startSeconds: (widget.savedState.localSavedHistoryVideos
+                  .firstWhere(
+                    (element) => element.id == widget.id,
+                    orElse: () => LocalStoreVideoInfo(
+                      playbackPosition: 0, // Default value
+                      // other properties with default values
+                      id: '',
+                      title: '',
+                      views: 0,
+                      thumbnail: '',
+                      uploadedDate: '',
+                      uploaderAvatar: null,
+                      uploaderName: '',
+                      uploaderId: '',
+                      uploaderSubscriberCount: null,
+                      duration: 0,
+                      uploaderVerified: false,
+                      isHistory: true,
+                      isLive: false,
+                      isSaved: false,
+                    ),
+                  )
+                  .playbackPosition ??
+              0)
+          .toDouble(),
       params: const YoutubePlayerParams(
         showFullscreenButton: true,
         playsInline: false,
@@ -67,156 +101,184 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
   Widget build(BuildContext context) {
     final locals = S.of(context);
     final double _height = MediaQuery.of(context).size.height;
+    Orientation orientation = MediaQuery.of(context).orientation;
 
-    return YoutubePlayerScaffold(
-      controller: _controller,
-      aspectRatio: 16 / 9,
-      enableFullScreenOnVerticalDrag: false,
-      builder: (context, player) {
-        return Scaffold(
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  player,
-                  BlocBuilder<WatchBloc, WatchState>(
-                    builder: (context, state) {
-                      final watchInfo = state.explodeWatchResp;
-                      return Padding(
-                        padding:
-                            const EdgeInsets.only(top: 12, left: 20, right: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // * caption row
-                            (state.fetchExplodeWatchInfoStatus ==
-                                        ApiStatus.initial ||
-                                    state.fetchExplodeWatchInfoStatus ==
-                                        ApiStatus.loading)
-                                ? CaptionRowWidget(
-                                    caption: state
-                                            .selectedVideoBasicDetails?.title ??
-                                        '',
-                                    icon: state.isDescriptionTapped
-                                        ? CupertinoIcons.chevron_up
-                                        : CupertinoIcons.chevron_down,
-                                  )
-                                : GestureDetector(
-                                    onTap: () =>
-                                        BlocProvider.of<WatchBloc>(context)
-                                            .add(WatchEvent.tapDescription()),
-                                    child: CaptionRowWidget(
-                                      caption: watchInfo.title,
+    return DismissiblePage(
+      direction: DismissiblePageDismissDirection.down,
+      onDismissed: () {
+        BlocProvider.of<WatchBloc>(context)
+            .add(WatchEvent.togglePip(value: true));
+        Navigator.pop(context);
+      },
+      isFullScreen: true,
+      key: ValueKey(widget.id),
+      disabled:
+          (orientation == Orientation.landscape) || _isDismissibleDisabled,
+      child: YoutubePlayerScaffold(
+        controller: _controller,
+        aspectRatio: 16 / 9,
+        enableFullScreenOnVerticalDrag: false,
+        builder: (context, player) {
+          return Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                        onDoubleTap: () {
+                          setState(() {
+                            _isDismissibleDisabled = !_isDismissibleDisabled;
+                            fToast?.showToast(
+                              child: Text(
+                                _isDismissibleDisabled
+                                    ? 'Swipe down to dismiss disabled'
+                                    : 'Swipe up to dismiss enabled',
+                              ),
+                              gravity: ToastGravity.BOTTOM,
+                              toastDuration: const Duration(seconds: 2),
+                            );
+                          });
+                        },
+                        child: player),
+                    BlocBuilder<WatchBloc, WatchState>(
+                      builder: (context, state) {
+                        final watchInfo = state.explodeWatchResp;
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              top: 12, left: 20, right: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // * caption row
+                              (state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.initial ||
+                                      state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.loading)
+                                  ? CaptionRowWidget(
+                                      caption: state.selectedVideoBasicDetails
+                                              ?.title ??
+                                          '',
                                       icon: state.isDescriptionTapped
                                           ? CupertinoIcons.chevron_up
                                           : CupertinoIcons.chevron_down,
-                                    ),
-                                  ),
-
-                            kHeightBox5,
-
-                            // * views row
-                            (state.fetchExplodeWatchInfoStatus ==
-                                        ApiStatus.initial ||
-                                    state.fetchExplodeWatchInfoStatus ==
-                                        ApiStatus.loading)
-                                ? const SizedBox()
-                                : ViewRowWidget(
-                                    views: watchInfo.viewCount,
-                                    uploadedDate:
-                                        watchInfo.uploadDate.toString(),
-                                  ),
-
-                            kHeightBox10,
-
-                            // * like row
-                            (state.fetchExplodeWatchInfoStatus ==
-                                        ApiStatus.initial ||
-                                    state.fetchExplodeWatchInfoStatus ==
-                                        ApiStatus.loading)
-                                ? const ShimmerLikeWidget()
-                                : ExplodeLikeSection(
-                                    id: widget.id,
-                                    state: state,
-                                    watchInfo: watchInfo,
-                                    pipClicked: () {
-                                      BlocProvider.of<WatchBloc>(context).add(
-                                          WatchEvent.togglePip(value: true));
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-
-                            kHeightBox10,
-
-                            const Divider(),
-
-                            // * channel info row
-                            (state.fetchExplodeWatchInfoStatus ==
-                                        ApiStatus.initial ||
-                                    state.fetchExplodeWatchInfoStatus ==
-                                        ApiStatus.loading)
-                                ? const ShimmerSubscribeWidget()
-                                : ExplodeChannelInfoSection(
-                                    state: state,
-                                    watchInfo: watchInfo,
-                                    locals: locals),
-                            if (!state.isTapComments) const Divider(),
-                            kHeightBox10,
-
-                            // * description
-                            state.isDescriptionTapped
-                                ? ExplodeDescriptionSection(
-                                    height: _height,
-                                    watchInfo: watchInfo,
-                                    locals: locals)
-                                :
-                                // * related videos
-                                state.isTapComments == false
-                                    ? widget.settingsState.isHideRelated
-                                        ? const SizedBox()
-                                        : (state.fetchExplodedRelatedVideosStatus ==
-                                                    ApiStatus.initial ||
-                                                state.fetchExplodedRelatedVideosStatus ==
-                                                    ApiStatus.loading)
-                                            ? SizedBox(
-                                                height: 350,
-                                                child: ListView.separated(
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      return const ShimmerRelatedVideoWidget();
-                                                    },
-                                                    separatorBuilder:
-                                                        (context, index) =>
-                                                            kWidthBox10,
-                                                    itemCount: 5),
-                                              )
-                                            : ExplodeRelatedVideoSection(
-                                                locals: locals,
-                                                watchInfo: watchInfo,
-                                                related:
-                                                    state.relatedVideos ?? [],
-                                              )
-                                    //comments section
-                                    : CommentSection(
-                                        videoId: widget.id,
-                                        state: state,
-                                        height: _height,
-                                        locals: locals,
+                                    )
+                                  : GestureDetector(
+                                      onTap: () =>
+                                          BlocProvider.of<WatchBloc>(context)
+                                              .add(WatchEvent.tapDescription()),
+                                      child: CaptionRowWidget(
+                                        caption: watchInfo.title,
+                                        icon: state.isDescriptionTapped
+                                            ? CupertinoIcons.chevron_up
+                                            : CupertinoIcons.chevron_down,
                                       ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                                    ),
+
+                              kHeightBox5,
+
+                              // * views row
+                              (state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.initial ||
+                                      state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.loading)
+                                  ? const SizedBox()
+                                  : ViewRowWidget(
+                                      views: watchInfo.viewCount,
+                                      uploadedDate:
+                                          watchInfo.uploadDate.toString(),
+                                    ),
+
+                              kHeightBox10,
+
+                              // * like row
+                              (state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.initial ||
+                                      state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.loading)
+                                  ? const ShimmerLikeWidget()
+                                  : ExplodeLikeSection(
+                                      id: widget.id,
+                                      state: state,
+                                      watchInfo: watchInfo,
+                                      pipClicked: () {
+                                        BlocProvider.of<WatchBloc>(context).add(
+                                            WatchEvent.togglePip(value: true));
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+
+                              kHeightBox10,
+
+                              const Divider(),
+
+                              // * channel info row
+                              (state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.initial ||
+                                      state.fetchExplodeWatchInfoStatus ==
+                                          ApiStatus.loading)
+                                  ? const ShimmerSubscribeWidget()
+                                  : ExplodeChannelInfoSection(
+                                      state: state,
+                                      watchInfo: watchInfo,
+                                      locals: locals),
+                              if (!state.isTapComments) const Divider(),
+                              kHeightBox10,
+
+                              // * description
+                              state.isDescriptionTapped
+                                  ? ExplodeDescriptionSection(
+                                      height: _height,
+                                      watchInfo: watchInfo,
+                                      locals: locals)
+                                  :
+                                  // * related videos
+                                  state.isTapComments == false
+                                      ? widget.settingsState.isHideRelated
+                                          ? const SizedBox()
+                                          : (state.fetchExplodedRelatedVideosStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchExplodedRelatedVideosStatus ==
+                                                      ApiStatus.loading)
+                                              ? SizedBox(
+                                                  height: 350,
+                                                  child: ListView.separated(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return const ShimmerRelatedVideoWidget();
+                                                      },
+                                                      separatorBuilder:
+                                                          (context, index) =>
+                                                              kWidthBox10,
+                                                      itemCount: 5),
+                                                )
+                                              : ExplodeRelatedVideoSection(
+                                                  locals: locals,
+                                                  watchInfo: watchInfo,
+                                                  related:
+                                                      state.relatedVideos ?? [],
+                                                )
+                                      //comments section
+                                      : CommentSection(
+                                          videoId: widget.id,
+                                          state: state,
+                                          height: _height,
+                                          locals: locals,
+                                        ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

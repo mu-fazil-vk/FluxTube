@@ -14,13 +14,13 @@ import 'package:fluxtube/core/app_theme.dart';
 import 'package:fluxtube/core/locals.dart';
 import 'package:fluxtube/infrastructure/settings/setting_impliment.dart';
 import 'package:fluxtube/presentation/routes/app_routes.dart';
-import 'package:talker_bloc_logger/talker_bloc_logger.dart';
+import 'package:fluxtube/presentation/routes/bloc_observer.dart';
 
 import 'core/di/injectable.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Bloc.observer = TalkerBlocObserver();
+  Bloc.observer = AppBlocObserver();
   await SettingImpliment.initializeDB();
   // Initialize GetIt and register dependencies
   configureInjection();

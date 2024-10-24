@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:fluxtube/application/application.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/domain/watch/models/explode/explode_watch.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -21,6 +22,7 @@ class ExplodePipVideoPlayerWidget extends StatefulWidget {
     this.isSaved = false,
     this.liveUrl,
     required this.subtitles,
+    required this.watchState,
   });
 
   final ExplodeWatchResp watchInfo;
@@ -31,6 +33,7 @@ class ExplodePipVideoPlayerWidget extends StatefulWidget {
   final bool isSaved;
   final String? liveUrl;
   final List<Map<String, String>> subtitles;
+  final WatchState watchState;
 
   @override
   State<ExplodePipVideoPlayerWidget> createState() =>
@@ -44,7 +47,7 @@ class _ExplodePipVideoPlayerWidget extends State<ExplodePipVideoPlayerWidget> {
   late final SavedBloc _savedBloc;
   BetterPlayerDataSource? betterPlayerDataSource;
 
-   // Track the position of the video player on the screen
+  // Track the position of the video player on the screen
   Offset position = const Offset(20, 20);
 
   WatchBloc? _watchBloc;
@@ -66,7 +69,7 @@ class _ExplodePipVideoPlayerWidget extends State<ExplodePipVideoPlayerWidget> {
     _watchBloc = BlocProvider.of<WatchBloc>(context);
   }
 
- @override
+  @override
   void dispose() {
     _updateVideoHistory();
     _watchBloc?.add(WatchEvent.togglePip(value: false));
@@ -105,16 +108,18 @@ class _ExplodePipVideoPlayerWidget extends State<ExplodePipVideoPlayerWidget> {
       width: 250, // or any width you prefer
       height: 140, // maintain a suitable aspect ratio
       child: Stack(children: [
-        AspectRatio(
-          aspectRatio: 16 / 8,
-          child: _betterPlayerController != null
-              ? BetterPlayer(controller: _betterPlayerController!)
-              : const Center(child: CircularProgressIndicator()),
-        ),
+        widget.watchState.fetchExplodeWatchInfoStatus == ApiStatus.loading
+            ? const Center(child: CircularProgressIndicator())
+            : AspectRatio(
+                aspectRatio: 16 / 8,
+                child: _betterPlayerController != null
+                    ? BetterPlayer(controller: _betterPlayerController!)
+                    : const Center(child: CircularProgressIndicator()),
+              ),
         Align(
           alignment: Alignment.topRight,
           child: IconButton(
-             onPressed: () {
+            onPressed: () {
               _updateVideoHistory();
               _betterPlayerController?.dispose(forceDispose: true);
               _watchBloc?.add(WatchEvent.togglePip(value: false));
