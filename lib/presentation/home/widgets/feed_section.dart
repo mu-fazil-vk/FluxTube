@@ -37,6 +37,7 @@ class FeedVideoSection extends StatelessWidget {
             BlocProvider.of<WatchBloc>(context).add(
                 WatchEvent.setSelectedVideoBasicDetails(
                     details: VideoBasicInfo(
+                        id: videoId,
                         title: feed.title,
                         thumbnailUrl: feed.thumbnail,
                         channelName: feed.uploaderName,

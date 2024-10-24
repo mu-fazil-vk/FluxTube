@@ -78,6 +78,7 @@ class InvidiousSearcheResultSection extends StatelessWidget {
                       BlocProvider.of<WatchBloc>(context)
                           .add(WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
+                        id: _videoId,
                         title: _result.title,
                         thumbnailUrl: _result.videoThumbnails!.first.url,
                         channelName: _result.author,

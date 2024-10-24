@@ -39,6 +39,7 @@ class InvidiousTrendingVideosSection extends StatelessWidget {
                 BlocProvider.of<WatchBloc>(context).add(
                     WatchEvent.setSelectedVideoBasicDetails(
                         details: VideoBasicInfo(
+                            id: videoId,
                             title: trending.title,
                             thumbnailUrl: trending.videoThumbnails!.first.url,
                             channelName: trending.author,

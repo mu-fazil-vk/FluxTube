@@ -22,7 +22,7 @@ final GoRouter router = GoRouter(
       name: 'main',
       path: '/main',
       builder: (BuildContext context, GoRouterState state) {
-        return MainNavigation();
+        return const MainNavigation();
       },
       routes: <RouteBase>[
         GoRoute(

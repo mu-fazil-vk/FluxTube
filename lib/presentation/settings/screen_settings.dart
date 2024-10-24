@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
 import '../../widgets/custom_app_bar.dart';
@@ -25,8 +26,11 @@ class ScreenSettings extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CommonSettingsSection(),
+                kHeightBox15,
                 DistractionFreeSettingsSection(),
+                kHeightBox15,
                 VideoSettingsSecction(),
+                kHeightBox15,
                 AboutSection()
               ],
             ),

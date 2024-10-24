@@ -2,7 +2,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
@@ -12,7 +11,6 @@ import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/watch/widgets/comment_widgets.dart';
 import 'package:fluxtube/presentation/watch/widgets/explode/description_section.dart';
 import 'package:fluxtube/presentation/watch/widgets/explode/like_section.dart';
-import 'package:fluxtube/presentation/watch/widgets/explode/pip_video_player.dart';
 import 'package:fluxtube/presentation/watch/widgets/explode/subscribe_section.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 
@@ -142,12 +140,11 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
                                     id: widget.id,
                                     state: state,
                                     watchInfo: watchInfo,
-                                    pipClicked: () => buildPip(
-                                        context: context,
-                                        isSaved: widget.isSaved,
-                                        savedState: widget.savedState,
-                                        settingsState: widget.settingsState,
-                                        state: state),
+                                    pipClicked: () {
+                                      BlocProvider.of<WatchBloc>(context).add(
+                                          WatchEvent.togglePip(value: true));
+                                      Navigator.pop(context);
+                                    },
                                   ),
 
                             kHeightBox10,
@@ -221,42 +218,5 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
         );
       },
     );
-  }
-
-  void buildPip(
-      {context,
-      state,
-      settingsState,
-      savedState,
-      isSaved,
-      isPop = true}) async {
-    if (isPop) {
-      Navigator.pop(context);
-    }
-    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: true));
-    PictureInPicture.startPiP(
-        pipWidget: NavigatablePiPWidget(
-      onPiPClose: () {
-        BlocProvider.of<WatchBloc>(context)
-            .add(WatchEvent.togglePip(value: false));
-      },
-      elevation: 10, //Optional
-      pipBorderRadius: 10,
-      builder: (BuildContext context) {
-        return ExplodePipVideoPlayerWidget(
-          videoId: widget.id,
-          watchInfo: state.explodeWatchResp,
-          defaultQuality: settingsState.defaultQuality,
-          playbackPosition: savedState.videoInfo?.playbackPosition ?? 0,
-          isSaved: isSaved,
-          liveUrl: state.liveStreamUrl,
-          availableVideoTracks: state.muxedStreams ?? [],
-          subtitles: (state.fetchSubtitlesStatus == ApiStatus.loading ||
-                  state.fetchSubtitlesStatus == ApiStatus.initial)
-              ? []
-              : state.subtitles,
-        );
-      }, //Optional
-    ));
   }
 }

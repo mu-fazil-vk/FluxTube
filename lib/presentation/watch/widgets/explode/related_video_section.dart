@@ -47,6 +47,7 @@ class ExplodeRelatedVideoSection extends StatelessWidget {
                       BlocProvider.of<WatchBloc>(context).add(
                           WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
+                                  id: videoId,
                                   title: related[index].title,
                                   thumbnailUrl: related[index].thumbnailUrl,
                                   channelName: related[index].author,

@@ -70,6 +70,7 @@ class ChannelRelatedVideoSection extends StatelessWidget {
                     BlocProvider.of<WatchBloc>(context).add(
                         WatchEvent.setSelectedVideoBasicDetails(
                             details: VideoBasicInfo(
+                                id: videoId,
                                 title: videoInfo.title,
                                 thumbnailUrl: videoInfo.thumbnail,
                                 channelName: videoInfo.uploaderName,

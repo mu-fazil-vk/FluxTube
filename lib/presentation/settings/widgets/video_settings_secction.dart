@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
+import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
@@ -68,8 +69,12 @@ class VideoSettingsSecction extends StatelessWidget {
           children: [
             Text(
               locals.video,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontSize: 16),
             ),
+            kHeightBox10,
             ListTile(
               title: Text(locals.defaultQuality,
                   style: Theme.of(context).textTheme.titleMedium),

@@ -2,7 +2,6 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_in_app_pip/picture_in_picture.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/domain/watch/models/piped/video/video_stream.dart';
@@ -48,6 +47,11 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
 
   BetterPlayerDataSource? betterPlayerDataSource;
 
+   // Track the position of the video player on the screen
+  Offset position = const Offset(20, 20);
+
+  WatchBloc? _watchBloc;
+
   @override
   void initState() {
     super.initState();
@@ -79,9 +83,16 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Cache the reference to the WatchBloc ancestor here
+    _watchBloc = BlocProvider.of<WatchBloc>(context);
+  }
+
+  @override
   void dispose() {
     _updateVideoHistory();
-    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
+    _watchBloc?.add(WatchEvent.togglePip(value: false));
     _betterPlayerController?.dispose();
     super.dispose();
   }
@@ -90,27 +101,51 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        // Use Positioned to allow free movement on the screen
+        Positioned(
+          left: position.dx,
+          top: position.dy,
+          child: Draggable(
+            feedback: _buildPlayer(),
+            childWhenDragging:
+                Container(), // Show an empty container while dragging
+            onDraggableCanceled: (Velocity velocity, Offset offset) {
+              setState(() {
+                // Update the position of the player based on the drag
+                position = offset;
+              });
+            },
+            child: _buildPlayer(),
+          ),
+        ),
+        // Close button to stop Picture in Picture and toggle the state
+      ],
+    );
+  }
+
+  Widget _buildPlayer() {
+    return SizedBox(
+      width: 250, // or any width you prefer
+      height: 140, // maintain a suitable aspect ratio
+      child: Stack(children: [
         AspectRatio(
           aspectRatio: 16 / 8,
           child: _betterPlayerController != null
-              ? BetterPlayer(
-                  controller: _betterPlayerController!,
-                  //key: UniqueKey()
-                )
+              ? BetterPlayer(controller: _betterPlayerController!)
               : const Center(child: CircularProgressIndicator()),
         ),
         Align(
           alignment: Alignment.topRight,
           child: IconButton(
-              onPressed: () {
-                _updateVideoHistory();
-                PictureInPicture.stopPiP();
-                BlocProvider.of<WatchBloc>(context)
-                    .add(WatchEvent.togglePip(value: false));
-              },
-              icon: const Icon(CupertinoIcons.xmark)),
+             onPressed: () {
+              _updateVideoHistory();
+              _betterPlayerController?.dispose(forceDispose: true);
+              _watchBloc?.add(WatchEvent.togglePip(value: false));
+            },
+            icon: const Icon(CupertinoIcons.xmark),
+          ),
         )
-      ],
+      ]),
     );
   }
 
@@ -254,7 +289,7 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
           aspectRatio: aspectRatio,
           allowedScreenSleep: false,
           expandToFill: false,
-          autoDispose: true,
+          autoDispose: false,
           fit: BoxFit.fitHeight),
       betterPlayerDataSource: betterPlayerDataSource,
     );

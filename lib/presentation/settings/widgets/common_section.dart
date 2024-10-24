@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
+import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/locals.dart';
 import 'package:fluxtube/core/model/language_model.dart';
 import 'package:fluxtube/core/model/region_model.dart';
@@ -50,8 +51,12 @@ class CommonSettingsSection extends StatelessWidget {
           children: [
             Text(
               locals.commonSettingsTitle,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontSize: 16),
             ),
+            kHeightBox10,
             ListTile(
               title: Text(locals.language,
                   style: Theme.of(context).textTheme.titleMedium),

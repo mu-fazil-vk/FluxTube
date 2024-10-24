@@ -1,7 +1,7 @@
+import 'package:dismissible_page/dismissible_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
@@ -27,7 +27,8 @@ class PipedScreenWatch extends StatelessWidget {
     final locals = S.of(context);
     final double _height = MediaQuery.of(context).size.height;
 
-    PictureInPicture.stopPiP();
+    BlocProvider.of<WatchBloc>(context)
+        .add(WatchEvent.togglePip(value: false));
 
     BlocProvider.of<SavedBloc>(context)
         .add(const SavedEvent.getAllVideoInfoList());
@@ -68,25 +69,20 @@ class PipedScreenWatch extends StatelessWidget {
                         .add(WatchEvent.getWatchInfo(id: id)),
                   );
                 } else {
-                  return Dismissible(
-                    direction: DismissDirection.down,
-                    onDismissed: (direction) {
-                      buildPip(
-                          context: context,
-                          isSaved: isSaved,
-                          savedState: savedState,
-                          settingsState: settingsState,
-                          state: state);
+                  return DismissiblePage(
+                    direction: DismissiblePageDismissDirection.down,
+                    onDismissed: () {
+                      BlocProvider.of<WatchBloc>(context)
+                          .add(WatchEvent.togglePip(value: true));
+                      Navigator.pop(context);
                     },
+                    isFullScreen: true,
                     key: ValueKey(id),
                     child: PopScope(
-                      canPop: false,
-                      onPopInvoked: (didPop) => buildPip(
-                          context: context,
-                          isSaved: isSaved,
-                          savedState: savedState,
-                          settingsState: settingsState,
-                          state: state),
+                      canPop: true,
+                      onPopInvokedWithResult: (didPop, _) =>
+                          BlocProvider.of<WatchBloc>(context)
+                              .add(WatchEvent.togglePip(value: true)),
                       child: Scaffold(
                         body: SafeArea(
                           child: SingleChildScrollView(
@@ -184,12 +180,13 @@ class PipedScreenWatch extends StatelessWidget {
                                               id: id,
                                               state: state,
                                               watchInfo: watchInfo,
-                                              pipClicked: () => buildPip(
-                                                  context: context,
-                                                  isSaved: isSaved,
-                                                  savedState: savedState,
-                                                  settingsState: settingsState,
-                                                  state: state),
+                                              pipClicked: () {
+                                                BlocProvider.of<WatchBloc>(
+                                                        context)
+                                                    .add(WatchEvent.togglePip(
+                                                        value: true));
+                                                Navigator.pop(context);
+                                              },
                                             ),
 
                                       kHeightBox10,
@@ -269,43 +266,6 @@ class PipedScreenWatch extends StatelessWidget {
           },
         );
       },
-    );
-  }
-
-  void buildPip(
-      {context,
-      state,
-      settingsState,
-      savedState,
-      isSaved,
-      isPop = true}) async {
-    if (isPop) {
-      Navigator.pop(context);
-    }
-    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: true));
-    PictureInPicture.startPiP(
-      pipWidget: NavigatablePiPWidget(
-        onPiPClose: () {
-          BlocProvider.of<WatchBloc>(context)
-              .add(WatchEvent.togglePip(value: false));
-        },
-        elevation: 10, //Optional
-        pipBorderRadius: 10,
-        builder: (BuildContext context) {
-          return PipVideoPlayerWidget(
-            videoId: id,
-            watchInfo: state.watchResp,
-            defaultQuality: settingsState.defaultQuality,
-            playbackPosition: savedState.videoInfo?.playbackPosition ?? 0,
-            isSaved: isSaved,
-            isHlsPlayer: settingsState.isHlsPlayer,
-            subtitles: (state.fetchSubtitlesStatus == ApiStatus.loading ||
-                    state.fetchSubtitlesStatus == ApiStatus.initial)
-                ? []
-                : state.subtitles,
-          );
-        }, //Optional
-      ),
     );
   }
 }

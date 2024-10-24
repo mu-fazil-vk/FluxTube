@@ -46,6 +46,7 @@ class InvidiousRelatedVideoSection extends StatelessWidget {
                       BlocProvider.of<WatchBloc>(context).add(
                           WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
+                                  id: videoId,
                                   title:
                                       watchInfo.recommendedVideos![index].title,
                                   thumbnailUrl: watchInfo

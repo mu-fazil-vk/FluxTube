@@ -3,12 +3,10 @@ description: "A YouTube client application."
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.7.1+6
+version: 0.8.0+7
 
 environment:
   sdk: '>=3.3.1 <4.0.0'
-
-isar_version: &isar_version 3.1.8
 
 dependencies:
   awesome_bottom_bar: ^1.2.4
@@ -17,14 +15,13 @@ dependencies:
   cupertino_icons: ^1.0.6
   dartz: ^0.10.1
   dio: ^5.4.3+1
+  dismissible_page: ^1.0.2
   easy_debounce: ^2.0.3
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.5
-  flutter_in_app_pip: ^1.7.3
   flutter_localizations:
     sdk: flutter
-  flutter_settings_ui: ^3.0.1
   flutter_svg: ^2.0.10+1
   fluttertoast: ^8.2.6
   freezed_annotation: ^2.4.1
@@ -33,10 +30,10 @@ dependencies:
   injectable: ^2.4.2
   intl: ^0.19.0
   isar: 
-    version: *isar_version
+    version: 3.1.8
     hosted: https://pub.isar-community.dev/
   isar_flutter_libs: # contains Isar Core
-    version: *isar_version
+    version: 3.1.8
     hosted: https://pub.isar-community.dev/
   json_annotation: ^4.9.0
   json_serializable: ^6.8.0
@@ -64,7 +61,7 @@ dev_dependencies:
   injectable_generator: ^2.6.1
   intl_translation: ^0.20.0
   isar_generator: 
-    version: *isar_version
+    version: 3.1.8
     hosted: https://pub.isar-community.dev/
 
 dependency_overrides:

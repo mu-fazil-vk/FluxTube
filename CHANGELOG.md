@@ -1,5 +1,16 @@
 ## Changelog
 
+### v0.8.0
+- Added Invidious service.
+- Replaced pip package with custom.
+- Optimized code.
+- Removed unwanted fetching.
+- Router fixed
+- Default service changed to iFrame
+- All the pip modes are draggable except iFrame.
+- Default hls changed to false.
+- Settings ui package changed to custom for more optimization.
+
 ### v0.7.1
 - Added explode service.
 - Added iFrame service.

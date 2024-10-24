@@ -48,7 +48,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final bool defaultHlsPlayer = settingsMap[hlsPlayer] == "true";
 
       final String ytService =
-          settingsMap[youtubeService] ?? YouTubeServices.explode.name;
+          settingsMap[youtubeService] ?? YouTubeServices.iframe.name;
 
       final String instanceApi;
       if (ytService == YouTubeServices.piped.name) {
@@ -174,7 +174,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           isHlsPlayer: !state.isHlsPlayer);
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(isHlsPlayer: state.isHlsPlayer),
-          (bool isHlsPlayer) => state.copyWith(isHlsPlayer: isHlsPlayer));
+          (bool isHlsPlayer) {
+            return state.copyWith(isHlsPlayer: isHlsPlayer);
+          });
       emit(_state);
     });
 

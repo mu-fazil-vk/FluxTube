@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 class VideoBasicInfo {
+  final String id;
   final String? title;
   final String? thumbnailUrl;
   final String? channelName;
@@ -9,6 +10,7 @@ class VideoBasicInfo {
   final String? channelId;
   final bool? uploaderVerified;
   VideoBasicInfo({
+    required this.id,
     this.title,
     this.thumbnailUrl,
     this.channelName,
@@ -18,6 +20,7 @@ class VideoBasicInfo {
   });
 
   VideoBasicInfo copyWith({
+    String? id,
     String? title,
     String? thumbnailUrl,
     String? channelName,
@@ -26,6 +29,7 @@ class VideoBasicInfo {
     bool? uploaderVerified,
   }) {
     return VideoBasicInfo(
+      id: id ?? this.id,
       title: title ?? this.title,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
       channelName: channelName ?? this.channelName,
@@ -37,6 +41,7 @@ class VideoBasicInfo {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'title': title,
       'thumbnailUrl': thumbnailUrl,
       'channelName': channelName,
@@ -48,50 +53,47 @@ class VideoBasicInfo {
 
   factory VideoBasicInfo.fromMap(Map<String, dynamic> map) {
     return VideoBasicInfo(
+      id: map['id'] as String,
       title: map['title'] != null ? map['title'] as String : null,
-      thumbnailUrl:
-          map['thumbnailUrl'] != null ? map['thumbnailUrl'] as String : null,
-      channelName:
-          map['channelName'] != null ? map['channelName'] as String : null,
-      channelThumbnailUrl: map['channelThumbnailUrl'] != null
-          ? map['channelThumbnailUrl'] as String
-          : null,
+      thumbnailUrl: map['thumbnailUrl'] != null ? map['thumbnailUrl'] as String : null,
+      channelName: map['channelName'] != null ? map['channelName'] as String : null,
+      channelThumbnailUrl: map['channelThumbnailUrl'] != null ? map['channelThumbnailUrl'] as String : null,
       channelId: map['channelId'] != null ? map['channelId'] as String : null,
-      uploaderVerified: map['uploaderVerified'] != null
-          ? map['uploaderVerified'] as bool
-          : null,
+      uploaderVerified: map['uploaderVerified'] != null ? map['uploaderVerified'] as bool : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory VideoBasicInfo.fromJson(String source) =>
-      VideoBasicInfo.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory VideoBasicInfo.fromJson(String source) => VideoBasicInfo.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'VideoBasicInfo(title: $title, thumbnailUrl: $thumbnailUrl, channelName: $channelName, channelThumbnailUrl: $channelThumbnailUrl, channelId: $channelId, uploaderVerified: $uploaderVerified)';
+    return 'VideoBasicInfo(id: $id, title: $title, thumbnailUrl: $thumbnailUrl, channelName: $channelName, channelThumbnailUrl: $channelThumbnailUrl, channelId: $channelId, uploaderVerified: $uploaderVerified)';
   }
 
   @override
   bool operator ==(covariant VideoBasicInfo other) {
     if (identical(this, other)) return true;
-
-    return other.title == title &&
-        other.thumbnailUrl == thumbnailUrl &&
-        other.channelName == channelName &&
-        other.channelThumbnailUrl == channelThumbnailUrl &&
-        other.channelId == channelId &&
-        other.uploaderVerified == uploaderVerified;
+  
+    return 
+      other.id == id &&
+      other.title == title &&
+      other.thumbnailUrl == thumbnailUrl &&
+      other.channelName == channelName &&
+      other.channelThumbnailUrl == channelThumbnailUrl &&
+      other.channelId == channelId &&
+      other.uploaderVerified == uploaderVerified;
   }
 
   @override
   int get hashCode {
-    return title.hashCode ^
-        thumbnailUrl.hashCode ^
-        channelName.hashCode ^
-        channelThumbnailUrl.hashCode ^
-        channelId.hashCode ^
-        uploaderVerified.hashCode;
+    return id.hashCode ^
+      title.hashCode ^
+      thumbnailUrl.hashCode ^
+      channelName.hashCode ^
+      channelThumbnailUrl.hashCode ^
+      channelId.hashCode ^
+      uploaderVerified.hashCode;
   }
 }

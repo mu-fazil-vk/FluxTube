@@ -57,6 +57,7 @@ class HistoryVideosSection extends StatelessWidget {
                           BlocProvider.of<WatchBloc>(context).add(
                               WatchEvent.setSelectedVideoBasicDetails(
                                   details: VideoBasicInfo(
+                                      id: videoId,
                                       title: historyVideo.title,
                                       thumbnailUrl: historyVideo.thumbnail,
                                       channelName: historyVideo.uploaderName,

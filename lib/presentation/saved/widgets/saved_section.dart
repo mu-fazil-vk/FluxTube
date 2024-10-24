@@ -47,6 +47,7 @@ class SavedVideosSection extends StatelessWidget {
                             BlocProvider.of<WatchBloc>(context).add(
                                 WatchEvent.setSelectedVideoBasicDetails(
                                     details: VideoBasicInfo(
+                                        id: videoId,
                                         title: savedVideo.title,
                                         thumbnailUrl: savedVideo.thumbnail,
                                         channelName: savedVideo.uploaderName,

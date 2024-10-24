@@ -77,6 +77,7 @@ class SearcheResultSection extends StatelessWidget {
                       BlocProvider.of<WatchBloc>(context).add(
                           WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
+                                  id: _videoId,
                                   title: _result.title,
                                   thumbnailUrl: _result.thumbnail,
                                   channelName: _result.uploaderName,

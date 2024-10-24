@@ -45,6 +45,7 @@ class RelatedVideoSection extends StatelessWidget {
                       BlocProvider.of<WatchBloc>(context).add(
                           WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
+                                  id: videoId,
                                   title: watchInfo.relatedStreams![index].title,
                                   thumbnailUrl: watchInfo
                                       .relatedStreams![index].thumbnail,

@@ -2,7 +2,6 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_in_app_pip/picture_in_picture.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
@@ -31,10 +30,12 @@ class InvidiousPipVideoPlayerWidget extends StatefulWidget {
   final List<Map<String, String>> subtitles;
 
   @override
-  State<InvidiousPipVideoPlayerWidget> createState() => _InvidiousPipVideoPlayerWidgetState();
+  State<InvidiousPipVideoPlayerWidget> createState() =>
+      _InvidiousPipVideoPlayerWidgetState();
 }
 
-class _InvidiousPipVideoPlayerWidgetState extends State<InvidiousPipVideoPlayerWidget> {
+class _InvidiousPipVideoPlayerWidgetState
+    extends State<InvidiousPipVideoPlayerWidget> {
   BetterPlayerController? _betterPlayerController;
 
   FormatStream? selectedVideoTrack;
@@ -46,6 +47,11 @@ class _InvidiousPipVideoPlayerWidgetState extends State<InvidiousPipVideoPlayerW
   List<BetterPlayerSubtitlesSource>? betterPlayerSubtitles;
 
   BetterPlayerDataSource? betterPlayerDataSource;
+
+  // Track the position of the video player on the screen
+  Offset position = const Offset(20, 20);
+
+  WatchBloc? _watchBloc;
 
   @override
   void initState() {
@@ -76,9 +82,16 @@ class _InvidiousPipVideoPlayerWidgetState extends State<InvidiousPipVideoPlayerW
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Cache the reference to the WatchBloc ancestor here
+    _watchBloc = BlocProvider.of<WatchBloc>(context);
+  }
+
+  @override
   void dispose() {
     _updateVideoHistory();
-    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
+    _watchBloc?.add(WatchEvent.togglePip(value: false));
     _betterPlayerController?.dispose();
     super.dispose();
   }
@@ -87,27 +100,52 @@ class _InvidiousPipVideoPlayerWidgetState extends State<InvidiousPipVideoPlayerW
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        // Use Positioned to allow free movement on the screen
+        Positioned(
+          left: position.dx,
+          top: position.dy,
+          child: Draggable(
+            feedback: _buildPlayer(),
+            childWhenDragging:
+                Container(), // Show an empty container while dragging
+            onDraggableCanceled: (Velocity velocity, Offset offset) {
+              setState(() {
+                // Update the position of the player based on the drag
+                position = offset;
+              });
+            },
+            child: _buildPlayer(),
+          ),
+        ),
+        // Close button to stop Picture in Picture and toggle the state
+      ],
+    );
+  }
+
+  Widget _buildPlayer() {
+    return SizedBox(
+      width: 300,
+      height: 200,
+      child: Stack(children: [
         AspectRatio(
           aspectRatio: 16 / 8,
           child: _betterPlayerController != null
-              ? BetterPlayer(
-                  controller: _betterPlayerController!,
-                  //key: UniqueKey()
-                )
+              ? BetterPlayer(controller: _betterPlayerController!)
               : const Center(child: CircularProgressIndicator()),
         ),
         Align(
           alignment: Alignment.topRight,
           child: IconButton(
-              onPressed: () {
-                _updateVideoHistory();
-                PictureInPicture.stopPiP();
-                BlocProvider.of<WatchBloc>(context)
-                    .add(WatchEvent.togglePip(value: false));
-              },
-              icon: const Icon(CupertinoIcons.xmark)),
+            //onPressed: pipClose,
+            onPressed: () {
+              _updateVideoHistory();
+              _betterPlayerController?.dispose(forceDispose: true);
+              _watchBloc?.add(WatchEvent.togglePip(value: false));
+            },
+            icon: const Icon(CupertinoIcons.xmark),
+          ),
         )
-      ],
+      ]),
     );
   }
 
@@ -129,12 +167,17 @@ class _InvidiousPipVideoPlayerWidgetState extends State<InvidiousPipVideoPlayerW
     enableProgressText: false,
   );
 
+  void pipClose() {
+    _updateVideoHistory();
+    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
+    _betterPlayerController?.dispose(forceDispose: true);
+  }
+
   double selectAspectRatio() {
     final firstStream = widget.watchInfo.formatStreams?.firstOrNull;
-    if (firstStream != null &&
-        firstStream.size != null) {
-
-      return int.parse(firstStream.size!.split('x').first) / int.parse(firstStream.size!.split('x').last);
+    if (firstStream != null && firstStream.size != null) {
+      return int.parse(firstStream.size!.split('x').first) /
+          int.parse(firstStream.size!.split('x').last);
     }
     return 16 / 9; // Default aspect ratio
   }
@@ -168,7 +211,6 @@ class _InvidiousPipVideoPlayerWidgetState extends State<InvidiousPipVideoPlayerW
 
   FormatStream? findClosestQuality(
       String defaultQuality, List<FormatStream> availableVideoTracks) {
-    // Assuming available qualities are in the format "360p", "480p", etc.
     int defaultQualityValue =
         int.tryParse(defaultQuality.replaceAll('p', '')) ?? 0;
 
@@ -197,19 +239,13 @@ class _InvidiousPipVideoPlayerWidgetState extends State<InvidiousPipVideoPlayerW
         selectedVideoTrack != null &&
         selectedVideoTrack?.url != null) {
       betterPlayerDataSource = BetterPlayerDataSource(
-          BetterPlayerDataSourceType.network, selectedVideoTrack!.url ?? '',
-          subtitles: betterPlayerSubtitles,
-          resolutions: resolutions,
-          liveStream: widget.watchInfo.liveNow,
-          videoFormat: BetterPlayerVideoFormat.other,
-          // cacheConfiguration: const BetterPlayerCacheConfiguration(
-          //   useCache: false,
-          //   preCacheSize: 10 * 1024 * 1024, // 10 mb
-          //   maxCacheSize: 30 * 1024 * 1024, // 30 mb
-          //   maxCacheFileSize: 30 * 1024 * 1024,
-          //   key: "ftCacheKey",
-          // ),
-          videoExtension: selectedVideoTrack?.container ?? 'mp4');
+        BetterPlayerDataSourceType.network,
+        selectedVideoTrack!.url ?? '',
+        subtitles: betterPlayerSubtitles,
+        resolutions: resolutions,
+        liveStream: widget.watchInfo.liveNow,
+        videoFormat: BetterPlayerVideoFormat.other,
+      );
     } else {
       if (!widget.isHlsPlayer) {
         if (context.mounted) {
@@ -223,33 +259,36 @@ class _InvidiousPipVideoPlayerWidgetState extends State<InvidiousPipVideoPlayerW
       }
 
       betterPlayerDataSource = BetterPlayerDataSource(
-          BetterPlayerDataSourceType.network, widget.watchInfo.dashUrl!,
-          useAsmsTracks: true,
-          useAsmsAudioTracks: true,
-          useAsmsSubtitles: false,
-          subtitles: betterPlayerSubtitles,
-          liveStream: widget.watchInfo.liveNow,
-          videoFormat: BetterPlayerVideoFormat.hls,
-          cacheConfiguration: const BetterPlayerCacheConfiguration(
-            useCache: true,
-            preCacheSize: 10 * 1024 * 1024, // 10 mb
-            maxCacheSize: 30 * 1024 * 1024, // 30 mb
-            maxCacheFileSize: 30 * 1024 * 1024,
-            key: "ftCacheKey",
-          ));
+        BetterPlayerDataSourceType.network,
+        widget.watchInfo.dashUrl!,
+        useAsmsTracks: true,
+        useAsmsAudioTracks: true,
+        useAsmsSubtitles: false,
+        subtitles: betterPlayerSubtitles,
+        liveStream: widget.watchInfo.liveNow,
+        videoFormat: BetterPlayerVideoFormat.hls,
+        cacheConfiguration: const BetterPlayerCacheConfiguration(
+          useCache: true,
+          preCacheSize: 10 * 1024 * 1024, // 10 mb
+          maxCacheSize: 30 * 1024 * 1024, // 30 mb
+          maxCacheFileSize: 30 * 1024 * 1024,
+          key: "ftCacheKey",
+        ),
+      );
     }
 
     _betterPlayerController = BetterPlayerController(
       BetterPlayerConfiguration(
-          controlsConfiguration: controlsConfiguration,
-          autoPlay: true,
-          startAt: Duration(seconds: startPosition),
-          autoDetectFullscreenAspectRatio: false,
-          aspectRatio: aspectRatio,
-          allowedScreenSleep: false,
-          expandToFill: false,
-          autoDispose: true,
-          fit: BoxFit.fitHeight),
+        controlsConfiguration: controlsConfiguration,
+        autoPlay: true,
+        startAt: Duration(seconds: startPosition),
+        autoDetectFullscreenAspectRatio: false,
+        aspectRatio: aspectRatio,
+        allowedScreenSleep: false,
+        expandToFill: false,
+        autoDispose: false,
+        fit: BoxFit.fitHeight,
+      ),
       betterPlayerDataSource: betterPlayerDataSource,
     );
 
@@ -277,8 +316,7 @@ class _InvidiousPipVideoPlayerWidgetState extends State<InvidiousPipVideoPlayerW
           isHistory: true,
           isLive: widget.watchInfo.liveNow,
           isSaved: widget.isSaved,
-          playbackPosition:
-              currentPosition.inSeconds, // Save the current playback position
+          playbackPosition: currentPosition.inSeconds,
         ),
       ));
     }

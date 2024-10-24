@@ -31,7 +31,7 @@ class SettingsState with _$SettingsState {
         version: "",
         isHistoryVisible: true,
         isDislikeVisible: false,
-        isHlsPlayer: true,
+        isHlsPlayer: false,
         isHideComments: false,
         isHideRelated: false,
         pipedInstances: [],
@@ -40,7 +40,7 @@ class SettingsState with _$SettingsState {
         instance: BaseUrl.kBaseUrl,
         invidiousInstances: [],
         invidiousInstanceStatus: ApiStatus.initial,
-        ytService: YouTubeServices.explode.name,
+        ytService: YouTubeServices.iframe.name,
         initialized: false,
         settingsStatus: ApiStatus.initial,
       );

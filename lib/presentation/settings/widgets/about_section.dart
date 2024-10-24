@@ -15,7 +15,7 @@ class AboutSection extends StatelessWidget {
       children: [
         Text(
           S.of(context).about,
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 16),
         ),
         ListTile(
           title: Text(S.of(context).developer,

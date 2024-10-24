@@ -60,11 +60,11 @@ class SettingImpliment implements SettingsService {
       {"name": selectedTheme, "default": "system"},
       {"name": historyVisibility, "default": "true"},
       {"name": dislikeVisibility, "default": "false"},
-      {"name": hlsPlayer, "default": "true"},
+      {"name": hlsPlayer, "default": "false"},
       {"name": commentsVisibility, "default": "false"},
       {"name": relatedVideoVisibility, "default": "false"},
       {"name": instanceApiUrl, "default": BaseUrl.kBaseUrl},
-      {"name": youtubeService, "default": YouTubeServices.piped.name},
+      {"name": youtubeService, "default": YouTubeServices.iframe.name},
       // Add more settings here
     ];
 
