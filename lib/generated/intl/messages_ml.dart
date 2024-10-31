@@ -66,6 +66,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "instances": MessageLookupByLibrary.simpleMessage("Instances"),
         "language": MessageLookupByLibrary.simpleMessage("ഭാഷ"),
         "netherlands": MessageLookupByLibrary.simpleMessage("നെതർലാൻഡ്‌സ്"),
+        "noCommentsFound":
+            MessageLookupByLibrary.simpleMessage("അഭിപ്രായങ്ങൾ ലഭ്യമല്ല."),
         "noUploadDate": MessageLookupByLibrary.simpleMessage("തീയതി ഇല്ല"),
         "noUploaderName": MessageLookupByLibrary.simpleMessage("പേര് ലഭ്യമല്ല"),
         "noVideoAvailableChangedToHls": MessageLookupByLibrary.simpleMessage(
@@ -91,8 +93,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "showLessText":
             MessageLookupByLibrary.simpleMessage("കുറച്ചത് കാണിക്കുക"),
         "subscribe": MessageLookupByLibrary.simpleMessage("സബ്സ്ക്രൈബ്"),
+        "swipeDownToDismissDisabled": MessageLookupByLibrary.simpleMessage(
+            "\'സ്വൈപ്പ് ഡൗൺ ചെയ്ത് ഡിസ്മിസ് ചെയ്യൽ\' പ്രവർത്തനരഹിതമാക്കിയിരിക്കുന്നു"),
+        "swipeUpToDismissEnabled": MessageLookupByLibrary.simpleMessage(
+            "\'സ്വൈപ്പ് അപ്പ് ചെയ്ത് ഡിസ്മിസ് ചെയ്യൽ\' പ്രവർത്തന സജ്ജമാക്കിയിരിക്കുന്നു"),
         "switchRegion": MessageLookupByLibrary.simpleMessage(
-            "Please consider switching to a different region for better results."),
+            "മികച്ച ഫലങ്ങൾക്കായി ദയവായി വ്യത്യസ്തമായ ഒരു പ്രദേശത്തിലേക്ക് മാറുന്നതു പരിഗണിക്കുക."),
         "theme": MessageLookupByLibrary.simpleMessage("തീം"),
         "thereIsNoSavedOrHistoryVideos": MessageLookupByLibrary.simpleMessage(
             "സേവ് ചെയ്‌ത/കണ്ടുകഴിഞ്ഞ വീഡിയോകൾ ഇല്ല"),

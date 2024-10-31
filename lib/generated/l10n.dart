@@ -599,6 +599,36 @@ class S {
       args: [],
     );
   }
+
+  /// `'Swipe down to dismiss' disabled`
+  String get swipeDownToDismissDisabled {
+    return Intl.message(
+      '\'Swipe down to dismiss\' disabled',
+      name: 'swipeDownToDismissDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `'Swipe up to dismiss' enabled`
+  String get swipeUpToDismissEnabled {
+    return Intl.message(
+      '\'Swipe up to dismiss\' enabled',
+      name: 'swipeUpToDismissEnabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Comments Found`
+  String get noCommentsFound {
+    return Intl.message(
+      'No Comments Found',
+      name: 'noCommentsFound',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -63,6 +63,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "instances": MessageLookupByLibrary.simpleMessage("Instances"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "netherlands": MessageLookupByLibrary.simpleMessage("Netherlands"),
+        "noCommentsFound":
+            MessageLookupByLibrary.simpleMessage("No Comments Found"),
         "noUploadDate": MessageLookupByLibrary.simpleMessage("No date"),
         "noUploaderName": MessageLookupByLibrary.simpleMessage("No name"),
         "noVideoAvailableChangedToHls": MessageLookupByLibrary.simpleMessage(
@@ -86,6 +88,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "share": MessageLookupByLibrary.simpleMessage("Share"),
         "showLessText": MessageLookupByLibrary.simpleMessage("Show less"),
         "subscribe": MessageLookupByLibrary.simpleMessage("Subscribe"),
+        "swipeDownToDismissDisabled": MessageLookupByLibrary.simpleMessage(
+            "\'Swipe down to dismiss\' disabled"),
+        "swipeUpToDismissEnabled": MessageLookupByLibrary.simpleMessage(
+            "\'Swipe up to dismiss\' enabled"),
         "switchRegion": MessageLookupByLibrary.simpleMessage(
             "Please consider switching to a different region for better results."),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),

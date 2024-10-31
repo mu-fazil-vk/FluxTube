@@ -29,7 +29,8 @@ dependencies:
   go_router: ^14.1.3
   injectable: ^2.4.2
   intl: ^0.19.0
-  isar: 
+  intl_utils: ^2.8.7
+  isar:
     version: 3.1.8
     hosted: https://pub.isar-community.dev/
   isar_flutter_libs: # contains Isar Core
@@ -59,7 +60,7 @@ dev_dependencies:
   freezed: ^2.5.7
   injectable_generator: ^2.6.1
   intl_translation: ^0.20.0
-  isar_generator: 
+  isar_generator:
     version: 3.1.8
     hosted: https://pub.isar-community.dev/
 
@@ -69,6 +70,7 @@ dependency_overrides:
 flutter:
 
   uses-material-design: true
+  generate: true
   assets:
     - assets/
     - assets/icons/
@@ -82,7 +84,13 @@ flutter:
         - asset: assets/fonts/Knewave-Regular.ttf
 
 flutter_intl:
-  enabled: true
+  enabled: true # Required. Must be set to true to activate the plugin. Default: false
+  class_name: S # Optional. Sets the name for the generated localization class. Default: S
+  main_locale: en # Optional. Sets the main locale used for generating localization files. Provided value should consist of language code and optional script and country codes separated with underscore (e.g. 'en', 'en_GB', 'zh_Hans', 'zh_Hans_CN'). Default: en
+  arb_dir: lib/l10n # Optional. Sets the directory of your ARB resource files. Provided value should be a valid path on your system. Default: lib/l10n
+  output_dir: lib/generated # Optional. Sets the directory of generated localization files. Provided value should be a valid path on your system. Default: lib/generated
+  use_deferred_loading: false # Optional. Must be set to true to generate localization code that is loaded with deferred loading. Default: false
+
   localizely:
     project_id: en
 

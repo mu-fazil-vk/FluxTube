@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "${Intl.plural(count, zero: 'Нет подписчиков', one: 'подписчик', few: 'подписчика', many: 'подписчиков', other: 'подписчика')}";
 
   static String m1(count) =>
-      "{count, plural, =1{ответ} few{ответа} many{ответов} other{ответа}";
+      "${Intl.plural(count, one: 'ответ', few: 'ответа', many: 'ответов', other: 'ответа')}";
 
   static String m2(count) =>
       "${Intl.plural(count, zero: 'Нет просмотров', one: 'просмотр', few: 'просмотра', many: 'просмотров', other: 'просмотра')}";
@@ -65,6 +65,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "instances": MessageLookupByLibrary.simpleMessage("Instances"),
         "language": MessageLookupByLibrary.simpleMessage("Язык"),
         "netherlands": MessageLookupByLibrary.simpleMessage("Нидерланды"),
+        "noCommentsFound":
+            MessageLookupByLibrary.simpleMessage("No Comments Found"),
         "noUploadDate": MessageLookupByLibrary.simpleMessage("Без даты"),
         "noUploaderName": MessageLookupByLibrary.simpleMessage("Безымянный"),
         "noVideoAvailableChangedToHls": MessageLookupByLibrary.simpleMessage(
@@ -88,6 +90,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "share": MessageLookupByLibrary.simpleMessage("Поделиться"),
         "showLessText": MessageLookupByLibrary.simpleMessage("Скрыть"),
         "subscribe": MessageLookupByLibrary.simpleMessage("Подписаться"),
+        "swipeDownToDismissDisabled": MessageLookupByLibrary.simpleMessage(
+            "\'Swipe down to dismiss\' disabled"),
+        "swipeUpToDismissEnabled": MessageLookupByLibrary.simpleMessage(
+            "\'Swipe up to dismiss\' enabled"),
         "switchRegion": MessageLookupByLibrary.simpleMessage(
             "Please consider switching to a different region for better results."),
         "theme": MessageLookupByLibrary.simpleMessage("Оформление"),

@@ -132,8 +132,8 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
                             fToast?.showToast(
                               child: Text(
                                 _isDismissibleDisabled
-                                    ? 'Swipe down to dismiss disabled'
-                                    : 'Swipe up to dismiss enabled',
+                                    ? locals.swipeDownToDismissDisabled
+                                    : locals.swipeUpToDismissEnabled,
                               ),
                               gravity: ToastGravity.BOTTOM,
                               toastDuration: const Duration(seconds: 2),
