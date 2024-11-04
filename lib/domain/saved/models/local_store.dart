@@ -45,4 +45,21 @@ class LocalStoreVideoInfo {
     this.isLive,
     this.playbackPosition,
   });
+  LocalStoreVideoInfo.init({
+    this.id = '',
+    this.title = '',
+    this.views = 0,
+    this.thumbnail = '',
+    this.uploadedDate = '',
+    this.uploaderName = '',
+    this.uploaderId = '',
+    this.uploaderAvatar = '',
+    this.uploaderSubscriberCount = '',
+    this.duration = 0,
+    this.uploaderVerified = false,
+    this.isSaved = false,
+    this.isHistory = false,
+    this.isLive = false,
+    this.playbackPosition = 0,
+  });
 }

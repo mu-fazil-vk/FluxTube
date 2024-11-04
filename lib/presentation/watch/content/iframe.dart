@@ -43,7 +43,7 @@ class IFrameVideoPlayerContent extends StatefulWidget {
 }
 
 class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
-  late YoutubePlayerController _controller;
+  YoutubePlayerController? _controller;
 
   bool _isDismissibleDisabled = true;
 
@@ -53,30 +53,14 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
   void initState() {
     fToast = FToast();
     fToast?.init(context);
+    _controller?.close();
     _controller = YoutubePlayerController.fromVideoId(
       videoId: widget.id,
       autoPlay: true,
       startSeconds: (widget.savedState.localSavedHistoryVideos
                   .firstWhere(
                     (element) => element.id == widget.id,
-                    orElse: () => LocalStoreVideoInfo(
-                      playbackPosition: 0, // Default value
-                      // other properties with default values
-                      id: '',
-                      title: '',
-                      views: 0,
-                      thumbnail: '',
-                      uploadedDate: '',
-                      uploaderAvatar: null,
-                      uploaderName: '',
-                      uploaderId: '',
-                      uploaderSubscriberCount: null,
-                      duration: 0,
-                      uploaderVerified: false,
-                      isHistory: true,
-                      isLive: false,
-                      isSaved: false,
-                    ),
+                    orElse: () => LocalStoreVideoInfo.init(),
                   )
                   .playbackPosition ??
               0)
@@ -93,7 +77,7 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
 
   @override
   void dispose() {
-    _controller.close();
+    _controller?.close();
     super.dispose();
   }
 
@@ -115,7 +99,7 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
       disabled:
           (orientation == Orientation.landscape) || _isDismissibleDisabled,
       child: YoutubePlayerScaffold(
-        controller: _controller,
+        controller: _controller!,
         aspectRatio: 16 / 9,
         enableFullScreenOnVerticalDrag: false,
         builder: (context, player) {
@@ -126,21 +110,22 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     GestureDetector(
-                        onDoubleTap: () {
-                          setState(() {
-                            _isDismissibleDisabled = !_isDismissibleDisabled;
-                            fToast?.showToast(
-                              child: Text(
-                                _isDismissibleDisabled
-                                    ? locals.swipeDownToDismissDisabled
-                                    : locals.swipeUpToDismissEnabled,
-                              ),
-                              gravity: ToastGravity.BOTTOM,
-                              toastDuration: const Duration(seconds: 2),
-                            );
-                          });
-                        },
-                        child: player),
+                      onDoubleTap: () {
+                        setState(() {
+                          _isDismissibleDisabled = !_isDismissibleDisabled;
+                          fToast?.showToast(
+                            child: Text(
+                              _isDismissibleDisabled
+                                  ? locals.swipeDownToDismissDisabled
+                                  : locals.swipeUpToDismissEnabled,
+                            ),
+                            gravity: ToastGravity.BOTTOM,
+                            toastDuration: const Duration(seconds: 2),
+                          );
+                        });
+                      },
+                      child: player,
+                    ),
                     BlocBuilder<WatchBloc, WatchState>(
                       builder: (context, state) {
                         final watchInfo = state.explodeWatchResp;
