@@ -30,7 +30,7 @@ class WatchEvent with _$WatchEvent {
   }) = GetSubtitles;
 
   factory WatchEvent.tapDescription() = TapDescription;
-  
+
   factory WatchEvent.togglePip({required bool value}) = TogglePip;
 
   factory WatchEvent.assignTitle({required String title}) = AssignTitle;
@@ -55,4 +55,28 @@ class WatchEvent with _$WatchEvent {
   factory WatchEvent.setSelectedVideoBasicDetails({
     required VideoBasicInfo details,
   }) = SetSelectedVideoBasicDetails;
+
+  // INVIDIOUS
+  factory WatchEvent.getInvidiousWatchInfo({
+    required String id,
+  }) = GetInvidiousWatchInfo;
+
+  factory WatchEvent.getInvidiousComments({
+    required String id,
+  }) = GetInvidiousComments;
+
+  factory WatchEvent.getInvidiousCommentReplies({
+    required String id,
+    required String continuation,
+  }) = GetInvidiousCommentReplies;
+
+  factory WatchEvent.getMoreInvidiousComments({
+    required String id,
+    required String? continuation,
+  }) = GetMoreInvidiousComments;
+
+  factory WatchEvent.getMoreInvidiousReplyComments({
+    required String id,
+    required String? continuation,
+  }) = GetMoreInvidiousReplyComments;
 }

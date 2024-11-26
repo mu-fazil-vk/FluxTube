@@ -5,6 +5,9 @@ import '../../../core/operations/math_operations.dart';
 
 part 'subscribe.g.dart';
 
+//--------SUBSCRIBE MODEL FOR LOCAL SAVING--------//
+// `flutter pub run build_runner build` to generate file
+
 @Collection()
 class Subscribe {
   late String id;

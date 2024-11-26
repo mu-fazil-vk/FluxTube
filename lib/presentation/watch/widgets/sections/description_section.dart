@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
+import 'package:fluxtube/domain/watch/models/piped/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 

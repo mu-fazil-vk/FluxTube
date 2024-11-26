@@ -1,7 +1,7 @@
+import 'package:dismissible_page/dismissible_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
@@ -11,11 +11,10 @@ import 'package:fluxtube/presentation/watch/widgets/explode/description_section.
 import 'package:fluxtube/presentation/watch/widgets/explode/like_section.dart';
 import 'package:fluxtube/presentation/watch/widgets/explode/subscribe_section.dart';
 import 'package:fluxtube/presentation/watch/widgets/explode/video_player_widget.dart';
+import 'package:fluxtube/presentation/watch/widgets/invidious/comment_widgets.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 
-import 'widgets/explode/pip_video_player.dart';
 import 'widgets/explode/related_video_section.dart';
-import 'widgets/widgets.dart';
 
 class ExplodeScreenWatch extends StatelessWidget {
   const ExplodeScreenWatch({
@@ -32,7 +31,8 @@ class ExplodeScreenWatch extends StatelessWidget {
     final locals = S.of(context);
     final double _height = MediaQuery.of(context).size.height;
 
-    PictureInPicture.stopPiP();
+    BlocProvider.of<WatchBloc>(context)
+        .add(WatchEvent.togglePip(value: false));
 
     BlocProvider.of<SavedBloc>(context)
         .add(const SavedEvent.getAllVideoInfoList());
@@ -82,214 +82,205 @@ class ExplodeScreenWatch extends StatelessWidget {
                 },
               );
             } else {
-              return Dismissible(
-                direction: DismissDirection.down,
-                onDismissed: (direction) {
-                  buildPip(
-                      context: context,
-                      isSaved: isSaved,
-                      savedState: savedState,
-                      settingsState: settingsState,
-                      state: state);
-                },
+              return DismissiblePage(
+                    direction: DismissiblePageDismissDirection.down,
+                    onDismissed: () {
+                      BlocProvider.of<WatchBloc>(context)
+                          .add(WatchEvent.togglePip(value: true));
+                      Navigator.pop(context);
+                    },
+                    isFullScreen: true,
                 key: ValueKey(id),
                 child: PopScope(
-                  canPop: false,
-                  onPopInvoked: (didPop) => buildPip(
-                      context: context,
-                      isSaved: isSaved,
-                      savedState: savedState,
-                      settingsState: settingsState,
-                      state: state),
+                  canPop: true,
+                  onPopInvokedWithResult: (didPop, _) =>
+                      BlocProvider.of<WatchBloc>(context)
+                          .add(WatchEvent.togglePip(value: true)),
                   child: Scaffold(
                     body: SafeArea(
                       child: SingleChildScrollView(
                         child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              (state.fetchExplodeWatchInfoStatus ==
-                                          ApiStatus.initial ||
-                                      state.fetchExplodeWatchInfoStatus ==
-                                          ApiStatus.loading ||
-                                      state.fetchSubtitlesStatus ==
-                                          ApiStatus.loading)
-                                  ? Container(
-                                      height: 230,
-                                      color: kBlackColor,
-                                      child: Center(
-                                        child: cIndicator(context),
-                                      ),
-                                    )
-                                  : ExplodeVideoPlayerWidget(
-                                      videoId: id,
-                                      watchInfo: state.explodeWatchResp,
-                                      defaultQuality:
-                                          settingsState.defaultQuality,
-                                      playbackPosition: savedState
-                                              .videoInfo?.playbackPosition ??
-                                          0,
-                                      isSaved: isSaved,
-                                      liveUrl: state.liveStreamUrl,
-                                      availableVideoTracks:
-                                          state.muxedStreams ?? [],
-                                      subtitles: (state.fetchSubtitlesStatus ==
-                                                  ApiStatus.loading ||
-                                              state.fetchSubtitlesStatus ==
-                                                  ApiStatus.initial)
-                                          ? []
-                                          : state.subtitles,
-                                      selectedVideoBasicDetails:
-                                          state.selectedVideoBasicDetails,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            (state.fetchExplodeWatchInfoStatus ==
+                                        ApiStatus.initial ||
+                                    state.fetchExplodeWatchInfoStatus ==
+                                        ApiStatus.loading ||
+                                    state.fetchSubtitlesStatus ==
+                                        ApiStatus.loading)
+                                ? Container(
+                                    height: 230,
+                                    color: kBlackColor,
+                                    child: Center(
+                                      child: cIndicator(context),
                                     ),
-                              BlocBuilder<WatchBloc, WatchState>(
-                                builder: (context, state) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 12, left: 20, right: 20),
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          // * caption row
-                                          (state.fetchExplodeWatchInfoStatus ==
-                                                      ApiStatus.initial ||
-                                                  state.fetchExplodeWatchInfoStatus ==
-                                                      ApiStatus.loading)
-                                              ? CaptionRowWidget(
-                                                  caption: state
-                                                          .selectedVideoBasicDetails
-                                                          ?.title ??
-                                                      '',
-                                                  icon:
-                                                      state.isDescriptionTapped
-                                                          ? CupertinoIcons
-                                                              .chevron_up
-                                                          : CupertinoIcons
-                                                              .chevron_down,
-                                                )
-                                              : GestureDetector(
-                                                  onTap: () => BlocProvider.of<
-                                                          WatchBloc>(context)
+                                  )
+                                : ExplodeVideoPlayerWidget(
+                                    videoId: id,
+                                    watchInfo: state.explodeWatchResp,
+                                    defaultQuality:
+                                        settingsState.defaultQuality,
+                                    playbackPosition: savedState
+                                            .videoInfo?.playbackPosition ??
+                                        0,
+                                    isSaved: isSaved,
+                                    liveUrl: state.liveStreamUrl,
+                                    availableVideoTracks:
+                                        state.muxedStreams ?? [],
+                                    subtitles: (state.fetchSubtitlesStatus ==
+                                                ApiStatus.loading ||
+                                            state.fetchSubtitlesStatus ==
+                                                ApiStatus.initial)
+                                        ? []
+                                        : state.subtitles,
+                                    selectedVideoBasicDetails:
+                                        state.selectedVideoBasicDetails,
+                                  ),
+                            BlocBuilder<WatchBloc, WatchState>(
+                              builder: (context, state) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 12, left: 20, right: 20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // * caption row
+                                      (state.fetchExplodeWatchInfoStatus ==
+                                                  ApiStatus.initial ||
+                                              state.fetchExplodeWatchInfoStatus ==
+                                                  ApiStatus.loading)
+                                          ? CaptionRowWidget(
+                                              caption: state
+                                                      .selectedVideoBasicDetails
+                                                      ?.title ??
+                                                  '',
+                                              icon: state.isDescriptionTapped
+                                                  ? CupertinoIcons.chevron_up
+                                                  : CupertinoIcons.chevron_down,
+                                            )
+                                          : GestureDetector(
+                                              onTap: () =>
+                                                  BlocProvider.of<WatchBloc>(
+                                                          context)
                                                       .add(WatchEvent
                                                           .tapDescription()),
-                                                  child: CaptionRowWidget(
-                                                    caption: watchInfo.title,
-                                                    icon:
-                                                        state.isDescriptionTapped
-                                                            ? CupertinoIcons
-                                                                .chevron_up
-                                                            : CupertinoIcons
-                                                                .chevron_down,
-                                                  ),
-                                                ),
+                                              child: CaptionRowWidget(
+                                                caption: watchInfo.title,
+                                                icon: state.isDescriptionTapped
+                                                    ? CupertinoIcons.chevron_up
+                                                    : CupertinoIcons
+                                                        .chevron_down,
+                                              ),
+                                            ),
 
-                                          kHeightBox5,
+                                      kHeightBox5,
 
-                                          // * views row
-                                          (state.fetchExplodeWatchInfoStatus ==
-                                                      ApiStatus.initial ||
-                                                  state.fetchExplodeWatchInfoStatus ==
-                                                      ApiStatus.loading)
-                                              ? const SizedBox()
-                                              : ViewRowWidget(
-                                                  views: watchInfo.viewCount,
-                                                  uploadedDate: watchInfo
-                                                      .uploadDate
-                                                      .toString(),
-                                                ),
+                                      // * views row
+                                      (state.fetchExplodeWatchInfoStatus ==
+                                                  ApiStatus.initial ||
+                                              state.fetchExplodeWatchInfoStatus ==
+                                                  ApiStatus.loading)
+                                          ? const SizedBox()
+                                          : ViewRowWidget(
+                                              views: watchInfo.viewCount,
+                                              uploadedDate: watchInfo.uploadDate
+                                                  .toString(),
+                                            ),
 
-                                          kHeightBox10,
+                                      kHeightBox10,
 
-                                          // * like row
-                                          (state.fetchExplodeWatchInfoStatus ==
-                                                      ApiStatus.initial ||
-                                                  state.fetchExplodeWatchInfoStatus ==
-                                                      ApiStatus.loading)
-                                              ? const ShimmerLikeWidget()
-                                              : ExplodeLikeSection(
-                                                  id: id,
+                                      // * like row
+                                      (state.fetchExplodeWatchInfoStatus ==
+                                                  ApiStatus.initial ||
+                                              state.fetchExplodeWatchInfoStatus ==
+                                                  ApiStatus.loading)
+                                          ? const ShimmerLikeWidget()
+                                          : ExplodeLikeSection(
+                                              id: id,
+                                              state: state,
+                                              watchInfo: watchInfo,
+                                              pipClicked: () {
+                                                BlocProvider.of<WatchBloc>(
+                                                        context)
+                                                    .add(WatchEvent.togglePip(
+                                                        value: true));
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+
+                                      kHeightBox10,
+
+                                      const Divider(),
+
+                                      // * channel info row
+                                      (state.fetchExplodeWatchInfoStatus ==
+                                                  ApiStatus.initial ||
+                                              state.fetchExplodeWatchInfoStatus ==
+                                                  ApiStatus.loading)
+                                          ? const ShimmerSubscribeWidget()
+                                          : ExplodeChannelInfoSection(
+                                              state: state,
+                                              watchInfo: watchInfo,
+                                              locals: locals),
+                                      if (!state.isTapComments) const Divider(),
+                                      kHeightBox10,
+
+                                      // * description
+                                      state.isDescriptionTapped
+                                          ? ExplodeDescriptionSection(
+                                              height: _height,
+                                              watchInfo: watchInfo,
+                                              locals: locals)
+                                          :
+                                          // * related videos
+                                          state.isTapComments == false
+                                              ? settingsState.isHideRelated
+                                                  ? const SizedBox()
+                                                  : (state.fetchExplodedRelatedVideosStatus ==
+                                                              ApiStatus
+                                                                  .initial ||
+                                                          state.fetchExplodedRelatedVideosStatus ==
+                                                              ApiStatus.loading)
+                                                      ? SizedBox(
+                                                          height: 350,
+                                                          child: ListView
+                                                              .separated(
+                                                                  scrollDirection:
+                                                                      Axis
+                                                                          .horizontal,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    return const ShimmerRelatedVideoWidget();
+                                                                  },
+                                                                  separatorBuilder:
+                                                                      (context,
+                                                                              index) =>
+                                                                          kWidthBox10,
+                                                                  itemCount: 5),
+                                                        )
+                                                      : ExplodeRelatedVideoSection(
+                                                          locals: locals,
+                                                          watchInfo: watchInfo,
+                                                          related: state
+                                                                  .relatedVideos ??
+                                                              [],
+                                                        )
+                                              //comments section
+                                              : InvidiousCommentSection(
+                                                  videoId: id,
                                                   state: state,
-                                                  watchInfo: watchInfo,
-                                                  pipClicked: () => buildPip(
-                                                      context: context,
-                                                      isSaved: isSaved,
-                                                      savedState: savedState,
-                                                      settingsState:
-                                                          settingsState,
-                                                      state: state),
-                                                ),
-
-                                          kHeightBox10,
-
-                                          const Divider(),
-
-                                          // * channel info row
-                                          (state.fetchExplodeWatchInfoStatus ==
-                                                      ApiStatus.initial ||
-                                                  state.fetchExplodeWatchInfoStatus ==
-                                                      ApiStatus.loading)
-                                              ? const ShimmerSubscribeWidget()
-                                              : ExplodeChannelInfoSection(
-                                                  state: state,
-                                                  watchInfo: watchInfo,
-                                                  locals: locals),
-                                          if (!state.isTapComments)
-                                            const Divider(),
-                                          kHeightBox10,
-
-                                          // * description
-                                          state.isDescriptionTapped
-                                              ? ExplodeDescriptionSection(
                                                   height: _height,
-                                                  watchInfo: watchInfo,
-                                                  locals: locals)
-                                              :
-                                              // * related videos
-                                              state.isTapComments == false
-                                                  ? settingsState.isHideRelated
-                                                      ? const SizedBox()
-                                                      : (state.fetchExplodedRelatedVideosStatus ==
-                                                                  ApiStatus
-                                                                      .initial ||
-                                                              state.fetchExplodedRelatedVideosStatus ==
-                                                                  ApiStatus
-                                                                      .loading)
-                                                          ? SizedBox(
-                                                              height: 350,
-                                                              child: ListView
-                                                                  .separated(
-                                                                      scrollDirection:
-                                                                          Axis
-                                                                              .horizontal,
-                                                                      itemBuilder: (context, index) {
-                                                                        return const ShimmerRelatedVideoWidget();
-                                                                      },
-                                                                      separatorBuilder:
-                                                                          (context, index) =>
-                                                                              kWidthBox10,
-                                                                      itemCount:
-                                                                          5),
-                                                            )
-                                                          : ExplodeRelatedVideoSection(
-                                                              locals: locals,
-                                                              watchInfo:
-                                                                  watchInfo,
-                                                              related: state
-                                                                      .relatedVideos ??
-                                                                  [],
-                                                            )
-                                                  //comments section
-                                                  : CommentSection(
-                                                      videoId: id,
-                                                      state: state,
-                                                      height: _height,
-                                                      locals: locals,
-                                                    )
-                                        ]),
-                                  );
-                                },
-                              ),
-                            ]),
+                                                  locals: locals,
+                                                ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -300,42 +291,5 @@ class ExplodeScreenWatch extends StatelessWidget {
         );
       });
     });
-  }
-
-  void buildPip(
-      {context,
-      state,
-      settingsState,
-      savedState,
-      isSaved,
-      isPop = true}) async {
-    if (isPop) {
-      Navigator.pop(context);
-    }
-    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: true));
-    PictureInPicture.startPiP(
-        pipWidget: NavigatablePiPWidget(
-      onPiPClose: () {
-        BlocProvider.of<WatchBloc>(context)
-            .add(WatchEvent.togglePip(value: false));
-      },
-      elevation: 10, //Optional
-      pipBorderRadius: 10,
-      builder: (BuildContext context) {
-        return ExplodePipVideoPlayerWidget(
-          videoId: id,
-          watchInfo: state.explodeWatchResp,
-          defaultQuality: settingsState.defaultQuality,
-          playbackPosition: savedState.videoInfo?.playbackPosition ?? 0,
-          isSaved: isSaved,
-          liveUrl: state.liveStreamUrl,
-          availableVideoTracks: state.muxedStreams ?? [],
-          subtitles: (state.fetchSubtitlesStatus == ApiStatus.loading ||
-                  state.fetchSubtitlesStatus == ApiStatus.initial)
-              ? []
-              : state.subtitles,
-        );
-      }, //Optional
-    ));
   }
 }

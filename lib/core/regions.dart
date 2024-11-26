@@ -184,7 +184,8 @@ final List<RegionModel> regions = [
   RegionModel(name: 'Uganda', code: 'UG'),
   RegionModel(name: 'Ukraine', code: 'UA'),
   RegionModel(name: 'United Arab Emirates', code: 'AE'),
-  RegionModel(name: 'United Kingdom of Great Britain and Northern Ireland', code: 'GB'),
+  RegionModel(
+      name: 'United Kingdom of Great Britain and Northern Ireland', code: 'GB'),
   RegionModel(name: 'United Republic of Tanzania', code: 'TZ'),
   RegionModel(name: 'United States of America', code: 'US'),
   RegionModel(name: 'Uruguay', code: 'UY'),
@@ -196,4 +197,3 @@ final List<RegionModel> regions = [
   RegionModel(name: 'Zambia', code: 'ZM'),
   RegionModel(name: 'Zimbabwe', code: 'ZW'),
 ];
-

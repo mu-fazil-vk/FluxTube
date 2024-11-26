@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
-import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
+import 'package:fluxtube/domain/watch/models/piped/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/related_video_widget.dart';
 import 'package:go_router/go_router.dart';
@@ -45,6 +45,7 @@ class RelatedVideoSection extends StatelessWidget {
                       BlocProvider.of<WatchBloc>(context).add(
                           WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
+                                  id: videoId,
                                   title: watchInfo.relatedStreams![index].title,
                                   thumbnailUrl: watchInfo
                                       .relatedStreams![index].thumbnail,
@@ -56,7 +57,10 @@ class RelatedVideoSection extends StatelessWidget {
                                   uploaderVerified: watchInfo
                                       .relatedStreams![index]
                                       .uploaderVerified)));
-                      context.go('/watch/$videoId/$channelId');
+                      context.goNamed('watch', pathParameters: {
+                        'videoId': videoId,
+                        'channelId': channelId,
+                      });
                     },
                     child: RelatedVideoWidget(
                       title: watchInfo.relatedStreams![index].title ??

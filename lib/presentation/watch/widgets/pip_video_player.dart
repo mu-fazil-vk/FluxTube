@@ -2,11 +2,11 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_in_app_pip/picture_in_picture.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluxtube/application/application.dart';
-import 'package:fluxtube/domain/watch/models/video/video_stream.dart';
-import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
+import 'package:fluxtube/core/enums.dart';
+import 'package:fluxtube/domain/watch/models/piped/video/video_stream.dart';
+import 'package:fluxtube/domain/watch/models/piped/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
 import '../../../domain/saved/models/local_store.dart';
@@ -21,6 +21,7 @@ class PipVideoPlayerWidget extends StatefulWidget {
     this.isSaved = false,
     this.isHlsPlayer = false,
     required this.subtitles,
+    required this.watchState,
   });
 
   final WatchResp watchInfo;
@@ -30,6 +31,7 @@ class PipVideoPlayerWidget extends StatefulWidget {
   final bool isSaved;
   final bool isHlsPlayer;
   final List<Map<String, String>> subtitles;
+  final WatchState watchState;
 
   @override
   State<PipVideoPlayerWidget> createState() => _PipVideoPlayerWidgetState();
@@ -47,6 +49,11 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
   List<BetterPlayerSubtitlesSource>? betterPlayerSubtitles;
 
   BetterPlayerDataSource? betterPlayerDataSource;
+
+  // Track the position of the video player on the screen
+  Offset position = const Offset(20, 20);
+
+  WatchBloc? _watchBloc;
 
   @override
   void initState() {
@@ -79,9 +86,16 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Cache the reference to the WatchBloc ancestor here
+    _watchBloc = BlocProvider.of<WatchBloc>(context);
+  }
+
+  @override
   void dispose() {
     _updateVideoHistory();
-    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
+    _watchBloc?.add(WatchEvent.togglePip(value: false));
     _betterPlayerController?.dispose();
     super.dispose();
   }
@@ -90,48 +104,73 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        AspectRatio(
-          aspectRatio: 16 / 8,
-          child: _betterPlayerController != null
-              ? BetterPlayer(
-                  controller: _betterPlayerController!,
-                  //key: UniqueKey()
-                )
-              : const Center(child: CircularProgressIndicator()),
+        // Use Positioned to allow free movement on the screen
+        Positioned(
+          left: position.dx,
+          top: position.dy,
+          child: Draggable(
+            feedback: _buildPlayer(),
+            childWhenDragging:
+                Container(), // Show an empty container while dragging
+            onDraggableCanceled: (Velocity velocity, Offset offset) {
+              setState(() {
+                // Update the position of the player based on the drag
+                position = offset;
+              });
+            },
+            child: _buildPlayer(),
+          ),
         ),
-        Align(
-          alignment: Alignment.topRight,
-          child: IconButton(
-              onPressed: () {
-                _updateVideoHistory();
-                PictureInPicture.stopPiP();
-                BlocProvider.of<WatchBloc>(context)
-                    .add(WatchEvent.togglePip(value: false));
-              },
-              icon: const Icon(CupertinoIcons.xmark)),
-        )
+        // Close button to stop Picture in Picture and toggle the state
       ],
     );
   }
 
-  BetterPlayerControlsConfiguration controlsConfiguration =
-        const BetterPlayerControlsConfiguration(
-      controlBarColor: Colors.black26,
-      iconsColor: Colors.white,
-      playIcon: Icons.play_arrow_outlined,
-      progressBarPlayedColor: Colors.indigo,
-      progressBarHandleColor: Colors.indigo,
-      controlBarHeight: 40,
-      loadingColor: Colors.red,
-      overflowModalColor: Colors.black54,
-      overflowModalTextColor: Colors.white,
-      overflowMenuIconsColor: Colors.white,
-      enableFullscreen: false,
-      enableOverflowMenu: false,
-      enablePip: false,
-      enableProgressText: false,
+  Widget _buildPlayer() {
+    return SizedBox(
+      width: 250, // or any width you prefer
+      height: 140, // maintain a suitable aspect ratio
+      child: Stack(children: [
+        widget.watchState.fetchWatchInfoStatus == ApiStatus.loading
+            ? const Center(child: CircularProgressIndicator())
+            : AspectRatio(
+                aspectRatio: 16 / 8,
+                child: _betterPlayerController != null
+                    ? BetterPlayer(controller: _betterPlayerController!)
+                    : const Center(child: CircularProgressIndicator()),
+              ),
+        Align(
+          alignment: Alignment.topRight,
+          child: IconButton(
+            onPressed: () {
+              _updateVideoHistory();
+              _betterPlayerController?.dispose(forceDispose: true);
+              _watchBloc?.add(WatchEvent.togglePip(value: false));
+            },
+            icon: const Icon(CupertinoIcons.xmark),
+          ),
+        )
+      ]),
     );
+  }
 
+  BetterPlayerControlsConfiguration controlsConfiguration =
+      const BetterPlayerControlsConfiguration(
+    controlBarColor: Colors.black26,
+    iconsColor: Colors.white,
+    playIcon: Icons.play_arrow_outlined,
+    progressBarPlayedColor: Colors.indigo,
+    progressBarHandleColor: Colors.indigo,
+    controlBarHeight: 40,
+    loadingColor: Colors.red,
+    overflowModalColor: Colors.black54,
+    overflowModalTextColor: Colors.white,
+    overflowMenuIconsColor: Colors.white,
+    enableFullscreen: false,
+    enableOverflowMenu: false,
+    enablePip: false,
+    enableProgressText: false,
+  );
 
   double selectAspectRatio() {
     if (widget.watchInfo.videoStreams.isNotEmpty) {
@@ -255,7 +294,7 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
           aspectRatio: aspectRatio,
           allowedScreenSleep: false,
           expandToFill: false,
-          autoDispose: true,
+          autoDispose: false,
           fit: BoxFit.fitHeight),
       betterPlayerDataSource: betterPlayerDataSource,
     );
@@ -278,7 +317,8 @@ class _PipVideoPlayerWidgetState extends State<PipVideoPlayerWidget> {
           uploaderAvatar: widget.watchInfo.uploaderAvatar,
           uploaderName: widget.watchInfo.uploader,
           uploaderId: widget.watchInfo.uploaderUrl!.split("/").last,
-          uploaderSubscriberCount: widget.watchInfo.uploaderSubscriberCount,
+          uploaderSubscriberCount:
+              widget.watchInfo.uploaderSubscriberCount.toString(),
           duration: widget.watchInfo.duration,
           uploaderVerified: widget.watchInfo.uploaderVerified,
           isHistory: true,

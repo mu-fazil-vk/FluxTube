@@ -9,4 +9,6 @@ class SubscribeEvent with _$SubscribeEvent {
   const factory SubscribeEvent.getAllSubscribeList() = GetAllSubscribeList;
   const factory SubscribeEvent.checkSubscribeInfo({required String id}) =
       CheckSubscribeInfo;
+  const factory SubscribeEvent.updateSubscribeOldList(
+      {required List<Subscribe> subscribedChannels}) = UpdateSubscribeOldList;
 }

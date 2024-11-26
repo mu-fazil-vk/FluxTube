@@ -2,8 +2,8 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fluxtube/domain/watch/models/video/video_stream.dart';
-import 'package:fluxtube/domain/watch/models/video/watch_resp.dart';
+import 'package:fluxtube/domain/watch/models/piped/video/video_stream.dart';
+import 'package:fluxtube/domain/watch/models/piped/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
 import '../../../application/saved/saved_bloc.dart';
@@ -208,7 +208,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         uploaderAvatar: widget.watchInfo.uploaderAvatar,
         uploaderName: widget.watchInfo.uploader,
         uploaderId: widget.watchInfo.uploaderUrl?.split("/").last ?? '',
-        uploaderSubscriberCount: widget.watchInfo.uploaderSubscriberCount,
+        uploaderSubscriberCount: widget.watchInfo.uploaderSubscriberCount.toString(),
         duration: widget.watchInfo.duration,
         uploaderVerified: widget.watchInfo.uploaderVerified,
         isHistory: true,

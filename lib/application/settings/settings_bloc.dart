@@ -20,7 +20,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) : super(SettingsState.initialize()) {
     // INITIAIZE SETTINGS
     on<InitializeSettings>((event, emit) async {
-      emit(state);
+      emit(state.copyWith(settingsStatus: ApiStatus.loading));
       final List<Map<String, String>> _result =
           await settingsService.initializeSettings();
 
@@ -47,11 +47,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           settingsMap[dislikeVisibility] == "true";
       final bool defaultHlsPlayer = settingsMap[hlsPlayer] == "true";
 
-      final String instanceApi =
-          settingsMap[instanceApiUrl] ?? BaseUrl.kBaseUrl;
-
       final String ytService =
-          settingsMap[youtubeService] ?? YouTubeServices.piped.name;
+          settingsMap[youtubeService] ?? YouTubeServices.iframe.name;
+
+      final String instanceApi;
+      if (ytService == YouTubeServices.piped.name) {
+        instanceApi = settingsMap[instanceApiUrl] ?? BaseUrl.kBaseUrl;
+      } else {
+        instanceApi = settingsMap[instanceApiUrl] ?? BaseUrl.kInvidiousBaseUrl;
+      }
 
       //package info
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -59,10 +63,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       // Update the state with the collected settings
       var newState = state;
 
-      newState = newState.copyWith(version: packageInfo.version);
       newState = newState.copyWith(instance: instanceApi);
       newState = newState.copyWith(ytService: ytService);
-      BaseUrl.kBaseUrl = instanceApi;
 
       if (defaultLanguage != null) {
         newState = newState.copyWith(defaultLanguage: defaultLanguage);
@@ -76,15 +78,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         newState = newState.copyWith(defaultRegion: defaultRegion);
       }
 
-      newState = newState.copyWith(themeMode: defaultThemeMode);
-
       newState = newState.copyWith(
+          version: packageInfo.version,
+          themeMode: defaultThemeMode,
           isHistoryVisible: defaultHistoryVisibility,
           isDislikeVisible: defaultDislikeVisibility,
-          isHlsPlayer: defaultHlsPlayer);
+          isHlsPlayer: defaultHlsPlayer,
+          initialized: true);
+
+      if (ytService == YouTubeServices.piped.name) {
+        BaseUrl.updateBaseUrl(instanceApi);
+      } else {
+        BaseUrl.updateInvidiousBaseUrl(instanceApi);
+      }
 
       // Emit the new state
-      emit(newState);
+      emit(newState.copyWith(settingsStatus: ApiStatus.loaded));
     });
 
     // UPDATE LANGUAGE
@@ -165,7 +174,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           isHlsPlayer: !state.isHlsPlayer);
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(isHlsPlayer: state.isHlsPlayer),
-          (bool isHlsPlayer) => state.copyWith(isHlsPlayer: isHlsPlayer));
+          (bool isHlsPlayer) {
+            return state.copyWith(isHlsPlayer: isHlsPlayer);
+          });
       emit(_state);
     });
 
@@ -193,24 +204,86 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       emit(_state);
     });
 
-    on<FetchInstances>((event, emit) async {
-      emit(state.copyWith(instanceStatus: ApiStatus.loading,));
+    on<FetchPipedInstances>((event, emit) async {
+      if (state.pipedInstances.isNotEmpty) {
+        return emit(state);
+      }
+      emit(state.copyWith(
+        pipedInstanceStatus: ApiStatus.loading,
+      ));
       final _result = await settingsService.fetchInstances();
       final _state = _result.fold(
-          (MainFailure f) =>
-              state.copyWith(instanceStatus: ApiStatus.error, instances: state.instances),
-          (List<Instance> r) =>
-              state.copyWith(instanceStatus: ApiStatus.loaded, instances: r));
+          (MainFailure f) => state.copyWith(
+              pipedInstanceStatus: ApiStatus.error,
+              pipedInstances: state.pipedInstances), (List<Instance> r) {
+        if (state.ytService == YouTubeServices.piped.name) {
+          final instance = r.firstWhere(
+              (element) => element.api == state.instance,
+              orElse: () => r.first);
+
+          BaseUrl.updateBaseUrl(instance.api);
+
+          return state.copyWith(
+              pipedInstanceStatus: ApiStatus.loaded,
+              pipedInstances: r,
+              instance: instance.api);
+        } else {
+          return state.copyWith(
+              pipedInstanceStatus: ApiStatus.loaded, pipedInstances: r);
+        }
+      });
       emit(_state);
+      add(SetInstance(instanceApi: state.instance));
     });
 
     on<SetInstance>((event, emit) async {
       final _result =
           await settingsService.setInstance(instanceApi: event.instanceApi);
-      final _state = _result.fold(
-          (MainFailure f) => state.copyWith(instance: state.instance),
-          (String r) => state.copyWith(instance: r));
+      final _state = _result
+          .fold((MainFailure f) => state.copyWith(instance: state.instance),
+              (String r) {
+        if (state.ytService == YouTubeServices.piped.name) {
+          BaseUrl.updateBaseUrl(r);
+        } else {
+          BaseUrl.updateInvidiousBaseUrl(r);
+        }
+        return state.copyWith(instance: r);
+      });
       emit(_state);
+    });
+
+    on<FetchInvidiousInstances>((event, emit) async {
+      if (state.invidiousInstances.isNotEmpty) {
+        return emit(state);
+      }
+      emit(state.copyWith(
+        invidiousInstanceStatus: ApiStatus.loading,
+      ));
+      final _result = await settingsService.fetchInvidiousInstances();
+      final _state = _result.fold(
+          (MainFailure f) => state.copyWith(
+              invidiousInstanceStatus: ApiStatus.error,
+              invidiousInstances: state.invidiousInstances),
+          (List<Instance> r) {
+        if (state.ytService != YouTubeServices.piped.name) {
+          final instance = r.firstWhere(
+              (element) => element.api == state.instance,
+              orElse: () => r.first);
+
+          BaseUrl.updateInvidiousBaseUrl(instance.api);
+
+          return state.copyWith(
+              invidiousInstanceStatus: ApiStatus.loaded,
+              invidiousInstances: r,
+              instance: instance.api);
+        } else {
+          return state.copyWith(
+              invidiousInstanceStatus: ApiStatus.loaded,
+              invidiousInstances: r);
+        }
+      });
+      emit(_state);
+      add(SetInstance(instanceApi: state.instance));
     });
 
     on<SetYTService>((event, emit) async {
@@ -219,7 +292,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(ytService: state.ytService),
           (YouTubeServices r) => state.copyWith(
-              ytService: r.name,));
+                ytService: r.name,
+              ));
       emit(_state);
     });
   }

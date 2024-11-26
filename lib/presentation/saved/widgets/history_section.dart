@@ -57,6 +57,7 @@ class HistoryVideosSection extends StatelessWidget {
                           BlocProvider.of<WatchBloc>(context).add(
                               WatchEvent.setSelectedVideoBasicDetails(
                                   details: VideoBasicInfo(
+                                      id: videoId,
                                       title: historyVideo.title,
                                       thumbnailUrl: historyVideo.thumbnail,
                                       channelName: historyVideo.uploaderName,
@@ -65,7 +66,10 @@ class HistoryVideosSection extends StatelessWidget {
                                       channelId: channelId,
                                       uploaderVerified:
                                           historyVideo.uploaderVerified)));
-                          context.go('/watch/$videoId/$channelId');
+                          context.goNamed('watch', pathParameters: {
+                            'videoId': videoId,
+                            'channelId': channelId,
+                          });
                         },
                         child: RelatedVideoWidget(
                           title: historyVideo.title ?? locals.noVideoTitle,

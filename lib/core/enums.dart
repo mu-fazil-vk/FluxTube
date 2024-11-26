@@ -2,6 +2,7 @@ enum YouTubeServices {
   piped,
   explode,
   iframe,
+  invidious,
 }
 
 enum ApiStatus {

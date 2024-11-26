@@ -2,13 +2,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
-import 'package:fluxtube/domain/watch/models/comments/comments_resp.dart';
+import 'package:fluxtube/domain/watch/models/invidious/comments/invidious_comments_resp.dart';
+import 'package:fluxtube/domain/watch/models/invidious/video/invidious_watch_resp.dart';
+import 'package:fluxtube/domain/watch/models/piped/comments/comments_resp.dart';
 import 'package:fluxtube/domain/watch/models/explode/explode_watch.dart';
 import 'package:fluxtube/domain/watch/watch_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../domain/watch/models/video/watch_resp.dart';
+import '../../domain/watch/models/piped/video/watch_resp.dart';
 
 part 'watch_event.dart';
 part 'watch_state.dart';
@@ -46,7 +48,7 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
     on<GetCommentData>((event, emit) async {
       //initialte loading, and toggle comments
       emit(state.copyWith(
-          fetchCommentsStatus: ApiStatus.initial,
+          fetchCommentsStatus: ApiStatus.loading,
           isTapComments: !state.isTapComments));
 
       //get comments list
@@ -294,6 +296,148 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
     on<SetSelectedVideoBasicDetails>((event, emit) async {
       final newState = state.copyWith(selectedVideoBasicDetails: event.details);
       emit(newState);
+    });
+
+    // INVIDIOUS
+    on<GetInvidiousWatchInfo>((event, emit) async {
+      emit(state.copyWith(
+        invidiousWatchResp: InvidiousWatchResp(),
+        fetchInvidiousWatchInfoStatus: ApiStatus.loading,
+        isTapComments: false,
+        isDescriptionTapped: false,
+      ));
+
+      final result = await watchService.getInvidiousVideoData(id: event.id);
+
+      final _state = result.fold(
+        (MainFailure failure) => state.copyWith(
+          fetchInvidiousWatchInfoStatus: ApiStatus.error,
+        ),
+        (InvidiousWatchResp resp) => state.copyWith(
+          invidiousWatchResp: resp,
+          fetchInvidiousWatchInfoStatus: ApiStatus.loaded,
+          oldId: event.id,
+        ),
+      );
+
+      emit(_state);
+    });
+
+    on<GetInvidiousComments>((event, emit) async {
+      emit(state.copyWith(
+          invidiousComments: InvidiousCommentsResp(),
+          fetchInvidiousCommentsStatus: ApiStatus.loading,
+          isTapComments: !state.isTapComments));
+
+      final result = await watchService.getInvidiousCommentsData(id: event.id);
+
+      final _state = result.fold(
+        (MainFailure failure) => state.copyWith(
+          fetchInvidiousCommentsStatus: ApiStatus.error,
+        ),
+        (InvidiousCommentsResp resp) => state.copyWith(
+          invidiousComments: resp,
+          fetchInvidiousCommentsStatus: ApiStatus.loaded,
+        ),
+      );
+
+      emit(_state);
+    });
+
+    on<GetInvidiousCommentReplies>((event, emit) async {
+      emit(state.copyWith(
+        invidiousCommentReplies: InvidiousCommentsResp(),
+        fetchInvidiousCommentRepliesStatus: ApiStatus.loading,
+      ));
+
+      final result = await watchService.getInvidiousCommentRepliesData(
+        id: event.id,
+        continuation: event.continuation,
+      );
+
+      final _state = result.fold(
+        (MainFailure failure) => state.copyWith(
+          fetchInvidiousCommentRepliesStatus: ApiStatus.error,
+        ),
+        (InvidiousCommentsResp resp) => state.copyWith(
+          invidiousCommentReplies: resp,
+          fetchInvidiousCommentRepliesStatus: ApiStatus.loaded,
+        ),
+      );
+
+      emit(_state);
+    });
+
+    on<GetMoreInvidiousComments>((event, emit) async {
+      emit(state.copyWith(
+        fetchMoreInvidiousCommentsStatus: ApiStatus.loading,
+        isMoreInvidiousCommetsFetchCompleted: false,
+      ));
+
+      final result = await watchService.getInvidiousMoreCommentsData(
+        id: event.id,
+        continuation: event.continuation!,
+      );
+
+      final _state = result.fold(
+        (MainFailure failure) => state.copyWith(
+          fetchMoreInvidiousCommentsStatus: ApiStatus.error,
+        ),
+        (InvidiousCommentsResp resp) {
+          if (resp.continuation == null) {
+            return state.copyWith(
+              fetchMoreInvidiousCommentsStatus: ApiStatus.loaded,
+              isMoreInvidiousCommetsFetchCompleted: true,
+            );
+          } else {
+            final commentsModel = state.invidiousComments;
+            commentsModel.comments?.addAll(resp.comments ?? []);
+            commentsModel.continuation = resp.continuation;
+            return state.copyWith(
+              fetchMoreInvidiousCommentsStatus: ApiStatus.loaded,
+              invidiousComments: commentsModel,
+            );
+          }
+        },
+      );
+
+      emit(_state);
+    });
+
+    on<GetMoreInvidiousReplyComments>((event, emit) async {
+      emit(state.copyWith(
+        fetchMoreInvidiousCommentRepliesStatus: ApiStatus.loading,
+        isMoreInvidiousReplyCommetsFetchCompleted: false,
+      ));
+
+      final result = await watchService.getInvidiousMoreCommentsData(
+        id: event.id,
+        continuation: event.continuation!,
+      );
+
+      final _state = result.fold(
+        (MainFailure failure) => state.copyWith(
+          fetchMoreInvidiousCommentRepliesStatus: ApiStatus.error,
+        ),
+        (InvidiousCommentsResp resp) {
+          if (resp.continuation == null) {
+            return state.copyWith(
+              fetchMoreInvidiousCommentRepliesStatus: ApiStatus.loaded,
+              isMoreInvidiousReplyCommetsFetchCompleted: true,
+            );
+          } else {
+            final replyCommentsModel = state.invidiousCommentReplies;
+            replyCommentsModel.comments?.addAll(resp.comments ?? []);
+            replyCommentsModel.continuation = resp.continuation;
+            return state.copyWith(
+              fetchMoreInvidiousCommentRepliesStatus: ApiStatus.loaded,
+              invidiousCommentReplies: replyCommentsModel,
+            );
+          }
+        },
+      );
+
+      emit(_state);
     });
   }
 }

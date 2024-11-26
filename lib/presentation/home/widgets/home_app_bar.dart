@@ -20,6 +20,7 @@ class HomeAppBar extends StatelessWidget {
       toolbarHeight: 60,
       elevation: 0,
       surfaceTintColor: kWhiteColor,
+      automaticallyImplyLeading: false,
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       title: Padding(
         padding: const EdgeInsets.only(left: 10),

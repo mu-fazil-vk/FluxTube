@@ -47,6 +47,7 @@ class SavedVideosSection extends StatelessWidget {
                             BlocProvider.of<WatchBloc>(context).add(
                                 WatchEvent.setSelectedVideoBasicDetails(
                                     details: VideoBasicInfo(
+                                        id: videoId,
                                         title: savedVideo.title,
                                         thumbnailUrl: savedVideo.thumbnail,
                                         channelName: savedVideo.uploaderName,
@@ -55,7 +56,10 @@ class SavedVideosSection extends StatelessWidget {
                                         channelId: channelId,
                                         uploaderVerified:
                                             savedVideo.uploaderVerified)));
-                            context.go('/watch/$videoId/$channelId');
+                            context.goNamed('watch', pathParameters: {
+                              'videoId': videoId,
+                              'channelId': channelId,
+                            });
                           },
                           child: HomeVideoInfoCardWidget(
                             channelId: channelId,

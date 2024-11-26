@@ -5,5 +5,5 @@ export 'error_widget.dart';
 export 'home_video_info_card_widget.dart';
 export 'indicator.dart';
 export 'related_video_widget.dart';
-export 'shimmer_home_video_card.dart';
-export 'shimmer_related_video.dart';
+export 'shimmers/shimmer_home_video_card.dart';
+export 'shimmers/shimmer_related_video.dart';

@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/home/home_services.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
-import 'package:fluxtube/domain/trending/models/trending_resp.dart';
+import 'package:fluxtube/domain/trending/models/piped/trending_resp.dart';
 import 'package:injectable/injectable.dart';
 import 'package:native_dio_adapter/native_dio_adapter.dart';
 

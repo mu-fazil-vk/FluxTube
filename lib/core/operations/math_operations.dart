@@ -17,10 +17,15 @@ int fastHash(String string) {
 }
 
 // format likes & subs from 10000 => 10k
-String formatCount(int count) {
-  return count > 1000
-      ? NumberFormat.compact().format(count).toString()
-      : count.toString();
+String formatCount(String count) {
+  int? intCount = int.tryParse(count);
+  if (intCount == null) {
+    return count;
+  } else {
+    return intCount > 1000
+        ? NumberFormat.compact().format(intCount).toString()
+        : intCount.toString();
+  }
 }
 
 // format time, from int to 00:12:10

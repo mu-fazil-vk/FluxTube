@@ -2,7 +2,7 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluxtube/application/search/search_bloc.dart';
+import 'package:fluxtube/application/application.dart';
 
 class SearchBarSection extends StatelessWidget {
   const SearchBarSection({
@@ -16,6 +16,7 @@ class SearchBarSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsBloc = BlocProvider.of<SettingsBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(right: 10, bottom: 5),
       child: CupertinoSearchTextField(
@@ -39,6 +40,7 @@ class SearchBarSection extends StatelessWidget {
               () => BlocProvider.of<SearchBloc>(context)
                       .add(SearchEvent.getSearchSuggestion(
                     query: _textEditingController.text,
+                    serviceType: settingsBloc.state.ytService,
                   )) // <-- The target method
               );
         },
@@ -48,7 +50,10 @@ class SearchBarSection extends StatelessWidget {
           }
           EasyDebounce.cancel('suggestions');
           BlocProvider.of<SearchBloc>(context).add(SearchEvent.getSearchResult(
-              query: _textEditingController.text, filter: "all"));
+            query: _textEditingController.text,
+            filter: "all",
+            serviceType: settingsBloc.state.ytService,
+          ));
         },
       ),
     );

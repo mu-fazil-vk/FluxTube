@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dismissible_page/dismissible_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluxtube/core/enums.dart';
+import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import 'package:fluxtube/application/application.dart';
@@ -12,7 +14,6 @@ import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/watch/widgets/comment_widgets.dart';
 import 'package:fluxtube/presentation/watch/widgets/explode/description_section.dart';
 import 'package:fluxtube/presentation/watch/widgets/explode/like_section.dart';
-import 'package:fluxtube/presentation/watch/widgets/explode/pip_video_player.dart';
 import 'package:fluxtube/presentation/watch/widgets/explode/subscribe_section.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 
@@ -42,13 +43,28 @@ class IFrameVideoPlayerContent extends StatefulWidget {
 }
 
 class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
-  late YoutubePlayerController _controller;
+  YoutubePlayerController? _controller;
+
+  bool _isDismissibleDisabled = true;
+
+  FToast? fToast;
 
   @override
   void initState() {
+    fToast = FToast();
+    fToast?.init(context);
+    _controller?.close();
     _controller = YoutubePlayerController.fromVideoId(
       videoId: widget.id,
       autoPlay: true,
+      startSeconds: (widget.savedState.localSavedHistoryVideos
+                  .firstWhere(
+                    (element) => element.id == widget.id,
+                    orElse: () => LocalStoreVideoInfo.init(),
+                  )
+                  .playbackPosition ??
+              0)
+          .toDouble(),
       params: const YoutubePlayerParams(
         showFullscreenButton: true,
         playsInline: false,
@@ -60,8 +76,8 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
   }
 
   @override
-  void dispose() {
-    _controller.close();
+  Future<void> dispose() async {
+    await _controller?.close();
     super.dispose();
   }
 
@@ -69,26 +85,54 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
   Widget build(BuildContext context) {
     final locals = S.of(context);
     final double _height = MediaQuery.of(context).size.height;
+    Orientation orientation = MediaQuery.of(context).orientation;
 
-    return YoutubePlayerScaffold(
-      controller: _controller,
-      aspectRatio: 16 / 9,
-      enableFullScreenOnVerticalDrag: false,
-      builder: (context, player) {
-        return Scaffold(
+    return DismissiblePage(
+      direction: DismissiblePageDismissDirection.down,
+      onDismissed: () {
+        BlocProvider.of<WatchBloc>(context)
+            .add(WatchEvent.togglePip(value: true));
+        Navigator.pop(context);
+      },
+      isFullScreen: true,
+      key: ValueKey(widget.id),
+      disabled:
+          (orientation == Orientation.landscape) || _isDismissibleDisabled,
+      child: YoutubePlayerScaffold(
+        controller: _controller!,
+        aspectRatio: 16 / 9,
+        enableFullScreenOnVerticalDrag: false,
+        builder: (context, player) {
+          return Scaffold(
             body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                player,
-                BlocBuilder<WatchBloc, WatchState>(
-                  builder: (context, state) {
-                    final watchInfo = state.explodeWatchResp;
-                    return Padding(
-                        padding:
-                            const EdgeInsets.only(top: 12, left: 20, right: 20),
-                        child: Column(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onDoubleTap: () {
+                        setState(() {
+                          _isDismissibleDisabled = !_isDismissibleDisabled;
+                          fToast?.showToast(
+                            child: Text(
+                              _isDismissibleDisabled
+                                  ? locals.swipeDownToDismissDisabled
+                                  : locals.swipeUpToDismissEnabled,
+                            ),
+                            gravity: ToastGravity.BOTTOM,
+                            toastDuration: const Duration(seconds: 2),
+                          );
+                        });
+                      },
+                      child: player,
+                    ),
+                    BlocBuilder<WatchBloc, WatchState>(
+                      builder: (context, state) {
+                        final watchInfo = state.explodeWatchResp;
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              top: 12, left: 20, right: 20),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // * caption row
@@ -142,12 +186,11 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
                                       id: widget.id,
                                       state: state,
                                       watchInfo: watchInfo,
-                                      pipClicked: () => buildPip(
-                                          context: context,
-                                          isSaved: widget.isSaved,
-                                          savedState: widget.savedState,
-                                          settingsState: widget.settingsState,
-                                          state: state),
+                                      pipClicked: () {
+                                        BlocProvider.of<WatchBloc>(context).add(
+                                            WatchEvent.togglePip(value: true));
+                                        Navigator.pop(context);
+                                      },
                                     ),
 
                               kHeightBox10,
@@ -208,52 +251,19 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
                                           state: state,
                                           height: _height,
                                           locals: locals,
-                                        )
-                            ]));
-                  },
+                                        ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ));
-      },
+          );
+        },
+      ),
     );
-  }
-
-  void buildPip(
-      {context,
-      state,
-      settingsState,
-      savedState,
-      isSaved,
-      isPop = true}) async {
-    if (isPop) {
-      Navigator.pop(context);
-    }
-    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: true));
-    PictureInPicture.startPiP(
-        pipWidget: NavigatablePiPWidget(
-      onPiPClose: () {
-        BlocProvider.of<WatchBloc>(context)
-            .add(WatchEvent.togglePip(value: false));
-      },
-      elevation: 10, //Optional
-      pipBorderRadius: 10,
-      builder: (BuildContext context) {
-        return ExplodePipVideoPlayerWidget(
-          videoId: widget.id,
-          watchInfo: state.explodeWatchResp,
-          defaultQuality: settingsState.defaultQuality,
-          playbackPosition: savedState.videoInfo?.playbackPosition ?? 0,
-          isSaved: isSaved,
-          liveUrl: state.liveStreamUrl,
-          availableVideoTracks: state.muxedStreams ?? [],
-          subtitles: (state.fetchSubtitlesStatus == ApiStatus.loading ||
-                  state.fetchSubtitlesStatus == ApiStatus.initial)
-              ? []
-              : state.subtitles,
-        );
-      }, //Optional
-    ));
   }
 }

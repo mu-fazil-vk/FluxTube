@@ -60,11 +60,11 @@ class SettingImpliment implements SettingsService {
       {"name": selectedTheme, "default": "system"},
       {"name": historyVisibility, "default": "true"},
       {"name": dislikeVisibility, "default": "false"},
-      {"name": hlsPlayer, "default": "true"},
+      {"name": hlsPlayer, "default": "false"},
       {"name": commentsVisibility, "default": "false"},
       {"name": relatedVideoVisibility, "default": "false"},
       {"name": instanceApiUrl, "default": BaseUrl.kBaseUrl},
-      {"name": youtubeService, "default": YouTubeServices.piped.name},
+      {"name": youtubeService, "default": YouTubeServices.iframe.name},
       // Add more settings here
     ];
 
@@ -393,8 +393,7 @@ class SettingImpliment implements SettingsService {
           instances.add(Instance(
               name: split[0].trim(),
               api: '${split[1].trim()}/',
-              locations: split[2].trim(),
-              cdn: split[3].trim()));
+              locations: split[2].trim(),));
         }
       }
       return Right(instances);
@@ -431,7 +430,8 @@ class SettingImpliment implements SettingsService {
   }
 
   @override
-  Future<Either<MainFailure, YouTubeServices>> setTYService({required YouTubeServices service}) async {
+  Future<Either<MainFailure, YouTubeServices>> setTYService(
+      {required YouTubeServices service}) async {
     try {
       await isar.writeTxn(() async {
         final existingYTServiceSetting = await isar.settingsDBValues
@@ -452,6 +452,30 @@ class SettingImpliment implements SettingsService {
 
       return Right(service);
     } catch (e) {
+      return const Left(MainFailure.serverFailure());
+    }
+  }
+
+  @override
+  Future<Either<MainFailure, List<Instance>>> fetchInvidiousInstances() async {
+    try {
+      final dio = Dio();
+      final List<Instance> instances = [];
+      final response = await dio.get(kInvidiousInstanceUrl);
+      final data = response.data as List<dynamic>;
+
+      for (final instanceData in data) {
+        final instanceInfo = instanceData[1] as Map<String, dynamic>;
+
+        instances.add(Instance(
+          name: instanceData[0] as String,
+          api: instanceInfo['uri'] as String,
+          locations: instanceInfo['region'] as String,
+        ));
+      }
+
+      return Right(instances);
+    } catch (_) {
       return const Left(MainFailure.serverFailure());
     }
   }

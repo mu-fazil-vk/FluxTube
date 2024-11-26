@@ -35,12 +35,12 @@ class SavedImplimentation extends SavedServices {
   @override
   Future<Either<MainFailure, List<LocalStoreVideoInfo>>> addVideoInfo(
       {required LocalStoreVideoInfo videoInfo}) async {
-    await _addVideoInformations(videoInfo);
-    List<LocalStoreVideoInfo> videoInfoListAfter =
-        await _getVideoInformations();
-    if (videoInfoListAfter.isNotEmpty) {
+    try {
+      await _addVideoInformations(videoInfo);
+      List<LocalStoreVideoInfo> videoInfoListAfter =
+          await _getVideoInformations();
       return Right(videoInfoListAfter);
-    } else {
+    } catch (e) {
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -50,11 +50,11 @@ class SavedImplimentation extends SavedServices {
   @override
   Future<Either<MainFailure, List<LocalStoreVideoInfo>>> deleteVideoInfo(
       {required Id id}) async {
-    await _deleteVideoInformations(id);
-    List<LocalStoreVideoInfo> videoInfoList = await _getVideoInformations();
-    if (videoInfoList.isNotEmpty) {
+    try {
+      await _deleteVideoInformations(id);
+      List<LocalStoreVideoInfo> videoInfoList = await _getVideoInformations();
       return Right(videoInfoList);
-    } else {
+    } catch (e) {
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -64,10 +64,10 @@ class SavedImplimentation extends SavedServices {
   @override
   Future<Either<MainFailure, List<LocalStoreVideoInfo>>>
       getVideoInfoList() async {
-    List<LocalStoreVideoInfo> videoInfoList = await _getVideoInformations();
-    if (videoInfoList.isNotEmpty) {
+    try {
+      List<LocalStoreVideoInfo> videoInfoList = await _getVideoInformations();
       return Right(videoInfoList);
-    } else {
+    } catch (e) {
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -76,19 +76,15 @@ class SavedImplimentation extends SavedServices {
   @override
   Future<Either<MainFailure, LocalStoreVideoInfo>> checkVideoInfo(
       {required String id}) async {
-    List<LocalStoreVideoInfo> videoInfoList = await _getVideoInformations();
-    if (videoInfoList.isNotEmpty) {
-      try {
-        // Find the video with the specified ID
-        LocalStoreVideoInfo foundVideo =
-            videoInfoList.firstWhere((video) => video.id == id);
+    try {
+      List<LocalStoreVideoInfo> videoInfoList = await _getVideoInformations();
+      // Find the video with the specified ID
+      LocalStoreVideoInfo foundVideo =
+          videoInfoList.firstWhere((video) => video.id == id);
 
-        return Right(foundVideo);
-      } catch (e) {
-        // Handle the case where the video is not found
-        return const Left(MainFailure.clientFailure());
-      }
-    } else {
+      return Right(foundVideo);
+    } catch (e) {
+      // Handle the case where the video is not found
       return const Left(MainFailure.clientFailure());
     }
   }

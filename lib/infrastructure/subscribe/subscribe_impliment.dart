@@ -36,11 +36,11 @@ class SubscribeImpliment extends SubscribeServices {
   @override
   Future<Either<MainFailure, List<Subscribe>>> addSubscriberInfo(
       {required Subscribe subscribeInfo}) async {
-    await _addSubscribeInformations(subscribeInfo);
-    List<Subscribe> subscribeListAfter = await _getSubscribeInformations();
-    if (subscribeListAfter.isNotEmpty) {
+    try {
+      await _addSubscribeInformations(subscribeInfo);
+      List<Subscribe> subscribeListAfter = await _getSubscribeInformations();
       return Right(subscribeListAfter);
-    } else {
+    } catch (e) {
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -49,11 +49,11 @@ class SubscribeImpliment extends SubscribeServices {
   @override
   Future<Either<MainFailure, List<Subscribe>>> deleteSubscriberInfo(
       {required Id id}) async {
-    await _deleteSubscribeInformations(id);
-    List<Subscribe> subscribeListAfter = await _getSubscribeInformations();
-    if (subscribeListAfter.isNotEmpty) {
+    try {
+      await _deleteSubscribeInformations(id);
+      List<Subscribe> subscribeListAfter = await _getSubscribeInformations();
       return Right(subscribeListAfter);
-    } else {
+    } catch (e) {
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -61,10 +61,10 @@ class SubscribeImpliment extends SubscribeServices {
   // get all subscribed channel list
   @override
   Future<Either<MainFailure, List<Subscribe>>> getSubscriberInfoList() async {
-    List<Subscribe> subscribesList = await _getSubscribeInformations();
-    if (subscribesList.isNotEmpty) {
+    try {
+      List<Subscribe> subscribesList = await _getSubscribeInformations();
       return Right(subscribesList);
-    } else {
+    } catch (e) {
       return const Left(MainFailure.clientFailure());
     }
   }
@@ -73,19 +73,15 @@ class SubscribeImpliment extends SubscribeServices {
   @override
   Future<Either<MainFailure, Subscribe>> checkSubscriberInfo(
       {required String id}) async {
-    List<Subscribe> subscribesList = await _getSubscribeInformations();
-    if (subscribesList.isNotEmpty) {
-      try {
-        // Find the video with the specified ID
-        Subscribe foundChannel =
-            subscribesList.firstWhere((channel) => channel.id == id);
+    try {
+      List<Subscribe> subscribesList = await _getSubscribeInformations();
+      // Find the video with the specified ID
+      Subscribe foundChannel =
+          subscribesList.firstWhere((channel) => channel.id == id);
 
-        return Right(foundChannel);
-      } catch (e) {
-        // Handle the case where the video is not found
-        return const Left(MainFailure.clientFailure());
-      }
-    } else {
+      return Right(foundChannel);
+    } catch (e) {
+      // Handle the case where the video is not found
       return const Left(MainFailure.clientFailure());
     }
   }

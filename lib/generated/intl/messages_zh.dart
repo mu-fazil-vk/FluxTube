@@ -57,6 +57,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "instances": MessageLookupByLibrary.simpleMessage("实例"),
         "language": MessageLookupByLibrary.simpleMessage("语言"),
         "netherlands": MessageLookupByLibrary.simpleMessage("荷兰"),
+        "noCommentsFound":
+            MessageLookupByLibrary.simpleMessage("No Comments Found"),
         "noUploadDate": MessageLookupByLibrary.simpleMessage("无日期"),
         "noUploaderName": MessageLookupByLibrary.simpleMessage("无名称"),
         "noVideoAvailableChangedToHls":
@@ -77,6 +79,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "share": MessageLookupByLibrary.simpleMessage("分享"),
         "showLessText": MessageLookupByLibrary.simpleMessage("显示更少"),
         "subscribe": MessageLookupByLibrary.simpleMessage("订阅"),
+        "swipeDownToDismissDisabled": MessageLookupByLibrary.simpleMessage(
+            "\'Swipe down to dismiss\' disabled"),
+        "swipeUpToDismissEnabled": MessageLookupByLibrary.simpleMessage(
+            "\'Swipe up to dismiss\' enabled"),
         "switchRegion": MessageLookupByLibrary.simpleMessage(
             "Please consider switching to a different region for better results."),
         "theme": MessageLookupByLibrary.simpleMessage("主题"),

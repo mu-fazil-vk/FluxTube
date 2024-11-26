@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/enums.dart';
-import 'package:fluxtube/domain/search/models/item.dart';
+import 'package:fluxtube/domain/search/models/piped/item.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -29,11 +29,13 @@ class SearcheResultSection extends StatelessWidget {
               _scrollController.position.maxScrollExtent &&
           !(state.fetchMoreSearchResultStatus == ApiStatus.loading) &&
           !state.isMoreFetchCompleted) {
-        BlocProvider.of<SearchBloc>(context).add(
-            SearchEvent.getMoreSearchResult(
-                query: searchQuery,
-                filter: "all",
-                nextPage: state.result?.nextpage));
+        BlocProvider.of<SearchBloc>(context)
+            .add(SearchEvent.getMoreSearchResult(
+          query: searchQuery,
+          filter: "all",
+          nextPage: state.result?.nextpage,
+          serviceType: YouTubeServices.piped.name,
+        ));
       }
     });
     return BlocBuilder<SubscribeBloc, SubscribeState>(
@@ -75,13 +77,17 @@ class SearcheResultSection extends StatelessWidget {
                       BlocProvider.of<WatchBloc>(context).add(
                           WatchEvent.setSelectedVideoBasicDetails(
                               details: VideoBasicInfo(
+                                  id: _videoId,
                                   title: _result.title,
                                   thumbnailUrl: _result.thumbnail,
                                   channelName: _result.uploaderName,
                                   channelThumbnailUrl: _result.uploaderAvatar,
                                   channelId: _channelId,
                                   uploaderVerified: _result.uploaderVerified)));
-                      context.go('/watch/$_videoId/$_channelId');
+                      context.goNamed('watch', pathParameters: {
+                        'videoId': _videoId,
+                        'channelId': _channelId,
+                      });
                     },
                     child: HomeVideoInfoCardWidget(
                       channelId: _channelId,

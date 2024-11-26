@@ -6,7 +6,7 @@ import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
-import 'package:fluxtube/domain/watch/models/comments/comment.dart';
+import 'package:fluxtube/domain/watch/models/piped/comments/comment.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/watch/widgets/shimmer_comment_widgets.dart';
 import 'package:fluxtube/widgets/indicator.dart';
@@ -72,7 +72,11 @@ class CommentSection extends StatelessWidget {
                         },
                         child: Text(locals.retry)),
                   )
-                : ListView.separated(
+                : state.comments.comments.isEmpty == true
+                    ?  Center(
+                        child: Text(locals.noCommentsFound),
+                      )
+                    : ListView.separated(
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                     controller: _scrollController,
@@ -108,11 +112,15 @@ class CommentSection extends StatelessWidget {
                                               nextPage:
                                                   storeComment.repliesPage!));
 
-                                      commentReplyBottomSheet(context, storeComment, height,
-                                          locals, storeComment.replyCount ?? 0);
+                                      commentReplyBottomSheet(
+                                          context,
+                                          storeComment,
+                                          height,
+                                          locals,
+                                          storeComment.replyCount ?? 0);
                                     },
                                     child: Text(
-                                        "${formatCount(storeComment.replyCount!)} ${locals.repliesPlural(storeComment.replyCount!)}")),
+                                        "${formatCount(storeComment.replyCount.toString())} ${locals.repliesPlural(storeComment.replyCount!)}")),
                               )
                           ],
                         );
@@ -130,8 +138,8 @@ class CommentSection extends StatelessWidget {
     );
   }
 
-  Future<void> commentReplyBottomSheet(
-      BuildContext context, Comment selectedComment, double _height, S locals, int commentCount) {
+  Future<void> commentReplyBottomSheet(BuildContext context,
+      Comment selectedComment, double _height, S locals, int commentCount) {
     return showModalBottomSheet<void>(
         showDragHandle: true,
         context: context,
@@ -145,18 +153,18 @@ class CommentSection extends StatelessWidget {
               if (state.fetchCommentRepliesStatus == ApiStatus.initial ||
                   state.fetchCommentRepliesStatus == ApiStatus.loading) {
                 return const ShimmerCommentWidget();
-              } else if(state.fetchCommentRepliesStatus == ApiStatus.error) {
+              } else if (state.fetchCommentRepliesStatus == ApiStatus.error) {
                 return Center(
                   child: ElevatedButton(
                       onPressed: () {
                         BlocProvider.of<WatchBloc>(context).add(
                             WatchEvent.getCommentRepliesData(
-                                id: videoId, nextPage: selectedComment.repliesPage!));
+                                id: videoId,
+                                nextPage: selectedComment.repliesPage!));
                       },
                       child: Text(locals.retry)),
                 );
-              }
-               else {
+              } else {
                 return SizedBox(
                   height: _height * 0.48,
                   child: Column(
@@ -238,7 +246,7 @@ class CommentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final S locals = S.of(context);
     final Size _size = MediaQuery.of(context).size;
-    var _formattedLikes = formatCount(likes);
+    var _formattedLikes = formatCount(likes.toString());
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       GestureDetector(
         onTap: onProfileTap,

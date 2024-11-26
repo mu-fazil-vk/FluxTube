@@ -3,15 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
-import 'package:fluxtube/domain/channel/models/channel_resp.dart';
-import 'package:fluxtube/domain/channel/models/related_stream.dart';
+import 'package:fluxtube/domain/channel/models/invidious/invidious_channel_resp.dart';
+import 'package:fluxtube/domain/channel/models/invidious/latest_video.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/channel/widgets/invidious/video_info_card.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-class ChannelRelatedVideoSection extends StatelessWidget {
-  ChannelRelatedVideoSection({
+class InvidiousChannelRelatedVideoSection extends StatelessWidget {
+  InvidiousChannelRelatedVideoSection({
     super.key,
     required this.channelId,
     required this.locals,
@@ -22,22 +23,22 @@ class ChannelRelatedVideoSection extends StatelessWidget {
   final S locals;
   final String channelId;
   final ChannelState state;
-  final ChannelResp channelInfo;
+  final InvidiousChannelResp channelInfo;
 
   final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-              _scrollController.position.maxScrollExtent &&
-          !(state.moreChannelDetailsFetchStatus == ApiStatus.loading) &&
-          !state.isMoreFetchCompleted) {
-        BlocProvider.of<ChannelBloc>(context).add(
-            ChannelEvent.getMoreChannelVideos(
-                channelId: channelId, nextPage: state.result?.nextpage));
-      }
-    });
+    // _scrollController.addListener(() {
+    //   if (_scrollController.position.pixels ==
+    //           _scrollController.position.maxScrollExtent &&
+    //       !(state.moreChannelDetailsFetchStatus == ApiStatus.loading) &&
+    //       !state.isMoreFetchCompleted) {
+    //     BlocProvider.of<ChannelBloc>(context).add(
+    //         ChannelEvent.getMoreChannelVideos(
+    //             channelId: channelId, nextPage: state.pipedChannelResp?.nextpage));
+    //   }
+    // });
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -57,29 +58,35 @@ class ChannelRelatedVideoSection extends StatelessWidget {
             controller: _scrollController,
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
-              if (index < state.result!.relatedStreams!.length) {
-                final RelatedStream videoInfo =
-                    channelInfo.relatedStreams![index];
-                final String videoId = videoInfo.url!.split('=').last;
-                final String channelId = videoInfo.uploaderUrl!.split("/").last;
+              if (index < state.invidiousChannelResp!.latestVideos!.length) {
+                final LatestVideo videoInfo = channelInfo.latestVideos![index];
+                final String videoId = videoInfo.videoId!;
+                final String channelId = videoInfo.authorId!;
 
                 return GestureDetector(
                   onTap: () {
                     BlocProvider.of<WatchBloc>(context).add(
                         WatchEvent.setSelectedVideoBasicDetails(
                             details: VideoBasicInfo(
+                                id: videoId,
                                 title: videoInfo.title,
-                                thumbnailUrl: videoInfo.thumbnail,
-                                channelName: videoInfo.uploaderName,
-                                channelThumbnailUrl: videoInfo.uploaderAvatar,
+                                thumbnailUrl:
+                                    videoInfo.videoThumbnails!.last.url,
+                                channelName: videoInfo.author,
+                                channelThumbnailUrl:
+                                    channelInfo.authorThumbnails!.last.url!,
                                 channelId: channelId,
-                                uploaderVerified: videoInfo.uploaderVerified)));
-                    context.go('/watch/$videoId/$channelId');
+                                uploaderVerified: videoInfo.authorVerified)));
+                    context.goNamed('watch', pathParameters: {
+                      'videoId': videoId,
+                      'channelId': channelId,
+                    });
                   },
-                  child: HomeVideoInfoCardWidget(
+                  child: InvidiousChannelRelatedVideoInfoCardWidget(
                     channelId: channelId,
+                    latestVideo: videoInfo,
+                    autherUrl: channelInfo.authorThumbnails!.last.url,
                     subscribeRowVisible: false,
-                    cardInfo: videoInfo,
                   ),
                 );
               } else {
@@ -93,7 +100,7 @@ class ChannelRelatedVideoSection extends StatelessWidget {
               }
             },
             separatorBuilder: (context, index) => kWidthBox10,
-            itemCount: channelInfo.relatedStreams?.length ?? 0,
+            itemCount: channelInfo.latestVideos?.length ?? 0,
           ),
         ),
       ],

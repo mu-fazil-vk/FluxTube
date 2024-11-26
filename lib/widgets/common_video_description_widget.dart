@@ -127,7 +127,7 @@ class SubscribeRowWidget extends StatelessWidget {
 
 // values
   final bool subscribed;
-  final int? subcount;
+  final String? subcount;
   final String? uploader;
   final String? uploaderUrl;
   final bool? isVerified;
@@ -137,20 +137,21 @@ class SubscribeRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
 
-    var _formattedSubCount = formatCount(subcount ?? 0);
+    var _formattedSubCount = formatCount(subcount ?? '0');
 
     return Row(
       children: [
-        CircleAvatar(
-          radius: radius,
-          backgroundImage: (uploaderUrl != null && uploaderUrl != "")
-              ? CachedNetworkImageProvider(
-                  uploaderUrl!,
-                )
-              : null,
-        ),
+        if (uploaderUrl != null && uploaderUrl != "")
+          CircleAvatar(
+            radius: radius,
+            backgroundImage: (uploaderUrl != null && uploaderUrl != "")
+                ? CachedNetworkImageProvider(
+                    uploaderUrl!,
+                  )
+                : null,
+          ),
         spacing ?? kWidthBox10,
-        subcount == null || subcount == -1
+        subcount == null || subcount == '-1'
             ? Row(
                 children: [
                   ConstrainedBox(
@@ -216,7 +217,7 @@ class SubscribeRowWidget extends StatelessWidget {
                     constraints: BoxConstraints(
                         minWidth: 50, maxWidth: _size.width * 0.37),
                     child: Text(
-                      '${_formattedSubCount == '0' ? '' : _formattedSubCount} ${S.of(context).channelSubscribers(subcount ?? 0)}',
+                      '${_formattedSubCount == '0' ? '' : _formattedSubCount} ${S.of(context).channelSubscribers(int.tryParse(subcount!) ?? 0)}',
                       style: subCountTextStyle ??
                           TextStyle(
                               color: kGreyColor,

@@ -7,7 +7,6 @@ import 'package:fluxtube/generated/l10n.dart';
 
 import '../widgets/widgets.dart';
 
-
 class ScreenRegions extends StatelessWidget {
   const ScreenRegions({super.key});
 

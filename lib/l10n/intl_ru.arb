@@ -151,7 +151,7 @@
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{ответ} few{ответа} many{ответов} other{ответа}",
+  "repliesPlural": "{count, plural, =1{ответ} few{ответа} many{ответов} other{ответа}}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
@@ -190,5 +190,8 @@
     "description": "Include title along with url"
   },
   "instances": "Instances",
-  "switchRegion": "Please consider switching to a different region for better results."
+  "switchRegion": "Please consider switching to a different region for better results.",
+  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
+  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
+  "noCommentsFound": "No Comments Found"
 }

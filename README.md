@@ -5,7 +5,7 @@
 <p align="center">
 <a href="https://github.com/mu-fazil-vk/FluxTube/releases" alt="GitHub release"><img src="https://img.shields.io/github/release/mu-fazil-vk/FluxTube.svg" ></a>
 <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" alt="GitHub release"><img src="https://shields.io/badge/License-GPL%20v3-blue.svg" ></a>
-  <a href="https://github.com/mu-fazil-vk/FluxTube/releases" alt="GitHub release"><img src="https://shields.io/badge/Flutter-v3.22.2-blue.svg" ></a>
+  <a href="https://github.com/mu-fazil-vk/FluxTube/releases" alt="GitHub release"><img src="https://shields.io/badge/Flutter-v3.24.4-blue.svg" ></a>
   <a href="https://github.com/mu-fazil-vk/FluxTube/releases" alt="GitHub release"><img src="https://img.shields.io/github/downloads/mu-fazil-vk/FluxTube/total.svg?label=FluxTube+Downloads" ></a>
   <a title="Crowdin" target="_blank" href="https://crowdin.com/project/fluxtube"><img src="https://badges.crowdin.net/fluxtube/localized.svg"></a>
 </p>
@@ -64,8 +64,9 @@ If you have any ideas, suggestions, or issues, please open a [new issue](https:/
 5. Submit a pull request.
 
    #### Note:
-   - Flutter version: `3.22.2`
+   - Flutter version: `3.24.4`
    - Bulid runner command for Isar & Bloc: `flutter pub run build_runner build --delete-conflicting-outputs`
+   - Translation command: `dart run intl_utils:generate`
 
 ## License
 

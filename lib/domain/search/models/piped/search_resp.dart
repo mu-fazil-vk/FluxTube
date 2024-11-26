@@ -4,6 +4,9 @@ import 'item.dart';
 
 part 'search_resp.g.dart';
 
+//--------MAIN PIPED SEARCH RESPONSE MODEL--------//
+// `flutter pub run build_runner build` to generate file
+
 @JsonSerializable()
 class SearchResp {
   List<Item> items;

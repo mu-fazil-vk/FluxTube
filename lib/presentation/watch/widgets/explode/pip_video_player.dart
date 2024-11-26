@@ -3,10 +3,10 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:fluxtube/application/application.dart';
+import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/domain/watch/models/explode/explode_watch.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -22,6 +22,7 @@ class ExplodePipVideoPlayerWidget extends StatefulWidget {
     this.isSaved = false,
     this.liveUrl,
     required this.subtitles,
+    required this.watchState,
   });
 
   final ExplodeWatchResp watchInfo;
@@ -32,6 +33,7 @@ class ExplodePipVideoPlayerWidget extends StatefulWidget {
   final bool isSaved;
   final String? liveUrl;
   final List<Map<String, String>> subtitles;
+  final WatchState watchState;
 
   @override
   State<ExplodePipVideoPlayerWidget> createState() =>
@@ -45,6 +47,11 @@ class _ExplodePipVideoPlayerWidget extends State<ExplodePipVideoPlayerWidget> {
   late final SavedBloc _savedBloc;
   BetterPlayerDataSource? betterPlayerDataSource;
 
+  // Track the position of the video player on the screen
+  Offset position = const Offset(20, 20);
+
+  WatchBloc? _watchBloc;
+
   @override
   void initState() {
     super.initState();
@@ -56,9 +63,16 @@ class _ExplodePipVideoPlayerWidget extends State<ExplodePipVideoPlayerWidget> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Cache the reference to the WatchBloc ancestor here
+    _watchBloc = BlocProvider.of<WatchBloc>(context);
+  }
+
+  @override
   void dispose() {
     _updateVideoHistory();
-    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
+    _watchBloc?.add(WatchEvent.togglePip(value: false));
     _betterPlayerController?.dispose();
     super.dispose();
   }
@@ -67,27 +81,53 @@ class _ExplodePipVideoPlayerWidget extends State<ExplodePipVideoPlayerWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        AspectRatio(
-          aspectRatio: 16 / 8,
-          child: _betterPlayerController != null
-              ? BetterPlayer(
-                  controller: _betterPlayerController!,
-                  //key: UniqueKey()
-                )
-              : const Center(child: CircularProgressIndicator()),
+        // Use Positioned to allow free movement on the screen
+        Positioned(
+          left: position.dx,
+          top: position.dy,
+          child: Draggable(
+            feedback: _buildPlayer(),
+            childWhenDragging:
+                Container(), // Show an empty container while dragging
+            onDraggableCanceled: (Velocity velocity, Offset offset) {
+              setState(() {
+                // Update the position of the player based on the drag
+                position = offset;
+              });
+            },
+            child: _buildPlayer(),
+          ),
         ),
+        // Close button to stop Picture in Picture and toggle the state
+      ],
+    );
+  }
+
+  Widget _buildPlayer() {
+    return SizedBox(
+      width: 250, // or any width you prefer
+      height: 140, // maintain a suitable aspect ratio
+      child: Stack(children: [
+        widget.watchState.fetchExplodeWatchInfoStatus == ApiStatus.loading
+            ? const Center(child: CircularProgressIndicator())
+            : AspectRatio(
+                aspectRatio: 16 / 8,
+                child: _betterPlayerController != null
+                    ? BetterPlayer(controller: _betterPlayerController!)
+                    : const Center(child: CircularProgressIndicator()),
+              ),
         Align(
           alignment: Alignment.topRight,
           child: IconButton(
-              onPressed: () {
-                _updateVideoHistory();
-                PictureInPicture.stopPiP();
-                BlocProvider.of<WatchBloc>(context)
-                    .add(WatchEvent.togglePip(value: false));
-              },
-              icon: const Icon(CupertinoIcons.xmark)),
+            onPressed: () {
+              _updateVideoHistory();
+              _betterPlayerController?.dispose(forceDispose: true);
+              _watchBloc?.add(WatchEvent.togglePip(value: false));
+            },
+            icon: const Icon(CupertinoIcons.xmark),
+          ),
         )
-      ],
+      ]),
     );
   }
 
@@ -184,7 +224,7 @@ class _ExplodePipVideoPlayerWidget extends State<ExplodePipVideoPlayerWidget> {
           aspectRatio: aspectRatio,
           allowedScreenSleep: false,
           expandToFill: false,
-          autoDispose: true,
+          autoDispose: false,
           fit: BoxFit.fitHeight),
       betterPlayerDataSource: betterPlayerDataSource,
     );

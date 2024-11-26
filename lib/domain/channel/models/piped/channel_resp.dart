@@ -5,6 +5,9 @@ import 'tab.dart';
 
 part 'channel_resp.g.dart';
 
+//--------MAIN PIPED CHANNEL RESPONSE MODEL--------//
+// `flutter pub run build_runner build` to generate file
+
 @JsonSerializable()
 class ChannelResp {
   String? id;

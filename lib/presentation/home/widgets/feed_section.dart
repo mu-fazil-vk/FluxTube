@@ -37,13 +37,17 @@ class FeedVideoSection extends StatelessWidget {
             BlocProvider.of<WatchBloc>(context).add(
                 WatchEvent.setSelectedVideoBasicDetails(
                     details: VideoBasicInfo(
+                        id: videoId,
                         title: feed.title,
                         thumbnailUrl: feed.thumbnail,
                         channelName: feed.uploaderName,
                         channelThumbnailUrl: feed.uploaderAvatar,
                         channelId: channelId,
                         uploaderVerified: feed.uploaderVerified)));
-            context.go('/watch/$videoId/$channelId');
+            context.goNamed('watch', pathParameters: {
+              'videoId': videoId,
+              'channelId': channelId,
+            });
           },
           child: HomeVideoInfoCardWidget(
             channelId: channelId,

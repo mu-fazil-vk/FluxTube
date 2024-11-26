@@ -5,11 +5,11 @@ import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
-import 'package:fluxtube/widgets/widgets.dart';
+import 'package:fluxtube/presentation/trending/widgets/invidious/home_video_info_card_widget.dart';
 import 'package:go_router/go_router.dart';
 
-class TrendingVideosSection extends StatelessWidget {
-  const TrendingVideosSection({
+class InvidiousTrendingVideosSection extends StatelessWidget {
+  const InvidiousTrendingVideosSection({
     super.key,
     required this.locals,
     required this.state,
@@ -27,10 +27,10 @@ class TrendingVideosSection extends StatelessWidget {
         return ListView.separated(
           separatorBuilder: (context, index) => kHeightBox10,
           itemBuilder: (context, index) {
-            final trending = state.trendingResult[index];
-            final String videoId = trending.url!.split('=').last;
+            final trending = state.invidiousTrendingResult[index];
+            final String videoId = trending.videoId!;
 
-            final String channelId = trending.uploaderUrl!.split("/").last;
+            final String channelId = trending.authorId!;
             final bool isSubscribed = subscribeState.subscribedChannels
                 .where((channel) => channel.id == channelId)
                 .isNotEmpty;
@@ -39,15 +39,19 @@ class TrendingVideosSection extends StatelessWidget {
                 BlocProvider.of<WatchBloc>(context).add(
                     WatchEvent.setSelectedVideoBasicDetails(
                         details: VideoBasicInfo(
+                            id: videoId,
                             title: trending.title,
-                            thumbnailUrl: trending.thumbnail,
-                            channelName: trending.uploaderName,
-                            channelThumbnailUrl: trending.uploaderAvatar,
+                            thumbnailUrl: trending.videoThumbnails!.first.url,
+                            channelName: trending.author,
+                            channelThumbnailUrl: null,
                             channelId: channelId,
-                            uploaderVerified: trending.uploaderVerified)));
-                context.go('/watch/$videoId/$channelId');
+                            uploaderVerified: trending.authorVerified)));
+                context.goNamed('watch', pathParameters: {
+                  'videoId': videoId,
+                  'channelId': channelId,
+                });
               },
-              child: HomeVideoInfoCardWidget(
+              child: InvidiousTrendingVideoInfoCardWidget(
                 channelId: channelId,
                 cardInfo: trending,
                 isSubscribed: isSubscribed,
@@ -60,16 +64,15 @@ class TrendingVideosSection extends StatelessWidget {
                         SubscribeEvent.addSubscribe(
                             channelInfo: Subscribe(
                                 id: channelId,
-                                channelName: trending.uploaderName ??
-                                    locals.noUploaderName,
-                                isVerified:
-                                    trending.uploaderVerified ?? false)));
+                                channelName:
+                                    trending.author ?? locals.noUploaderName,
+                                isVerified: trending.authorVerified ?? false)));
                   }
                 },
               ),
             );
           },
-          itemCount: state.trendingResult.length,
+          itemCount: state.invidiousTrendingResult.length,
         );
       },
     );

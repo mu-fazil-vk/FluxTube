@@ -22,6 +22,8 @@ mixin _$SubscribeEvent {
     required TResult Function(String id) deleteSubscribeInfo,
     required TResult Function() getAllSubscribeList,
     required TResult Function(String id) checkSubscribeInfo,
+    required TResult Function(List<Subscribe> subscribedChannels)
+        updateSubscribeOldList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +32,8 @@ mixin _$SubscribeEvent {
     TResult? Function(String id)? deleteSubscribeInfo,
     TResult? Function()? getAllSubscribeList,
     TResult? Function(String id)? checkSubscribeInfo,
+    TResult? Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +42,8 @@ mixin _$SubscribeEvent {
     TResult Function(String id)? deleteSubscribeInfo,
     TResult Function()? getAllSubscribeList,
     TResult Function(String id)? checkSubscribeInfo,
+    TResult Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +53,8 @@ mixin _$SubscribeEvent {
     required TResult Function(DeleteSubscribeInfo value) deleteSubscribeInfo,
     required TResult Function(GetAllSubscribeList value) getAllSubscribeList,
     required TResult Function(CheckSubscribeInfo value) checkSubscribeInfo,
+    required TResult Function(UpdateSubscribeOldList value)
+        updateSubscribeOldList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +63,7 @@ mixin _$SubscribeEvent {
     TResult? Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
     TResult? Function(GetAllSubscribeList value)? getAllSubscribeList,
     TResult? Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult? Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +72,7 @@ mixin _$SubscribeEvent {
     TResult Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
     TResult Function(GetAllSubscribeList value)? getAllSubscribeList,
     TResult Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -84,6 +94,9 @@ class _$SubscribeEventCopyWithImpl<$Res, $Val extends SubscribeEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -103,6 +116,8 @@ class __$$AddSubscribeImplCopyWithImpl<$Res>
       _$AddSubscribeImpl _value, $Res Function(_$AddSubscribeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -142,7 +157,9 @@ class _$AddSubscribeImpl implements AddSubscribe {
   @override
   int get hashCode => Object.hash(runtimeType, channelInfo);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AddSubscribeImplCopyWith<_$AddSubscribeImpl> get copyWith =>
@@ -155,6 +172,8 @@ class _$AddSubscribeImpl implements AddSubscribe {
     required TResult Function(String id) deleteSubscribeInfo,
     required TResult Function() getAllSubscribeList,
     required TResult Function(String id) checkSubscribeInfo,
+    required TResult Function(List<Subscribe> subscribedChannels)
+        updateSubscribeOldList,
   }) {
     return addSubscribe(channelInfo);
   }
@@ -166,6 +185,8 @@ class _$AddSubscribeImpl implements AddSubscribe {
     TResult? Function(String id)? deleteSubscribeInfo,
     TResult? Function()? getAllSubscribeList,
     TResult? Function(String id)? checkSubscribeInfo,
+    TResult? Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
   }) {
     return addSubscribe?.call(channelInfo);
   }
@@ -177,6 +198,8 @@ class _$AddSubscribeImpl implements AddSubscribe {
     TResult Function(String id)? deleteSubscribeInfo,
     TResult Function()? getAllSubscribeList,
     TResult Function(String id)? checkSubscribeInfo,
+    TResult Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
     required TResult orElse(),
   }) {
     if (addSubscribe != null) {
@@ -192,6 +215,8 @@ class _$AddSubscribeImpl implements AddSubscribe {
     required TResult Function(DeleteSubscribeInfo value) deleteSubscribeInfo,
     required TResult Function(GetAllSubscribeList value) getAllSubscribeList,
     required TResult Function(CheckSubscribeInfo value) checkSubscribeInfo,
+    required TResult Function(UpdateSubscribeOldList value)
+        updateSubscribeOldList,
   }) {
     return addSubscribe(this);
   }
@@ -203,6 +228,7 @@ class _$AddSubscribeImpl implements AddSubscribe {
     TResult? Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
     TResult? Function(GetAllSubscribeList value)? getAllSubscribeList,
     TResult? Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult? Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
   }) {
     return addSubscribe?.call(this);
   }
@@ -214,6 +240,7 @@ class _$AddSubscribeImpl implements AddSubscribe {
     TResult Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
     TResult Function(GetAllSubscribeList value)? getAllSubscribeList,
     TResult Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
     required TResult orElse(),
   }) {
     if (addSubscribe != null) {
@@ -228,7 +255,10 @@ abstract class AddSubscribe implements SubscribeEvent {
       _$AddSubscribeImpl;
 
   Subscribe get channelInfo;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AddSubscribeImplCopyWith<_$AddSubscribeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -250,6 +280,8 @@ class __$$DeleteSubscribeInfoImplCopyWithImpl<$Res>
       $Res Function(_$DeleteSubscribeInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -288,7 +320,9 @@ class _$DeleteSubscribeInfoImpl implements DeleteSubscribeInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeleteSubscribeInfoImplCopyWith<_$DeleteSubscribeInfoImpl> get copyWith =>
@@ -302,6 +336,8 @@ class _$DeleteSubscribeInfoImpl implements DeleteSubscribeInfo {
     required TResult Function(String id) deleteSubscribeInfo,
     required TResult Function() getAllSubscribeList,
     required TResult Function(String id) checkSubscribeInfo,
+    required TResult Function(List<Subscribe> subscribedChannels)
+        updateSubscribeOldList,
   }) {
     return deleteSubscribeInfo(id);
   }
@@ -313,6 +349,8 @@ class _$DeleteSubscribeInfoImpl implements DeleteSubscribeInfo {
     TResult? Function(String id)? deleteSubscribeInfo,
     TResult? Function()? getAllSubscribeList,
     TResult? Function(String id)? checkSubscribeInfo,
+    TResult? Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
   }) {
     return deleteSubscribeInfo?.call(id);
   }
@@ -324,6 +362,8 @@ class _$DeleteSubscribeInfoImpl implements DeleteSubscribeInfo {
     TResult Function(String id)? deleteSubscribeInfo,
     TResult Function()? getAllSubscribeList,
     TResult Function(String id)? checkSubscribeInfo,
+    TResult Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
     required TResult orElse(),
   }) {
     if (deleteSubscribeInfo != null) {
@@ -339,6 +379,8 @@ class _$DeleteSubscribeInfoImpl implements DeleteSubscribeInfo {
     required TResult Function(DeleteSubscribeInfo value) deleteSubscribeInfo,
     required TResult Function(GetAllSubscribeList value) getAllSubscribeList,
     required TResult Function(CheckSubscribeInfo value) checkSubscribeInfo,
+    required TResult Function(UpdateSubscribeOldList value)
+        updateSubscribeOldList,
   }) {
     return deleteSubscribeInfo(this);
   }
@@ -350,6 +392,7 @@ class _$DeleteSubscribeInfoImpl implements DeleteSubscribeInfo {
     TResult? Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
     TResult? Function(GetAllSubscribeList value)? getAllSubscribeList,
     TResult? Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult? Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
   }) {
     return deleteSubscribeInfo?.call(this);
   }
@@ -361,6 +404,7 @@ class _$DeleteSubscribeInfoImpl implements DeleteSubscribeInfo {
     TResult Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
     TResult Function(GetAllSubscribeList value)? getAllSubscribeList,
     TResult Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
     required TResult orElse(),
   }) {
     if (deleteSubscribeInfo != null) {
@@ -375,7 +419,10 @@ abstract class DeleteSubscribeInfo implements SubscribeEvent {
       _$DeleteSubscribeInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeleteSubscribeInfoImplCopyWith<_$DeleteSubscribeInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -394,6 +441,9 @@ class __$$GetAllSubscribeListImplCopyWithImpl<$Res>
   __$$GetAllSubscribeListImplCopyWithImpl(_$GetAllSubscribeListImpl _value,
       $Res Function(_$GetAllSubscribeListImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -423,6 +473,8 @@ class _$GetAllSubscribeListImpl implements GetAllSubscribeList {
     required TResult Function(String id) deleteSubscribeInfo,
     required TResult Function() getAllSubscribeList,
     required TResult Function(String id) checkSubscribeInfo,
+    required TResult Function(List<Subscribe> subscribedChannels)
+        updateSubscribeOldList,
   }) {
     return getAllSubscribeList();
   }
@@ -434,6 +486,8 @@ class _$GetAllSubscribeListImpl implements GetAllSubscribeList {
     TResult? Function(String id)? deleteSubscribeInfo,
     TResult? Function()? getAllSubscribeList,
     TResult? Function(String id)? checkSubscribeInfo,
+    TResult? Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
   }) {
     return getAllSubscribeList?.call();
   }
@@ -445,6 +499,8 @@ class _$GetAllSubscribeListImpl implements GetAllSubscribeList {
     TResult Function(String id)? deleteSubscribeInfo,
     TResult Function()? getAllSubscribeList,
     TResult Function(String id)? checkSubscribeInfo,
+    TResult Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
     required TResult orElse(),
   }) {
     if (getAllSubscribeList != null) {
@@ -460,6 +516,8 @@ class _$GetAllSubscribeListImpl implements GetAllSubscribeList {
     required TResult Function(DeleteSubscribeInfo value) deleteSubscribeInfo,
     required TResult Function(GetAllSubscribeList value) getAllSubscribeList,
     required TResult Function(CheckSubscribeInfo value) checkSubscribeInfo,
+    required TResult Function(UpdateSubscribeOldList value)
+        updateSubscribeOldList,
   }) {
     return getAllSubscribeList(this);
   }
@@ -471,6 +529,7 @@ class _$GetAllSubscribeListImpl implements GetAllSubscribeList {
     TResult? Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
     TResult? Function(GetAllSubscribeList value)? getAllSubscribeList,
     TResult? Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult? Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
   }) {
     return getAllSubscribeList?.call(this);
   }
@@ -482,6 +541,7 @@ class _$GetAllSubscribeListImpl implements GetAllSubscribeList {
     TResult Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
     TResult Function(GetAllSubscribeList value)? getAllSubscribeList,
     TResult Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
     required TResult orElse(),
   }) {
     if (getAllSubscribeList != null) {
@@ -512,6 +572,8 @@ class __$$CheckSubscribeInfoImplCopyWithImpl<$Res>
       $Res Function(_$CheckSubscribeInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -550,7 +612,9 @@ class _$CheckSubscribeInfoImpl implements CheckSubscribeInfo {
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CheckSubscribeInfoImplCopyWith<_$CheckSubscribeInfoImpl> get copyWith =>
@@ -564,6 +628,8 @@ class _$CheckSubscribeInfoImpl implements CheckSubscribeInfo {
     required TResult Function(String id) deleteSubscribeInfo,
     required TResult Function() getAllSubscribeList,
     required TResult Function(String id) checkSubscribeInfo,
+    required TResult Function(List<Subscribe> subscribedChannels)
+        updateSubscribeOldList,
   }) {
     return checkSubscribeInfo(id);
   }
@@ -575,6 +641,8 @@ class _$CheckSubscribeInfoImpl implements CheckSubscribeInfo {
     TResult? Function(String id)? deleteSubscribeInfo,
     TResult? Function()? getAllSubscribeList,
     TResult? Function(String id)? checkSubscribeInfo,
+    TResult? Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
   }) {
     return checkSubscribeInfo?.call(id);
   }
@@ -586,6 +654,8 @@ class _$CheckSubscribeInfoImpl implements CheckSubscribeInfo {
     TResult Function(String id)? deleteSubscribeInfo,
     TResult Function()? getAllSubscribeList,
     TResult Function(String id)? checkSubscribeInfo,
+    TResult Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
     required TResult orElse(),
   }) {
     if (checkSubscribeInfo != null) {
@@ -601,6 +671,8 @@ class _$CheckSubscribeInfoImpl implements CheckSubscribeInfo {
     required TResult Function(DeleteSubscribeInfo value) deleteSubscribeInfo,
     required TResult Function(GetAllSubscribeList value) getAllSubscribeList,
     required TResult Function(CheckSubscribeInfo value) checkSubscribeInfo,
+    required TResult Function(UpdateSubscribeOldList value)
+        updateSubscribeOldList,
   }) {
     return checkSubscribeInfo(this);
   }
@@ -612,6 +684,7 @@ class _$CheckSubscribeInfoImpl implements CheckSubscribeInfo {
     TResult? Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
     TResult? Function(GetAllSubscribeList value)? getAllSubscribeList,
     TResult? Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult? Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
   }) {
     return checkSubscribeInfo?.call(this);
   }
@@ -623,6 +696,7 @@ class _$CheckSubscribeInfoImpl implements CheckSubscribeInfo {
     TResult Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
     TResult Function(GetAllSubscribeList value)? getAllSubscribeList,
     TResult Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
     required TResult orElse(),
   }) {
     if (checkSubscribeInfo != null) {
@@ -637,9 +711,189 @@ abstract class CheckSubscribeInfo implements SubscribeEvent {
       _$CheckSubscribeInfoImpl;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CheckSubscribeInfoImplCopyWith<_$CheckSubscribeInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateSubscribeOldListImplCopyWith<$Res> {
+  factory _$$UpdateSubscribeOldListImplCopyWith(
+          _$UpdateSubscribeOldListImpl value,
+          $Res Function(_$UpdateSubscribeOldListImpl) then) =
+      __$$UpdateSubscribeOldListImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<Subscribe> subscribedChannels});
+}
+
+/// @nodoc
+class __$$UpdateSubscribeOldListImplCopyWithImpl<$Res>
+    extends _$SubscribeEventCopyWithImpl<$Res, _$UpdateSubscribeOldListImpl>
+    implements _$$UpdateSubscribeOldListImplCopyWith<$Res> {
+  __$$UpdateSubscribeOldListImplCopyWithImpl(
+      _$UpdateSubscribeOldListImpl _value,
+      $Res Function(_$UpdateSubscribeOldListImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? subscribedChannels = null,
+  }) {
+    return _then(_$UpdateSubscribeOldListImpl(
+      subscribedChannels: null == subscribedChannels
+          ? _value._subscribedChannels
+          : subscribedChannels // ignore: cast_nullable_to_non_nullable
+              as List<Subscribe>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdateSubscribeOldListImpl implements UpdateSubscribeOldList {
+  const _$UpdateSubscribeOldListImpl(
+      {required final List<Subscribe> subscribedChannels})
+      : _subscribedChannels = subscribedChannels;
+
+  final List<Subscribe> _subscribedChannels;
+  @override
+  List<Subscribe> get subscribedChannels {
+    if (_subscribedChannels is EqualUnmodifiableListView)
+      return _subscribedChannels;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_subscribedChannels);
+  }
+
+  @override
+  String toString() {
+    return 'SubscribeEvent.updateSubscribeOldList(subscribedChannels: $subscribedChannels)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateSubscribeOldListImpl &&
+            const DeepCollectionEquality()
+                .equals(other._subscribedChannels, _subscribedChannels));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_subscribedChannels));
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateSubscribeOldListImplCopyWith<_$UpdateSubscribeOldListImpl>
+      get copyWith => __$$UpdateSubscribeOldListImplCopyWithImpl<
+          _$UpdateSubscribeOldListImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Subscribe channelInfo) addSubscribe,
+    required TResult Function(String id) deleteSubscribeInfo,
+    required TResult Function() getAllSubscribeList,
+    required TResult Function(String id) checkSubscribeInfo,
+    required TResult Function(List<Subscribe> subscribedChannels)
+        updateSubscribeOldList,
+  }) {
+    return updateSubscribeOldList(subscribedChannels);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Subscribe channelInfo)? addSubscribe,
+    TResult? Function(String id)? deleteSubscribeInfo,
+    TResult? Function()? getAllSubscribeList,
+    TResult? Function(String id)? checkSubscribeInfo,
+    TResult? Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
+  }) {
+    return updateSubscribeOldList?.call(subscribedChannels);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Subscribe channelInfo)? addSubscribe,
+    TResult Function(String id)? deleteSubscribeInfo,
+    TResult Function()? getAllSubscribeList,
+    TResult Function(String id)? checkSubscribeInfo,
+    TResult Function(List<Subscribe> subscribedChannels)?
+        updateSubscribeOldList,
+    required TResult orElse(),
+  }) {
+    if (updateSubscribeOldList != null) {
+      return updateSubscribeOldList(subscribedChannels);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AddSubscribe value) addSubscribe,
+    required TResult Function(DeleteSubscribeInfo value) deleteSubscribeInfo,
+    required TResult Function(GetAllSubscribeList value) getAllSubscribeList,
+    required TResult Function(CheckSubscribeInfo value) checkSubscribeInfo,
+    required TResult Function(UpdateSubscribeOldList value)
+        updateSubscribeOldList,
+  }) {
+    return updateSubscribeOldList(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AddSubscribe value)? addSubscribe,
+    TResult? Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
+    TResult? Function(GetAllSubscribeList value)? getAllSubscribeList,
+    TResult? Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult? Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
+  }) {
+    return updateSubscribeOldList?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AddSubscribe value)? addSubscribe,
+    TResult Function(DeleteSubscribeInfo value)? deleteSubscribeInfo,
+    TResult Function(GetAllSubscribeList value)? getAllSubscribeList,
+    TResult Function(CheckSubscribeInfo value)? checkSubscribeInfo,
+    TResult Function(UpdateSubscribeOldList value)? updateSubscribeOldList,
+    required TResult orElse(),
+  }) {
+    if (updateSubscribeOldList != null) {
+      return updateSubscribeOldList(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UpdateSubscribeOldList implements SubscribeEvent {
+  const factory UpdateSubscribeOldList(
+          {required final List<Subscribe> subscribedChannels}) =
+      _$UpdateSubscribeOldListImpl;
+
+  List<Subscribe> get subscribedChannels;
+
+  /// Create a copy of SubscribeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UpdateSubscribeOldListImplCopyWith<_$UpdateSubscribeOldListImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -647,8 +901,11 @@ mixin _$SubscribeState {
   ApiStatus get subscribeStatus => throw _privateConstructorUsedError;
   Subscribe? get channelInfo => throw _privateConstructorUsedError;
   List<Subscribe> get subscribedChannels => throw _privateConstructorUsedError;
+  List<Subscribe> get oldList => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubscribeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SubscribeStateCopyWith<SubscribeState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -662,7 +919,8 @@ abstract class $SubscribeStateCopyWith<$Res> {
   $Res call(
       {ApiStatus subscribeStatus,
       Subscribe? channelInfo,
-      List<Subscribe> subscribedChannels});
+      List<Subscribe> subscribedChannels,
+      List<Subscribe> oldList});
 }
 
 /// @nodoc
@@ -675,12 +933,15 @@ class _$SubscribeStateCopyWithImpl<$Res, $Val extends SubscribeState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SubscribeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? subscribeStatus = null,
     Object? channelInfo = freezed,
     Object? subscribedChannels = null,
+    Object? oldList = null,
   }) {
     return _then(_value.copyWith(
       subscribeStatus: null == subscribeStatus
@@ -694,6 +955,10 @@ class _$SubscribeStateCopyWithImpl<$Res, $Val extends SubscribeState>
       subscribedChannels: null == subscribedChannels
           ? _value.subscribedChannels
           : subscribedChannels // ignore: cast_nullable_to_non_nullable
+              as List<Subscribe>,
+      oldList: null == oldList
+          ? _value.oldList
+          : oldList // ignore: cast_nullable_to_non_nullable
               as List<Subscribe>,
     ) as $Val);
   }
@@ -710,7 +975,8 @@ abstract class _$$InitialImplCopyWith<$Res>
   $Res call(
       {ApiStatus subscribeStatus,
       Subscribe? channelInfo,
-      List<Subscribe> subscribedChannels});
+      List<Subscribe> subscribedChannels,
+      List<Subscribe> oldList});
 }
 
 /// @nodoc
@@ -721,12 +987,15 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SubscribeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? subscribeStatus = null,
     Object? channelInfo = freezed,
     Object? subscribedChannels = null,
+    Object? oldList = null,
   }) {
     return _then(_$InitialImpl(
       subscribeStatus: null == subscribeStatus
@@ -741,6 +1010,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value._subscribedChannels
           : subscribedChannels // ignore: cast_nullable_to_non_nullable
               as List<Subscribe>,
+      oldList: null == oldList
+          ? _value._oldList
+          : oldList // ignore: cast_nullable_to_non_nullable
+              as List<Subscribe>,
     ));
   }
 }
@@ -751,8 +1024,10 @@ class _$InitialImpl implements _Initial {
   const _$InitialImpl(
       {required this.subscribeStatus,
       required this.channelInfo,
-      required final List<Subscribe> subscribedChannels})
-      : _subscribedChannels = subscribedChannels;
+      required final List<Subscribe> subscribedChannels,
+      required final List<Subscribe> oldList})
+      : _subscribedChannels = subscribedChannels,
+        _oldList = oldList;
 
   @override
   final ApiStatus subscribeStatus;
@@ -767,9 +1042,17 @@ class _$InitialImpl implements _Initial {
     return EqualUnmodifiableListView(_subscribedChannels);
   }
 
+  final List<Subscribe> _oldList;
+  @override
+  List<Subscribe> get oldList {
+    if (_oldList is EqualUnmodifiableListView) return _oldList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_oldList);
+  }
+
   @override
   String toString() {
-    return 'SubscribeState(subscribeStatus: $subscribeStatus, channelInfo: $channelInfo, subscribedChannels: $subscribedChannels)';
+    return 'SubscribeState(subscribeStatus: $subscribeStatus, channelInfo: $channelInfo, subscribedChannels: $subscribedChannels, oldList: $oldList)';
   }
 
   @override
@@ -782,14 +1065,21 @@ class _$InitialImpl implements _Initial {
             (identical(other.channelInfo, channelInfo) ||
                 other.channelInfo == channelInfo) &&
             const DeepCollectionEquality()
-                .equals(other._subscribedChannels, _subscribedChannels));
+                .equals(other._subscribedChannels, _subscribedChannels) &&
+            const DeepCollectionEquality().equals(other._oldList, _oldList));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, subscribeStatus, channelInfo,
-      const DeepCollectionEquality().hash(_subscribedChannels));
+  int get hashCode => Object.hash(
+      runtimeType,
+      subscribeStatus,
+      channelInfo,
+      const DeepCollectionEquality().hash(_subscribedChannels),
+      const DeepCollectionEquality().hash(_oldList));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubscribeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -800,7 +1090,8 @@ abstract class _Initial implements SubscribeState {
   const factory _Initial(
       {required final ApiStatus subscribeStatus,
       required final Subscribe? channelInfo,
-      required final List<Subscribe> subscribedChannels}) = _$InitialImpl;
+      required final List<Subscribe> subscribedChannels,
+      required final List<Subscribe> oldList}) = _$InitialImpl;
 
   @override
   ApiStatus get subscribeStatus;
@@ -809,7 +1100,12 @@ abstract class _Initial implements SubscribeState {
   @override
   List<Subscribe> get subscribedChannels;
   @override
-  @JsonKey(ignore: true)
+  List<Subscribe> get oldList;
+
+  /// Create a copy of SubscribeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

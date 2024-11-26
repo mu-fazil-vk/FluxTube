@@ -28,6 +28,7 @@ class CustomAppBar extends StatelessWidget {
       toolbarHeight: 60,
       elevation: 0,
       surfaceTintColor: kWhiteColor,
+      automaticallyImplyLeading: false,
       title: Padding(
         padding: const EdgeInsets.only(left: 10),
         child: Text(

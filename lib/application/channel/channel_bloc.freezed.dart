@@ -16,24 +16,29 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ChannelEvent {
+  String get serviceType => throw _privateConstructorUsedError;
   String get channelId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String channelId) getChannelData,
-    required TResult Function(String channelId, String? nextPage)
+    required TResult Function(String serviceType, String channelId)
+        getChannelData,
+    required TResult Function(
+            String serviceType, String channelId, String? nextPage)
         getMoreChannelVideos,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String channelId)? getChannelData,
-    TResult? Function(String channelId, String? nextPage)? getMoreChannelVideos,
+    TResult? Function(String serviceType, String channelId)? getChannelData,
+    TResult? Function(String serviceType, String channelId, String? nextPage)?
+        getMoreChannelVideos,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String channelId)? getChannelData,
-    TResult Function(String channelId, String? nextPage)? getMoreChannelVideos,
+    TResult Function(String serviceType, String channelId)? getChannelData,
+    TResult Function(String serviceType, String channelId, String? nextPage)?
+        getMoreChannelVideos,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -57,7 +62,9 @@ mixin _$ChannelEvent {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChannelEventCopyWith<ChannelEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -68,7 +75,7 @@ abstract class $ChannelEventCopyWith<$Res> {
           ChannelEvent value, $Res Function(ChannelEvent) then) =
       _$ChannelEventCopyWithImpl<$Res, ChannelEvent>;
   @useResult
-  $Res call({String channelId});
+  $Res call({String serviceType, String channelId});
 }
 
 /// @nodoc
@@ -81,12 +88,19 @@ class _$ChannelEventCopyWithImpl<$Res, $Val extends ChannelEvent>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? serviceType = null,
     Object? channelId = null,
   }) {
     return _then(_value.copyWith(
+      serviceType: null == serviceType
+          ? _value.serviceType
+          : serviceType // ignore: cast_nullable_to_non_nullable
+              as String,
       channelId: null == channelId
           ? _value.channelId
           : channelId // ignore: cast_nullable_to_non_nullable
@@ -103,7 +117,7 @@ abstract class _$$GetChannelDataImplCopyWith<$Res>
       __$$GetChannelDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String channelId});
+  $Res call({String serviceType, String channelId});
 }
 
 /// @nodoc
@@ -114,12 +128,19 @@ class __$$GetChannelDataImplCopyWithImpl<$Res>
       _$GetChannelDataImpl _value, $Res Function(_$GetChannelDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? serviceType = null,
     Object? channelId = null,
   }) {
     return _then(_$GetChannelDataImpl(
+      serviceType: null == serviceType
+          ? _value.serviceType
+          : serviceType // ignore: cast_nullable_to_non_nullable
+              as String,
       channelId: null == channelId
           ? _value.channelId
           : channelId // ignore: cast_nullable_to_non_nullable
@@ -131,14 +152,17 @@ class __$$GetChannelDataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GetChannelDataImpl implements GetChannelData {
-  const _$GetChannelDataImpl({required this.channelId});
+  const _$GetChannelDataImpl(
+      {required this.serviceType, required this.channelId});
 
+  @override
+  final String serviceType;
   @override
   final String channelId;
 
   @override
   String toString() {
-    return 'ChannelEvent.getChannelData(channelId: $channelId)';
+    return 'ChannelEvent.getChannelData(serviceType: $serviceType, channelId: $channelId)';
   }
 
   @override
@@ -146,14 +170,18 @@ class _$GetChannelDataImpl implements GetChannelData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetChannelDataImpl &&
+            (identical(other.serviceType, serviceType) ||
+                other.serviceType == serviceType) &&
             (identical(other.channelId, channelId) ||
                 other.channelId == channelId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, channelId);
+  int get hashCode => Object.hash(runtimeType, serviceType, channelId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetChannelDataImplCopyWith<_$GetChannelDataImpl> get copyWith =>
@@ -163,31 +191,35 @@ class _$GetChannelDataImpl implements GetChannelData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String channelId) getChannelData,
-    required TResult Function(String channelId, String? nextPage)
+    required TResult Function(String serviceType, String channelId)
+        getChannelData,
+    required TResult Function(
+            String serviceType, String channelId, String? nextPage)
         getMoreChannelVideos,
   }) {
-    return getChannelData(channelId);
+    return getChannelData(serviceType, channelId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String channelId)? getChannelData,
-    TResult? Function(String channelId, String? nextPage)? getMoreChannelVideos,
+    TResult? Function(String serviceType, String channelId)? getChannelData,
+    TResult? Function(String serviceType, String channelId, String? nextPage)?
+        getMoreChannelVideos,
   }) {
-    return getChannelData?.call(channelId);
+    return getChannelData?.call(serviceType, channelId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String channelId)? getChannelData,
-    TResult Function(String channelId, String? nextPage)? getMoreChannelVideos,
+    TResult Function(String serviceType, String channelId)? getChannelData,
+    TResult Function(String serviceType, String channelId, String? nextPage)?
+        getMoreChannelVideos,
     required TResult orElse(),
   }) {
     if (getChannelData != null) {
-      return getChannelData(channelId);
+      return getChannelData(serviceType, channelId);
     }
     return orElse();
   }
@@ -225,13 +257,19 @@ class _$GetChannelDataImpl implements GetChannelData {
 }
 
 abstract class GetChannelData implements ChannelEvent {
-  const factory GetChannelData({required final String channelId}) =
-      _$GetChannelDataImpl;
+  const factory GetChannelData(
+      {required final String serviceType,
+      required final String channelId}) = _$GetChannelDataImpl;
 
   @override
-  String get channelId;
+  String get serviceType;
   @override
-  @JsonKey(ignore: true)
+  String get channelId;
+
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetChannelDataImplCopyWith<_$GetChannelDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -244,7 +282,7 @@ abstract class _$$GetMoreChannelVideosImplCopyWith<$Res>
       __$$GetMoreChannelVideosImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String channelId, String? nextPage});
+  $Res call({String serviceType, String channelId, String? nextPage});
 }
 
 /// @nodoc
@@ -255,13 +293,20 @@ class __$$GetMoreChannelVideosImplCopyWithImpl<$Res>
       $Res Function(_$GetMoreChannelVideosImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? serviceType = null,
     Object? channelId = null,
     Object? nextPage = freezed,
   }) {
     return _then(_$GetMoreChannelVideosImpl(
+      serviceType: null == serviceType
+          ? _value.serviceType
+          : serviceType // ignore: cast_nullable_to_non_nullable
+              as String,
       channelId: null == channelId
           ? _value.channelId
           : channelId // ignore: cast_nullable_to_non_nullable
@@ -278,8 +323,12 @@ class __$$GetMoreChannelVideosImplCopyWithImpl<$Res>
 
 class _$GetMoreChannelVideosImpl implements GetMoreChannelVideos {
   const _$GetMoreChannelVideosImpl(
-      {required this.channelId, required this.nextPage});
+      {required this.serviceType,
+      required this.channelId,
+      required this.nextPage});
 
+  @override
+  final String serviceType;
   @override
   final String channelId;
   @override
@@ -287,7 +336,7 @@ class _$GetMoreChannelVideosImpl implements GetMoreChannelVideos {
 
   @override
   String toString() {
-    return 'ChannelEvent.getMoreChannelVideos(channelId: $channelId, nextPage: $nextPage)';
+    return 'ChannelEvent.getMoreChannelVideos(serviceType: $serviceType, channelId: $channelId, nextPage: $nextPage)';
   }
 
   @override
@@ -295,6 +344,8 @@ class _$GetMoreChannelVideosImpl implements GetMoreChannelVideos {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetMoreChannelVideosImpl &&
+            (identical(other.serviceType, serviceType) ||
+                other.serviceType == serviceType) &&
             (identical(other.channelId, channelId) ||
                 other.channelId == channelId) &&
             (identical(other.nextPage, nextPage) ||
@@ -302,9 +353,12 @@ class _$GetMoreChannelVideosImpl implements GetMoreChannelVideos {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, channelId, nextPage);
+  int get hashCode =>
+      Object.hash(runtimeType, serviceType, channelId, nextPage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetMoreChannelVideosImplCopyWith<_$GetMoreChannelVideosImpl>
@@ -315,31 +369,35 @@ class _$GetMoreChannelVideosImpl implements GetMoreChannelVideos {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String channelId) getChannelData,
-    required TResult Function(String channelId, String? nextPage)
+    required TResult Function(String serviceType, String channelId)
+        getChannelData,
+    required TResult Function(
+            String serviceType, String channelId, String? nextPage)
         getMoreChannelVideos,
   }) {
-    return getMoreChannelVideos(channelId, nextPage);
+    return getMoreChannelVideos(serviceType, channelId, nextPage);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String channelId)? getChannelData,
-    TResult? Function(String channelId, String? nextPage)? getMoreChannelVideos,
+    TResult? Function(String serviceType, String channelId)? getChannelData,
+    TResult? Function(String serviceType, String channelId, String? nextPage)?
+        getMoreChannelVideos,
   }) {
-    return getMoreChannelVideos?.call(channelId, nextPage);
+    return getMoreChannelVideos?.call(serviceType, channelId, nextPage);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String channelId)? getChannelData,
-    TResult Function(String channelId, String? nextPage)? getMoreChannelVideos,
+    TResult Function(String serviceType, String channelId)? getChannelData,
+    TResult Function(String serviceType, String channelId, String? nextPage)?
+        getMoreChannelVideos,
     required TResult orElse(),
   }) {
     if (getMoreChannelVideos != null) {
-      return getMoreChannelVideos(channelId, nextPage);
+      return getMoreChannelVideos(serviceType, channelId, nextPage);
     }
     return orElse();
   }
@@ -378,27 +436,38 @@ class _$GetMoreChannelVideosImpl implements GetMoreChannelVideos {
 
 abstract class GetMoreChannelVideos implements ChannelEvent {
   const factory GetMoreChannelVideos(
-      {required final String channelId,
+      {required final String serviceType,
+      required final String channelId,
       required final String? nextPage}) = _$GetMoreChannelVideosImpl;
 
   @override
+  String get serviceType;
+  @override
   String get channelId;
   String? get nextPage;
+
+  /// Create a copy of ChannelEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetMoreChannelVideosImplCopyWith<_$GetMoreChannelVideosImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 mixin _$ChannelState {
+//
+  bool get isMoreFetchCompleted => throw _privateConstructorUsedError; // PIPED
   ApiStatus get channelDetailsFetchStatus => throw _privateConstructorUsedError;
-  ChannelResp? get result => throw _privateConstructorUsedError;
+  ChannelResp? get pipedChannelResp => throw _privateConstructorUsedError;
   ApiStatus get moreChannelDetailsFetchStatus =>
+      throw _privateConstructorUsedError; // INVIDIOUS
+  InvidiousChannelResp? get invidiousChannelResp =>
       throw _privateConstructorUsedError;
-  bool get isMoreFetchCompleted => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChannelState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChannelStateCopyWith<ChannelState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -410,10 +479,11 @@ abstract class $ChannelStateCopyWith<$Res> {
       _$ChannelStateCopyWithImpl<$Res, ChannelState>;
   @useResult
   $Res call(
-      {ApiStatus channelDetailsFetchStatus,
-      ChannelResp? result,
+      {bool isMoreFetchCompleted,
+      ApiStatus channelDetailsFetchStatus,
+      ChannelResp? pipedChannelResp,
       ApiStatus moreChannelDetailsFetchStatus,
-      bool isMoreFetchCompleted});
+      InvidiousChannelResp? invidiousChannelResp});
 }
 
 /// @nodoc
@@ -426,31 +496,38 @@ class _$ChannelStateCopyWithImpl<$Res, $Val extends ChannelState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChannelState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? channelDetailsFetchStatus = null,
-    Object? result = freezed,
-    Object? moreChannelDetailsFetchStatus = null,
     Object? isMoreFetchCompleted = null,
+    Object? channelDetailsFetchStatus = null,
+    Object? pipedChannelResp = freezed,
+    Object? moreChannelDetailsFetchStatus = null,
+    Object? invidiousChannelResp = freezed,
   }) {
     return _then(_value.copyWith(
+      isMoreFetchCompleted: null == isMoreFetchCompleted
+          ? _value.isMoreFetchCompleted
+          : isMoreFetchCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
       channelDetailsFetchStatus: null == channelDetailsFetchStatus
           ? _value.channelDetailsFetchStatus
           : channelDetailsFetchStatus // ignore: cast_nullable_to_non_nullable
               as ApiStatus,
-      result: freezed == result
-          ? _value.result
-          : result // ignore: cast_nullable_to_non_nullable
+      pipedChannelResp: freezed == pipedChannelResp
+          ? _value.pipedChannelResp
+          : pipedChannelResp // ignore: cast_nullable_to_non_nullable
               as ChannelResp?,
       moreChannelDetailsFetchStatus: null == moreChannelDetailsFetchStatus
           ? _value.moreChannelDetailsFetchStatus
           : moreChannelDetailsFetchStatus // ignore: cast_nullable_to_non_nullable
               as ApiStatus,
-      isMoreFetchCompleted: null == isMoreFetchCompleted
-          ? _value.isMoreFetchCompleted
-          : isMoreFetchCompleted // ignore: cast_nullable_to_non_nullable
-              as bool,
+      invidiousChannelResp: freezed == invidiousChannelResp
+          ? _value.invidiousChannelResp
+          : invidiousChannelResp // ignore: cast_nullable_to_non_nullable
+              as InvidiousChannelResp?,
     ) as $Val);
   }
 }
@@ -464,10 +541,11 @@ abstract class _$$ChannelStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {ApiStatus channelDetailsFetchStatus,
-      ChannelResp? result,
+      {bool isMoreFetchCompleted,
+      ApiStatus channelDetailsFetchStatus,
+      ChannelResp? pipedChannelResp,
       ApiStatus moreChannelDetailsFetchStatus,
-      bool isMoreFetchCompleted});
+      InvidiousChannelResp? invidiousChannelResp});
 }
 
 /// @nodoc
@@ -478,31 +556,38 @@ class __$$ChannelStateImplCopyWithImpl<$Res>
       _$ChannelStateImpl _value, $Res Function(_$ChannelStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChannelState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? channelDetailsFetchStatus = null,
-    Object? result = freezed,
-    Object? moreChannelDetailsFetchStatus = null,
     Object? isMoreFetchCompleted = null,
+    Object? channelDetailsFetchStatus = null,
+    Object? pipedChannelResp = freezed,
+    Object? moreChannelDetailsFetchStatus = null,
+    Object? invidiousChannelResp = freezed,
   }) {
     return _then(_$ChannelStateImpl(
+      isMoreFetchCompleted: null == isMoreFetchCompleted
+          ? _value.isMoreFetchCompleted
+          : isMoreFetchCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
       channelDetailsFetchStatus: null == channelDetailsFetchStatus
           ? _value.channelDetailsFetchStatus
           : channelDetailsFetchStatus // ignore: cast_nullable_to_non_nullable
               as ApiStatus,
-      result: freezed == result
-          ? _value.result
-          : result // ignore: cast_nullable_to_non_nullable
+      pipedChannelResp: freezed == pipedChannelResp
+          ? _value.pipedChannelResp
+          : pipedChannelResp // ignore: cast_nullable_to_non_nullable
               as ChannelResp?,
       moreChannelDetailsFetchStatus: null == moreChannelDetailsFetchStatus
           ? _value.moreChannelDetailsFetchStatus
           : moreChannelDetailsFetchStatus // ignore: cast_nullable_to_non_nullable
               as ApiStatus,
-      isMoreFetchCompleted: null == isMoreFetchCompleted
-          ? _value.isMoreFetchCompleted
-          : isMoreFetchCompleted // ignore: cast_nullable_to_non_nullable
-              as bool,
+      invidiousChannelResp: freezed == invidiousChannelResp
+          ? _value.invidiousChannelResp
+          : invidiousChannelResp // ignore: cast_nullable_to_non_nullable
+              as InvidiousChannelResp?,
     ));
   }
 }
@@ -511,23 +596,29 @@ class __$$ChannelStateImplCopyWithImpl<$Res>
 
 class _$ChannelStateImpl implements _ChannelState {
   _$ChannelStateImpl(
-      {required this.channelDetailsFetchStatus,
-      required this.result,
+      {required this.isMoreFetchCompleted,
+      required this.channelDetailsFetchStatus,
+      required this.pipedChannelResp,
       required this.moreChannelDetailsFetchStatus,
-      required this.isMoreFetchCompleted});
+      required this.invidiousChannelResp});
 
+//
+  @override
+  final bool isMoreFetchCompleted;
+// PIPED
   @override
   final ApiStatus channelDetailsFetchStatus;
   @override
-  final ChannelResp? result;
+  final ChannelResp? pipedChannelResp;
   @override
   final ApiStatus moreChannelDetailsFetchStatus;
+// INVIDIOUS
   @override
-  final bool isMoreFetchCompleted;
+  final InvidiousChannelResp? invidiousChannelResp;
 
   @override
   String toString() {
-    return 'ChannelState(channelDetailsFetchStatus: $channelDetailsFetchStatus, result: $result, moreChannelDetailsFetchStatus: $moreChannelDetailsFetchStatus, isMoreFetchCompleted: $isMoreFetchCompleted)';
+    return 'ChannelState(isMoreFetchCompleted: $isMoreFetchCompleted, channelDetailsFetchStatus: $channelDetailsFetchStatus, pipedChannelResp: $pipedChannelResp, moreChannelDetailsFetchStatus: $moreChannelDetailsFetchStatus, invidiousChannelResp: $invidiousChannelResp)';
   }
 
   @override
@@ -535,23 +626,33 @@ class _$ChannelStateImpl implements _ChannelState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChannelStateImpl &&
+            (identical(other.isMoreFetchCompleted, isMoreFetchCompleted) ||
+                other.isMoreFetchCompleted == isMoreFetchCompleted) &&
             (identical(other.channelDetailsFetchStatus,
                     channelDetailsFetchStatus) ||
                 other.channelDetailsFetchStatus == channelDetailsFetchStatus) &&
-            (identical(other.result, result) || other.result == result) &&
+            (identical(other.pipedChannelResp, pipedChannelResp) ||
+                other.pipedChannelResp == pipedChannelResp) &&
             (identical(other.moreChannelDetailsFetchStatus,
                     moreChannelDetailsFetchStatus) ||
                 other.moreChannelDetailsFetchStatus ==
                     moreChannelDetailsFetchStatus) &&
-            (identical(other.isMoreFetchCompleted, isMoreFetchCompleted) ||
-                other.isMoreFetchCompleted == isMoreFetchCompleted));
+            (identical(other.invidiousChannelResp, invidiousChannelResp) ||
+                other.invidiousChannelResp == invidiousChannelResp));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, channelDetailsFetchStatus,
-      result, moreChannelDetailsFetchStatus, isMoreFetchCompleted);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isMoreFetchCompleted,
+      channelDetailsFetchStatus,
+      pipedChannelResp,
+      moreChannelDetailsFetchStatus,
+      invidiousChannelResp);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChannelState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChannelStateImplCopyWith<_$ChannelStateImpl> get copyWith =>
@@ -560,21 +661,29 @@ class _$ChannelStateImpl implements _ChannelState {
 
 abstract class _ChannelState implements ChannelState {
   factory _ChannelState(
-      {required final ApiStatus channelDetailsFetchStatus,
-      required final ChannelResp? result,
-      required final ApiStatus moreChannelDetailsFetchStatus,
-      required final bool isMoreFetchCompleted}) = _$ChannelStateImpl;
+          {required final bool isMoreFetchCompleted,
+          required final ApiStatus channelDetailsFetchStatus,
+          required final ChannelResp? pipedChannelResp,
+          required final ApiStatus moreChannelDetailsFetchStatus,
+          required final InvidiousChannelResp? invidiousChannelResp}) =
+      _$ChannelStateImpl;
 
+//
+  @override
+  bool get isMoreFetchCompleted; // PIPED
   @override
   ApiStatus get channelDetailsFetchStatus;
   @override
-  ChannelResp? get result;
+  ChannelResp? get pipedChannelResp;
   @override
-  ApiStatus get moreChannelDetailsFetchStatus;
+  ApiStatus get moreChannelDetailsFetchStatus; // INVIDIOUS
   @override
-  bool get isMoreFetchCompleted;
+  InvidiousChannelResp? get invidiousChannelResp;
+
+  /// Create a copy of ChannelState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChannelStateImplCopyWith<_$ChannelStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

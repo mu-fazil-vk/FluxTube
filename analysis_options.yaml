@@ -10,6 +10,61 @@
 analyzer:
   errors:
     no_leading_underscores_for_local_identifiers: ignore
+    avoid_empty_else: error
+    avoid_redundant_argument_values: warning
+    avoid_returning_null_for_void: error
+    avoid_unnecessary_containers: warning
+    avoid_unused_constructor_parameters: warning
+    directives_ordering: warning
+    empty_catches: error
+    prefer_const_constructors_in_immutables: warning
+    require_trailing_commas: warning
+    sort_child_properties_last: warning
+    sort_constructors_first: warning
+    sort_unnamed_constructors_first: warning
+    unawaited_futures: error
+    unnecessary_new: warning
+    unnecessary_null_aware_assignments: warning
+    unnecessary_null_checks: warning
+    unused_element: warning
+    unused_field: warning
+    unused_import: warning
+    unused_local_variable: warning
+    unused_shown_name: warning
+    use_full_hex_values_for_flutter_colors: warning
+    use_key_in_widget_constructors: warning
+    use_rethrow_when_possible: warning
+    use_setters_to_change_properties: warning
+    use_string_buffers: warning
+    use_to_and_as_if_applicable: warning
+    always_declare_return_types: warning
+    always_require_non_null_named_parameters: warning
+    annotate_overrides: warning
+    avoid_bool_literals_in_conditional_expressions: warning
+    avoid_catches_without_on_clauses: warning
+    avoid_classes_with_only_static_members: warning
+    avoid_implementing_value_types: warning
+    avoid_init_to_null: warning
+    avoid_positional_boolean_parameters: warning
+    avoid_private_typedef_functions: warning
+    avoid_return_types_on_setters: warning
+    avoid_returning_null: warning
+    avoid_returning_null_for_future: warning
+    avoid_returning_this: warning
+    avoid_setters_without_getters: warning
+    avoid_single_cascade_in_expression_statements: warning
+    avoid_types_as_parameter_names: warning
+    avoid_void_async: warning
+    cancel_subscriptions: warning
+    close_sinks: warning
+    constant_identifier_names: warning
+    control_flow_in_finally: warning
+    curly_braces_in_flow_control_structures: warning
+    diagnostic_describe_all_properties: warning
+    empty_statements: warning
+    hash_and_equals: warning
+    invalid_use_of_visible_for_testing_member: warning
+
 include: package:flutter_lints/flutter.yaml
 
 linter:

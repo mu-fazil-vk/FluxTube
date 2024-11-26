@@ -13,10 +13,14 @@ class SettingsState with _$SettingsState {
     required bool isHlsPlayer,
     required bool isHideComments,
     required bool isHideRelated,
-    required List<Instance> instances,
-    required ApiStatus instanceStatus,
+    required List<Instance> pipedInstances,
+    required ApiStatus pipedInstanceStatus,
     required String instance,
+    required List<Instance> invidiousInstances,
+    required ApiStatus invidiousInstanceStatus,
     required String ytService,
+    required bool initialized,
+    required ApiStatus settingsStatus,
   }) = _Initial;
 
   factory SettingsState.initialize() => SettingsState(
@@ -27,12 +31,17 @@ class SettingsState with _$SettingsState {
         version: "",
         isHistoryVisible: true,
         isDislikeVisible: false,
-        isHlsPlayer: true,
+        isHlsPlayer: false,
         isHideComments: false,
         isHideRelated: false,
-        instances: [],
-        instanceStatus: ApiStatus.initial,
+        pipedInstances: [],
+        pipedInstanceStatus: ApiStatus.initial,
+        // set by home (commom for piped and invidious)
         instance: BaseUrl.kBaseUrl,
-        ytService: YouTubeServices.piped.name,
+        invidiousInstances: [],
+        invidiousInstanceStatus: ApiStatus.initial,
+        ytService: YouTubeServices.iframe.name,
+        initialized: false,
+        settingsStatus: ApiStatus.initial,
       );
 }

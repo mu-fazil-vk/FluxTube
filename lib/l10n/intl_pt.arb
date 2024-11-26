@@ -190,5 +190,8 @@
     "description": "Include title along with url"
   },
   "instances": "Instâncias",
-  "switchRegion": "Please consider switching to a different region for better results."
+  "switchRegion": "Please consider switching to a different region for better results.",
+  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
+  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
+  "noCommentsFound": "No Comments Found"
 }
