@@ -1,0 +1,198 @@
+{
+  "home": "首页",
+  "@home": {
+    "description": "Home label"
+  },
+  "trending": "热门",
+  "@trending": {
+    "description": "Trending label"
+  },
+  "saved": "收藏",
+  "@saved": {
+    "description": "Saved label"
+  },
+  "settings": "设置",
+  "@settings": {
+    "description": "Settings label"
+  },
+  "history": "历史记录",
+  "@history": {
+    "description": "History label"
+  },
+  "savedVideosTitle": "已收藏视频",
+  "@savedVideosTitle": {
+    "description": "Saved videos app bar title"
+  },
+  "noUploaderName": "无名称",
+  "@noUploaderName": {
+    "description": "There is no uploader (channel) name available"
+  },
+  "noVideoTitle": "无标题",
+  "@noVideoTitle": {
+    "description": "There is no video title available"
+  },
+  "videoViews": "{count, plural, =0{No views} =1{view} other{views}}",
+  "@videoViews": {
+    "description": "{number} views"
+  },
+  "channelSubscribers": "{count, plural, =0{No subscribers} =1{subscriber} other{subscribers}}",
+  "@channelSubscribers": {
+    "description": "{number} subscribers"
+  },
+  "subscribe": "订阅",
+  "@subscribe": {
+    "description": "Subscribe button label"
+  },
+  "noUploadDate": "无日期",
+  "@noUploadDate": {
+    "description": "There is no video upload date available"
+  },
+  "thereIsNoSavedVideos": "没有已收藏的视频",
+  "@thereIsNoSavedVideos": {
+    "description": "There are no saved videos found"
+  },
+  "thereIsNoSavedOrHistoryVideos": "没有已收藏/历史播放的视频",
+  "@thereIsNoSavedHistoryVideos": {
+    "description": "There are no saved or history videos"
+  },
+  "noVideoAvailableChangedToHls": "视频源不可用，已自动切换为hls",
+  "@noVideoAvailableChangedToHls": {
+    "description": "When there is no standard player link available, then it changed to hls player"
+  },
+  "unknownQuality": "未知画质",
+  "@unknownQuality": {
+    "description": "Quality name not found"
+  },
+  "hlsPlayer": "Hls播放器",
+  "@hlsPlayer": {
+    "description": "Hls player label"
+  },
+  "enableHlsPlayerDescription": "Enable HLS player to unlock all quality options. Disable if errors occur.",
+  "@enableHlsPlayerDescription": {
+    "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
+  },
+  "disableVideoHistory": "禁用播放历史记录",
+  "@disableVideoHistory": {
+    "description": "Hide watch history"
+  },
+  "retrieveDislikes": "Retrieve Dislikes",
+  "@retrieveDislikes": {
+    "description": "Retrieve dislikes label"
+  },
+  "retrieveDislikeCounts": "Retrieve dislike counts",
+  "@retrieveDislikeCounts": {
+    "description": "Return the dislike button of videos"
+  },
+  "noVideoDescription": "无描述",
+  "@noVideoDescription": {
+    "description": "There is no video description available"
+  },
+  "relatedTitle": "Related",
+  "@relatedTitle": {
+    "description": "Related videos label"
+  },
+  "commentAuthorNotFound": "Not found",
+  "@commentAuthorNotFound": {
+    "description": "Name of the comment author is not found"
+  },
+  "readMoreText": "展开",
+  "@readMoreText": {
+    "description": "Expand the comment text"
+  },
+  "showLessText": "收起",
+  "@showLessText": {
+    "description": "Collapse the comment text"
+  },
+  "commonSettingsTitle": "通用",
+  "@commonSettingsTitle": {
+    "description": "Common settings label"
+  },
+  "language": "语言",
+  "@language": {
+    "description": "Language label"
+  },
+  "region": "地区",
+  "@region": {
+    "description": "Region label"
+  },
+  "theme": "主题",
+  "@theme": {
+    "description": "Theme label"
+  },
+  "developer": "开发者",
+  "@developer": {
+    "description": "Developer label"
+  },
+  "translators": "翻译人员",
+  "@translators": {
+    "description": "Translators label"
+  },
+  "version": "版本",
+  "@version": {
+    "description": "Version label"
+  },
+  "about": "关于",
+  "@about": {
+    "description": "About label"
+  },
+  "video": "视频",
+  "@video": {
+    "description": "Video label"
+  },
+  "unknown": "unknown",
+  "@unknown": {
+    "description": "Unknown label"
+  },
+  "defaultQuality": "默认画质",
+  "@defaultQuality": {
+    "description": "Default video quality label"
+  },
+  "retry": "重试",
+  "@retry": {
+    "description": "Retry label"
+  },
+  "repliesPlural": "{count, plural, =1{Reply} other{Replies}}",
+  "@repliesPlural": {
+    "description": "{number} Replies"
+  },
+  "canada": "加拿大",
+  "france": "法国",
+  "india": "印度",
+  "netherlands": "荷兰",
+  "unitedKingdom": "英国",
+  "unitedStates": "美国",
+  "distractionFree": "Distraction Free",
+  "@distractionFree": {
+    "description": "A section for control distracting elements."
+  },
+  "hideComments": "Hide Comments",
+  "@hideComments": {
+    "description": "Hide Comments label."
+  },
+  "hideCommentsButtonFromWatchScreen": "Hide comments button from watch screen.",
+  "@hideCommentsButtonFromWatchScreen": {
+    "description": "Hide the comment button from video streaming screen."
+  },
+  "hideRelated": "Hide Related",
+  "@hideRelated": {
+    "description": "Hide Related videos label."
+  },
+  "hideRelatedVideosFromWatchScreen": "Hide related videos from watch screen",
+  "@hideRelatedVideosFromWatchScreen": {
+    "description": "Hide the related videos from video streaming screen."
+  },
+  "share": "分享",
+  "@share": {
+    "description": "Share label."
+  },
+  "includeTitle": "Include title",
+  "@includeTitle": {
+    "description": "Include title along with url"
+  },
+  "instances": "Instances",
+  "switchRegion": "Please consider switching to a different region for better results.",
+  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
+  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
+  "noCommentsFound": "No Comments Found",
+  "disablePipPlayer": "Disable PIP player"
+}
