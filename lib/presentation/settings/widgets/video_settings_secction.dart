@@ -146,7 +146,7 @@ class VideoSettingsSecction extends StatelessWidget {
               ),
             ),
             ListTile(
-              title: Text("Disable PIP player",
+              title: Text(locals.disablePipPlayer,
                   style: Theme.of(context).textTheme.titleMedium),
               leading: const Icon(Icons.picture_in_picture_alt),
               trailing: Switch(

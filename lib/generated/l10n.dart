@@ -629,6 +629,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Disable PIP player`
+  String get disablePipPlayer {
+    return Intl.message(
+      'Disable PIP player',
+      name: 'disablePipPlayer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

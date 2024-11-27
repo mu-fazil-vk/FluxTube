@@ -40,6 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "defaultQuality":
             MessageLookupByLibrary.simpleMessage("സാധാരണ ക്വാളിറ്റി"),
         "developer": MessageLookupByLibrary.simpleMessage("ഡെവലപ്പർ"),
+        "disablePipPlayer":
+            MessageLookupByLibrary.simpleMessage("Disable PIP player"),
         "disableVideoHistory":
             MessageLookupByLibrary.simpleMessage("കണ്ട വീഡിയോകൾ മറച്ചുവെക്കുക"),
         "distractionFree":

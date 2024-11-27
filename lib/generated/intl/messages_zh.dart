@@ -38,6 +38,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "commonSettingsTitle": MessageLookupByLibrary.simpleMessage("通用"),
         "defaultQuality": MessageLookupByLibrary.simpleMessage("默认质量"),
         "developer": MessageLookupByLibrary.simpleMessage("开发者"),
+        "disablePipPlayer":
+            MessageLookupByLibrary.simpleMessage("Disable PIP player"),
         "disableVideoHistory": MessageLookupByLibrary.simpleMessage("禁用视频历史记录"),
         "distractionFree": MessageLookupByLibrary.simpleMessage("无干扰"),
         "enableHlsPlayerDescription": MessageLookupByLibrary.simpleMessage(
