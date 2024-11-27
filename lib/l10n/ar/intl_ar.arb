@@ -1,197 +1,198 @@
 {
-  "home": "Home",
+  "home": "الرئيسية",
   "@home": {
     "description": "Home label"
   },
-  "trending": "Trending",
+  "trending": "شائع",
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "Saved",
+  "saved": "المحفوظات",
   "@saved": {
     "description": "Saved label"
   },
-  "settings": "Settings",
+  "settings": "الإعدادات",
   "@settings": {
     "description": "Settings label"
   },
-  "history": "History",
+  "history": "التاريخ",
   "@history": {
     "description": "History label"
   },
-  "savedVideosTitle": "Saved Videos",
+  "savedVideosTitle": "الفيديوهات المحفوظة",
   "@savedVideosTitle": {
     "description": "Saved videos app bar title"
   },
-  "noUploaderName": "No name",
+  "noUploaderName": "بدون اسم",
   "@noUploaderName": {
     "description": "There is no uploader (channel) name available"
   },
-  "noVideoTitle": "No title",
+  "noVideoTitle": "بلا عنوان",
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
-  "videoViews": "{count, plural, =0{No views} =1{view} other{views}}",
+  "videoViews": "{count, plural, zero {} one {مشاهدتين} two {مشاهدات} few {مشاهدات} many {مشاهدات}=0{لا مشاهدات} =1{مشاهدة} other{مشاهدات}}",
   "@videoViews": {
     "description": "{number} views"
   },
-  "channelSubscribers": "{count, plural, =0{No subscribers} =1{subscriber} other{subscribers}}",
+  "channelSubscribers": "{count, plural, zero {} one {مشتركين} two {مشتركين} few {مشتركين} many {مشتركين}=0{لا مشتركين} =1{مشترك} other{مشتركين}}",
   "@channelSubscribers": {
     "description": "{number} subscribers"
   },
-  "subscribe": "Subscribe",
+  "subscribe": "اشتراك",
   "@subscribe": {
     "description": "Subscribe button label"
   },
-  "noUploadDate": "No date",
+  "noUploadDate": "بلا تاريخ",
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "There are no saved videos",
+  "thereIsNoSavedVideos": "لا يوجد فيديوهات محفوظة",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "There are no saved/history videos",
+  "thereIsNoSavedOrHistoryVideos": "لا يوجد فيديوهات/تاريخ محفوظ",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "No video source available, automatically changed to hls",
+  "noVideoAvailableChangedToHls": "لا يوجد مصدر للفيديو، تغير أوتوماتيكيا إلى المباشر",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
-  "unknownQuality": "Unknown Quality",
+  "unknownQuality": "جودة غير محددة",
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "Hls Player",
+  "hlsPlayer": "مشغل المباشر",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "Enable HLS player to unlock all quality options. Disable if errors occur.",
+  "enableHlsPlayerDescription": "شغل مشغل المباشر لتفعيل كل اختيارات الجودة، عطله عند ظهور أي أخطاء.",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
-  "disableVideoHistory": "Disable video history",
+  "disableVideoHistory": "عطل تاريخ المشاهدة",
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Retrieve Dislikes",
+  "retrieveDislikes": "أظهر عدم الإعجابات",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "Retrieve dislike counts",
+  "retrieveDislikeCounts": "أظهر عدد عدم الإعجابات",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
-  "noVideoDescription": "No description",
+  "noVideoDescription": "لا يوجد وصف",
   "@noVideoDescription": {
     "description": "There is no video description available"
   },
-  "relatedTitle": "Related",
+  "relatedTitle": "مرتبط",
   "@relatedTitle": {
     "description": "Related videos label"
   },
-  "commentAuthorNotFound": "Not found",
+  "commentAuthorNotFound": "غير متاح",
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
-  "readMoreText": "Read more",
+  "readMoreText": "اقرأ المزيد",
   "@readMoreText": {
     "description": "Expand the comment text"
   },
-  "showLessText": "Show less",
+  "showLessText": "إظهار أقل",
   "@showLessText": {
     "description": "Collapse the comment text"
   },
-  "commonSettingsTitle": "Common",
+  "commonSettingsTitle": "شائع",
   "@commonSettingsTitle": {
     "description": "Common settings label"
   },
-  "language": "Language",
+  "language": "اللغة",
   "@language": {
     "description": "Language label"
   },
-  "region": "Region",
+  "region": "المنطقة",
   "@region": {
     "description": "Region label"
   },
-  "theme": "Theme",
+  "theme": "المظهر",
   "@theme": {
     "description": "Theme label"
   },
-  "developer": "Developer",
+  "developer": "المطور",
   "@developer": {
     "description": "Developer label"
   },
-  "translators": "Translators",
+  "translators": "المترجمين",
   "@translators": {
     "description": "Translators label"
   },
-  "version": "Version",
+  "version": "النسخة",
   "@version": {
     "description": "Version label"
   },
-  "about": "About",
+  "about": "حول",
   "@about": {
     "description": "About label"
   },
-  "video": "Video",
+  "video": "فيديو",
   "@video": {
     "description": "Video label"
   },
-  "unknown": "unknown",
+  "unknown": "غير معرف",
   "@unknown": {
     "description": "Unknown label"
   },
-  "defaultQuality": "Default Quality",
+  "defaultQuality": "الجودة الافتراضية",
   "@defaultQuality": {
     "description": "Default video quality label"
   },
-  "retry": "Retry",
+  "retry": "إعادة المحاولة",
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{Reply} other{Replies}}",
+  "repliesPlural": "{count, plural, zero {} one {تعليقات} two {تعليقات} few {تعليقات} many {تعليقات}=1{تعليق} other{تعليقات}}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
-  "canada": "Canada",
-  "france": "France",
-  "india": "India",
-  "netherlands": "Netherlands",
-  "unitedKingdom": "United Kingdom",
-  "unitedStates": "United States",
-  "distractionFree": "Distraction Free",
+  "canada": "كندا",
+  "france": "فرنسا",
+  "india": "الهند",
+  "netherlands": "هولندا",
+  "unitedKingdom": "المملكة المتحدة",
+  "unitedStates": "الولايات المتحدة",
+  "distractionFree": "بلا تشتت",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
-  "hideComments": "Hide Comments",
+  "hideComments": "إخفاء التعليقات",
   "@hideComments": {
     "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "Hide comments button from watch screen.",
+  "hideCommentsButtonFromWatchScreen": "إخفاء زر التعليقات من شاشة المشاهدة.",
   "@hideCommentsButtonFromWatchScreen": {
     "description": "Hide the comment button from video streaming screen."
   },
-  "hideRelated": "Hide Related",
+  "hideRelated": "إخفاء المرتبط",
   "@hideRelated": {
     "description": "Hide Related videos label."
   },
-  "hideRelatedVideosFromWatchScreen": "Hide related videos from watch screen",
+  "hideRelatedVideosFromWatchScreen": "إخفاء الفيديوهات المرتبطة من شاشة المشاهدة",
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
   },
-  "share": "Share",
+  "share": "مشاركة",
   "@share": {
     "description": "Share label."
   },
-  "includeTitle": "Include title",
+  "includeTitle": "تضمين العنوان",
   "@includeTitle": {
     "description": "Include title along with url"
   },
-  "instances": "Instances",
-  "switchRegion": "Please consider switching to a different region for better results.",
+  "instances": "فوريات",
+  "switchRegion": "من فضلك غير المنطقة لنتائج فُضْلى.",
   "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
   "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
-  "noCommentsFound": "No Comments Found"
+  "noCommentsFound": "No Comments Found",
+  "disablePipPlayer": "Disable PIP player"
 }
