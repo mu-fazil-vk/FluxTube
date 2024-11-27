@@ -1,0 +1,198 @@
+{
+  "home": "الرئيسية",
+  "@home": {
+    "description": "Home label"
+  },
+  "trending": "شائع",
+  "@trending": {
+    "description": "Trending label"
+  },
+  "saved": "المحفوظات",
+  "@saved": {
+    "description": "Saved label"
+  },
+  "settings": "الإعدادات",
+  "@settings": {
+    "description": "Settings label"
+  },
+  "history": "التاريخ",
+  "@history": {
+    "description": "History label"
+  },
+  "savedVideosTitle": "الفيديوهات المحفوظة",
+  "@savedVideosTitle": {
+    "description": "Saved videos app bar title"
+  },
+  "noUploaderName": "بدون اسم",
+  "@noUploaderName": {
+    "description": "There is no uploader (channel) name available"
+  },
+  "noVideoTitle": "بلا عنوان",
+  "@noVideoTitle": {
+    "description": "There is no video title available"
+  },
+  "videoViews": "{count, plural, zero {} one {مشاهدتين} two {مشاهدات} few {مشاهدات} many {مشاهدات}=0{لا مشاهدات} =1{مشاهدة} other{مشاهدات}}",
+  "@videoViews": {
+    "description": "{number} views"
+  },
+  "channelSubscribers": "{count, plural, zero {} one {مشتركين} two {مشتركين} few {مشتركين} many {مشتركين}=0{لا مشتركين} =1{مشترك} other{مشتركين}}",
+  "@channelSubscribers": {
+    "description": "{number} subscribers"
+  },
+  "subscribe": "اشتراك",
+  "@subscribe": {
+    "description": "Subscribe button label"
+  },
+  "noUploadDate": "بلا تاريخ",
+  "@noUploadDate": {
+    "description": "There is no video upload date available"
+  },
+  "thereIsNoSavedVideos": "لا يوجد فيديوهات محفوظة",
+  "@thereIsNoSavedVideos": {
+    "description": "There are no saved videos found"
+  },
+  "thereIsNoSavedOrHistoryVideos": "لا يوجد فيديوهات/تاريخ محفوظ",
+  "@thereIsNoSavedHistoryVideos": {
+    "description": "There are no saved or history videos"
+  },
+  "noVideoAvailableChangedToHls": "لا يوجد مصدر للفيديو، تغير أوتوماتيكيا إلى المباشر",
+  "@noVideoAvailableChangedToHls": {
+    "description": "When there is no standard player link available, then it changed to hls player"
+  },
+  "unknownQuality": "جودة غير محددة",
+  "@unknownQuality": {
+    "description": "Quality name not found"
+  },
+  "hlsPlayer": "مشغل المباشر",
+  "@hlsPlayer": {
+    "description": "Hls player label"
+  },
+  "enableHlsPlayerDescription": "شغل مشغل المباشر لتفعيل كل اختيارات الجودة، عطله عند ظهور أي أخطاء.",
+  "@enableHlsPlayerDescription": {
+    "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
+  },
+  "disableVideoHistory": "عطل تاريخ المشاهدة",
+  "@disableVideoHistory": {
+    "description": "Hide watch history"
+  },
+  "retrieveDislikes": "أظهر عدم الإعجابات",
+  "@retrieveDislikes": {
+    "description": "Retrieve dislikes label"
+  },
+  "retrieveDislikeCounts": "أظهر عدد عدم الإعجابات",
+  "@retrieveDislikeCounts": {
+    "description": "Return the dislike button of videos"
+  },
+  "noVideoDescription": "لا يوجد وصف",
+  "@noVideoDescription": {
+    "description": "There is no video description available"
+  },
+  "relatedTitle": "مرتبط",
+  "@relatedTitle": {
+    "description": "Related videos label"
+  },
+  "commentAuthorNotFound": "غير متاح",
+  "@commentAuthorNotFound": {
+    "description": "Name of the comment author is not found"
+  },
+  "readMoreText": "اقرأ المزيد",
+  "@readMoreText": {
+    "description": "Expand the comment text"
+  },
+  "showLessText": "إظهار أقل",
+  "@showLessText": {
+    "description": "Collapse the comment text"
+  },
+  "commonSettingsTitle": "شائع",
+  "@commonSettingsTitle": {
+    "description": "Common settings label"
+  },
+  "language": "اللغة",
+  "@language": {
+    "description": "Language label"
+  },
+  "region": "المنطقة",
+  "@region": {
+    "description": "Region label"
+  },
+  "theme": "المظهر",
+  "@theme": {
+    "description": "Theme label"
+  },
+  "developer": "المطور",
+  "@developer": {
+    "description": "Developer label"
+  },
+  "translators": "المترجمين",
+  "@translators": {
+    "description": "Translators label"
+  },
+  "version": "النسخة",
+  "@version": {
+    "description": "Version label"
+  },
+  "about": "حول",
+  "@about": {
+    "description": "About label"
+  },
+  "video": "فيديو",
+  "@video": {
+    "description": "Video label"
+  },
+  "unknown": "غير معرف",
+  "@unknown": {
+    "description": "Unknown label"
+  },
+  "defaultQuality": "الجودة الافتراضية",
+  "@defaultQuality": {
+    "description": "Default video quality label"
+  },
+  "retry": "إعادة المحاولة",
+  "@retry": {
+    "description": "Retry label"
+  },
+  "repliesPlural": "{count, plural, zero {} one {تعليقات} two {تعليقات} few {تعليقات} many {تعليقات}=1{تعليق} other{تعليقات}}",
+  "@repliesPlural": {
+    "description": "{number} Replies"
+  },
+  "canada": "كندا",
+  "france": "فرنسا",
+  "india": "الهند",
+  "netherlands": "هولندا",
+  "unitedKingdom": "المملكة المتحدة",
+  "unitedStates": "الولايات المتحدة",
+  "distractionFree": "بلا تشتت",
+  "@distractionFree": {
+    "description": "A section for control distracting elements."
+  },
+  "hideComments": "إخفاء التعليقات",
+  "@hideComments": {
+    "description": "Hide Comments label."
+  },
+  "hideCommentsButtonFromWatchScreen": "إخفاء زر التعليقات من شاشة المشاهدة.",
+  "@hideCommentsButtonFromWatchScreen": {
+    "description": "Hide the comment button from video streaming screen."
+  },
+  "hideRelated": "إخفاء المرتبط",
+  "@hideRelated": {
+    "description": "Hide Related videos label."
+  },
+  "hideRelatedVideosFromWatchScreen": "إخفاء الفيديوهات المرتبطة من شاشة المشاهدة",
+  "@hideRelatedVideosFromWatchScreen": {
+    "description": "Hide the related videos from video streaming screen."
+  },
+  "share": "مشاركة",
+  "@share": {
+    "description": "Share label."
+  },
+  "includeTitle": "تضمين العنوان",
+  "@includeTitle": {
+    "description": "Include title along with url"
+  },
+  "instances": "فوريات",
+  "switchRegion": "من فضلك غير المنطقة لنتائج فُضْلى.",
+  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
+  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
+  "noCommentsFound": "No Comments Found",
+  "disablePipPlayer": "Disable PIP player"
+}
