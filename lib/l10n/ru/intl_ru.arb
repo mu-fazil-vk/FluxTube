@@ -1,0 +1,198 @@
+{
+  "home": "Главная",
+  "@home": {
+    "description": "Home label"
+  },
+  "trending": "Тренды",
+  "@trending": {
+    "description": "Trending label"
+  },
+  "saved": "Сохранено",
+  "@saved": {
+    "description": "Saved label"
+  },
+  "settings": "Настройки",
+  "@settings": {
+    "description": "Settings label"
+  },
+  "history": "История",
+  "@history": {
+    "description": "History label"
+  },
+  "savedVideosTitle": "Сохранённые видео",
+  "@savedVideosTitle": {
+    "description": "Saved videos app bar title"
+  },
+  "noUploaderName": "Безымянный",
+  "@noUploaderName": {
+    "description": "There is no uploader (channel) name available"
+  },
+  "noVideoTitle": "Неназванное",
+  "@noVideoTitle": {
+    "description": "There is no video title available"
+  },
+  "videoViews": "{count, plural, =0{Нет просмотров} =1{просмотр} few{просмотра} many{просмотров} other{просмотра}}",
+  "@videoViews": {
+    "description": "{number} views"
+  },
+  "channelSubscribers": "{count, plural, =0{Нет подписчиков} =1{подписчик} few{подписчика} many{подписчиков} other{подписчика}}",
+  "@channelSubscribers": {
+    "description": "{number} subscribers"
+  },
+  "subscribe": "Подписаться",
+  "@subscribe": {
+    "description": "Subscribe button label"
+  },
+  "noUploadDate": "Без даты",
+  "@noUploadDate": {
+    "description": "There is no video upload date available"
+  },
+  "thereIsNoSavedVideos": "Сохранённых видео нет",
+  "@thereIsNoSavedVideos": {
+    "description": "There are no saved videos found"
+  },
+  "thereIsNoSavedOrHistoryVideos": "Сохранённых/просмотренных видео нет",
+  "@thereIsNoSavedHistoryVideos": {
+    "description": "There are no saved or history videos"
+  },
+  "noVideoAvailableChangedToHls": "Нет доступных форматов, переход на HLS",
+  "@noVideoAvailableChangedToHls": {
+    "description": "When there is no standard player link available, then it changed to hls player"
+  },
+  "unknownQuality": "Качество не опознано",
+  "@unknownQuality": {
+    "description": "Quality name not found"
+  },
+  "hlsPlayer": "Проигрыватель HLS",
+  "@hlsPlayer": {
+    "description": "Hls player label"
+  },
+  "enableHlsPlayerDescription": "Переключит на проигрыватель HLS, поддерживающий больше форматов. Отключите при ошибках.",
+  "@enableHlsPlayerDescription": {
+    "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
+  },
+  "disableVideoHistory": "Отключить историю просмотров",
+  "@disableVideoHistory": {
+    "description": "Hide watch history"
+  },
+  "retrieveDislikes": "Вернуть дизлайки",
+  "@retrieveDislikes": {
+    "description": "Retrieve dislikes label"
+  },
+  "retrieveDislikeCounts": "Запрашивать количество дизлайков",
+  "@retrieveDislikeCounts": {
+    "description": "Return the dislike button of videos"
+  },
+  "noVideoDescription": "Без описания",
+  "@noVideoDescription": {
+    "description": "There is no video description available"
+  },
+  "relatedTitle": "Похожие",
+  "@relatedTitle": {
+    "description": "Related videos label"
+  },
+  "commentAuthorNotFound": "Не найден",
+  "@commentAuthorNotFound": {
+    "description": "Name of the comment author is not found"
+  },
+  "readMoreText": "Раскрыть",
+  "@readMoreText": {
+    "description": "Expand the comment text"
+  },
+  "showLessText": "Скрыть",
+  "@showLessText": {
+    "description": "Collapse the comment text"
+  },
+  "commonSettingsTitle": "Общие",
+  "@commonSettingsTitle": {
+    "description": "Common settings label"
+  },
+  "language": "Язык",
+  "@language": {
+    "description": "Language label"
+  },
+  "region": "Регион",
+  "@region": {
+    "description": "Region label"
+  },
+  "theme": "Оформление",
+  "@theme": {
+    "description": "Theme label"
+  },
+  "developer": "Разработчик",
+  "@developer": {
+    "description": "Developer label"
+  },
+  "translators": "Переводчики",
+  "@translators": {
+    "description": "Translators label"
+  },
+  "version": "Версия",
+  "@version": {
+    "description": "Version label"
+  },
+  "about": "О приложении",
+  "@about": {
+    "description": "About label"
+  },
+  "video": "Видео",
+  "@video": {
+    "description": "Video label"
+  },
+  "unknown": "неизвестно",
+  "@unknown": {
+    "description": "Unknown label"
+  },
+  "defaultQuality": "Качество по умолчанию",
+  "@defaultQuality": {
+    "description": "Default video quality label"
+  },
+  "retry": "Повторить",
+  "@retry": {
+    "description": "Retry label"
+  },
+  "repliesPlural": "{count, plural, =1{ответ} other{ответа}}",
+  "@repliesPlural": {
+    "description": "{number} Replies"
+  },
+  "canada": "Канада",
+  "france": "Франция",
+  "india": "Индия",
+  "netherlands": "Нидерланды",
+  "unitedKingdom": "Соединённое королевство",
+  "unitedStates": "Соединённые штаты Америки",
+  "distractionFree": "Отсекая лишнее",
+  "@distractionFree": {
+    "description": "A section for control distracting elements."
+  },
+  "hideComments": "Скрыть коментарии",
+  "@hideComments": {
+    "description": "Hide Comments label."
+  },
+  "hideCommentsButtonFromWatchScreen": "Убирает кнопку показа коментариев с экрана просмотра.",
+  "@hideCommentsButtonFromWatchScreen": {
+    "description": "Hide the comment button from video streaming screen."
+  },
+  "hideRelated": "Скрыть похожие",
+  "@hideRelated": {
+    "description": "Hide Related videos label."
+  },
+  "hideRelatedVideosFromWatchScreen": "Убирает ленту похожих видео с экрана просмотра.",
+  "@hideRelatedVideosFromWatchScreen": {
+    "description": "Hide the related videos from video streaming screen."
+  },
+  "share": "Поделиться",
+  "@share": {
+    "description": "Share label."
+  },
+  "includeTitle": "Включая название",
+  "@includeTitle": {
+    "description": "Include title along with url"
+  },
+  "instances": "Зеркала",
+  "switchRegion": "Возможно, стоит сменить регион, чтобы улучшить результат.",
+  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
+  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
+  "noCommentsFound": "No Comments Found",
+  "disablePipPlayer": "Disable PIP player"
+}
