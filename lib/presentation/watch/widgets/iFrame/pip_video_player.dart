@@ -69,7 +69,7 @@ class _IFramePipVideoPlayerState extends State<IFramePipVideoPlayer> {
   }
 
   void _initializeController() {
-    _controller.close();
+    // _controller?.close();
     _controller = YoutubePlayerController.fromVideoId(
       videoId: widget.id,
       autoPlay: true,
@@ -230,7 +230,8 @@ class _IFramePipVideoPlayerState extends State<IFramePipVideoPlayer> {
       );
 
       _savedBloc.add(SavedEvent.addVideoInfo(videoInfo: videoInfo));
-      _watchBloc.add(WatchEvent.updatePlayBack(playBack: currentPosition.toInt()));
+      _watchBloc
+          .add(WatchEvent.updatePlayBack(playBack: currentPosition.toInt()));
     } catch (e) {
       debugPrint('Error updating video history: $e');
     }

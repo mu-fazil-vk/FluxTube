@@ -72,7 +72,8 @@ class MainNavigationState extends State<MainNavigation> {
                             if (state.isPipEnabled &&
                                 state.selectedVideoBasicDetails?.id != null &&
                                 settingsState.ytService ==
-                                    YouTubeServices.invidious.name)
+                                    YouTubeServices.invidious.name &&
+                                !settingsState.isPipDisabled)
                               Positioned(
                                 child: InvidiousPipVideoPlayerWidget(
                                   watchInfo: state.invidiousWatchResp,
@@ -91,7 +92,8 @@ class MainNavigationState extends State<MainNavigation> {
                             if (state.isPipEnabled &&
                                 state.selectedVideoBasicDetails?.id != null &&
                                 settingsState.ytService ==
-                                    YouTubeServices.piped.name)
+                                    YouTubeServices.piped.name &&
+                                !settingsState.isPipDisabled)
                               Positioned(
                                 child: PipVideoPlayerWidget(
                                   watchInfo: state.watchResp,
@@ -110,7 +112,8 @@ class MainNavigationState extends State<MainNavigation> {
                             if (state.isPipEnabled &&
                                 state.selectedVideoBasicDetails?.id != null &&
                                 settingsState.ytService ==
-                                    YouTubeServices.iframe.name)
+                                    YouTubeServices.iframe.name &&
+                                !settingsState.isPipDisabled)
                               Align(
                                 child: IFramePipVideoPlayer(
                                   id: state.selectedVideoBasicDetails!.id,
@@ -132,7 +135,8 @@ class MainNavigationState extends State<MainNavigation> {
                             if (state.isPipEnabled &&
                                 state.selectedVideoBasicDetails?.id != null &&
                                 settingsState.ytService ==
-                                    YouTubeServices.explode.name)
+                                    YouTubeServices.explode.name &&
+                                !settingsState.isPipDisabled)
                               Positioned(
                                 child: ExplodePipVideoPlayerWidget(
                                   watchInfo: state.explodeWatchResp,

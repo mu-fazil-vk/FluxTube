@@ -27,4 +27,6 @@ abstract class SettingsService {
       {required String instanceApi});
   Future<Either<MainFailure, YouTubeServices>> setTYService(
       {required YouTubeServices service});
+  Future<Either<MainFailure, bool>> togglePipPlayer(
+      {required bool isPipDisabled});
 }

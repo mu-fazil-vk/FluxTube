@@ -41,6 +41,7 @@ class ExplodeLikeSection extends StatelessWidget {
                 dislikes: watchInfo.dislikeCount,
                 isDislikeVisible: settingsState.isDislikeVisible,
                 isCommentTapped: state.isTapComments,
+                isPipDesabled: settingsState.isPipDisabled,
                 onTapComment: () {
                   if (state.isDescriptionTapped) {
                     BlocProvider.of<WatchBloc>(context)

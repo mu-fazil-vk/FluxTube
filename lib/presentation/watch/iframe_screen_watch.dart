@@ -73,9 +73,12 @@ class _IFramScreenWatchState extends State<IFramScreenWatch> {
             } else {
               return PopScope(
                 canPop: true,
-                onPopInvokedWithResult: (didPop, _) =>
+                onPopInvokedWithResult: (didPop, _) {
+                  if (!settingsState.isPipDisabled) {
                     BlocProvider.of<WatchBloc>(context)
-                        .add(WatchEvent.togglePip(value: true)),
+                        .add(WatchEvent.togglePip(value: true));
+                  }
+                },
                 child: IFrameVideoPlayerContent(
                   id: widget.id,
                   isLive: state.explodeWatchResp.isLive,

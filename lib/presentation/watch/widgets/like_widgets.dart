@@ -10,18 +10,20 @@ import 'package:fluxtube/core/operations/math_operations.dart';
 import 'custom_rounded_buttons.dart';
 
 class LikeRowWidget extends StatelessWidget {
-  const LikeRowWidget(
-      {super.key,
-      required this.like,
-      this.dislikes = 0,
-      this.onTapComment,
-      this.isCommentTapped = false,
-      this.onTapShare,
-      this.isDislikeVisible = false,
-      this.onTapSave,
-      this.isSaveTapped = false,
-      this.onTapYoutube,
-      this.pipClicked});
+  const LikeRowWidget({
+    super.key,
+    required this.like,
+    this.dislikes = 0,
+    this.onTapComment,
+    this.isCommentTapped = false,
+    this.onTapShare,
+    this.isDislikeVisible = false,
+    this.onTapSave,
+    this.isSaveTapped = false,
+    this.onTapYoutube,
+    this.pipClicked,
+    this.isPipDesabled = false,
+  });
 
   final int like;
   final int dislikes;
@@ -33,6 +35,7 @@ class LikeRowWidget extends StatelessWidget {
   final bool isSaveTapped;
   final VoidCallback? onTapYoutube;
   final VoidCallback? pipClicked;
+  final bool isPipDesabled;
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +50,8 @@ class LikeRowWidget extends StatelessWidget {
           children: [
             RoundedLikeButtonWidget(
                 icon: CupertinoIcons.hand_thumbsup_fill, like: _formattedLikes),
-            if (isDislikeVisible) kWidthBox10,
-            if (isDislikeVisible)
+            if (isDislikeVisible) ...[
+              kWidthBox10,
               RoundedLikeButtonWidget(
                 icon: CupertinoIcons.hand_thumbsdown_fill,
                 like: _formattedDislikes,
@@ -56,6 +59,7 @@ class LikeRowWidget extends StatelessWidget {
                 fontColor: kGreyColor!,
                 bgcolor: kGreyOpacityColor!,
               ),
+            ],
             kWidthBox20,
             CustomRoundedButtons(
               icon: CupertinoIcons.add,
@@ -76,9 +80,11 @@ class LikeRowWidget extends StatelessWidget {
                 return const SizedBox();
               },
             ),
-            kWidthBox10,
-            CustomRoundedButtons(
-                onTap: pipClicked, icon: Icons.picture_in_picture),
+            if (!isPipDesabled) ...[
+              kWidthBox10,
+              CustomRoundedButtons(
+                  onTap: pipClicked, icon: Icons.picture_in_picture),
+            ],
             kWidthBox10,
             CustomRoundedButtons(
                 onTap: onTapShare,

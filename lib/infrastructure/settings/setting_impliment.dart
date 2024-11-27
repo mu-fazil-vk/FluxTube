@@ -65,6 +65,7 @@ class SettingImpliment implements SettingsService {
       {"name": relatedVideoVisibility, "default": "false"},
       {"name": instanceApiUrl, "default": BaseUrl.kBaseUrl},
       {"name": youtubeService, "default": YouTubeServices.iframe.name},
+      {"name": pipDisabled, "default": "false"},
       // Add more settings here
     ];
 
@@ -476,6 +477,32 @@ class SettingImpliment implements SettingsService {
 
       return Right(instances);
     } catch (_) {
+      return const Left(MainFailure.serverFailure());
+    }
+  }
+  
+  @override
+  Future<Either<MainFailure, bool>> togglePipPlayer({required bool isPipDisabled}) async {
+    try {
+      await isar.writeTxn(() async {
+        final existingPipSetting = await isar.settingsDBValues
+            .filter()
+            .nameEqualTo(pipDisabled)
+            .findFirst();
+
+        if (existingPipSetting == null) {
+          final newPipSetting = SettingsDBValue()
+            ..name = pipDisabled
+            ..value = isPipDisabled.toString();
+          await isar.settingsDBValues.put(newPipSetting);
+        } else {
+          existingPipSetting.value = isPipDisabled.toString();
+          await isar.settingsDBValues.put(existingPipSetting);
+        }
+      });
+
+      return Right(isPipDisabled);
+    } catch (e) {
       return const Left(MainFailure.serverFailure());
     }
   }

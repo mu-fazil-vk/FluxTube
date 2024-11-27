@@ -76,7 +76,6 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
 
   @override
   dispose() {
-    
     _controller?.close();
     super.dispose();
   }
@@ -92,9 +91,11 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
       onDismissed: () async {
         final playback = await _controller?.currentTime;
         if (!context.mounted) return;
-        BlocProvider.of<WatchBloc>(context)
-          ..add(WatchEvent.togglePip(value: true))
-          ..add(WatchEvent.updatePlayBack(playBack: playback!.toInt()));
+        if (!widget.settingsState.isPipDisabled) {
+          BlocProvider.of<WatchBloc>(context)
+            ..add(WatchEvent.togglePip(value: true))
+            ..add(WatchEvent.updatePlayBack(playBack: playback!.toInt()));
+        }
         Navigator.pop(context);
       },
       isFullScreen: true,
@@ -190,8 +191,12 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
                                       state: state,
                                       watchInfo: watchInfo,
                                       pipClicked: () {
-                                        BlocProvider.of<WatchBloc>(context).add(
-                                            WatchEvent.togglePip(value: true));
+                                        if (!widget
+                                            .settingsState.isPipDisabled) {
+                                          BlocProvider.of<WatchBloc>(context)
+                                              .add(WatchEvent.togglePip(
+                                                  value: true));
+                                        }
                                         Navigator.pop(context);
                                       },
                                     ),

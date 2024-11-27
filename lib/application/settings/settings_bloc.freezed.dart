@@ -32,6 +32,7 @@ mixin _$SettingsEvent {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +51,7 @@ mixin _$SettingsEvent {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -68,6 +70,7 @@ mixin _$SettingsEvent {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -92,6 +95,7 @@ mixin _$SettingsEvent {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -111,6 +115,7 @@ mixin _$SettingsEvent {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -130,6 +135,7 @@ mixin _$SettingsEvent {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -211,6 +217,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return initializeSettings();
   }
@@ -232,6 +239,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return initializeSettings?.call();
   }
@@ -253,6 +261,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (initializeSettings != null) {
@@ -283,6 +292,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return initializeSettings(this);
   }
@@ -305,6 +315,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return initializeSettings?.call(this);
   }
@@ -327,6 +338,7 @@ class _$InitializeSettingsImpl implements InitializeSettings {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (initializeSettings != null) {
@@ -424,6 +436,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return getDefaultLanguage(language);
   }
@@ -445,6 +458,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return getDefaultLanguage?.call(language);
   }
@@ -466,6 +480,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (getDefaultLanguage != null) {
@@ -496,6 +511,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return getDefaultLanguage(this);
   }
@@ -518,6 +534,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return getDefaultLanguage?.call(this);
   }
@@ -540,6 +557,7 @@ class _$GetDefaultLanguageImpl implements GetDefaultLanguage {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (getDefaultLanguage != null) {
@@ -645,6 +663,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return getDefaultQuality(quality);
   }
@@ -666,6 +685,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return getDefaultQuality?.call(quality);
   }
@@ -687,6 +707,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (getDefaultQuality != null) {
@@ -717,6 +738,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return getDefaultQuality(this);
   }
@@ -739,6 +761,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return getDefaultQuality?.call(this);
   }
@@ -761,6 +784,7 @@ class _$GetDefaultQualityImpl implements GetDefaultQuality {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (getDefaultQuality != null) {
@@ -866,6 +890,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return getDefaultRegion(region);
   }
@@ -887,6 +912,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return getDefaultRegion?.call(region);
   }
@@ -908,6 +934,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (getDefaultRegion != null) {
@@ -938,6 +965,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return getDefaultRegion(this);
   }
@@ -960,6 +988,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return getDefaultRegion?.call(this);
   }
@@ -982,6 +1011,7 @@ class _$GetDefaultRegionImpl implements GetDefaultRegion {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (getDefaultRegion != null) {
@@ -1087,6 +1117,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return changeTheme(themeMode);
   }
@@ -1108,6 +1139,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return changeTheme?.call(themeMode);
   }
@@ -1129,6 +1161,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (changeTheme != null) {
@@ -1159,6 +1192,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return changeTheme(this);
   }
@@ -1181,6 +1215,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return changeTheme?.call(this);
   }
@@ -1203,6 +1238,7 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (changeTheme != null) {
@@ -1282,6 +1318,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return toggleHistoryVisibility();
   }
@@ -1303,6 +1340,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return toggleHistoryVisibility?.call();
   }
@@ -1324,6 +1362,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (toggleHistoryVisibility != null) {
@@ -1354,6 +1393,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return toggleHistoryVisibility(this);
   }
@@ -1376,6 +1416,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return toggleHistoryVisibility?.call(this);
   }
@@ -1398,6 +1439,7 @@ class _$ToggleHistoryVisibilityImpl implements ToggleHistoryVisibility {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (toggleHistoryVisibility != null) {
@@ -1469,6 +1511,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return toggleDislikeVisibility();
   }
@@ -1490,6 +1533,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return toggleDislikeVisibility?.call();
   }
@@ -1511,6 +1555,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (toggleDislikeVisibility != null) {
@@ -1541,6 +1586,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return toggleDislikeVisibility(this);
   }
@@ -1563,6 +1609,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return toggleDislikeVisibility?.call(this);
   }
@@ -1585,6 +1632,7 @@ class _$ToggleDislikeVisibilityImpl implements ToggleDislikeVisibility {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (toggleDislikeVisibility != null) {
@@ -1653,6 +1701,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return toggleHlsPlayer();
   }
@@ -1674,6 +1723,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return toggleHlsPlayer?.call();
   }
@@ -1695,6 +1745,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (toggleHlsPlayer != null) {
@@ -1725,6 +1776,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return toggleHlsPlayer(this);
   }
@@ -1747,6 +1799,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return toggleHlsPlayer?.call(this);
   }
@@ -1769,6 +1822,7 @@ class _$ToggleHlsPlayerImpl implements ToggleHlsPlayer {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (toggleHlsPlayer != null) {
@@ -1840,6 +1894,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return toggleCommentVisibility();
   }
@@ -1861,6 +1916,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return toggleCommentVisibility?.call();
   }
@@ -1882,6 +1938,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (toggleCommentVisibility != null) {
@@ -1912,6 +1969,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return toggleCommentVisibility(this);
   }
@@ -1934,6 +1992,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return toggleCommentVisibility?.call(this);
   }
@@ -1956,6 +2015,7 @@ class _$ToggleCommentVisibilityImpl implements ToggleCommentVisibility {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (toggleCommentVisibility != null) {
@@ -2029,6 +2089,7 @@ class _$ToggleRelatedVideoVisibilityImpl
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return toggleRelatedVideoVisibility();
   }
@@ -2050,6 +2111,7 @@ class _$ToggleRelatedVideoVisibilityImpl
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return toggleRelatedVideoVisibility?.call();
   }
@@ -2071,6 +2133,7 @@ class _$ToggleRelatedVideoVisibilityImpl
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (toggleRelatedVideoVisibility != null) {
@@ -2101,6 +2164,7 @@ class _$ToggleRelatedVideoVisibilityImpl
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return toggleRelatedVideoVisibility(this);
   }
@@ -2123,6 +2187,7 @@ class _$ToggleRelatedVideoVisibilityImpl
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return toggleRelatedVideoVisibility?.call(this);
   }
@@ -2145,6 +2210,7 @@ class _$ToggleRelatedVideoVisibilityImpl
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (toggleRelatedVideoVisibility != null) {
@@ -2214,6 +2280,7 @@ class _$FetchPipedInstancesImpl implements FetchPipedInstances {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return fetchPipedInstances();
   }
@@ -2235,6 +2302,7 @@ class _$FetchPipedInstancesImpl implements FetchPipedInstances {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return fetchPipedInstances?.call();
   }
@@ -2256,6 +2324,7 @@ class _$FetchPipedInstancesImpl implements FetchPipedInstances {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (fetchPipedInstances != null) {
@@ -2286,6 +2355,7 @@ class _$FetchPipedInstancesImpl implements FetchPipedInstances {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return fetchPipedInstances(this);
   }
@@ -2308,6 +2378,7 @@ class _$FetchPipedInstancesImpl implements FetchPipedInstances {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return fetchPipedInstances?.call(this);
   }
@@ -2330,6 +2401,7 @@ class _$FetchPipedInstancesImpl implements FetchPipedInstances {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (fetchPipedInstances != null) {
@@ -2401,6 +2473,7 @@ class _$FetchInvidiousInstancesImpl implements FetchInvidiousInstances {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return fetchInvidiousInstances();
   }
@@ -2422,6 +2495,7 @@ class _$FetchInvidiousInstancesImpl implements FetchInvidiousInstances {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return fetchInvidiousInstances?.call();
   }
@@ -2443,6 +2517,7 @@ class _$FetchInvidiousInstancesImpl implements FetchInvidiousInstances {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (fetchInvidiousInstances != null) {
@@ -2473,6 +2548,7 @@ class _$FetchInvidiousInstancesImpl implements FetchInvidiousInstances {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return fetchInvidiousInstances(this);
   }
@@ -2495,6 +2571,7 @@ class _$FetchInvidiousInstancesImpl implements FetchInvidiousInstances {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return fetchInvidiousInstances?.call(this);
   }
@@ -2517,6 +2594,7 @@ class _$FetchInvidiousInstancesImpl implements FetchInvidiousInstances {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (fetchInvidiousInstances != null) {
@@ -2613,6 +2691,7 @@ class _$SetInstanceImpl implements SetInstance {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return setInstance(instanceApi);
   }
@@ -2634,6 +2713,7 @@ class _$SetInstanceImpl implements SetInstance {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return setInstance?.call(instanceApi);
   }
@@ -2655,6 +2735,7 @@ class _$SetInstanceImpl implements SetInstance {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (setInstance != null) {
@@ -2685,6 +2766,7 @@ class _$SetInstanceImpl implements SetInstance {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return setInstance(this);
   }
@@ -2707,6 +2789,7 @@ class _$SetInstanceImpl implements SetInstance {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return setInstance?.call(this);
   }
@@ -2729,6 +2812,7 @@ class _$SetInstanceImpl implements SetInstance {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (setInstance != null) {
@@ -2832,6 +2916,7 @@ class _$SetYTServiceImpl implements SetYTService {
     required TResult Function() fetchInvidiousInstances,
     required TResult Function(String instanceApi) setInstance,
     required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
   }) {
     return setYTService(service);
   }
@@ -2853,6 +2938,7 @@ class _$SetYTServiceImpl implements SetYTService {
     TResult? Function()? fetchInvidiousInstances,
     TResult? Function(String instanceApi)? setInstance,
     TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
   }) {
     return setYTService?.call(service);
   }
@@ -2874,6 +2960,7 @@ class _$SetYTServiceImpl implements SetYTService {
     TResult Function()? fetchInvidiousInstances,
     TResult Function(String instanceApi)? setInstance,
     TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (setYTService != null) {
@@ -2904,6 +2991,7 @@ class _$SetYTServiceImpl implements SetYTService {
         fetchInvidiousInstances,
     required TResult Function(SetInstance value) setInstance,
     required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
   }) {
     return setYTService(this);
   }
@@ -2926,6 +3014,7 @@ class _$SetYTServiceImpl implements SetYTService {
     TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult? Function(SetInstance value)? setInstance,
     TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
   }) {
     return setYTService?.call(this);
   }
@@ -2948,6 +3037,7 @@ class _$SetYTServiceImpl implements SetYTService {
     TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
     TResult Function(SetInstance value)? setInstance,
     TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
     required TResult orElse(),
   }) {
     if (setYTService != null) {
@@ -2971,6 +3061,196 @@ abstract class SetYTService implements SettingsEvent {
 }
 
 /// @nodoc
+abstract class _$$TogglePipPlayerImplCopyWith<$Res> {
+  factory _$$TogglePipPlayerImplCopyWith(_$TogglePipPlayerImpl value,
+          $Res Function(_$TogglePipPlayerImpl) then) =
+      __$$TogglePipPlayerImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TogglePipPlayerImplCopyWithImpl<$Res>
+    extends _$SettingsEventCopyWithImpl<$Res, _$TogglePipPlayerImpl>
+    implements _$$TogglePipPlayerImplCopyWith<$Res> {
+  __$$TogglePipPlayerImplCopyWithImpl(
+      _$TogglePipPlayerImpl _value, $Res Function(_$TogglePipPlayerImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of SettingsEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TogglePipPlayerImpl implements TogglePipPlayer {
+  _$TogglePipPlayerImpl();
+
+  @override
+  String toString() {
+    return 'SettingsEvent.togglePipPlayer()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$TogglePipPlayerImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initializeSettings,
+    required TResult Function(String? language) getDefaultLanguage,
+    required TResult Function(String? quality) getDefaultQuality,
+    required TResult Function(String? region) getDefaultRegion,
+    required TResult Function(String themeMode) changeTheme,
+    required TResult Function() toggleHistoryVisibility,
+    required TResult Function() toggleDislikeVisibility,
+    required TResult Function() toggleHlsPlayer,
+    required TResult Function() toggleCommentVisibility,
+    required TResult Function() toggleRelatedVideoVisibility,
+    required TResult Function() fetchPipedInstances,
+    required TResult Function() fetchInvidiousInstances,
+    required TResult Function(String instanceApi) setInstance,
+    required TResult Function(YouTubeServices service) setYTService,
+    required TResult Function() togglePipPlayer,
+  }) {
+    return togglePipPlayer();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initializeSettings,
+    TResult? Function(String? language)? getDefaultLanguage,
+    TResult? Function(String? quality)? getDefaultQuality,
+    TResult? Function(String? region)? getDefaultRegion,
+    TResult? Function(String themeMode)? changeTheme,
+    TResult? Function()? toggleHistoryVisibility,
+    TResult? Function()? toggleDislikeVisibility,
+    TResult? Function()? toggleHlsPlayer,
+    TResult? Function()? toggleCommentVisibility,
+    TResult? Function()? toggleRelatedVideoVisibility,
+    TResult? Function()? fetchPipedInstances,
+    TResult? Function()? fetchInvidiousInstances,
+    TResult? Function(String instanceApi)? setInstance,
+    TResult? Function(YouTubeServices service)? setYTService,
+    TResult? Function()? togglePipPlayer,
+  }) {
+    return togglePipPlayer?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initializeSettings,
+    TResult Function(String? language)? getDefaultLanguage,
+    TResult Function(String? quality)? getDefaultQuality,
+    TResult Function(String? region)? getDefaultRegion,
+    TResult Function(String themeMode)? changeTheme,
+    TResult Function()? toggleHistoryVisibility,
+    TResult Function()? toggleDislikeVisibility,
+    TResult Function()? toggleHlsPlayer,
+    TResult Function()? toggleCommentVisibility,
+    TResult Function()? toggleRelatedVideoVisibility,
+    TResult Function()? fetchPipedInstances,
+    TResult Function()? fetchInvidiousInstances,
+    TResult Function(String instanceApi)? setInstance,
+    TResult Function(YouTubeServices service)? setYTService,
+    TResult Function()? togglePipPlayer,
+    required TResult orElse(),
+  }) {
+    if (togglePipPlayer != null) {
+      return togglePipPlayer();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(InitializeSettings value) initializeSettings,
+    required TResult Function(GetDefaultLanguage value) getDefaultLanguage,
+    required TResult Function(GetDefaultQuality value) getDefaultQuality,
+    required TResult Function(GetDefaultRegion value) getDefaultRegion,
+    required TResult Function(ChangeTheme value) changeTheme,
+    required TResult Function(ToggleHistoryVisibility value)
+        toggleHistoryVisibility,
+    required TResult Function(ToggleDislikeVisibility value)
+        toggleDislikeVisibility,
+    required TResult Function(ToggleHlsPlayer value) toggleHlsPlayer,
+    required TResult Function(ToggleCommentVisibility value)
+        toggleCommentVisibility,
+    required TResult Function(ToggleRelatedVideoVisibility value)
+        toggleRelatedVideoVisibility,
+    required TResult Function(FetchPipedInstances value) fetchPipedInstances,
+    required TResult Function(FetchInvidiousInstances value)
+        fetchInvidiousInstances,
+    required TResult Function(SetInstance value) setInstance,
+    required TResult Function(SetYTService value) setYTService,
+    required TResult Function(TogglePipPlayer value) togglePipPlayer,
+  }) {
+    return togglePipPlayer(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(InitializeSettings value)? initializeSettings,
+    TResult? Function(GetDefaultLanguage value)? getDefaultLanguage,
+    TResult? Function(GetDefaultQuality value)? getDefaultQuality,
+    TResult? Function(GetDefaultRegion value)? getDefaultRegion,
+    TResult? Function(ChangeTheme value)? changeTheme,
+    TResult? Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
+    TResult? Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
+    TResult? Function(ToggleHlsPlayer value)? toggleHlsPlayer,
+    TResult? Function(ToggleCommentVisibility value)? toggleCommentVisibility,
+    TResult? Function(ToggleRelatedVideoVisibility value)?
+        toggleRelatedVideoVisibility,
+    TResult? Function(FetchPipedInstances value)? fetchPipedInstances,
+    TResult? Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
+    TResult? Function(SetInstance value)? setInstance,
+    TResult? Function(SetYTService value)? setYTService,
+    TResult? Function(TogglePipPlayer value)? togglePipPlayer,
+  }) {
+    return togglePipPlayer?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(InitializeSettings value)? initializeSettings,
+    TResult Function(GetDefaultLanguage value)? getDefaultLanguage,
+    TResult Function(GetDefaultQuality value)? getDefaultQuality,
+    TResult Function(GetDefaultRegion value)? getDefaultRegion,
+    TResult Function(ChangeTheme value)? changeTheme,
+    TResult Function(ToggleHistoryVisibility value)? toggleHistoryVisibility,
+    TResult Function(ToggleDislikeVisibility value)? toggleDislikeVisibility,
+    TResult Function(ToggleHlsPlayer value)? toggleHlsPlayer,
+    TResult Function(ToggleCommentVisibility value)? toggleCommentVisibility,
+    TResult Function(ToggleRelatedVideoVisibility value)?
+        toggleRelatedVideoVisibility,
+    TResult Function(FetchPipedInstances value)? fetchPipedInstances,
+    TResult Function(FetchInvidiousInstances value)? fetchInvidiousInstances,
+    TResult Function(SetInstance value)? setInstance,
+    TResult Function(SetYTService value)? setYTService,
+    TResult Function(TogglePipPlayer value)? togglePipPlayer,
+    required TResult orElse(),
+  }) {
+    if (togglePipPlayer != null) {
+      return togglePipPlayer(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class TogglePipPlayer implements SettingsEvent {
+  factory TogglePipPlayer() = _$TogglePipPlayerImpl;
+}
+
+/// @nodoc
 mixin _$SettingsState {
   String get defaultLanguage => throw _privateConstructorUsedError;
   String get defaultQuality => throw _privateConstructorUsedError;
@@ -2990,6 +3270,7 @@ mixin _$SettingsState {
   String get ytService => throw _privateConstructorUsedError;
   bool get initialized => throw _privateConstructorUsedError;
   ApiStatus get settingsStatus => throw _privateConstructorUsedError;
+  bool get isPipDisabled => throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -3022,7 +3303,8 @@ abstract class $SettingsStateCopyWith<$Res> {
       ApiStatus invidiousInstanceStatus,
       String ytService,
       bool initialized,
-      ApiStatus settingsStatus});
+      ApiStatus settingsStatus,
+      bool isPipDisabled});
 }
 
 /// @nodoc
@@ -3058,6 +3340,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? ytService = null,
     Object? initialized = null,
     Object? settingsStatus = null,
+    Object? isPipDisabled = null,
   }) {
     return _then(_value.copyWith(
       defaultLanguage: null == defaultLanguage
@@ -3132,6 +3415,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.settingsStatus
           : settingsStatus // ignore: cast_nullable_to_non_nullable
               as ApiStatus,
+      isPipDisabled: null == isPipDisabled
+          ? _value.isPipDisabled
+          : isPipDisabled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -3162,7 +3449,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       ApiStatus invidiousInstanceStatus,
       String ytService,
       bool initialized,
-      ApiStatus settingsStatus});
+      ApiStatus settingsStatus,
+      bool isPipDisabled});
 }
 
 /// @nodoc
@@ -3196,6 +3484,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? ytService = null,
     Object? initialized = null,
     Object? settingsStatus = null,
+    Object? isPipDisabled = null,
   }) {
     return _then(_$InitialImpl(
       defaultLanguage: null == defaultLanguage
@@ -3270,6 +3559,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.settingsStatus
           : settingsStatus // ignore: cast_nullable_to_non_nullable
               as ApiStatus,
+      isPipDisabled: null == isPipDisabled
+          ? _value.isPipDisabled
+          : isPipDisabled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -3295,7 +3588,8 @@ class _$InitialImpl implements _Initial {
       required this.invidiousInstanceStatus,
       required this.ytService,
       required this.initialized,
-      required this.settingsStatus})
+      required this.settingsStatus,
+      required this.isPipDisabled})
       : _pipedInstances = pipedInstances,
         _invidiousInstances = invidiousInstances;
 
@@ -3348,10 +3642,12 @@ class _$InitialImpl implements _Initial {
   final bool initialized;
   @override
   final ApiStatus settingsStatus;
+  @override
+  final bool isPipDisabled;
 
   @override
   String toString() {
-    return 'SettingsState(defaultLanguage: $defaultLanguage, defaultQuality: $defaultQuality, defaultRegion: $defaultRegion, themeMode: $themeMode, version: $version, isHistoryVisible: $isHistoryVisible, isDislikeVisible: $isDislikeVisible, isHlsPlayer: $isHlsPlayer, isHideComments: $isHideComments, isHideRelated: $isHideRelated, pipedInstances: $pipedInstances, pipedInstanceStatus: $pipedInstanceStatus, instance: $instance, invidiousInstances: $invidiousInstances, invidiousInstanceStatus: $invidiousInstanceStatus, ytService: $ytService, initialized: $initialized, settingsStatus: $settingsStatus)';
+    return 'SettingsState(defaultLanguage: $defaultLanguage, defaultQuality: $defaultQuality, defaultRegion: $defaultRegion, themeMode: $themeMode, version: $version, isHistoryVisible: $isHistoryVisible, isDislikeVisible: $isDislikeVisible, isHlsPlayer: $isHlsPlayer, isHideComments: $isHideComments, isHideRelated: $isHideRelated, pipedInstances: $pipedInstances, pipedInstanceStatus: $pipedInstanceStatus, instance: $instance, invidiousInstances: $invidiousInstances, invidiousInstanceStatus: $invidiousInstanceStatus, ytService: $ytService, initialized: $initialized, settingsStatus: $settingsStatus, isPipDisabled: $isPipDisabled)';
   }
 
   @override
@@ -3394,30 +3690,34 @@ class _$InitialImpl implements _Initial {
             (identical(other.initialized, initialized) ||
                 other.initialized == initialized) &&
             (identical(other.settingsStatus, settingsStatus) ||
-                other.settingsStatus == settingsStatus));
+                other.settingsStatus == settingsStatus) &&
+            (identical(other.isPipDisabled, isPipDisabled) ||
+                other.isPipDisabled == isPipDisabled));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      defaultLanguage,
-      defaultQuality,
-      defaultRegion,
-      themeMode,
-      version,
-      isHistoryVisible,
-      isDislikeVisible,
-      isHlsPlayer,
-      isHideComments,
-      isHideRelated,
-      const DeepCollectionEquality().hash(_pipedInstances),
-      pipedInstanceStatus,
-      instance,
-      const DeepCollectionEquality().hash(_invidiousInstances),
-      invidiousInstanceStatus,
-      ytService,
-      initialized,
-      settingsStatus);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        defaultLanguage,
+        defaultQuality,
+        defaultRegion,
+        themeMode,
+        version,
+        isHistoryVisible,
+        isDislikeVisible,
+        isHlsPlayer,
+        isHideComments,
+        isHideRelated,
+        const DeepCollectionEquality().hash(_pipedInstances),
+        pipedInstanceStatus,
+        instance,
+        const DeepCollectionEquality().hash(_invidiousInstances),
+        invidiousInstanceStatus,
+        ytService,
+        initialized,
+        settingsStatus,
+        isPipDisabled
+      ]);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -3447,7 +3747,8 @@ abstract class _Initial implements SettingsState {
       required final ApiStatus invidiousInstanceStatus,
       required final String ytService,
       required final bool initialized,
-      required final ApiStatus settingsStatus}) = _$InitialImpl;
+      required final ApiStatus settingsStatus,
+      required final bool isPipDisabled}) = _$InitialImpl;
 
   @override
   String get defaultLanguage;
@@ -3485,6 +3786,8 @@ abstract class _Initial implements SettingsState {
   bool get initialized;
   @override
   ApiStatus get settingsStatus;
+  @override
+  bool get isPipDisabled;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.

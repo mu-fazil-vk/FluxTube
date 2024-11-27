@@ -145,6 +145,18 @@ class VideoSettingsSecction extends StatelessWidget {
                 },
               ),
             ),
+            ListTile(
+              title: Text("Disable PIP player",
+                  style: Theme.of(context).textTheme.titleMedium),
+              leading: const Icon(Icons.picture_in_picture_alt),
+              trailing: Switch(
+                value: state.isPipDisabled,
+                onChanged: (_) {
+                  BlocProvider.of<SettingsBloc>(context)
+                      .add(SettingsEvent.togglePipPlayer());
+                },
+              ),
+            ),
           ],
         );
       },

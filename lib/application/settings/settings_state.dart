@@ -21,6 +21,7 @@ class SettingsState with _$SettingsState {
     required String ytService,
     required bool initialized,
     required ApiStatus settingsStatus,
+    required bool isPipDisabled,
   }) = _Initial;
 
   factory SettingsState.initialize() => SettingsState(
@@ -43,5 +44,6 @@ class SettingsState with _$SettingsState {
         ytService: YouTubeServices.iframe.name,
         initialized: false,
         settingsStatus: ApiStatus.initial,
+        isPipDisabled: false,
       );
 }
