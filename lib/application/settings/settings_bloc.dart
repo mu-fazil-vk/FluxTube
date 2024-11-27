@@ -46,6 +46,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final bool defaultDislikeVisibility =
           settingsMap[dislikeVisibility] == "true";
       final bool defaultHlsPlayer = settingsMap[hlsPlayer] == "true";
+      final bool isPipDisabled = settingsMap[pipDisabled] == "true";
 
       final String ytService =
           settingsMap[youtubeService] ?? YouTubeServices.iframe.name;
@@ -77,14 +78,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       if (defaultRegion != null) {
         newState = newState.copyWith(defaultRegion: defaultRegion);
       }
-
       newState = newState.copyWith(
-          version: packageInfo.version,
-          themeMode: defaultThemeMode,
-          isHistoryVisible: defaultHistoryVisibility,
-          isDislikeVisible: defaultDislikeVisibility,
-          isHlsPlayer: defaultHlsPlayer,
-          initialized: true);
+        version: packageInfo.version,
+        themeMode: defaultThemeMode,
+        isHistoryVisible: defaultHistoryVisibility,
+        isDislikeVisible: defaultDislikeVisibility,
+        isHlsPlayer: defaultHlsPlayer,
+        initialized: true,
+        isPipDisabled: isPipDisabled,
+      );
 
       if (ytService == YouTubeServices.piped.name) {
         BaseUrl.updateBaseUrl(instanceApi);
@@ -175,8 +177,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(isHlsPlayer: state.isHlsPlayer),
           (bool isHlsPlayer) {
-            return state.copyWith(isHlsPlayer: isHlsPlayer);
-          });
+        return state.copyWith(isHlsPlayer: isHlsPlayer);
+      });
       emit(_state);
     });
 
@@ -278,8 +280,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
               instance: instance.api);
         } else {
           return state.copyWith(
-              invidiousInstanceStatus: ApiStatus.loaded,
-              invidiousInstances: r);
+              invidiousInstanceStatus: ApiStatus.loaded, invidiousInstances: r);
         }
       });
       emit(_state);
@@ -294,6 +295,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           (YouTubeServices r) => state.copyWith(
                 ytService: r.name,
               ));
+      emit(_state);
+    });
+
+    on<TogglePipPlayer>((event, emit) async {
+      final _result = await settingsService.togglePipPlayer(isPipDisabled: !state.isPipDisabled);
+      final _state = _result.fold(
+          (MainFailure f) => state.copyWith(isPipDisabled: state.isPipDisabled),
+          (bool r) => state.copyWith(isPipDisabled: r));
       emit(_state);
     });
   }

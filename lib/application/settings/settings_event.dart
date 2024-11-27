@@ -22,4 +22,5 @@ class SettingsEvent with _$SettingsEvent {
       SetInstance;
   factory SettingsEvent.setYTService({required YouTubeServices service}) =
       SetYTService;
+      factory SettingsEvent.togglePipPlayer() = TogglePipPlayer;
 }

@@ -72,10 +72,9 @@ class _InvidiousVideoPlayerWidgetState
 
   double _selectAspectRatio() {
     final firstStream = widget.watchInfo.formatStreams?.firstOrNull;
-    if (firstStream != null &&
-        firstStream.size != null) {
-
-      return int.parse(firstStream.size!.split('x').first) / int.parse(firstStream.size!.split('x').last);
+    if (firstStream != null && firstStream.size != null) {
+      return int.parse(firstStream.size!.split('x').first) /
+          int.parse(firstStream.size!.split('x').last);
     }
     return 16 / 9; // Default aspect ratio
   }
@@ -88,7 +87,7 @@ class _InvidiousVideoPlayerWidgetState
 
     FormatStream? defaultTrack;
     for (var video in availableVideoTracks) {
-      if (video.qualityLabel   == widget.defaultQuality) {
+      if (video.qualityLabel == widget.defaultQuality) {
         defaultTrack = video;
         break;
       }
@@ -101,8 +100,7 @@ class _InvidiousVideoPlayerWidgetState
 
       int smallestDifference = double.maxFinite.toInt();
       for (var track in availableVideoTracks) {
-        int trackQualityValue =
-            int.tryParse(track.resolution ?? '0') ?? 0;
+        int trackQualityValue = int.tryParse(track.resolution ?? '0') ?? 0;
         int difference = (trackQualityValue - defaultQualityValue).abs();
 
         if (difference < smallestDifference) {
@@ -194,6 +192,9 @@ class _InvidiousVideoPlayerWidgetState
   void _updateVideoHistory() async {
     final currentPosition =
         _betterPlayerController?.videoPlayerController?.value.position;
+
+    BlocProvider.of<WatchBloc>(context)
+        .add(WatchEvent.updatePlayBack(playBack: currentPosition?.inSeconds));
 
     // Check if the current position is available and if the video ID is valid
     if (currentPosition != null && widget.videoId.isNotEmpty) {

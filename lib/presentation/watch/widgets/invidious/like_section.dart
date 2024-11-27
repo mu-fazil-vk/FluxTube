@@ -43,6 +43,7 @@ class InvidiousLikeSection extends StatelessWidget {
                 dislikes: watchInfo.dislikeCount ?? 0,
                 isDislikeVisible: settingsState.isDislikeVisible,
                 isCommentTapped: state.isTapComments,
+                isPipDesabled: settingsState.isPipDisabled,
                 onTapComment: () {
                   if (state.isDescriptionTapped) {
                     BlocProvider.of<WatchBloc>(context)

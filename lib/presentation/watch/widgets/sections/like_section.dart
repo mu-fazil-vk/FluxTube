@@ -41,6 +41,7 @@ class LikeSection extends StatelessWidget {
                 dislikes: watchInfo.dislikes ?? 0,
                 isDislikeVisible: settingsState.isDislikeVisible,
                 isCommentTapped: state.isTapComments,
+                isPipDesabled: settingsState.isPipDisabled,
                 onTapComment: () {
                   if (state.isDescriptionTapped) {
                     BlocProvider.of<WatchBloc>(context)

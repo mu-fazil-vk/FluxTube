@@ -8,7 +8,6 @@ import 'package:fluxtube/domain/trending/models/invidious/invidious_trending_res
 import 'package:fluxtube/domain/trending/models/piped/trending_resp.dart';
 import 'package:fluxtube/domain/trending/trending_service.dart';
 import 'package:injectable/injectable.dart';
-import 'package:native_dio_adapter/native_dio_adapter.dart';
 
 @LazySingleton(as: TrendingService)
 class TrendingImpliment implements TrendingService {
@@ -19,7 +18,6 @@ class TrendingImpliment implements TrendingService {
     log(ApiEndPoints.trending + region);
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         ApiEndPoints.trending + region,
         options: Options(
@@ -53,7 +51,6 @@ class TrendingImpliment implements TrendingService {
     log(InvidiousApiEndpoints.trending + region);
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         InvidiousApiEndpoints.trending + region,
         options: Options(

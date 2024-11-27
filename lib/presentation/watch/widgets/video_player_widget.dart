@@ -2,6 +2,7 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/domain/watch/models/piped/video/video_stream.dart';
 import 'package:fluxtube/domain/watch/models/piped/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -196,6 +197,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     final currentPosition =
         _betterPlayerController?.videoPlayerController?.value.position;
 
+    BlocProvider.of<WatchBloc>(context)
+        .add(WatchEvent.updatePlayBack(playBack: currentPosition?.inSeconds));
+
     // Check if the current position is available and if the video ID is valid
     if (currentPosition != null && widget.videoId.isNotEmpty) {
       // Create a LocalStoreVideoInfo object with relevant video information
@@ -208,7 +212,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         uploaderAvatar: widget.watchInfo.uploaderAvatar,
         uploaderName: widget.watchInfo.uploader,
         uploaderId: widget.watchInfo.uploaderUrl?.split("/").last ?? '',
-        uploaderSubscriberCount: widget.watchInfo.uploaderSubscriberCount.toString(),
+        uploaderSubscriberCount:
+            widget.watchInfo.uploaderSubscriberCount.toString(),
         duration: widget.watchInfo.duration,
         uploaderVerified: widget.watchInfo.uploaderVerified,
         isHistory: true,

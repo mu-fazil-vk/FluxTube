@@ -9,6 +9,7 @@ class WatchState with _$WatchState {
     required bool isDescriptionTapped,
     required bool isPipEnabled,
     required String title,
+    required int playBack,
     VideoBasicInfo? selectedVideoBasicDetails,
 
     // PIPED
@@ -60,6 +61,7 @@ class WatchState with _$WatchState {
         title: '',
         liveStreamUrl: null,
         selectedVideoBasicDetails: null,
+        playBack: 0,
 
     // PIPED
 

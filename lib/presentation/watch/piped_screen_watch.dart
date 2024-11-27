@@ -27,8 +27,7 @@ class PipedScreenWatch extends StatelessWidget {
     final locals = S.of(context);
     final double _height = MediaQuery.of(context).size.height;
 
-    BlocProvider.of<WatchBloc>(context)
-        .add(WatchEvent.togglePip(value: false));
+    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
 
     BlocProvider.of<SavedBloc>(context)
         .add(const SavedEvent.getAllVideoInfoList());
@@ -72,17 +71,22 @@ class PipedScreenWatch extends StatelessWidget {
                   return DismissiblePage(
                     direction: DismissiblePageDismissDirection.down,
                     onDismissed: () {
-                      BlocProvider.of<WatchBloc>(context)
-                          .add(WatchEvent.togglePip(value: true));
+                      if (!settingsState.isPipDisabled) {
+                        BlocProvider.of<WatchBloc>(context)
+                            .add(WatchEvent.togglePip(value: true));
+                      }
                       Navigator.pop(context);
                     },
                     isFullScreen: true,
                     key: ValueKey(id),
                     child: PopScope(
                       canPop: true,
-                      onPopInvokedWithResult: (didPop, _) =>
+                      onPopInvokedWithResult: (didPop, _) {
+                        if (!settingsState.isPipDisabled) {
                           BlocProvider.of<WatchBloc>(context)
-                              .add(WatchEvent.togglePip(value: true)),
+                              .add(WatchEvent.togglePip(value: true));
+                        }
+                      },
                       child: Scaffold(
                         body: SafeArea(
                           child: SingleChildScrollView(

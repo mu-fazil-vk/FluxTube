@@ -265,7 +265,7 @@ class _InvidiousPipVideoPlayerWidgetState
 
       betterPlayerDataSource = BetterPlayerDataSource(
         BetterPlayerDataSourceType.network,
-        widget.watchInfo.dashUrl!,
+        widget.watchInfo.dashUrl ?? '',
         useAsmsTracks: true,
         useAsmsAudioTracks: true,
         useAsmsSubtitles: false,

@@ -42,6 +42,7 @@ mixin _$WatchEvent {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -68,6 +69,7 @@ mixin _$WatchEvent {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -93,6 +95,7 @@ mixin _$WatchEvent {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -127,6 +130,7 @@ mixin _$WatchEvent {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -154,6 +158,7 @@ mixin _$WatchEvent {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -181,6 +186,7 @@ mixin _$WatchEvent {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -299,6 +305,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getWatchInfo(id);
   }
@@ -328,6 +335,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getWatchInfo?.call(id);
   }
@@ -356,6 +364,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getWatchInfo != null) {
@@ -396,6 +405,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getWatchInfo(this);
   }
@@ -426,6 +436,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getWatchInfo?.call(this);
   }
@@ -456,6 +467,7 @@ class _$GetWatchInfoImpl implements GetWatchInfo {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getWatchInfo != null) {
@@ -570,6 +582,7 @@ class _$GetCommentDataImpl implements GetCommentData {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getCommentData(id);
   }
@@ -599,6 +612,7 @@ class _$GetCommentDataImpl implements GetCommentData {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getCommentData?.call(id);
   }
@@ -627,6 +641,7 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getCommentData != null) {
@@ -667,6 +682,7 @@ class _$GetCommentDataImpl implements GetCommentData {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getCommentData(this);
   }
@@ -697,6 +713,7 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getCommentData?.call(this);
   }
@@ -727,6 +744,7 @@ class _$GetCommentDataImpl implements GetCommentData {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getCommentData != null) {
@@ -851,6 +869,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getCommentRepliesData(id, nextPage);
   }
@@ -880,6 +899,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getCommentRepliesData?.call(id, nextPage);
   }
@@ -908,6 +928,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getCommentRepliesData != null) {
@@ -948,6 +969,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getCommentRepliesData(this);
   }
@@ -978,6 +1000,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getCommentRepliesData?.call(this);
   }
@@ -1008,6 +1031,7 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getCommentRepliesData != null) {
@@ -1134,6 +1158,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getMoreCommentsData(id, nextPage);
   }
@@ -1163,6 +1188,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getMoreCommentsData?.call(id, nextPage);
   }
@@ -1191,6 +1217,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getMoreCommentsData != null) {
@@ -1231,6 +1258,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getMoreCommentsData(this);
   }
@@ -1261,6 +1289,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getMoreCommentsData?.call(this);
   }
@@ -1291,6 +1320,7 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getMoreCommentsData != null) {
@@ -1419,6 +1449,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getMoreReplyCommentsData(id, nextPage);
   }
@@ -1448,6 +1479,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getMoreReplyCommentsData?.call(id, nextPage);
   }
@@ -1476,6 +1508,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getMoreReplyCommentsData != null) {
@@ -1516,6 +1549,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getMoreReplyCommentsData(this);
   }
@@ -1546,6 +1580,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getMoreReplyCommentsData?.call(this);
   }
@@ -1576,6 +1611,7 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getMoreReplyCommentsData != null) {
@@ -1692,6 +1728,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getSubtitles(id);
   }
@@ -1721,6 +1758,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getSubtitles?.call(id);
   }
@@ -1749,6 +1787,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getSubtitles != null) {
@@ -1789,6 +1828,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getSubtitles(this);
   }
@@ -1819,6 +1859,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getSubtitles?.call(this);
   }
@@ -1849,6 +1890,7 @@ class _$GetSubtitlesImpl implements GetSubtitles {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getSubtitles != null) {
@@ -1935,6 +1977,7 @@ class _$TapDescriptionImpl implements TapDescription {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return tapDescription();
   }
@@ -1964,6 +2007,7 @@ class _$TapDescriptionImpl implements TapDescription {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return tapDescription?.call();
   }
@@ -1992,6 +2036,7 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (tapDescription != null) {
@@ -2032,6 +2077,7 @@ class _$TapDescriptionImpl implements TapDescription {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return tapDescription(this);
   }
@@ -2062,6 +2108,7 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return tapDescription?.call(this);
   }
@@ -2092,6 +2139,7 @@ class _$TapDescriptionImpl implements TapDescription {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (tapDescription != null) {
@@ -2197,6 +2245,7 @@ class _$TogglePipImpl implements TogglePip {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return togglePip(value);
   }
@@ -2226,6 +2275,7 @@ class _$TogglePipImpl implements TogglePip {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return togglePip?.call(value);
   }
@@ -2254,6 +2304,7 @@ class _$TogglePipImpl implements TogglePip {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (togglePip != null) {
@@ -2294,6 +2345,7 @@ class _$TogglePipImpl implements TogglePip {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return togglePip(this);
   }
@@ -2324,6 +2376,7 @@ class _$TogglePipImpl implements TogglePip {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return togglePip?.call(this);
   }
@@ -2354,6 +2407,7 @@ class _$TogglePipImpl implements TogglePip {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (togglePip != null) {
@@ -2467,6 +2521,7 @@ class _$AssignTitleImpl implements AssignTitle {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return assignTitle(title);
   }
@@ -2496,6 +2551,7 @@ class _$AssignTitleImpl implements AssignTitle {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return assignTitle?.call(title);
   }
@@ -2524,6 +2580,7 @@ class _$AssignTitleImpl implements AssignTitle {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (assignTitle != null) {
@@ -2564,6 +2621,7 @@ class _$AssignTitleImpl implements AssignTitle {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return assignTitle(this);
   }
@@ -2594,6 +2652,7 @@ class _$AssignTitleImpl implements AssignTitle {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return assignTitle?.call(this);
   }
@@ -2624,6 +2683,7 @@ class _$AssignTitleImpl implements AssignTitle {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (assignTitle != null) {
@@ -2738,6 +2798,7 @@ class _$GetExplodeWatchInfoImpl implements GetExplodeWatchInfo {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getExplodeWatchInfo(id);
   }
@@ -2767,6 +2828,7 @@ class _$GetExplodeWatchInfoImpl implements GetExplodeWatchInfo {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getExplodeWatchInfo?.call(id);
   }
@@ -2795,6 +2857,7 @@ class _$GetExplodeWatchInfoImpl implements GetExplodeWatchInfo {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getExplodeWatchInfo != null) {
@@ -2835,6 +2898,7 @@ class _$GetExplodeWatchInfoImpl implements GetExplodeWatchInfo {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getExplodeWatchInfo(this);
   }
@@ -2865,6 +2929,7 @@ class _$GetExplodeWatchInfoImpl implements GetExplodeWatchInfo {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getExplodeWatchInfo?.call(this);
   }
@@ -2895,6 +2960,7 @@ class _$GetExplodeWatchInfoImpl implements GetExplodeWatchInfo {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getExplodeWatchInfo != null) {
@@ -3012,6 +3078,7 @@ class _$GetExplodeRelatedVideoInfoImpl implements GetExplodeRelatedVideoInfo {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getExplodeRelatedVideoInfo(id);
   }
@@ -3041,6 +3108,7 @@ class _$GetExplodeRelatedVideoInfoImpl implements GetExplodeRelatedVideoInfo {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getExplodeRelatedVideoInfo?.call(id);
   }
@@ -3069,6 +3137,7 @@ class _$GetExplodeRelatedVideoInfoImpl implements GetExplodeRelatedVideoInfo {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getExplodeRelatedVideoInfo != null) {
@@ -3109,6 +3178,7 @@ class _$GetExplodeRelatedVideoInfoImpl implements GetExplodeRelatedVideoInfo {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getExplodeRelatedVideoInfo(this);
   }
@@ -3139,6 +3209,7 @@ class _$GetExplodeRelatedVideoInfoImpl implements GetExplodeRelatedVideoInfo {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getExplodeRelatedVideoInfo?.call(this);
   }
@@ -3169,6 +3240,7 @@ class _$GetExplodeRelatedVideoInfoImpl implements GetExplodeRelatedVideoInfo {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getExplodeRelatedVideoInfo != null) {
@@ -3286,6 +3358,7 @@ class _$GetExplodeMuxStreamInfoImpl implements GetExplodeMuxStreamInfo {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getExplodeMuxStreamInfo(id);
   }
@@ -3315,6 +3388,7 @@ class _$GetExplodeMuxStreamInfoImpl implements GetExplodeMuxStreamInfo {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getExplodeMuxStreamInfo?.call(id);
   }
@@ -3343,6 +3417,7 @@ class _$GetExplodeMuxStreamInfoImpl implements GetExplodeMuxStreamInfo {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getExplodeMuxStreamInfo != null) {
@@ -3383,6 +3458,7 @@ class _$GetExplodeMuxStreamInfoImpl implements GetExplodeMuxStreamInfo {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getExplodeMuxStreamInfo(this);
   }
@@ -3413,6 +3489,7 @@ class _$GetExplodeMuxStreamInfoImpl implements GetExplodeMuxStreamInfo {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getExplodeMuxStreamInfo?.call(this);
   }
@@ -3443,6 +3520,7 @@ class _$GetExplodeMuxStreamInfoImpl implements GetExplodeMuxStreamInfo {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getExplodeMuxStreamInfo != null) {
@@ -3560,6 +3638,7 @@ class _$GetExplodeLiveVideoInfoImpl implements GetExplodeLiveVideoInfo {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getExplodeLiveVideoInfo(id);
   }
@@ -3589,6 +3668,7 @@ class _$GetExplodeLiveVideoInfoImpl implements GetExplodeLiveVideoInfo {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getExplodeLiveVideoInfo?.call(id);
   }
@@ -3617,6 +3697,7 @@ class _$GetExplodeLiveVideoInfoImpl implements GetExplodeLiveVideoInfo {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getExplodeLiveVideoInfo != null) {
@@ -3657,6 +3738,7 @@ class _$GetExplodeLiveVideoInfoImpl implements GetExplodeLiveVideoInfo {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getExplodeLiveVideoInfo(this);
   }
@@ -3687,6 +3769,7 @@ class _$GetExplodeLiveVideoInfoImpl implements GetExplodeLiveVideoInfo {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getExplodeLiveVideoInfo?.call(this);
   }
@@ -3717,6 +3800,7 @@ class _$GetExplodeLiveVideoInfoImpl implements GetExplodeLiveVideoInfo {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getExplodeLiveVideoInfo != null) {
@@ -3836,6 +3920,7 @@ class _$SetSelectedVideoBasicDetailsImpl
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return setSelectedVideoBasicDetails(details);
   }
@@ -3865,6 +3950,7 @@ class _$SetSelectedVideoBasicDetailsImpl
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return setSelectedVideoBasicDetails?.call(details);
   }
@@ -3893,6 +3979,7 @@ class _$SetSelectedVideoBasicDetailsImpl
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (setSelectedVideoBasicDetails != null) {
@@ -3933,6 +4020,7 @@ class _$SetSelectedVideoBasicDetailsImpl
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return setSelectedVideoBasicDetails(this);
   }
@@ -3963,6 +4051,7 @@ class _$SetSelectedVideoBasicDetailsImpl
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return setSelectedVideoBasicDetails?.call(this);
   }
@@ -3993,6 +4082,7 @@ class _$SetSelectedVideoBasicDetailsImpl
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (setSelectedVideoBasicDetails != null) {
@@ -4111,6 +4201,7 @@ class _$GetInvidiousWatchInfoImpl implements GetInvidiousWatchInfo {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getInvidiousWatchInfo(id);
   }
@@ -4140,6 +4231,7 @@ class _$GetInvidiousWatchInfoImpl implements GetInvidiousWatchInfo {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getInvidiousWatchInfo?.call(id);
   }
@@ -4168,6 +4260,7 @@ class _$GetInvidiousWatchInfoImpl implements GetInvidiousWatchInfo {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getInvidiousWatchInfo != null) {
@@ -4208,6 +4301,7 @@ class _$GetInvidiousWatchInfoImpl implements GetInvidiousWatchInfo {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getInvidiousWatchInfo(this);
   }
@@ -4238,6 +4332,7 @@ class _$GetInvidiousWatchInfoImpl implements GetInvidiousWatchInfo {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getInvidiousWatchInfo?.call(this);
   }
@@ -4268,6 +4363,7 @@ class _$GetInvidiousWatchInfoImpl implements GetInvidiousWatchInfo {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getInvidiousWatchInfo != null) {
@@ -4384,6 +4480,7 @@ class _$GetInvidiousCommentsImpl implements GetInvidiousComments {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getInvidiousComments(id);
   }
@@ -4413,6 +4510,7 @@ class _$GetInvidiousCommentsImpl implements GetInvidiousComments {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getInvidiousComments?.call(id);
   }
@@ -4441,6 +4539,7 @@ class _$GetInvidiousCommentsImpl implements GetInvidiousComments {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getInvidiousComments != null) {
@@ -4481,6 +4580,7 @@ class _$GetInvidiousCommentsImpl implements GetInvidiousComments {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getInvidiousComments(this);
   }
@@ -4511,6 +4611,7 @@ class _$GetInvidiousCommentsImpl implements GetInvidiousComments {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getInvidiousComments?.call(this);
   }
@@ -4541,6 +4642,7 @@ class _$GetInvidiousCommentsImpl implements GetInvidiousComments {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getInvidiousComments != null) {
@@ -4668,6 +4770,7 @@ class _$GetInvidiousCommentRepliesImpl implements GetInvidiousCommentReplies {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getInvidiousCommentReplies(id, continuation);
   }
@@ -4697,6 +4800,7 @@ class _$GetInvidiousCommentRepliesImpl implements GetInvidiousCommentReplies {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getInvidiousCommentReplies?.call(id, continuation);
   }
@@ -4725,6 +4829,7 @@ class _$GetInvidiousCommentRepliesImpl implements GetInvidiousCommentReplies {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getInvidiousCommentReplies != null) {
@@ -4765,6 +4870,7 @@ class _$GetInvidiousCommentRepliesImpl implements GetInvidiousCommentReplies {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getInvidiousCommentReplies(this);
   }
@@ -4795,6 +4901,7 @@ class _$GetInvidiousCommentRepliesImpl implements GetInvidiousCommentReplies {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getInvidiousCommentReplies?.call(this);
   }
@@ -4825,6 +4932,7 @@ class _$GetInvidiousCommentRepliesImpl implements GetInvidiousCommentReplies {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getInvidiousCommentReplies != null) {
@@ -4954,6 +5062,7 @@ class _$GetMoreInvidiousCommentsImpl implements GetMoreInvidiousComments {
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getMoreInvidiousComments(id, continuation);
   }
@@ -4983,6 +5092,7 @@ class _$GetMoreInvidiousCommentsImpl implements GetMoreInvidiousComments {
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getMoreInvidiousComments?.call(id, continuation);
   }
@@ -5011,6 +5121,7 @@ class _$GetMoreInvidiousCommentsImpl implements GetMoreInvidiousComments {
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getMoreInvidiousComments != null) {
@@ -5051,6 +5162,7 @@ class _$GetMoreInvidiousCommentsImpl implements GetMoreInvidiousComments {
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getMoreInvidiousComments(this);
   }
@@ -5081,6 +5193,7 @@ class _$GetMoreInvidiousCommentsImpl implements GetMoreInvidiousComments {
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getMoreInvidiousComments?.call(this);
   }
@@ -5111,6 +5224,7 @@ class _$GetMoreInvidiousCommentsImpl implements GetMoreInvidiousComments {
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getMoreInvidiousComments != null) {
@@ -5242,6 +5356,7 @@ class _$GetMoreInvidiousReplyCommentsImpl
         getMoreInvidiousComments,
     required TResult Function(String id, String? continuation)
         getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
   }) {
     return getMoreInvidiousReplyComments(id, continuation);
   }
@@ -5271,6 +5386,7 @@ class _$GetMoreInvidiousReplyCommentsImpl
         getMoreInvidiousComments,
     TResult? Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
   }) {
     return getMoreInvidiousReplyComments?.call(id, continuation);
   }
@@ -5299,6 +5415,7 @@ class _$GetMoreInvidiousReplyCommentsImpl
     TResult Function(String id, String? continuation)? getMoreInvidiousComments,
     TResult Function(String id, String? continuation)?
         getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getMoreInvidiousReplyComments != null) {
@@ -5339,6 +5456,7 @@ class _$GetMoreInvidiousReplyCommentsImpl
         getMoreInvidiousComments,
     required TResult Function(GetMoreInvidiousReplyComments value)
         getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
   }) {
     return getMoreInvidiousReplyComments(this);
   }
@@ -5369,6 +5487,7 @@ class _$GetMoreInvidiousReplyCommentsImpl
     TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult? Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
   }) {
     return getMoreInvidiousReplyComments?.call(this);
   }
@@ -5399,6 +5518,7 @@ class _$GetMoreInvidiousReplyCommentsImpl
     TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
     TResult Function(GetMoreInvidiousReplyComments value)?
         getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
     required TResult orElse(),
   }) {
     if (getMoreInvidiousReplyComments != null) {
@@ -5425,6 +5545,284 @@ abstract class GetMoreInvidiousReplyComments implements WatchEvent {
 }
 
 /// @nodoc
+abstract class _$$UpdatePlayBackImplCopyWith<$Res> {
+  factory _$$UpdatePlayBackImplCopyWith(_$UpdatePlayBackImpl value,
+          $Res Function(_$UpdatePlayBackImpl) then) =
+      __$$UpdatePlayBackImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int? playBack});
+}
+
+/// @nodoc
+class __$$UpdatePlayBackImplCopyWithImpl<$Res>
+    extends _$WatchEventCopyWithImpl<$Res, _$UpdatePlayBackImpl>
+    implements _$$UpdatePlayBackImplCopyWith<$Res> {
+  __$$UpdatePlayBackImplCopyWithImpl(
+      _$UpdatePlayBackImpl _value, $Res Function(_$UpdatePlayBackImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? playBack = freezed,
+  }) {
+    return _then(_$UpdatePlayBackImpl(
+      playBack: freezed == playBack
+          ? _value.playBack
+          : playBack // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdatePlayBackImpl implements UpdatePlayBack {
+  _$UpdatePlayBackImpl({required this.playBack});
+
+  @override
+  final int? playBack;
+
+  @override
+  String toString() {
+    return 'WatchEvent.updatePlayBack(playBack: $playBack)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdatePlayBackImpl &&
+            (identical(other.playBack, playBack) ||
+                other.playBack == playBack));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, playBack);
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdatePlayBackImplCopyWith<_$UpdatePlayBackImpl> get copyWith =>
+      __$$UpdatePlayBackImplCopyWithImpl<_$UpdatePlayBackImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getWatchInfo,
+    required TResult Function(String id) getCommentData,
+    required TResult Function(String id, String nextPage) getCommentRepliesData,
+    required TResult Function(String id, String? nextPage) getMoreCommentsData,
+    required TResult Function(String id, String? nextPage)
+        getMoreReplyCommentsData,
+    required TResult Function(String id) getSubtitles,
+    required TResult Function() tapDescription,
+    required TResult Function(bool value) togglePip,
+    required TResult Function(String title) assignTitle,
+    required TResult Function(String id) getExplodeWatchInfo,
+    required TResult Function(String id) getExplodeRelatedVideoInfo,
+    required TResult Function(String id) getExplodeMuxStreamInfo,
+    required TResult Function(String id) getExplodeLiveVideoInfo,
+    required TResult Function(VideoBasicInfo details)
+        setSelectedVideoBasicDetails,
+    required TResult Function(String id) getInvidiousWatchInfo,
+    required TResult Function(String id) getInvidiousComments,
+    required TResult Function(String id, String continuation)
+        getInvidiousCommentReplies,
+    required TResult Function(String id, String? continuation)
+        getMoreInvidiousComments,
+    required TResult Function(String id, String? continuation)
+        getMoreInvidiousReplyComments,
+    required TResult Function(int? playBack) updatePlayBack,
+  }) {
+    return updatePlayBack(playBack);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getWatchInfo,
+    TResult? Function(String id)? getCommentData,
+    TResult? Function(String id, String nextPage)? getCommentRepliesData,
+    TResult? Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult? Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult? Function(String id)? getSubtitles,
+    TResult? Function()? tapDescription,
+    TResult? Function(bool value)? togglePip,
+    TResult? Function(String title)? assignTitle,
+    TResult? Function(String id)? getExplodeWatchInfo,
+    TResult? Function(String id)? getExplodeRelatedVideoInfo,
+    TResult? Function(String id)? getExplodeMuxStreamInfo,
+    TResult? Function(String id)? getExplodeLiveVideoInfo,
+    TResult? Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+    TResult? Function(String id)? getInvidiousWatchInfo,
+    TResult? Function(String id)? getInvidiousComments,
+    TResult? Function(String id, String continuation)?
+        getInvidiousCommentReplies,
+    TResult? Function(String id, String? continuation)?
+        getMoreInvidiousComments,
+    TResult? Function(String id, String? continuation)?
+        getMoreInvidiousReplyComments,
+    TResult? Function(int? playBack)? updatePlayBack,
+  }) {
+    return updatePlayBack?.call(playBack);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getWatchInfo,
+    TResult Function(String id)? getCommentData,
+    TResult Function(String id, String nextPage)? getCommentRepliesData,
+    TResult Function(String id, String? nextPage)? getMoreCommentsData,
+    TResult Function(String id, String? nextPage)? getMoreReplyCommentsData,
+    TResult Function(String id)? getSubtitles,
+    TResult Function()? tapDescription,
+    TResult Function(bool value)? togglePip,
+    TResult Function(String title)? assignTitle,
+    TResult Function(String id)? getExplodeWatchInfo,
+    TResult Function(String id)? getExplodeRelatedVideoInfo,
+    TResult Function(String id)? getExplodeMuxStreamInfo,
+    TResult Function(String id)? getExplodeLiveVideoInfo,
+    TResult Function(VideoBasicInfo details)? setSelectedVideoBasicDetails,
+    TResult Function(String id)? getInvidiousWatchInfo,
+    TResult Function(String id)? getInvidiousComments,
+    TResult Function(String id, String continuation)?
+        getInvidiousCommentReplies,
+    TResult Function(String id, String? continuation)? getMoreInvidiousComments,
+    TResult Function(String id, String? continuation)?
+        getMoreInvidiousReplyComments,
+    TResult Function(int? playBack)? updatePlayBack,
+    required TResult orElse(),
+  }) {
+    if (updatePlayBack != null) {
+      return updatePlayBack(playBack);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetWatchInfo value) getWatchInfo,
+    required TResult Function(GetCommentData value) getCommentData,
+    required TResult Function(GetCommentRepliesData value)
+        getCommentRepliesData,
+    required TResult Function(GetMoreCommentsData value) getMoreCommentsData,
+    required TResult Function(GetMoreReplyCommentsData value)
+        getMoreReplyCommentsData,
+    required TResult Function(GetSubtitles value) getSubtitles,
+    required TResult Function(TapDescription value) tapDescription,
+    required TResult Function(TogglePip value) togglePip,
+    required TResult Function(AssignTitle value) assignTitle,
+    required TResult Function(GetExplodeWatchInfo value) getExplodeWatchInfo,
+    required TResult Function(GetExplodeRelatedVideoInfo value)
+        getExplodeRelatedVideoInfo,
+    required TResult Function(GetExplodeMuxStreamInfo value)
+        getExplodeMuxStreamInfo,
+    required TResult Function(GetExplodeLiveVideoInfo value)
+        getExplodeLiveVideoInfo,
+    required TResult Function(SetSelectedVideoBasicDetails value)
+        setSelectedVideoBasicDetails,
+    required TResult Function(GetInvidiousWatchInfo value)
+        getInvidiousWatchInfo,
+    required TResult Function(GetInvidiousComments value) getInvidiousComments,
+    required TResult Function(GetInvidiousCommentReplies value)
+        getInvidiousCommentReplies,
+    required TResult Function(GetMoreInvidiousComments value)
+        getMoreInvidiousComments,
+    required TResult Function(GetMoreInvidiousReplyComments value)
+        getMoreInvidiousReplyComments,
+    required TResult Function(UpdatePlayBack value) updatePlayBack,
+  }) {
+    return updatePlayBack(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetWatchInfo value)? getWatchInfo,
+    TResult? Function(GetCommentData value)? getCommentData,
+    TResult? Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult? Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult? Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult? Function(GetSubtitles value)? getSubtitles,
+    TResult? Function(TapDescription value)? tapDescription,
+    TResult? Function(TogglePip value)? togglePip,
+    TResult? Function(AssignTitle value)? assignTitle,
+    TResult? Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult? Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult? Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult? Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult? Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+    TResult? Function(GetInvidiousWatchInfo value)? getInvidiousWatchInfo,
+    TResult? Function(GetInvidiousComments value)? getInvidiousComments,
+    TResult? Function(GetInvidiousCommentReplies value)?
+        getInvidiousCommentReplies,
+    TResult? Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
+    TResult? Function(GetMoreInvidiousReplyComments value)?
+        getMoreInvidiousReplyComments,
+    TResult? Function(UpdatePlayBack value)? updatePlayBack,
+  }) {
+    return updatePlayBack?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetWatchInfo value)? getWatchInfo,
+    TResult Function(GetCommentData value)? getCommentData,
+    TResult Function(GetCommentRepliesData value)? getCommentRepliesData,
+    TResult Function(GetMoreCommentsData value)? getMoreCommentsData,
+    TResult Function(GetMoreReplyCommentsData value)? getMoreReplyCommentsData,
+    TResult Function(GetSubtitles value)? getSubtitles,
+    TResult Function(TapDescription value)? tapDescription,
+    TResult Function(TogglePip value)? togglePip,
+    TResult Function(AssignTitle value)? assignTitle,
+    TResult Function(GetExplodeWatchInfo value)? getExplodeWatchInfo,
+    TResult Function(GetExplodeRelatedVideoInfo value)?
+        getExplodeRelatedVideoInfo,
+    TResult Function(GetExplodeMuxStreamInfo value)? getExplodeMuxStreamInfo,
+    TResult Function(GetExplodeLiveVideoInfo value)? getExplodeLiveVideoInfo,
+    TResult Function(SetSelectedVideoBasicDetails value)?
+        setSelectedVideoBasicDetails,
+    TResult Function(GetInvidiousWatchInfo value)? getInvidiousWatchInfo,
+    TResult Function(GetInvidiousComments value)? getInvidiousComments,
+    TResult Function(GetInvidiousCommentReplies value)?
+        getInvidiousCommentReplies,
+    TResult Function(GetMoreInvidiousComments value)? getMoreInvidiousComments,
+    TResult Function(GetMoreInvidiousReplyComments value)?
+        getMoreInvidiousReplyComments,
+    TResult Function(UpdatePlayBack value)? updatePlayBack,
+    required TResult orElse(),
+  }) {
+    if (updatePlayBack != null) {
+      return updatePlayBack(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UpdatePlayBack implements WatchEvent {
+  factory UpdatePlayBack({required final int? playBack}) = _$UpdatePlayBackImpl;
+
+  int? get playBack;
+
+  /// Create a copy of WatchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UpdatePlayBackImplCopyWith<_$UpdatePlayBackImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$WatchState {
 //
   String? get oldId => throw _privateConstructorUsedError;
@@ -5432,6 +5830,7 @@ mixin _$WatchState {
   bool get isDescriptionTapped => throw _privateConstructorUsedError;
   bool get isPipEnabled => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  int get playBack => throw _privateConstructorUsedError;
   VideoBasicInfo? get selectedVideoBasicDetails =>
       throw _privateConstructorUsedError; // PIPED
   WatchResp get watchResp => throw _privateConstructorUsedError;
@@ -5501,6 +5900,7 @@ abstract class $WatchStateCopyWith<$Res> {
       bool isDescriptionTapped,
       bool isPipEnabled,
       String title,
+      int playBack,
       VideoBasicInfo? selectedVideoBasicDetails,
       WatchResp watchResp,
       CommentsResp comments,
@@ -5554,6 +5954,7 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
     Object? isDescriptionTapped = null,
     Object? isPipEnabled = null,
     Object? title = null,
+    Object? playBack = null,
     Object? selectedVideoBasicDetails = freezed,
     Object? watchResp = null,
     Object? comments = null,
@@ -5607,6 +6008,10 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      playBack: null == playBack
+          ? _value.playBack
+          : playBack // ignore: cast_nullable_to_non_nullable
+              as int,
       selectedVideoBasicDetails: freezed == selectedVideoBasicDetails
           ? _value.selectedVideoBasicDetails
           : selectedVideoBasicDetails // ignore: cast_nullable_to_non_nullable
@@ -5753,6 +6158,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       bool isDescriptionTapped,
       bool isPipEnabled,
       String title,
+      int playBack,
       VideoBasicInfo? selectedVideoBasicDetails,
       WatchResp watchResp,
       CommentsResp comments,
@@ -5804,6 +6210,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? isDescriptionTapped = null,
     Object? isPipEnabled = null,
     Object? title = null,
+    Object? playBack = null,
     Object? selectedVideoBasicDetails = freezed,
     Object? watchResp = null,
     Object? comments = null,
@@ -5857,6 +6264,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      playBack: null == playBack
+          ? _value.playBack
+          : playBack // ignore: cast_nullable_to_non_nullable
+              as int,
       selectedVideoBasicDetails: freezed == selectedVideoBasicDetails
           ? _value.selectedVideoBasicDetails
           : selectedVideoBasicDetails // ignore: cast_nullable_to_non_nullable
@@ -5998,6 +6409,7 @@ class _$InitialImpl implements _Initial {
       required this.isDescriptionTapped,
       required this.isPipEnabled,
       required this.title,
+      required this.playBack,
       this.selectedVideoBasicDetails,
       required this.watchResp,
       required this.comments,
@@ -6044,6 +6456,8 @@ class _$InitialImpl implements _Initial {
   final bool isPipEnabled;
   @override
   final String title;
+  @override
+  final int playBack;
   @override
   final VideoBasicInfo? selectedVideoBasicDetails;
 // PIPED
@@ -6134,7 +6548,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'WatchState(oldId: $oldId, isTapComments: $isTapComments, isDescriptionTapped: $isDescriptionTapped, isPipEnabled: $isPipEnabled, title: $title, selectedVideoBasicDetails: $selectedVideoBasicDetails, watchResp: $watchResp, comments: $comments, commentReplies: $commentReplies, fetchWatchInfoStatus: $fetchWatchInfoStatus, fetchCommentsStatus: $fetchCommentsStatus, fetchCommentRepliesStatus: $fetchCommentRepliesStatus, fetchMoreCommentsStatus: $fetchMoreCommentsStatus, isMoreCommetsFetchCompleted: $isMoreCommetsFetchCompleted, fetchMoreCommentRepliesStatus: $fetchMoreCommentRepliesStatus, isMoreReplyCommetsFetchCompleted: $isMoreReplyCommetsFetchCompleted, explodeWatchResp: $explodeWatchResp, fetchExplodeWatchInfoStatus: $fetchExplodeWatchInfoStatus, fetchSubtitlesStatus: $fetchSubtitlesStatus, subtitles: $subtitles, liveStreamUrl: $liveStreamUrl, fetchExplodeLiveStreamStatus: $fetchExplodeLiveStreamStatus, relatedVideos: $relatedVideos, fetchExplodedRelatedVideosStatus: $fetchExplodedRelatedVideosStatus, muxedStreams: $muxedStreams, fetchExplodeMuxedStreamsStatus: $fetchExplodeMuxedStreamsStatus, invidiousWatchResp: $invidiousWatchResp, fetchInvidiousWatchInfoStatus: $fetchInvidiousWatchInfoStatus, invidiousComments: $invidiousComments, fetchInvidiousCommentsStatus: $fetchInvidiousCommentsStatus, invidiousCommentReplies: $invidiousCommentReplies, fetchInvidiousCommentRepliesStatus: $fetchInvidiousCommentRepliesStatus, fetchMoreInvidiousCommentsStatus: $fetchMoreInvidiousCommentsStatus, isMoreInvidiousCommetsFetchCompleted: $isMoreInvidiousCommetsFetchCompleted, fetchMoreInvidiousCommentRepliesStatus: $fetchMoreInvidiousCommentRepliesStatus, isMoreInvidiousReplyCommetsFetchCompleted: $isMoreInvidiousReplyCommetsFetchCompleted)';
+    return 'WatchState(oldId: $oldId, isTapComments: $isTapComments, isDescriptionTapped: $isDescriptionTapped, isPipEnabled: $isPipEnabled, title: $title, playBack: $playBack, selectedVideoBasicDetails: $selectedVideoBasicDetails, watchResp: $watchResp, comments: $comments, commentReplies: $commentReplies, fetchWatchInfoStatus: $fetchWatchInfoStatus, fetchCommentsStatus: $fetchCommentsStatus, fetchCommentRepliesStatus: $fetchCommentRepliesStatus, fetchMoreCommentsStatus: $fetchMoreCommentsStatus, isMoreCommetsFetchCompleted: $isMoreCommetsFetchCompleted, fetchMoreCommentRepliesStatus: $fetchMoreCommentRepliesStatus, isMoreReplyCommetsFetchCompleted: $isMoreReplyCommetsFetchCompleted, explodeWatchResp: $explodeWatchResp, fetchExplodeWatchInfoStatus: $fetchExplodeWatchInfoStatus, fetchSubtitlesStatus: $fetchSubtitlesStatus, subtitles: $subtitles, liveStreamUrl: $liveStreamUrl, fetchExplodeLiveStreamStatus: $fetchExplodeLiveStreamStatus, relatedVideos: $relatedVideos, fetchExplodedRelatedVideosStatus: $fetchExplodedRelatedVideosStatus, muxedStreams: $muxedStreams, fetchExplodeMuxedStreamsStatus: $fetchExplodeMuxedStreamsStatus, invidiousWatchResp: $invidiousWatchResp, fetchInvidiousWatchInfoStatus: $fetchInvidiousWatchInfoStatus, invidiousComments: $invidiousComments, fetchInvidiousCommentsStatus: $fetchInvidiousCommentsStatus, invidiousCommentReplies: $invidiousCommentReplies, fetchInvidiousCommentRepliesStatus: $fetchInvidiousCommentRepliesStatus, fetchMoreInvidiousCommentsStatus: $fetchMoreInvidiousCommentsStatus, isMoreInvidiousCommetsFetchCompleted: $isMoreInvidiousCommetsFetchCompleted, fetchMoreInvidiousCommentRepliesStatus: $fetchMoreInvidiousCommentRepliesStatus, isMoreInvidiousReplyCommetsFetchCompleted: $isMoreInvidiousReplyCommetsFetchCompleted)';
   }
 
   @override
@@ -6150,6 +6564,8 @@ class _$InitialImpl implements _Initial {
             (identical(other.isPipEnabled, isPipEnabled) ||
                 other.isPipEnabled == isPipEnabled) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.playBack, playBack) ||
+                other.playBack == playBack) &&
             (identical(other.selectedVideoBasicDetails, selectedVideoBasicDetails) ||
                 other.selectedVideoBasicDetails == selectedVideoBasicDetails) &&
             (identical(other.watchResp, watchResp) ||
@@ -6213,6 +6629,7 @@ class _$InitialImpl implements _Initial {
         isDescriptionTapped,
         isPipEnabled,
         title,
+        playBack,
         selectedVideoBasicDetails,
         watchResp,
         comments,
@@ -6262,6 +6679,7 @@ abstract class _Initial implements WatchState {
           required final bool isDescriptionTapped,
           required final bool isPipEnabled,
           required final String title,
+          required final int playBack,
           final VideoBasicInfo? selectedVideoBasicDetails,
           required final WatchResp watchResp,
           required final CommentsResp comments,
@@ -6306,6 +6724,8 @@ abstract class _Initial implements WatchState {
   bool get isPipEnabled;
   @override
   String get title;
+  @override
+  int get playBack;
   @override
   VideoBasicInfo? get selectedVideoBasicDetails; // PIPED
   @override

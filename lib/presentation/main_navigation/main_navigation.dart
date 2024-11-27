@@ -72,14 +72,13 @@ class MainNavigationState extends State<MainNavigation> {
                             if (state.isPipEnabled &&
                                 state.selectedVideoBasicDetails?.id != null &&
                                 settingsState.ytService ==
-                                    YouTubeServices.invidious.name)
+                                    YouTubeServices.invidious.name &&
+                                !settingsState.isPipDisabled)
                               Positioned(
                                 child: InvidiousPipVideoPlayerWidget(
                                   watchInfo: state.invidiousWatchResp,
                                   videoId: state.selectedVideoBasicDetails!.id,
-                                  playbackPosition:
-                                      savedState.videoInfo?.playbackPosition ??
-                                          0,
+                                  playbackPosition: state.playBack,
                                   isSaved: (savedState.videoInfo?.id ==
                                           state.selectedVideoBasicDetails?.id &&
                                       savedState.videoInfo?.isSaved == true),
@@ -93,14 +92,13 @@ class MainNavigationState extends State<MainNavigation> {
                             if (state.isPipEnabled &&
                                 state.selectedVideoBasicDetails?.id != null &&
                                 settingsState.ytService ==
-                                    YouTubeServices.piped.name)
+                                    YouTubeServices.piped.name &&
+                                !settingsState.isPipDisabled)
                               Positioned(
                                 child: PipVideoPlayerWidget(
                                   watchInfo: state.watchResp,
                                   videoId: state.selectedVideoBasicDetails!.id,
-                                  playbackPosition:
-                                      savedState.videoInfo?.playbackPosition ??
-                                          0,
+                                  playbackPosition: state.playBack,
                                   isSaved: (savedState.videoInfo?.id ==
                                           state.selectedVideoBasicDetails?.id &&
                                       savedState.videoInfo?.isSaved == true),
@@ -114,7 +112,8 @@ class MainNavigationState extends State<MainNavigation> {
                             if (state.isPipEnabled &&
                                 state.selectedVideoBasicDetails?.id != null &&
                                 settingsState.ytService ==
-                                    YouTubeServices.iframe.name)
+                                    YouTubeServices.iframe.name &&
+                                !settingsState.isPipDisabled)
                               Align(
                                 child: IFramePipVideoPlayer(
                                   id: state.selectedVideoBasicDetails!.id,
@@ -128,6 +127,7 @@ class MainNavigationState extends State<MainNavigation> {
                                       savedState.videoInfo?.isSaved == true),
                                   savedState: savedState,
                                   watchInfo: state.explodeWatchResp,
+                                  playBack: state.playBack,
                                 ),
                               ),
 
@@ -135,14 +135,13 @@ class MainNavigationState extends State<MainNavigation> {
                             if (state.isPipEnabled &&
                                 state.selectedVideoBasicDetails?.id != null &&
                                 settingsState.ytService ==
-                                    YouTubeServices.explode.name)
+                                    YouTubeServices.explode.name &&
+                                !settingsState.isPipDisabled)
                               Positioned(
                                 child: ExplodePipVideoPlayerWidget(
                                   watchInfo: state.explodeWatchResp,
                                   videoId: state.selectedVideoBasicDetails!.id,
-                                  playbackPosition:
-                                      savedState.videoInfo?.playbackPosition ??
-                                          0,
+                                  playbackPosition: state.playBack,
                                   isSaved: (savedState.videoInfo?.id ==
                                           state.selectedVideoBasicDetails?.id &&
                                       savedState.videoInfo?.isSaved == true),

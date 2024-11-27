@@ -8,7 +8,6 @@ import 'package:fluxtube/domain/channel/models/piped/channel_resp.dart';
 import 'package:fluxtube/domain/core/api_end_points.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:injectable/injectable.dart';
-import 'package:native_dio_adapter/native_dio_adapter.dart';
 
 @LazySingleton(as: ChannelServices)
 class ChannelImpl extends ChannelServices {
@@ -20,7 +19,6 @@ class ChannelImpl extends ChannelServices {
       {required String channelId}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         "${ApiEndPoints.channel}$channelId",
         options: Options(
@@ -51,7 +49,6 @@ class ChannelImpl extends ChannelServices {
       {required String channelId, required String? nextPage}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         "${ApiEndPoints.moreChannelVideos}$channelId?nextpage=$nextPage",
         options: Options(
@@ -84,7 +81,6 @@ class ChannelImpl extends ChannelServices {
       {required String channelId}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         "${InvidiousApiEndpoints.channel}$channelId",
         options: Options(
