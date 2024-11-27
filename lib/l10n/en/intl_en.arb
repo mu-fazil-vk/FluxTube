@@ -1,0 +1,197 @@
+{
+  "home": "Home",
+  "@home": {
+    "description": "Home label"
+  },
+  "trending": "Trending",
+  "@trending": {
+    "description": "Trending label"
+  },
+  "saved": "Saved",
+  "@saved": {
+    "description": "Saved label"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings label"
+  },
+  "history": "History",
+  "@history": {
+    "description": "History label"
+  },
+  "savedVideosTitle": "Saved Videos",
+  "@savedVideosTitle": {
+    "description": "Saved videos app bar title"
+  },
+  "noUploaderName": "No name",
+  "@noUploaderName": {
+    "description": "There is no uploader (channel) name available"
+  },
+  "noVideoTitle": "No title",
+  "@noVideoTitle": {
+    "description": "There is no video title available"
+  },
+  "videoViews": "{count, plural, =0{No views} =1{view} other{views}}",
+  "@videoViews": {
+    "description": "{number} views"
+  },
+  "channelSubscribers": "{count, plural, =0{No subscribers} =1{subscriber} other{subscribers}}",
+  "@channelSubscribers": {
+    "description": "{number} subscribers"
+  },
+  "subscribe": "Subscribe",
+  "@subscribe": {
+    "description": "Subscribe button label"
+  },
+  "noUploadDate": "No date",
+  "@noUploadDate": {
+    "description": "There is no video upload date available"
+  },
+  "thereIsNoSavedVideos": "There are no saved videos",
+  "@thereIsNoSavedVideos": {
+    "description": "There are no saved videos found"
+  },
+  "thereIsNoSavedOrHistoryVideos": "There are no saved/history videos",
+  "@thereIsNoSavedHistoryVideos": {
+    "description": "There are no saved or history videos"
+  },
+  "noVideoAvailableChangedToHls": "No video source available, automatically changed to hls",
+  "@noVideoAvailableChangedToHls": {
+    "description": "When there is no standard player link available, then it changed to hls player"
+  },
+  "unknownQuality": "Unknown Quality",
+  "@unknownQuality": {
+    "description": "Quality name not found"
+  },
+  "hlsPlayer": "HLS Player",
+  "@hlsPlayer": {
+    "description": "Hls player label"
+  },
+  "enableHlsPlayerDescription": "Enable HLS player to unlock all quality options. Disable if errors occur.",
+  "@enableHlsPlayerDescription": {
+    "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
+  },
+  "disableVideoHistory": "Disable video history",
+  "@disableVideoHistory": {
+    "description": "Hide watch history"
+  },
+  "retrieveDislikes": "Retrieve Dislikes",
+  "@retrieveDislikes": {
+    "description": "Retrieve dislikes label"
+  },
+  "retrieveDislikeCounts": "Retrieve dislike counts",
+  "@retrieveDislikeCounts": {
+    "description": "Return the dislike button of videos"
+  },
+  "noVideoDescription": "No description",
+  "@noVideoDescription": {
+    "description": "There is no video description available"
+  },
+  "relatedTitle": "Related",
+  "@relatedTitle": {
+    "description": "Related videos label"
+  },
+  "commentAuthorNotFound": "Not found",
+  "@commentAuthorNotFound": {
+    "description": "Name of the comment author is not found"
+  },
+  "readMoreText": "Read more",
+  "@readMoreText": {
+    "description": "Expand the comment text"
+  },
+  "showLessText": "Show less",
+  "@showLessText": {
+    "description": "Collapse the comment text"
+  },
+  "commonSettingsTitle": "Common",
+  "@commonSettingsTitle": {
+    "description": "Common settings label"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language label"
+  },
+  "region": "Region",
+  "@region": {
+    "description": "Region label"
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "Theme label"
+  },
+  "developer": "Developer",
+  "@developer": {
+    "description": "Developer label"
+  },
+  "translators": "Translators",
+  "@translators": {
+    "description": "Translators label"
+  },
+  "version": "Version",
+  "@version": {
+    "description": "Version label"
+  },
+  "about": "About",
+  "@about": {
+    "description": "About label"
+  },
+  "video": "Video",
+  "@video": {
+    "description": "Video label"
+  },
+  "unknown": "unknown",
+  "@unknown": {
+    "description": "Unknown label"
+  },
+  "defaultQuality": "Default Quality",
+  "@defaultQuality": {
+    "description": "Default video quality label"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry label"
+  },
+  "repliesPlural": "{count, plural, =1{Reply} other{Replies}}",
+  "@repliesPlural": {
+    "description": "{number} Replies"
+  },
+  "canada": "Canada",
+  "france": "France",
+  "india": "India",
+  "netherlands": "Netherlands",
+  "unitedKingdom": "United Kingdom",
+  "unitedStates": "United States",
+  "distractionFree": "Distraction Free",
+  "@distractionFree": {
+    "description": "A section for control distracting elements."
+  },
+  "hideComments": "Hide Comments",
+  "@hideComments": {
+    "description": "Hide Comments label."
+  },
+  "hideCommentsButtonFromWatchScreen": "Hide comments button from watch screen.",
+  "@hideCommentsButtonFromWatchScreen": {
+    "description": "Hide the comment button from video streaming screen."
+  },
+  "hideRelated": "Hide Related",
+  "@hideRelated": {
+    "description": "Hide Related videos label."
+  },
+  "hideRelatedVideosFromWatchScreen": "Hide related videos from watch screen",
+  "@hideRelatedVideosFromWatchScreen": {
+    "description": "Hide the related videos from video streaming screen."
+  },
+  "share": "Share",
+  "@share": {
+    "description": "Share label."
+  },
+  "includeTitle": "Include title",
+  "@includeTitle": {
+    "description": "Include title along with url"
+  },
+  "instances": "Instances",
+  "switchRegion": "Please consider switching to a different region for better results.",
+  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
+  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
+  "noCommentsFound": "No Comments Found"
+}
