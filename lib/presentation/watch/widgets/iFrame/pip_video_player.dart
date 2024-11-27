@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,7 @@ class IFramePipVideoPlayer extends StatefulWidget {
     required this.savedState,
     required this.watchState,
     required this.watchInfo,
+    required this.playBack,
     this.isLive = false,
   });
 
@@ -28,74 +30,94 @@ class IFramePipVideoPlayer extends StatefulWidget {
   final WatchState watchState;
   final bool isLive;
   final ExplodeWatchResp watchInfo;
+  final int playBack;
 
   @override
   State<IFramePipVideoPlayer> createState() => _IFramePipVideoPlayerState();
 }
 
 class _IFramePipVideoPlayerState extends State<IFramePipVideoPlayer> {
-  YoutubePlayerController? _controller;
-
+  late final YoutubePlayerController _controller;
   Offset position = const Offset(20, 20);
+  Timer? _historyUpdateTimer;
+  bool _isDragging = false;
 
-  WatchBloc? _watchBloc;
-  SavedBloc? _savedBloc;
+  // Store screen boundaries
+  late final double _maxWidth;
+  late final double _maxHeight;
+
+  // Constants
+  static const double _playerWidth = 300.0;
+  static const double _playerHeight = 200.0;
+  static const Duration _historyUpdateInterval = Duration(seconds: 5);
+
+  late final WatchBloc _watchBloc;
+  late final SavedBloc _savedBloc;
 
   @override
   void initState() {
-    _savedBloc = BlocProvider.of<SavedBloc>(context);
+    super.initState();
+    _initializeController();
+    _setupHistoryUpdateTimer();
+
+    // Get screen dimensions after the first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final size = MediaQuery.of(context).size;
+      _maxWidth = size.width - _playerWidth;
+      _maxHeight = size.height - _playerHeight;
+    });
+  }
+
+  void _initializeController() {
+    _controller.close();
     _controller = YoutubePlayerController.fromVideoId(
       videoId: widget.id,
       autoPlay: true,
-      startSeconds: (widget.savedState.localSavedHistoryVideos
-                  .firstWhere(
-                    (element) => element.id == widget.id,
-                    orElse: () => LocalStoreVideoInfo(
-                      playbackPosition: 0, // Default value
-                      // other properties with default values
-                      id: '',
-                      title: '',
-                      views: 0,
-                      thumbnail: '',
-                      uploadedDate: '',
-                      uploaderAvatar: null,
-                      uploaderName: '',
-                      uploaderId: '',
-                      uploaderSubscriberCount: null,
-                      duration: 0,
-                      uploaderVerified: false,
-                      isHistory: true,
-                      isLive: false,
-                      isSaved: false,
-                    ),
-                  )
-                  .playbackPosition ??
-              0)
-          .toDouble(),
+      startSeconds: widget.playBack.toDouble(),
       params: const YoutubePlayerParams(
-          showFullscreenButton: false,
-          playsInline: false,
-          enableCaption: false,
-          showVideoAnnotations: false,
-          pointerEvents: PointerEvents.auto),
+        showFullscreenButton: false,
+        playsInline: false,
+        enableCaption: false,
+        showVideoAnnotations: false,
+        pointerEvents: PointerEvents.auto,
+        interfaceLanguage: 'en',
+      ),
     );
-    // Start history update timer
-    _updateVideoHistory();
-    super.initState();
+  }
+
+  void _setupHistoryUpdateTimer() {
+    _historyUpdateTimer?.cancel();
+    _historyUpdateTimer = Timer.periodic(
+      _historyUpdateInterval,
+      (_) => _updateVideoHistory(),
+    );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Cache the reference to the WatchBloc ancestor here
-    _watchBloc = BlocProvider.of<WatchBloc>(context);
+    _watchBloc = context.read<WatchBloc>();
+    _savedBloc = context.read<SavedBloc>();
   }
 
   @override
   void dispose() {
-    _updateVideoHistory();
-    _watchBloc?.add(WatchEvent.togglePip(value: false));
+    _historyUpdateTimer?.cancel();
+    _updateVideoHistory(); // Final update before disposing
+    _controller.close();
+    _watchBloc.add(WatchEvent.togglePip(value: false));
     super.dispose();
+  }
+
+  void _handleDragUpdate(DragUpdateDetails details) {
+    if (!_isDragging) return;
+
+    setState(() {
+      position = Offset(
+        (position.dx + details.delta.dx).clamp(0, _maxWidth),
+        (position.dy + details.delta.dy).clamp(0, _maxHeight),
+      );
+    });
   }
 
   @override
@@ -105,47 +127,90 @@ class _IFramePipVideoPlayerState extends State<IFramePipVideoPlayer> {
         Positioned(
           left: position.dx,
           top: position.dy,
-          child: _buildPlayer(),
+          child: GestureDetector(
+            onPanStart: (_) => _isDragging = true,
+            onPanUpdate: _handleDragUpdate,
+            onPanEnd: (_) => _isDragging = false,
+            child: _buildPlayer(),
+          ),
         ),
       ],
     );
   }
 
   Widget _buildPlayer() {
-    return SizedBox(
+    return Container(
+      width: _playerWidth,
+      height: _playerHeight,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Stack(
         children: [
-          SizedBox(
-              width: 300,
-              height: 200,
-              child: widget.watchState.fetchExplodeWatchInfoStatus ==
-                      ApiStatus.loading
-                  ? const Center(child: CircularProgressIndicator())
-                  : YoutubePlayer(
-                      controller: _controller!,
+          if (widget.watchState.fetchExplodeWatchInfoStatus ==
+              ApiStatus.loading)
+            const Center(child: CircularProgressIndicator())
+          else
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                width: _playerWidth,
+                height: _playerHeight,
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    width: _playerWidth,
+                    height: _playerHeight,
+                    child: YoutubePlayer(
+                      controller: _controller,
                       aspectRatio: 16 / 9,
                       enableFullScreenOnVerticalDrag: false,
-                    )),
-          Align(
-            alignment: Alignment.topLeft,
-            child: IconButton(
-              //onPressed: pipClose,
-              onPressed: () {
-                _updateVideoHistory();
-                _watchBloc?.add(WatchEvent.togglePip(value: false));
-              },
-              icon: const Icon(CupertinoIcons.xmark),
+                    ),
+                  ),
+                ),
+              ),
             ),
-          )
+          Positioned(
+            top: 8,
+            left: 8,
+            child: _buildCloseButton(),
+          ),
         ],
       ),
     );
   }
 
-  void _updateVideoHistory() async {
-    final currentPosition = _controller?.currentTime;
-    if (currentPosition != null && widget.id.isNotEmpty) {
-      // Create a LocalStoreVideoInfo object with relevant video information
+  Widget _buildCloseButton() {
+    return Material(
+      color: Colors.black.withOpacity(0.5),
+      borderRadius: BorderRadius.circular(16),
+      child: IconButton(
+        onPressed: () {
+          _updateVideoHistory();
+          _watchBloc.add(WatchEvent.togglePip(value: false));
+        },
+        icon: const Icon(
+          CupertinoIcons.xmark,
+          color: Colors.white,
+        ),
+        tooltip: 'Close PiP',
+      ),
+    );
+  }
+
+  Future<void> _updateVideoHistory() async {
+    try {
+      final currentPosition = await _controller.currentTime;
+      if (widget.id.isEmpty) return;
+
       final videoInfo = LocalStoreVideoInfo(
         id: widget.id,
         title: widget.watchInfo.title,
@@ -161,10 +226,13 @@ class _IFramePipVideoPlayerState extends State<IFramePipVideoPlayer> {
         isHistory: true,
         isLive: widget.watchInfo.isLive,
         isSaved: widget.isSaved,
-        playbackPosition: int.tryParse('$currentPosition') ?? 0,
+        playbackPosition: currentPosition.toInt(),
       );
-      // Add the video information to the SavedBloc
-      _savedBloc!.add(SavedEvent.addVideoInfo(videoInfo: videoInfo));
+
+      _savedBloc.add(SavedEvent.addVideoInfo(videoInfo: videoInfo));
+      _watchBloc.add(WatchEvent.updatePlayBack(playBack: currentPosition.toInt()));
+    } catch (e) {
+      debugPrint('Error updating video history: $e');
     }
   }
 }

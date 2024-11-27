@@ -27,8 +27,7 @@ class PipedScreenWatch extends StatelessWidget {
     final locals = S.of(context);
     final double _height = MediaQuery.of(context).size.height;
 
-    BlocProvider.of<WatchBloc>(context)
-        .add(WatchEvent.togglePip(value: false));
+    BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
 
     BlocProvider.of<SavedBloc>(context)
         .add(const SavedEvent.getAllVideoInfoList());

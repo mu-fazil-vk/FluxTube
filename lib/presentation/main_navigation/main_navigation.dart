@@ -77,9 +77,7 @@ class MainNavigationState extends State<MainNavigation> {
                                 child: InvidiousPipVideoPlayerWidget(
                                   watchInfo: state.invidiousWatchResp,
                                   videoId: state.selectedVideoBasicDetails!.id,
-                                  playbackPosition:
-                                      savedState.videoInfo?.playbackPosition ??
-                                          0,
+                                  playbackPosition: state.playBack,
                                   isSaved: (savedState.videoInfo?.id ==
                                           state.selectedVideoBasicDetails?.id &&
                                       savedState.videoInfo?.isSaved == true),
@@ -98,9 +96,7 @@ class MainNavigationState extends State<MainNavigation> {
                                 child: PipVideoPlayerWidget(
                                   watchInfo: state.watchResp,
                                   videoId: state.selectedVideoBasicDetails!.id,
-                                  playbackPosition:
-                                      savedState.videoInfo?.playbackPosition ??
-                                          0,
+                                  playbackPosition: state.playBack,
                                   isSaved: (savedState.videoInfo?.id ==
                                           state.selectedVideoBasicDetails?.id &&
                                       savedState.videoInfo?.isSaved == true),
@@ -128,6 +124,7 @@ class MainNavigationState extends State<MainNavigation> {
                                       savedState.videoInfo?.isSaved == true),
                                   savedState: savedState,
                                   watchInfo: state.explodeWatchResp,
+                                  playBack: state.playBack,
                                 ),
                               ),
 
@@ -140,9 +137,7 @@ class MainNavigationState extends State<MainNavigation> {
                                 child: ExplodePipVideoPlayerWidget(
                                   watchInfo: state.explodeWatchResp,
                                   videoId: state.selectedVideoBasicDetails!.id,
-                                  playbackPosition:
-                                      savedState.videoInfo?.playbackPosition ??
-                                          0,
+                                  playbackPosition: state.playBack,
                                   isSaved: (savedState.videoInfo?.id ==
                                           state.selectedVideoBasicDetails?.id &&
                                       savedState.videoInfo?.isSaved == true),

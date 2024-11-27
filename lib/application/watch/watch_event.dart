@@ -79,4 +79,8 @@ class WatchEvent with _$WatchEvent {
     required String id,
     required String? continuation,
   }) = GetMoreInvidiousReplyComments;
+
+  factory WatchEvent.updatePlayBack({
+    required int? playBack,
+  }) = UpdatePlayBack;
 }

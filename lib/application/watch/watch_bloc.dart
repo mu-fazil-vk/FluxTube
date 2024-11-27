@@ -439,5 +439,11 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
 
       emit(_state);
     });
+
+    on<UpdatePlayBack>((event, emit) async {
+      emit(state.copyWith(
+        playBack: event.playBack ?? 0,
+      ));
+    });
   }
 }

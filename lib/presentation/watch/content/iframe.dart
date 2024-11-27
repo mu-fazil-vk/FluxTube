@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dismissible_page/dismissible_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -76,8 +75,9 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
   }
 
   @override
-  Future<void> dispose() async {
-    await _controller?.close();
+  dispose() {
+    
+    _controller?.close();
     super.dispose();
   }
 
@@ -89,9 +89,12 @@ class _IFrameVideoPlayerContentState extends State<IFrameVideoPlayerContent> {
 
     return DismissiblePage(
       direction: DismissiblePageDismissDirection.down,
-      onDismissed: () {
+      onDismissed: () async {
+        final playback = await _controller?.currentTime;
+        if (!context.mounted) return;
         BlocProvider.of<WatchBloc>(context)
-            .add(WatchEvent.togglePip(value: true));
+          ..add(WatchEvent.togglePip(value: true))
+          ..add(WatchEvent.updatePlayBack(playBack: playback!.toInt()));
         Navigator.pop(context);
       },
       isFullScreen: true,
