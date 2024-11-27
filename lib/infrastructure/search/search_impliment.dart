@@ -7,7 +7,6 @@ import 'package:fluxtube/domain/search/models/invidious/invidious_search_resp.da
 import 'package:fluxtube/domain/search/models/piped/search_resp.dart';
 import 'package:fluxtube/domain/search/search_service.dart';
 import 'package:injectable/injectable.dart';
-import 'package:native_dio_adapter/native_dio_adapter.dart';
 
 import '../../domain/core/api_end_points.dart';
 
@@ -21,7 +20,6 @@ class SearchImplimentation implements SearchService {
       {required String query, required String filter}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         "${ApiEndPoints.search}$query&filter=$filter",
         options: Options(
@@ -52,7 +50,6 @@ class SearchImplimentation implements SearchService {
       {required String query}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         "${ApiEndPoints.suggestions}$query",
         options: Options(
@@ -85,7 +82,6 @@ class SearchImplimentation implements SearchService {
       required String? nextPage}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         "${ApiEndPoints.moreSearch}$query&filter=$filter&nextpage=$nextPage",
         options: Options(
@@ -119,7 +115,6 @@ class SearchImplimentation implements SearchService {
           {required String query, required String type}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         "${InvidiousApiEndpoints.search}$query&type=$type",
         options: Options(
@@ -152,7 +147,6 @@ class SearchImplimentation implements SearchService {
       {required String query}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         "${InvidiousApiEndpoints.suggestions}$query",
         options: Options(
@@ -186,7 +180,6 @@ class SearchImplimentation implements SearchService {
           required int? page}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         "${InvidiousApiEndpoints.search}$query&type=$type&page=$page",
         options: Options(

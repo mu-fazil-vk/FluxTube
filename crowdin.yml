@@ -1,4 +1,15 @@
-files:
-  - source: lib/l10n/intl_en.arb
-    translation: /lib/l10n/intl_%two_letters_code%.arb
-    multilingual: 1
+"files": [
+  {
+    "source": "/lib/l10n/intl_en.arb",
+    "translation": "/lib/l10n/%two_letters_code%/intl_%two_letters_code%.arb"
+  }
+]
+
+"pull_request_title": "Update translations"
+"pull_request_labels": [
+  "l10n",
+  "translation"
+]
+"pull_request_assignees": [
+  "mu-fazil-vk"
+]

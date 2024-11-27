@@ -7,7 +7,6 @@ import 'package:fluxtube/domain/home/home_services.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/domain/trending/models/piped/trending_resp.dart';
 import 'package:injectable/injectable.dart';
-import 'package:native_dio_adapter/native_dio_adapter.dart';
 
 import '../../domain/core/api_end_points.dart';
 
@@ -22,7 +21,6 @@ class HomeImpliment extends HomeServices {
           channels.map((channel) => channel.id.toString()).toList();
       final String idsAsString = subscribedChannelIds.join(",");
 
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         ApiEndPoints.feed + idsAsString,
         options: Options(

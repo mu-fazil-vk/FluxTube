@@ -10,7 +10,6 @@ import 'package:fluxtube/domain/watch/models/explode/explode_watch.dart';
 import 'package:fluxtube/domain/watch/models/piped/video/watch_resp.dart';
 import 'package:fluxtube/domain/watch/watch_service.dart';
 import 'package:injectable/injectable.dart';
-import 'package:native_dio_adapter/native_dio_adapter.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import '../../domain/core/api_end_points.dart';
@@ -26,7 +25,6 @@ class WatchImpliment implements WatchService {
     log(ApiEndPoints.watch + id);
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         ApiEndPoints.watch + id,
         options: Options(
@@ -57,7 +55,6 @@ class WatchImpliment implements WatchService {
       {required String id}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         ApiEndPoints.comments + id,
         options: Options(
@@ -88,7 +85,6 @@ class WatchImpliment implements WatchService {
       {required String id, required String repliesPage}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         '${ApiEndPoints.commentReplies}$id/?nextpage=$repliesPage',
         options: Options(
@@ -119,7 +115,6 @@ class WatchImpliment implements WatchService {
       {required String id, String? nextPage}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         '${ApiEndPoints.commentReplies}$id/?nextpage=$nextPage',
         options: Options(
@@ -263,7 +258,6 @@ class WatchImpliment implements WatchService {
     final dioClient = Dio();
     try {
       log(InvidiousApiEndpoints.comments + id);
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         InvidiousApiEndpoints.comments + id,
         options: Options(
@@ -296,7 +290,6 @@ class WatchImpliment implements WatchService {
     final dioClient = Dio();
     try {
       log(InvidiousApiEndpoints.watch + id);
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         InvidiousApiEndpoints.watch + id,
         options: Options(
@@ -329,7 +322,6 @@ class WatchImpliment implements WatchService {
           {required String id, required String continuation}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         '${InvidiousApiEndpoints.comments}$id?continuation=$continuation',
         options: Options(
@@ -362,7 +354,6 @@ class WatchImpliment implements WatchService {
           {required String id, required String continuation}) async {
     final dioClient = Dio();
     try {
-      dioClient.httpClientAdapter = NativeAdapter();
       final Response response = await dioClient.get(
         '${InvidiousApiEndpoints.comments}$id?continuation=$continuation',
         options: Options(
