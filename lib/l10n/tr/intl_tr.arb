@@ -1,0 +1,198 @@
+{
+  "home": "Ana Sayfa",
+  "@home": {
+    "description": "Home label"
+  },
+  "trending": "Trendler",
+  "@trending": {
+    "description": "Trending label"
+  },
+  "saved": "Kaydedilenler",
+  "@saved": {
+    "description": "Saved label"
+  },
+  "settings": "Ayarlar",
+  "@settings": {
+    "description": "Settings label"
+  },
+  "history": "Geçmiş",
+  "@history": {
+    "description": "History label"
+  },
+  "savedVideosTitle": "Kaydedilen Videolar",
+  "@savedVideosTitle": {
+    "description": "Saved videos app bar title"
+  },
+  "noUploaderName": "İsim yok",
+  "@noUploaderName": {
+    "description": "There is no uploader (channel) name available"
+  },
+  "noVideoTitle": "Başlık yok",
+  "@noVideoTitle": {
+    "description": "There is no video title available"
+  },
+  "videoViews": "{count, plural, =0{Görüntüleme yok} =1{görüntüleme} other{görüntüleme}}",
+  "@videoViews": {
+    "description": "{number} views"
+  },
+  "channelSubscribers": "{count, plural, =0{Abone yok} =1{abone} other{abone}}",
+  "@channelSubscribers": {
+    "description": "{number} subscribers"
+  },
+  "subscribe": "Abone Ol",
+  "@subscribe": {
+    "description": "Subscribe button label"
+  },
+  "noUploadDate": "Tarih yok",
+  "@noUploadDate": {
+    "description": "There is no video upload date available"
+  },
+  "thereIsNoSavedVideos": "Kaydedilen video yok",
+  "@thereIsNoSavedVideos": {
+    "description": "There are no saved videos found"
+  },
+  "thereIsNoSavedOrHistoryVideos": "Kaydedilen/geçmiş video yok",
+  "@thereIsNoSavedHistoryVideos": {
+    "description": "There are no saved or history videos"
+  },
+  "noVideoAvailableChangedToHls": "Video kaynağı yok, otomatik olarak hls'ye değiştirildi",
+  "@noVideoAvailableChangedToHls": {
+    "description": "When there is no standard player link available, then it changed to hls player"
+  },
+  "unknownQuality": "Bilinmeyen Kalite",
+  "@unknownQuality": {
+    "description": "Quality name not found"
+  },
+  "hlsPlayer": "Hls Oynatıcı",
+  "@hlsPlayer": {
+    "description": "Hls player label"
+  },
+  "enableHlsPlayerDescription": "Tüm kalite seçeneklerini açmak için HLS oynatıcıyı etkinleştirin. Hata oluşursa devre dışı bırakın.",
+  "@enableHlsPlayerDescription": {
+    "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
+  },
+  "disableVideoHistory": "Video geçmişini devre dışı bırak",
+  "@disableVideoHistory": {
+    "description": "Hide watch history"
+  },
+  "retrieveDislikes": "Beğenmeme sayılarını gör",
+  "@retrieveDislikes": {
+    "description": "Retrieve dislikes label"
+  },
+  "retrieveDislikeCounts": "Beğenmeme sayısını geri getir",
+  "@retrieveDislikeCounts": {
+    "description": "Return the dislike button of videos"
+  },
+  "noVideoDescription": "Açıklama yok",
+  "@noVideoDescription": {
+    "description": "There is no video description available"
+  },
+  "relatedTitle": "İlgili",
+  "@relatedTitle": {
+    "description": "Related videos label"
+  },
+  "commentAuthorNotFound": "Bulunamadı",
+  "@commentAuthorNotFound": {
+    "description": "Name of the comment author is not found"
+  },
+  "readMoreText": "Devamını oku",
+  "@readMoreText": {
+    "description": "Expand the comment text"
+  },
+  "showLessText": "Daha az göster",
+  "@showLessText": {
+    "description": "Collapse the comment text"
+  },
+  "commonSettingsTitle": "Genel",
+  "@commonSettingsTitle": {
+    "description": "Common settings label"
+  },
+  "language": "Dil",
+  "@language": {
+    "description": "Language label"
+  },
+  "region": "Bölge",
+  "@region": {
+    "description": "Region label"
+  },
+  "theme": "Tema",
+  "@theme": {
+    "description": "Theme label"
+  },
+  "developer": "Geliştirici",
+  "@developer": {
+    "description": "Developer label"
+  },
+  "translators": "Çevirmenler",
+  "@translators": {
+    "description": "Translators label"
+  },
+  "version": "Sürüm",
+  "@version": {
+    "description": "Version label"
+  },
+  "about": "Hakkında",
+  "@about": {
+    "description": "About label"
+  },
+  "video": "Video",
+  "@video": {
+    "description": "Video label"
+  },
+  "unknown": "bilinmiyor",
+  "@unknown": {
+    "description": "Unknown label"
+  },
+  "defaultQuality": "Varsayılan Kalite",
+  "@defaultQuality": {
+    "description": "Default video quality label"
+  },
+  "retry": "Tekrar Dene",
+  "@retry": {
+    "description": "Retry label"
+  },
+  "repliesPlural": "{count, plural, =1{Yanıt} other{Yanıt}}",
+  "@repliesPlural": {
+    "description": "{number} Replies"
+  },
+  "canada": "Kanada",
+  "france": "Fransa",
+  "india": "Hindistan",
+  "netherlands": "Hollanda",
+  "unitedKingdom": "Birleşik Krallık",
+  "unitedStates": "Amerika Birleşik Devletleri",
+  "distractionFree": "Dikkat Dağıtmayan",
+  "@distractionFree": {
+    "description": "A section for control distracting elements."
+  },
+  "hideComments": "Yorumları Gizle",
+  "@hideComments": {
+    "description": "Hide Comments label."
+  },
+  "hideCommentsButtonFromWatchScreen": "İzleme ekranından yorum butonunu gizle",
+  "@hideCommentsButtonFromWatchScreen": {
+    "description": "Hide the comment button from video streaming screen."
+  },
+  "hideRelated": "İlgili Videoları Gizle",
+  "@hideRelated": {
+    "description": "Hide Related videos label."
+  },
+  "hideRelatedVideosFromWatchScreen": "İzleme ekranından ilgili videoları gizle",
+  "@hideRelatedVideosFromWatchScreen": {
+    "description": "Hide the related videos from video streaming screen."
+  },
+  "share": "Paylaş",
+  "@share": {
+    "description": "Share label."
+  },
+  "includeTitle": "Başlığı dahil et",
+  "@includeTitle": {
+    "description": "Include title along with url"
+  },
+  "instances": "Örnekler",
+  "switchRegion": "Daha iyi sonuçlar için lütfen farklı bir bölgeye geçmeyi düşünün.",
+  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
+  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
+  "noCommentsFound": "No Comments Found",
+  "disablePipPlayer": "Disable PIP player"
+}
