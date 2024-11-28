@@ -1,7 +1,7 @@
 "files": [
   {
     "source": "/lib/l10n/intl_en.arb",
-    "translation": "/lib/l10n/%two_letters_code%/intl_%two_letters_code%.arb",
+    "translation": "/lib/l10n/intl_%two_letters_code%.arb",
     "skip_untranslated_files": true,
     "export_only_approved": true
   }
