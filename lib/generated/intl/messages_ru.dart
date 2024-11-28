@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "${Intl.plural(count, zero: 'Нет подписчиков', one: 'подписчик', few: 'подписчика', many: 'подписчиков', other: 'подписчика')}";
 
   static String m1(count) =>
-      "${Intl.plural(count, one: 'ответ', few: 'ответа', many: 'ответов', other: 'ответа')}";
+      "${Intl.plural(count, one: 'ответ', other: 'ответа')}";
 
   static String m2(count) =>
       "${Intl.plural(count, zero: 'Нет просмотров', one: 'просмотр', few: 'просмотра', many: 'просмотров', other: 'просмотра')}";
@@ -64,7 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "includeTitle":
             MessageLookupByLibrary.simpleMessage("Включая название"),
         "india": MessageLookupByLibrary.simpleMessage("Индия"),
-        "instances": MessageLookupByLibrary.simpleMessage("Instances"),
+        "instances": MessageLookupByLibrary.simpleMessage("Зеркала"),
         "language": MessageLookupByLibrary.simpleMessage("Язык"),
         "netherlands": MessageLookupByLibrary.simpleMessage("Нидерланды"),
         "noCommentsFound":
@@ -97,7 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "swipeUpToDismissEnabled": MessageLookupByLibrary.simpleMessage(
             "\'Swipe up to dismiss\' enabled"),
         "switchRegion": MessageLookupByLibrary.simpleMessage(
-            "Please consider switching to a different region for better results."),
+            "Возможно, стоит сменить регион, чтобы улучшить результат."),
         "theme": MessageLookupByLibrary.simpleMessage("Оформление"),
         "thereIsNoSavedOrHistoryVideos": MessageLookupByLibrary.simpleMessage(
             "Сохранённых/просмотренных видео нет"),

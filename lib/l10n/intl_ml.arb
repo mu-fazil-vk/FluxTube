@@ -161,11 +161,11 @@
   "netherlands": "നെതർലാൻഡ്‌സ്",
   "unitedKingdom": "യുണൈറ്റഡ് കിംഗ്ഡം",
   "unitedStates": "യുണൈറ്റഡ് സ്റ്റേറ്റ്സ്",
-  "hideComments": "കമൻ്റുകൾ മറയ്ക്കുക",
   "distractionFree": "ശ്രദ്ധ തിരിയാതിരിക്കാൻ",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
+  "hideComments": "കമൻ്റുകൾ മറയ്ക്കുക",
   "@hideComments": {
     "description": "Hide Comments label."
   },
@@ -194,5 +194,5 @@
   "swipeDownToDismissDisabled": "'സ്വൈപ്പ് ഡൗൺ ചെയ്ത് ഡിസ്മിസ് ചെയ്യൽ' പ്രവർത്തനരഹിതമാക്കിയിരിക്കുന്നു",
   "swipeUpToDismissEnabled": "'സ്വൈപ്പ് അപ്പ് ചെയ്ത് ഡിസ്മിസ് ചെയ്യൽ' പ്രവർത്തന സജ്ജമാക്കിയിരിക്കുന്നു",
   "noCommentsFound": "അഭിപ്രായങ്ങൾ ലഭ്യമല്ല.",
-  "disablePipPlayer": "Disable PIP player"
+  "disablePipPlayer": "PIP പ്ലേയർ പ്രവർത്തനരഹിതമാക്കുക"
 }

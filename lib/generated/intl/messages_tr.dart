@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "${Intl.plural(count, zero: 'Abone yok', one: 'abone', other: 'abone')}";
 
   static String m1(count) =>
-      "${Intl.plural(count, one: 'Yanıt', other: 'Yanıtlar')}";
+      "${Intl.plural(count, one: 'Yanıt', other: 'Yanıt')}";
 
   static String m2(count) =>
       "${Intl.plural(count, zero: 'Görüntüleme yok', one: 'görüntüleme', other: 'görüntüleme')}";
@@ -45,24 +45,26 @@ class MessageLookup extends MessageLookupByLibrary {
         "disableVideoHistory": MessageLookupByLibrary.simpleMessage(
             "Video geçmişini devre dışı bırak"),
         "distractionFree":
-            MessageLookupByLibrary.simpleMessage("Distraction Free"),
+            MessageLookupByLibrary.simpleMessage("Dikkat Dağıtmayan"),
         "enableHlsPlayerDescription": MessageLookupByLibrary.simpleMessage(
             "Tüm kalite seçeneklerini açmak için HLS oynatıcıyı etkinleştirin. Hata oluşursa devre dışı bırakın."),
         "france": MessageLookupByLibrary.simpleMessage("Fransa"),
-        "hideComments": MessageLookupByLibrary.simpleMessage("Hide Comments"),
+        "hideComments": MessageLookupByLibrary.simpleMessage("Yorumları Gizle"),
         "hideCommentsButtonFromWatchScreen":
             MessageLookupByLibrary.simpleMessage(
-                "Hide comments button from watch screen."),
-        "hideRelated": MessageLookupByLibrary.simpleMessage("Hide Related"),
+                "İzleme ekranından yorum butonunu gizle"),
+        "hideRelated":
+            MessageLookupByLibrary.simpleMessage("İlgili Videoları Gizle"),
         "hideRelatedVideosFromWatchScreen":
             MessageLookupByLibrary.simpleMessage(
-                "Hide related videos from watch screen"),
+                "İzleme ekranından ilgili videoları gizle"),
         "history": MessageLookupByLibrary.simpleMessage("Geçmiş"),
         "hlsPlayer": MessageLookupByLibrary.simpleMessage("Hls Oynatıcı"),
         "home": MessageLookupByLibrary.simpleMessage("Ana Sayfa"),
-        "includeTitle": MessageLookupByLibrary.simpleMessage("Include title"),
+        "includeTitle":
+            MessageLookupByLibrary.simpleMessage("Başlığı dahil et"),
         "india": MessageLookupByLibrary.simpleMessage("Hindistan"),
-        "instances": MessageLookupByLibrary.simpleMessage("Instances"),
+        "instances": MessageLookupByLibrary.simpleMessage("Örnekler"),
         "language": MessageLookupByLibrary.simpleMessage("Dil"),
         "netherlands": MessageLookupByLibrary.simpleMessage("Hollanda"),
         "noCommentsFound":
@@ -70,24 +72,24 @@ class MessageLookup extends MessageLookupByLibrary {
         "noUploadDate": MessageLookupByLibrary.simpleMessage("Tarih yok"),
         "noUploaderName": MessageLookupByLibrary.simpleMessage("İsim yok"),
         "noVideoAvailableChangedToHls": MessageLookupByLibrary.simpleMessage(
-            "Mevcut video kaynağı yok, otomatik olarak hls\'ye dönüştü"),
+            "Video kaynağı yok, otomatik olarak hls\'ye değiştirildi"),
         "noVideoDescription":
             MessageLookupByLibrary.simpleMessage("Açıklama yok"),
         "noVideoTitle": MessageLookupByLibrary.simpleMessage("Başlık yok"),
-        "readMoreText": MessageLookupByLibrary.simpleMessage("Daha fazla oku"),
+        "readMoreText": MessageLookupByLibrary.simpleMessage("Devamını oku"),
         "region": MessageLookupByLibrary.simpleMessage("Bölge"),
         "relatedTitle": MessageLookupByLibrary.simpleMessage("İlgili"),
         "repliesPlural": m1,
-        "retrieveDislikeCounts":
-            MessageLookupByLibrary.simpleMessage("Beğenmeme sayısını getir"),
+        "retrieveDislikeCounts": MessageLookupByLibrary.simpleMessage(
+            "Beğenmeme sayısını geri getir"),
         "retrieveDislikes":
-            MessageLookupByLibrary.simpleMessage("Beğenilmeyenleri Getir"),
+            MessageLookupByLibrary.simpleMessage("Beğenmeme sayılarını gör"),
         "retry": MessageLookupByLibrary.simpleMessage("Tekrar Dene"),
         "saved": MessageLookupByLibrary.simpleMessage("Kaydedilenler"),
         "savedVideosTitle":
             MessageLookupByLibrary.simpleMessage("Kaydedilen Videolar"),
         "settings": MessageLookupByLibrary.simpleMessage("Ayarlar"),
-        "share": MessageLookupByLibrary.simpleMessage("Share"),
+        "share": MessageLookupByLibrary.simpleMessage("Paylaş"),
         "showLessText": MessageLookupByLibrary.simpleMessage("Daha az göster"),
         "subscribe": MessageLookupByLibrary.simpleMessage("Abone Ol"),
         "swipeDownToDismissDisabled": MessageLookupByLibrary.simpleMessage(
@@ -95,14 +97,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "swipeUpToDismissEnabled": MessageLookupByLibrary.simpleMessage(
             "\'Swipe up to dismiss\' enabled"),
         "switchRegion": MessageLookupByLibrary.simpleMessage(
-            "Please consider switching to a different region for better results."),
+            "Daha iyi sonuçlar için lütfen farklı bir bölgeye geçmeyi düşünün."),
         "theme": MessageLookupByLibrary.simpleMessage("Tema"),
         "thereIsNoSavedOrHistoryVideos":
             MessageLookupByLibrary.simpleMessage("Kaydedilen/geçmiş video yok"),
         "thereIsNoSavedVideos":
             MessageLookupByLibrary.simpleMessage("Kaydedilen video yok"),
         "translators": MessageLookupByLibrary.simpleMessage("Çevirmenler"),
-        "trending": MessageLookupByLibrary.simpleMessage("Popüler"),
+        "trending": MessageLookupByLibrary.simpleMessage("Trendler"),
         "unitedKingdom":
             MessageLookupByLibrary.simpleMessage("Birleşik Krallık"),
         "unitedStates":

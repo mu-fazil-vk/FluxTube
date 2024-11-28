@@ -1,196 +1,196 @@
 {
-  "home": "Главная",
+  "home": "ホーム",
   "@home": {
     "description": "Home label"
   },
-  "trending": "Тренды",
+  "trending": "急上昇",
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "Сохранено",
+  "saved": "保存済み",
   "@saved": {
     "description": "Saved label"
   },
-  "settings": "Настройки",
+  "settings": "設定",
   "@settings": {
     "description": "Settings label"
   },
-  "history": "История",
+  "history": "履歴",
   "@history": {
     "description": "History label"
   },
-  "savedVideosTitle": "Сохранённые видео",
+  "savedVideosTitle": "保存済み動画",
   "@savedVideosTitle": {
     "description": "Saved videos app bar title"
   },
-  "noUploaderName": "Безымянный",
+  "noUploaderName": "名無し",
   "@noUploaderName": {
     "description": "There is no uploader (channel) name available"
   },
-  "noVideoTitle": "Неназванное",
+  "noVideoTitle": "題名なし",
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
-  "videoViews": "{count, plural, =0{Нет просмотров} =1{просмотр} few{просмотра} many{просмотров} other{просмотра}}",
+  "videoViews": "{count, plural, =0{視聴なし} =1{回視聴} other{回視聴}}",
   "@videoViews": {
     "description": "{number} views"
   },
-  "channelSubscribers": "{count, plural, =0{Нет подписчиков} =1{подписчик} few{подписчика} many{подписчиков} other{подписчика}}",
+  "channelSubscribers": "{count, plural, =0{登録者なし} =1{人の登録者} other{人の登録者}}",
   "@channelSubscribers": {
     "description": "{number} subscribers"
   },
-  "subscribe": "Подписаться",
+  "subscribe": "チャンネル登録",
   "@subscribe": {
     "description": "Subscribe button label"
   },
-  "noUploadDate": "Без даты",
+  "noUploadDate": "日付なし",
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "Сохранённых видео нет",
+  "thereIsNoSavedVideos": "保存済み動画なし",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "Сохранённых/просмотренных видео нет",
+  "thereIsNoSavedOrHistoryVideos": "保存済み動画・履歴なし",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "Нет доступных форматов, переход на HLS",
+  "noVideoAvailableChangedToHls": "利用可能な動画形式がないので自動でHLSに変更",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
-  "unknownQuality": "Качество не опознано",
+  "unknownQuality": "不明の品質",
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "Проигрыватель HLS",
+  "hlsPlayer": "HLSプレイヤー",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "Переключит на проигрыватель HLS, поддерживающий больше форматов. Отключите при ошибках.",
+  "enableHlsPlayerDescription": "すべての品質オプションを選ぶためHLSプレイヤーを有効にします。エラー発生時に無効にしてください。",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
-  "disableVideoHistory": "Отключить историю просмотров",
+  "disableVideoHistory": "動画の履歴をとらない",
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Вернуть дизлайки",
+  "retrieveDislikes": "低評価を取得",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "Запрашивать количество дизлайков",
+  "retrieveDislikeCounts": "低評価数を取得",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
-  "noVideoDescription": "Без описания",
+  "noVideoDescription": "説明なし",
   "@noVideoDescription": {
     "description": "There is no video description available"
   },
-  "relatedTitle": "Похожие",
+  "relatedTitle": "関連",
   "@relatedTitle": {
     "description": "Related videos label"
   },
-  "commentAuthorNotFound": "Не найден",
+  "commentAuthorNotFound": "見つかりません",
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
-  "readMoreText": "Раскрыть",
+  "readMoreText": "もっと読む",
   "@readMoreText": {
     "description": "Expand the comment text"
   },
-  "showLessText": "Скрыть",
+  "showLessText": "少なく表示",
   "@showLessText": {
     "description": "Collapse the comment text"
   },
-  "commonSettingsTitle": "Общие",
+  "commonSettingsTitle": "一般",
   "@commonSettingsTitle": {
     "description": "Common settings label"
   },
-  "language": "Язык",
+  "language": "言語",
   "@language": {
     "description": "Language label"
   },
-  "region": "Регион",
+  "region": "地域",
   "@region": {
     "description": "Region label"
   },
-  "theme": "Оформление",
+  "theme": "テーマ",
   "@theme": {
     "description": "Theme label"
   },
-  "developer": "Разработчик",
+  "developer": "開発",
   "@developer": {
     "description": "Developer label"
   },
-  "translators": "Переводчики",
+  "translators": "翻訳",
   "@translators": {
     "description": "Translators label"
   },
-  "version": "Версия",
+  "version": "バージョン",
   "@version": {
     "description": "Version label"
   },
-  "about": "О приложении",
+  "about": "情報",
   "@about": {
     "description": "About label"
   },
-  "video": "Видео",
+  "video": "動画",
   "@video": {
     "description": "Video label"
   },
-  "unknown": "неизвестно",
+  "unknown": "不明",
   "@unknown": {
     "description": "Unknown label"
   },
-  "defaultQuality": "Качество по умолчанию",
+  "defaultQuality": "初期選択の品質",
   "@defaultQuality": {
     "description": "Default video quality label"
   },
-  "retry": "Повторить",
+  "retry": "再試行",
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{ответ} other{ответа}}",
+  "repliesPlural": "{count, plural, =1{返信} other{返信}}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
-  "canada": "Канада",
-  "france": "Франция",
-  "india": "Индия",
-  "netherlands": "Нидерланды",
-  "unitedKingdom": "Соединённое королевство",
-  "unitedStates": "Соединённые штаты Америки",
-  "distractionFree": "Отсекая лишнее",
+  "canada": "カナダ",
+  "france": "フランス",
+  "india": "インド",
+  "netherlands": "オランダ",
+  "unitedKingdom": "イギリス",
+  "unitedStates": "アメリカ",
+  "distractionFree": "集中モード",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
-  "hideComments": "Скрыть коментарии",
+  "hideComments": "コメントを非表示",
   "@hideComments": {
     "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "Убирает кнопку показа коментариев с экрана просмотра.",
+  "hideCommentsButtonFromWatchScreen": "視聴画面のコメントボタンを非表示",
   "@hideCommentsButtonFromWatchScreen": {
     "description": "Hide the comment button from video streaming screen."
   },
-  "hideRelated": "Скрыть похожие",
+  "hideRelated": "関連を非表示",
   "@hideRelated": {
     "description": "Hide Related videos label."
   },
-  "hideRelatedVideosFromWatchScreen": "Убирает ленту похожих видео с экрана просмотра.",
+  "hideRelatedVideosFromWatchScreen": "視聴画面の関連動画を非表示",
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
   },
-  "share": "Поделиться",
+  "share": "共有",
   "@share": {
     "description": "Share label."
   },
-  "includeTitle": "Включая название",
+  "includeTitle": "題名とURLを含める",
   "@includeTitle": {
     "description": "Include title along with url"
   },
-  "instances": "Зеркала",
-  "switchRegion": "Возможно, стоит сменить регион, чтобы улучшить результат.",
+  "instances": "インスタンス",
+  "switchRegion": "より良い結果にするため、地域へ変更もできます。",
   "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
   "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
   "noCommentsFound": "No Comments Found",

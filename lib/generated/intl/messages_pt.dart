@@ -32,7 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("Sobre"),
-        "canada": MessageLookupByLibrary.simpleMessage("Canada"),
+        "canada": MessageLookupByLibrary.simpleMessage("Canadá"),
         "channelSubscribers": m0,
         "commentAuthorNotFound":
             MessageLookupByLibrary.simpleMessage("Não encontrado"),
@@ -48,7 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sem distração"),
         "enableHlsPlayerDescription": MessageLookupByLibrary.simpleMessage(
             "Ativa tocador HLS para habilitar todas as opções de qualidade.\nDesativar em caso de erros."),
-        "france": MessageLookupByLibrary.simpleMessage("France"),
+        "france": MessageLookupByLibrary.simpleMessage("França"),
         "hideComments":
             MessageLookupByLibrary.simpleMessage("Esconder Comentários"),
         "hideCommentsButtonFromWatchScreen":
@@ -63,10 +63,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "hlsPlayer": MessageLookupByLibrary.simpleMessage("Tocador Hls"),
         "home": MessageLookupByLibrary.simpleMessage("Início"),
         "includeTitle": MessageLookupByLibrary.simpleMessage("Incluir título"),
-        "india": MessageLookupByLibrary.simpleMessage("India"),
+        "india": MessageLookupByLibrary.simpleMessage("Índia"),
         "instances": MessageLookupByLibrary.simpleMessage("Instâncias"),
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
-        "netherlands": MessageLookupByLibrary.simpleMessage("Netherlands"),
+        "netherlands": MessageLookupByLibrary.simpleMessage("Holanda"),
         "noCommentsFound":
             MessageLookupByLibrary.simpleMessage("No Comments Found"),
         "noUploadDate": MessageLookupByLibrary.simpleMessage("Sem data"),
@@ -97,7 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "swipeUpToDismissEnabled": MessageLookupByLibrary.simpleMessage(
             "\'Swipe up to dismiss\' enabled"),
         "switchRegion": MessageLookupByLibrary.simpleMessage(
-            "Please consider switching to a different region for better results."),
+            "Por favor, considere trocar a região para melhores resultados."),
         "theme": MessageLookupByLibrary.simpleMessage("Tema"),
         "thereIsNoSavedOrHistoryVideos": MessageLookupByLibrary.simpleMessage(
             "Não existem vídeos/histórico salvos"),
@@ -105,8 +105,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Não existem vídeos salvos"),
         "translators": MessageLookupByLibrary.simpleMessage("Tradutores"),
         "trending": MessageLookupByLibrary.simpleMessage("Tendência"),
-        "unitedKingdom": MessageLookupByLibrary.simpleMessage("United Kingdom"),
-        "unitedStates": MessageLookupByLibrary.simpleMessage("United States"),
+        "unitedKingdom": MessageLookupByLibrary.simpleMessage("Reino Unido"),
+        "unitedStates": MessageLookupByLibrary.simpleMessage("Estados Unidos"),
         "unknown": MessageLookupByLibrary.simpleMessage("desconhecido"),
         "unknownQuality":
             MessageLookupByLibrary.simpleMessage("Qualidade desconhecida"),
