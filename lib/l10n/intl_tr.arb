@@ -3,7 +3,7 @@
   "@home": {
     "description": "Home label"
   },
-  "trending": "Popüler",
+  "trending": "Trendler",
   "@trending": {
     "description": "Trending label"
   },
@@ -55,7 +55,7 @@
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "Mevcut video kaynağı yok, otomatik olarak hls'ye dönüştü",
+  "noVideoAvailableChangedToHls": "Video kaynağı yok, otomatik olarak hls'ye değiştirildi",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
@@ -75,11 +75,11 @@
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Beğenilmeyenleri Getir",
+  "retrieveDislikes": "Beğenmeme sayılarını gör",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "Beğenmeme sayısını getir",
+  "retrieveDislikeCounts": "Beğenmeme sayısını geri getir",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
@@ -95,7 +95,7 @@
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
-  "readMoreText": "Daha fazla oku",
+  "readMoreText": "Devamını oku",
   "@readMoreText": {
     "description": "Expand the comment text"
   },
@@ -151,7 +151,7 @@
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{Yanıt} other{Yanıtlar}}",
+  "repliesPlural": "{count, plural, =1{Yanıt} other{Yanıt}}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
@@ -161,36 +161,36 @@
   "netherlands": "Hollanda",
   "unitedKingdom": "Birleşik Krallık",
   "unitedStates": "Amerika Birleşik Devletleri",
-  "distractionFree": "Distraction Free",
+  "distractionFree": "Dikkat Dağıtmayan",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
-  "hideComments": "Hide Comments",
+  "hideComments": "Yorumları Gizle",
   "@hideComments": {
     "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "Hide comments button from watch screen.",
+  "hideCommentsButtonFromWatchScreen": "İzleme ekranından yorum butonunu gizle",
   "@hideCommentsButtonFromWatchScreen": {
     "description": "Hide the comment button from video streaming screen."
   },
-  "hideRelated": "Hide Related",
+  "hideRelated": "İlgili Videoları Gizle",
   "@hideRelated": {
     "description": "Hide Related videos label."
   },
-  "hideRelatedVideosFromWatchScreen": "Hide related videos from watch screen",
+  "hideRelatedVideosFromWatchScreen": "İzleme ekranından ilgili videoları gizle",
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
   },
-  "share": "Share",
+  "share": "Paylaş",
   "@share": {
     "description": "Share label."
   },
-  "includeTitle": "Include title",
+  "includeTitle": "Başlığı dahil et",
   "@includeTitle": {
     "description": "Include title along with url"
   },
-  "instances": "Instances",
-  "switchRegion": "Please consider switching to a different region for better results.",
+  "instances": "Örnekler",
+  "switchRegion": "Daha iyi sonuçlar için lütfen farklı bir bölgeye geçmeyi düşünün.",
   "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
   "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
   "noCommentsFound": "No Comments Found",
