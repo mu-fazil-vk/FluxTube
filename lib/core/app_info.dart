@@ -44,6 +44,21 @@ class AppInfo {
       url: 'https://danilolutz.dev',
       description: 'Portuguese (Brazil)',
     ),
+    AppInfoModel(
+      name: 'Islam Shoman',
+      url: 'https://crowdin.com/profile/drshoman',
+      description: 'Arabic',
+    ),
+    AppInfoModel(
+      name: 'maboroshin',
+      url: 'https://github.com/maboroshin',
+      description: 'Japanese',
+    ),
+    AppInfoModel(
+      name: '미르냥',
+      url: 'https://crowdin.com/profile/mirnyang',
+      description: 'Korean',
+    ),
     // more...
   ];
 }

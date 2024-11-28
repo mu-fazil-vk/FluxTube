@@ -155,12 +155,12 @@
   "@repliesPlural": {
     "description": "{number} Replies"
   },
-  "canada": "Canada",
-  "france": "France",
-  "india": "India",
-  "netherlands": "Netherlands",
-  "unitedKingdom": "United Kingdom",
-  "unitedStates": "United States",
+  "canada": "Canadá",
+  "france": "França",
+  "india": "Índia",
+  "netherlands": "Holanda",
+  "unitedKingdom": "Reino Unido",
+  "unitedStates": "Estados Unidos",
   "distractionFree": "Sem distração",
   "@distractionFree": {
     "description": "A section for control distracting elements."
@@ -190,7 +190,7 @@
     "description": "Include title along with url"
   },
   "instances": "Instâncias",
-  "switchRegion": "Please consider switching to a different region for better results.",
+  "switchRegion": "Por favor, considere trocar a região para melhores resultados.",
   "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
   "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
   "noCommentsFound": "No Comments Found",
