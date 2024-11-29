@@ -63,7 +63,7 @@
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "HLS Player",
+  "hlsPlayer": "Hls Player",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
