@@ -1,33 +1,33 @@
 {
-  "home": "Home",
+  "home": "Strona główna",
   "@home": {
     "description": "Home label"
   },
-  "trending": "Trending",
+  "trending": "Na czasie",
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "Saved",
+  "saved": "Zapisane",
   "@saved": {
     "description": "Saved label"
   },
-  "settings": "Settings",
+  "settings": "Ustawienia",
   "@settings": {
     "description": "Settings label"
   },
-  "history": "History",
+  "history": "Historia",
   "@history": {
     "description": "History label"
   },
-  "savedVideosTitle": "Saved Videos",
+  "savedVideosTitle": "Zapisane filmy",
   "@savedVideosTitle": {
     "description": "Saved videos app bar title"
   },
-  "noUploaderName": "No name",
+  "noUploaderName": "Brak nazwy",
   "@noUploaderName": {
     "description": "There is no uploader (channel) name available"
   },
-  "noVideoTitle": "No title",
+  "noVideoTitle": "Brak tytułu",
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
@@ -39,31 +39,31 @@
   "@channelSubscribers": {
     "description": "{number} subscribers"
   },
-  "subscribe": "Subscribe",
+  "subscribe": "Subskrybuj",
   "@subscribe": {
     "description": "Subscribe button label"
   },
-  "noUploadDate": "No date",
+  "noUploadDate": "Brak daty",
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "There are no saved videos",
+  "thereIsNoSavedVideos": "Nie masz zapisanych filmów",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "There are no saved/history videos",
+  "thereIsNoSavedOrHistoryVideos": "Nie masz zapisanych filmów i historii",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "No video source available, automatically changed to hls",
+  "noVideoAvailableChangedToHls": "Brak dostępnego źródła, automatycznie zmienianie na hls",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
-  "unknownQuality": "Unknown Quality",
+  "unknownQuality": "Nieznana jakość",
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "Hls Player",
+  "hlsPlayer": "Odtwarzacz Hls",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
@@ -91,7 +91,7 @@
   "@relatedTitle": {
     "description": "Related videos label"
   },
-  "commentAuthorNotFound": "Not found",
+  "commentAuthorNotFound": "Nie znaleziono",
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
@@ -99,7 +99,7 @@
   "@readMoreText": {
     "description": "Expand the comment text"
   },
-  "showLessText": "Show less",
+  "showLessText": "Pokaż mniej",
   "@showLessText": {
     "description": "Collapse the comment text"
   },
@@ -107,7 +107,7 @@
   "@commonSettingsTitle": {
     "description": "Common settings label"
   },
-  "language": "Language",
+  "language": "Język",
   "@language": {
     "description": "Language label"
   },
@@ -119,27 +119,27 @@
   "@theme": {
     "description": "Theme label"
   },
-  "developer": "Developer",
+  "developer": "Programista",
   "@developer": {
     "description": "Developer label"
   },
-  "translators": "Translators",
+  "translators": "Tłumacze",
   "@translators": {
     "description": "Translators label"
   },
-  "version": "Version",
+  "version": "Wersja",
   "@version": {
     "description": "Version label"
   },
-  "about": "About",
+  "about": "Informacje",
   "@about": {
     "description": "About label"
   },
-  "video": "Video",
+  "video": "Film",
   "@video": {
     "description": "Video label"
   },
-  "unknown": "unknown",
+  "unknown": "nieznana",
   "@unknown": {
     "description": "Unknown label"
   },
@@ -147,7 +147,7 @@
   "@defaultQuality": {
     "description": "Default video quality label"
   },
-  "retry": "Retry",
+  "retry": "Ponów",
   "@retry": {
     "description": "Retry label"
   },
@@ -155,12 +155,12 @@
   "@repliesPlural": {
     "description": "{number} Replies"
   },
-  "canada": "Canada",
-  "france": "France",
-  "india": "India",
-  "netherlands": "Netherlands",
-  "unitedKingdom": "United Kingdom",
-  "unitedStates": "United States",
+  "canada": "Kanada",
+  "france": "Francja",
+  "india": "Indie",
+  "netherlands": "Holandia",
+  "unitedKingdom": "Wielka Brytania",
+  "unitedStates": "Stany Zjednoczone",
   "distractionFree": "Distraction Free",
   "@distractionFree": {
     "description": "A section for control distracting elements."
@@ -181,7 +181,7 @@
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
   },
-  "share": "Share",
+  "share": "Udostępnij",
   "@share": {
     "description": "Share label."
   },
@@ -193,6 +193,6 @@
   "switchRegion": "Please consider switching to a different region for better results.",
   "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
   "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
-  "noCommentsFound": "No Comments Found",
-  "disablePipPlayer": "Disable PIP player"
+  "noCommentsFound": "Nie znaleziono komentarzy",
+  "disablePipPlayer": "Wyłącz obraz w obrazie"
 }
