@@ -191,8 +191,8 @@
   },
   "instances": "Örnekler",
   "switchRegion": "Daha iyi sonuçlar için lütfen farklı bir bölgeye geçmeyi düşünün.",
-  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
-  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
-  "noCommentsFound": "No Comments Found",
-  "disablePipPlayer": "Disable PIP player"
+  "swipeDownToDismissDisabled": "'Kapatmak için aşağı kaydır' devre dışı",
+  "swipeUpToDismissEnabled": "'Kapatmak için aşağı kaydır' etkin",
+  "noCommentsFound": "Hiçbir Yorum Bulunamadı",
+  "disablePipPlayer": "PIP oynatıcıyı devre dışı bırak"
 }
