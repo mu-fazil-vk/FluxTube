@@ -31,11 +31,11 @@
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
-  "videoViews": "{count, plural, =0{No views} =1{view} other{views}}",
+  "videoViews": "{count, plural, =0{Brak widzów} =1{widz} other{widzów}}",
   "@videoViews": {
     "description": "{number} views"
   },
-  "channelSubscribers": "{count, plural, =0{No subscribers} =1{subscriber} other{subscribers}}",
+  "channelSubscribers": "{count, plural, =0{Brak subskrybentów} =1{subskrybent} other{subskrybentów}}",
   "@channelSubscribers": {
     "description": "{number} subscribers"
   },
@@ -67,27 +67,27 @@
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "Enable HLS player to unlock all quality options. Disable if errors occur.",
+  "enableHlsPlayerDescription": "Włącz odtwarzacz HLS, aby odblokować wszystkie opcje jakości. Wyłącz, jeśli wystąpią błędy.",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
-  "disableVideoHistory": "Disable video history",
+  "disableVideoHistory": "Wyłącz historię filmów",
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Retrieve Dislikes",
+  "retrieveDislikes": "Przywróć łapki w dół",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "Retrieve dislike counts",
+  "retrieveDislikeCounts": "Liczba przywróconych łapek w dół",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
-  "noVideoDescription": "No description",
+  "noVideoDescription": "Brak opisu",
   "@noVideoDescription": {
     "description": "There is no video description available"
   },
-  "relatedTitle": "Related",
+  "relatedTitle": "Powiązane",
   "@relatedTitle": {
     "description": "Related videos label"
   },
@@ -95,7 +95,7 @@
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
-  "readMoreText": "Read more",
+  "readMoreText": "Więcej",
   "@readMoreText": {
     "description": "Expand the comment text"
   },
@@ -103,7 +103,7 @@
   "@showLessText": {
     "description": "Collapse the comment text"
   },
-  "commonSettingsTitle": "Common",
+  "commonSettingsTitle": "Zwykłe",
   "@commonSettingsTitle": {
     "description": "Common settings label"
   },
@@ -115,7 +115,7 @@
   "@region": {
     "description": "Region label"
   },
-  "theme": "Theme",
+  "theme": "Motyw",
   "@theme": {
     "description": "Theme label"
   },
@@ -143,7 +143,7 @@
   "@unknown": {
     "description": "Unknown label"
   },
-  "defaultQuality": "Default Quality",
+  "defaultQuality": "Domyślna jakość",
   "@defaultQuality": {
     "description": "Default video quality label"
   },
@@ -151,7 +151,7 @@
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{Reply} other{Replies}}",
+  "repliesPlural": "{count, plural, =1{odpowiedź} other{odpowiedzi}}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
@@ -161,23 +161,23 @@
   "netherlands": "Holandia",
   "unitedKingdom": "Wielka Brytania",
   "unitedStates": "Stany Zjednoczone",
-  "distractionFree": "Distraction Free",
+  "distractionFree": "Tryb skupienia",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
-  "hideComments": "Hide Comments",
+  "hideComments": "Ukryj komentarze",
   "@hideComments": {
     "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "Hide comments button from watch screen.",
+  "hideCommentsButtonFromWatchScreen": "Ukryj przycisk komentarzy z ekranu oglądania",
   "@hideCommentsButtonFromWatchScreen": {
     "description": "Hide the comment button from video streaming screen."
   },
-  "hideRelated": "Hide Related",
+  "hideRelated": "Ukryj powiązane",
   "@hideRelated": {
     "description": "Hide Related videos label."
   },
-  "hideRelatedVideosFromWatchScreen": "Hide related videos from watch screen",
+  "hideRelatedVideosFromWatchScreen": "Ukryj powiązane filmy z ekranu oglądania",
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
   },
@@ -185,14 +185,14 @@
   "@share": {
     "description": "Share label."
   },
-  "includeTitle": "Include title",
+  "includeTitle": "Zawiera tytuł",
   "@includeTitle": {
     "description": "Include title along with url"
   },
-  "instances": "Instances",
-  "switchRegion": "Please consider switching to a different region for better results.",
-  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
-  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
+  "instances": "Wystąpienia",
+  "switchRegion": "Rozważ zmianę regionu, aby uzyskać lepsze wyniki.",
+  "swipeDownToDismissDisabled": "Funkcja „Przesuń w dół, aby odrzucić” wyłączona",
+  "swipeUpToDismissEnabled": "Funkcja „Przesuń w dół, aby odrzucić” włączona",
   "noCommentsFound": "Nie znaleziono komentarzy",
   "disablePipPlayer": "Wyłącz obraz w obrazie"
 }
