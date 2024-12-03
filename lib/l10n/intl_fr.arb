@@ -1,129 +1,129 @@
 {
-  "home": "Home",
+  "home": "Accueil",
   "@home": {
     "description": "Home label"
   },
-  "trending": "Trending",
+  "trending": "Tendance",
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "Saved",
+  "saved": "Sauvegardé",
   "@saved": {
     "description": "Saved label"
   },
-  "settings": "Settings",
+  "settings": "Paramètres",
   "@settings": {
     "description": "Settings label"
   },
-  "history": "History",
+  "history": "Historique",
   "@history": {
     "description": "History label"
   },
-  "savedVideosTitle": "Saved Videos",
+  "savedVideosTitle": "Vidéos enregistrées",
   "@savedVideosTitle": {
     "description": "Saved videos app bar title"
   },
-  "noUploaderName": "No name",
+  "noUploaderName": "Aucun nom",
   "@noUploaderName": {
     "description": "There is no uploader (channel) name available"
   },
-  "noVideoTitle": "No title",
+  "noVideoTitle": "Aucun titre",
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
-  "videoViews": "{count, plural, =0{No views} =1{view} other{views}}",
+  "videoViews": "{count, plural, =0{Aucune vue} =1{vue} other{vues}}",
   "@videoViews": {
     "description": "{number} views"
   },
-  "channelSubscribers": "{count, plural, =0{No subscribers} =1{subscriber} other{subscribers}}",
+  "channelSubscribers": "{count, plural, =0{Aucun abonné} =1{abonné} other{abonnés}}",
   "@channelSubscribers": {
     "description": "{number} subscribers"
   },
-  "subscribe": "Subscribe",
+  "subscribe": "S'abonner",
   "@subscribe": {
     "description": "Subscribe button label"
   },
-  "noUploadDate": "No date",
+  "noUploadDate": "Aucune date",
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "There are no saved videos",
+  "thereIsNoSavedVideos": "Il n'y a pas de vidéos enregistrées",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "There are no saved/history videos",
+  "thereIsNoSavedOrHistoryVideos": "Il n'y a pas de vidéos enregistrées ni d'historique",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "No video source available, automatically changed to hls",
+  "noVideoAvailableChangedToHls": "Aucune source vidéo disponible, HLS automatiquement sélectionné",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
-  "unknownQuality": "Unknown Quality",
+  "unknownQuality": "Qualité inconnue",
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "Hls Player",
+  "hlsPlayer": "Lecteur HLS",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "Enable HLS player to unlock all quality options. Disable if errors occur.",
+  "enableHlsPlayerDescription": "Activer le lecteur HLS pour débloquer toutes les options de qualité. À désactiver si des erreurs surviennent.",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
-  "disableVideoHistory": "Disable video history",
+  "disableVideoHistory": "Désactiver l'historique des vidéos",
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Retrieve Dislikes",
+  "retrieveDislikes": "Récupérer les pouces rouges",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "Retrieve dislike counts",
+  "retrieveDislikeCounts": "Récupérer le compteur de pouces rouges",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
-  "noVideoDescription": "No description",
+  "noVideoDescription": "Aucune description",
   "@noVideoDescription": {
     "description": "There is no video description available"
   },
-  "relatedTitle": "Related",
+  "relatedTitle": "Similaire",
   "@relatedTitle": {
     "description": "Related videos label"
   },
-  "commentAuthorNotFound": "Not found",
+  "commentAuthorNotFound": "Introuvable",
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
-  "readMoreText": "Read more",
+  "readMoreText": "Lire plus",
   "@readMoreText": {
     "description": "Expand the comment text"
   },
-  "showLessText": "Show less",
+  "showLessText": "Voir moins",
   "@showLessText": {
     "description": "Collapse the comment text"
   },
-  "commonSettingsTitle": "Common",
+  "commonSettingsTitle": "Général",
   "@commonSettingsTitle": {
     "description": "Common settings label"
   },
-  "language": "Language",
+  "language": "Langue",
   "@language": {
     "description": "Language label"
   },
-  "region": "Region",
+  "region": "Région",
   "@region": {
     "description": "Region label"
   },
-  "theme": "Theme",
+  "theme": "Thème",
   "@theme": {
     "description": "Theme label"
   },
-  "developer": "Developer",
+  "developer": "Développeur",
   "@developer": {
     "description": "Developer label"
   },
-  "translators": "Translators",
+  "translators": "Traducteurs",
   "@translators": {
     "description": "Translators label"
   },
@@ -131,68 +131,68 @@
   "@version": {
     "description": "Version label"
   },
-  "about": "About",
+  "about": "À propos",
   "@about": {
     "description": "About label"
   },
-  "video": "Video",
+  "video": "Vidéo",
   "@video": {
     "description": "Video label"
   },
-  "unknown": "unknown",
+  "unknown": "inconnu",
   "@unknown": {
     "description": "Unknown label"
   },
-  "defaultQuality": "Default Quality",
+  "defaultQuality": "Qualité par défaut",
   "@defaultQuality": {
     "description": "Default video quality label"
   },
-  "retry": "Retry",
+  "retry": "Réessayer",
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{Reply} other{Replies}}",
+  "repliesPlural": "{count, plural, =1{Réponse} other{Réponses}}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
   "canada": "Canada",
   "france": "France",
-  "india": "India",
-  "netherlands": "Netherlands",
-  "unitedKingdom": "United Kingdom",
-  "unitedStates": "United States",
-  "distractionFree": "Distraction Free",
+  "india": "Inde",
+  "netherlands": "Pays-Bas",
+  "unitedKingdom": "Angleterre",
+  "unitedStates": "États-Unis",
+  "distractionFree": "Sans distractions",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
-  "hideComments": "Hide Comments",
+  "hideComments": "Masquer les commentaires",
   "@hideComments": {
     "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "Hide comments button from watch screen.",
+  "hideCommentsButtonFromWatchScreen": "Masquer le bouton des commentaires de l'écran de visionnage.",
   "@hideCommentsButtonFromWatchScreen": {
     "description": "Hide the comment button from video streaming screen."
   },
-  "hideRelated": "Hide Related",
+  "hideRelated": "Masquer les vidéos similaires",
   "@hideRelated": {
     "description": "Hide Related videos label."
   },
-  "hideRelatedVideosFromWatchScreen": "Hide related videos from watch screen",
+  "hideRelatedVideosFromWatchScreen": "Masquer les vidéos similaires de l'écran de visionnage",
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
   },
-  "share": "Share",
+  "share": "Partager",
   "@share": {
     "description": "Share label."
   },
-  "includeTitle": "Include title",
+  "includeTitle": "Inclure un titre",
   "@includeTitle": {
     "description": "Include title along with url"
   },
   "instances": "Instances",
-  "switchRegion": "Please consider switching to a different region for better results.",
-  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
-  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
-  "noCommentsFound": "No Comments Found",
-  "disablePipPlayer": "Disable PIP player"
+  "switchRegion": "Merci de sélectionner une autre région pour de meilleurs résultats.",
+  "swipeDownToDismissDisabled": "'Balayer vers le bas pour cacher' désactivé",
+  "swipeUpToDismissEnabled": "'Balayer vers le bas pour cacher' activé",
+  "noCommentsFound": "Aucun commentaire trouvé",
+  "disablePipPlayer": "Désactiver le lecteur PIP"
 }
