@@ -7,7 +7,7 @@
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "已保存",
+  "saved": "收藏",
   "@saved": {
     "description": "Saved label"
   },
@@ -19,7 +19,7 @@
   "@history": {
     "description": "History label"
   },
-  "savedVideosTitle": "已保存的视频",
+  "savedVideosTitle": "已收藏视频",
   "@savedVideosTitle": {
     "description": "Saved videos app bar title"
   },
@@ -47,39 +47,39 @@
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "没有已保存的视频",
+  "thereIsNoSavedVideos": "没有已收藏的视频",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "没有已保存或历史视频",
+  "thereIsNoSavedOrHistoryVideos": "没有已收藏/历史播放的视频",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "无视频源可用，自动更改为hls",
+  "noVideoAvailableChangedToHls": "视频源不可用，已自动切换为hls",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
-  "unknownQuality": "未知质量",
+  "unknownQuality": "未知画质",
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "Hls 播放器",
+  "hlsPlayer": "Hls播放器",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "启用 HLS 播放器以解锁所有质量选项。如果出现错误，请禁用。",
+  "enableHlsPlayerDescription": "启用 HLS 播放器以解锁所有画质选项。如果出现错误，请禁用。",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
-  "disableVideoHistory": "禁用视频历史记录",
+  "disableVideoHistory": "禁用播放历史记录",
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "检索 Dislikes",
+  "retrieveDislikes": "检索差评的",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "检索 dislike counts",
+  "retrieveDislikeCounts": "检索差评数",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
@@ -95,11 +95,11 @@
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
-  "readMoreText": "阅读更多",
+  "readMoreText": "展开",
   "@readMoreText": {
     "description": "Expand the comment text"
   },
-  "showLessText": "显示更少",
+  "showLessText": "收起",
   "@showLessText": {
     "description": "Collapse the comment text"
   },
@@ -143,7 +143,7 @@
   "@unknown": {
     "description": "Unknown label"
   },
-  "defaultQuality": "默认质量",
+  "defaultQuality": "默认画质",
   "@defaultQuality": {
     "description": "Default video quality label"
   },
@@ -161,7 +161,7 @@
   "netherlands": "荷兰",
   "unitedKingdom": "英国",
   "unitedStates": "美国",
-  "distractionFree": "无干扰",
+  "distractionFree": "专注模式",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
@@ -169,7 +169,7 @@
   "@hideComments": {
     "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "隐藏视频播放屏幕的评论按钮。",
+  "hideCommentsButtonFromWatchScreen": "隐藏观看界面上的评论按钮",
   "@hideCommentsButtonFromWatchScreen": {
     "description": "Hide the comment button from video streaming screen."
   },
@@ -177,7 +177,7 @@
   "@hideRelated": {
     "description": "Hide Related videos label."
   },
-  "hideRelatedVideosFromWatchScreen": "隐藏视频播放屏幕上的相关视频",
+  "hideRelatedVideosFromWatchScreen": "隐藏观看界面上的相关视频",
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
   },
@@ -190,9 +190,9 @@
     "description": "Include title along with url"
   },
   "instances": "实例",
-  "switchRegion": "Please consider switching to a different region for better results.",
-  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
-  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
-  "noCommentsFound": "No Comments Found",
-  "disablePipPlayer": "Disable PIP player"
+  "switchRegion": "请考虑切换到另一个地区以获得更好的结果",
+  "swipeDownToDismissDisabled": "已禁用“向下滑动关闭”",
+  "swipeUpToDismissEnabled": "已启用“向上滑动关闭”",
+  "noCommentsFound": "未找到评论",
+  "disablePipPlayer": "禁用 PIP 播放器"
 }
