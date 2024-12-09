@@ -7,7 +7,7 @@
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "Sauvegardé",
+  "saved": "Sauvegardées",
   "@saved": {
     "description": "Saved label"
   },
@@ -51,7 +51,7 @@
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "Il n'y a pas de vidéos enregistrées ni d'historique",
+  "thereIsNoSavedOrHistoryVideos": "Il n'y a pas de vidéos enregistrées, ni d'historique",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
@@ -67,7 +67,7 @@
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "Activer le lecteur HLS pour débloquer toutes les options de qualité. À désactiver si des erreurs surviennent.",
+  "enableHlsPlayerDescription": "Activez le lecteur HLS pour déverrouiller toutes les options de qualité. Désactivez-le si des erreurs se produisent.",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
@@ -75,11 +75,11 @@
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Récupérer les pouces rouges",
+  "retrieveDislikes": "Récupérer les dislikes",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "Récupérer le compteur de pouces rouges",
+  "retrieveDislikeCounts": "Récupérer le compteur de dislikes",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
@@ -161,7 +161,7 @@
   "netherlands": "Pays-Bas",
   "unitedKingdom": "Angleterre",
   "unitedStates": "États-Unis",
-  "distractionFree": "Sans distractions",
+  "distractionFree": "Sans distraction",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
@@ -191,8 +191,8 @@
   },
   "instances": "Instances",
   "switchRegion": "Merci de sélectionner une autre région pour de meilleurs résultats.",
-  "swipeDownToDismissDisabled": "'Balayer vers le bas pour cacher' désactivé",
-  "swipeUpToDismissEnabled": "'Balayer vers le bas pour cacher' activé",
+  "swipeDownToDismissDisabled": "« Glisser vers le bas pour ignorer » désactivé",
+  "swipeUpToDismissEnabled": "« Glisser vers le haut pour ignorer » activé",
   "noCommentsFound": "Aucun commentaire trouvé",
   "disablePipPlayer": "Désactiver le lecteur PIP"
 }
