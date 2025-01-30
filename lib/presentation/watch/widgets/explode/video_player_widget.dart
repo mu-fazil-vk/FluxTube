@@ -199,9 +199,12 @@ class _ExplodeVideoPlayerWidget extends State<ExplodeVideoPlayerWidget>
   void _updateVideoHistory() async {
     final currentPosition =
         _betterPlayerController?.videoPlayerController?.value.position;
-
-    BlocProvider.of<WatchBloc>(context)
-        .add(WatchEvent.updatePlayBack(playBack: currentPosition?.inSeconds));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        BlocProvider.of<WatchBloc>(context).add(
+            WatchEvent.updatePlayBack(playBack: currentPosition?.inSeconds));
+      }
+    });
 
     // Check if the current position is available and if the video ID is valid
     if (currentPosition != null && widget.videoId.isNotEmpty) {

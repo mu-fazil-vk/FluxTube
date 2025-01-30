@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/strings.dart';
@@ -52,10 +54,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           settingsMap[youtubeService] ?? YouTubeServices.iframe.name;
 
       final String instanceApi;
-      if (ytService == YouTubeServices.piped.name) {
-        instanceApi = settingsMap[instanceApiUrl] ?? BaseUrl.kBaseUrl;
-      } else {
+      log('YT Service: $ytService');
+      if (ytService == YouTubeServices.invidious.name) {
         instanceApi = settingsMap[instanceApiUrl] ?? BaseUrl.kInvidiousBaseUrl;
+      } else {
+        instanceApi = settingsMap[instanceApiUrl] ?? BaseUrl.kBaseUrl;
       }
 
       //package info
@@ -88,10 +91,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         isPipDisabled: isPipDisabled,
       );
 
-      if (ytService == YouTubeServices.piped.name) {
-        BaseUrl.updateBaseUrl(instanceApi);
-      } else {
+      if (ytService == YouTubeServices.invidious.name) {
         BaseUrl.updateInvidiousBaseUrl(instanceApi);
+      } else {
+        BaseUrl.updateBaseUrl(instanceApi);
       }
 
       // Emit the new state
@@ -125,6 +128,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     // UPDATE REGION
     on<GetDefaultRegion>((event, emit) async {
       emit(state);
+      log('Region: ${event.region}');
       final _result =
           await settingsService.selectRegion(region: event.region ?? 'IN');
       final _state = _result.fold((MainFailure f) => state,
@@ -218,7 +222,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           (MainFailure f) => state.copyWith(
               pipedInstanceStatus: ApiStatus.error,
               pipedInstances: state.pipedInstances), (List<Instance> r) {
-        if (state.ytService == YouTubeServices.piped.name) {
+        if (state.ytService != YouTubeServices.invidious.name) {
           final instance = r.firstWhere(
               (element) => element.api == state.instance,
               orElse: () => r.first);
@@ -244,10 +248,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final _state = _result
           .fold((MainFailure f) => state.copyWith(instance: state.instance),
               (String r) {
-        if (state.ytService == YouTubeServices.piped.name) {
-          BaseUrl.updateBaseUrl(r);
-        } else {
+        if (state.ytService == YouTubeServices.invidious.name) {
           BaseUrl.updateInvidiousBaseUrl(r);
+        } else {
+          BaseUrl.updateBaseUrl(r);
         }
         return state.copyWith(instance: r);
       });
@@ -267,7 +271,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
               invidiousInstanceStatus: ApiStatus.error,
               invidiousInstances: state.invidiousInstances),
           (List<Instance> r) {
-        if (state.ytService != YouTubeServices.piped.name) {
+        if (state.ytService == YouTubeServices.invidious.name) {
           final instance = r.firstWhere(
               (element) => element.api == state.instance,
               orElse: () => r.first);
@@ -299,7 +303,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     });
 
     on<TogglePipPlayer>((event, emit) async {
-      final _result = await settingsService.togglePipPlayer(isPipDisabled: !state.isPipDisabled);
+      final _result = await settingsService.togglePipPlayer(
+          isPipDisabled: !state.isPipDisabled);
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(isPipDisabled: state.isPipDisabled),
           (bool r) => state.copyWith(isPipDisabled: r));

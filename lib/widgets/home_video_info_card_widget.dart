@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
@@ -43,7 +46,10 @@ class HomeVideoInfoCardWidget extends StatelessWidget {
                 image: cardInfo?.thumbnail != null
                     ? DecorationImage(
                         image: CachedNetworkImageProvider(cardInfo!.thumbnail!),
-                        fit: BoxFit.cover)
+                        fit: BoxFit.cover,
+                        onError: (exception, stackTrace) {
+                          const SizedBox();
+                        })
                     : null,
               ),
               child: Align(

@@ -38,9 +38,8 @@ class _ScreenSearchState extends State<ScreenSearch> {
         builder: (context, settingsState) {
           return BlocBuilder<SearchBloc, SearchState>(
             builder: (context, state) {
-              
-              // PIPED API
-              if (settingsState.ytService == YouTubeServices.piped.name) {
+              // INVIDIOUS
+              if (settingsState.ytService == YouTubeServices.invidious.name) {
                 if (state.isSuggestionDisplay == true &&
                     state.fetchSuggestionStatus == ApiStatus.loaded &&
                     (state.fetchSearchResultStatus == ApiStatus.loading ||
@@ -76,31 +75,31 @@ class _ScreenSearchState extends State<ScreenSearch> {
                   );
                 }
               } else {
-
-                // INVIDIOUS
+                // PIPED API
                 if (state.isSuggestionDisplay == true &&
-                    state.fetchInvidiousSuggestionStatus == ApiStatus.loaded &&
-                    !(state.fetchInvidiousSearchResultStatus ==
-                            ApiStatus.loading ||
-                        state.fetchInvidiousSearchResultStatus ==
-                            ApiStatus.loaded) &&
-                    state.invidiousSuggestionResult.isNotEmpty &&
+                    state.fetchSuggestionStatus == ApiStatus.loaded &&
+                    (state.fetchSearchResultStatus == ApiStatus.initial ||
+                        state.fetchSearchResultStatus == ApiStatus.loading ||
+                        state.fetchSearchResultStatus == ApiStatus.loaded) &&
+                    state.suggestions.isNotEmpty &&
                     _textEditingController.text.isNotEmpty) {
-                  return InvidiousSearchSuggessionSection(
+                  return SearchSuggessionSection(
                     textEditingController: _textEditingController,
                     state: state,
                   );
-                } else if (state.fetchInvidiousSearchResultStatus ==
-                        ApiStatus.loading ||
-                    state.fetchInvidiousSearchResultStatus ==
-                        ApiStatus.initial) {
+                } else if (state.fetchSearchResultStatus == ApiStatus.loading ||
+                    (_textEditingController.text.trim().isNotEmpty &&
+                        state.fetchSearchResultStatus == ApiStatus.initial)) {
                   return cIndicator(context);
+                } else if (_textEditingController.text.trim().isEmpty &&
+                    state.fetchSearchResultStatus == ApiStatus.initial) {
+                  return const SizedBox();
                 } else if (state.isSuggestionDisplay ||
                     _textEditingController.text.isEmpty) {
                   return Container();
-                } else if (state.fetchInvidiousSearchResultStatus ==
-                        ApiStatus.error ||
-                    state.invidiousSearchResult.isEmpty) {
+                } else if (state.fetchSearchResultStatus == ApiStatus.error ||
+                    state.result == null ||
+                    state.result!.items.isEmpty) {
                   return ErrorRetryWidget(
                     lottie: 'assets/cup.zip',
                     onTap: () => BlocProvider.of<SearchBloc>(context).add(
@@ -110,7 +109,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
                             serviceType: settingsState.ytService)),
                   );
                 } else {
-                  return InvidiousSearcheResultSection(
+                  return SearcheResultSection(
                     locals: locals,
                     state: state,
                     searchQuery: _textEditingController.text,

@@ -20,19 +20,19 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<GetSearchResult>((event, emit) async {
       emit(state.copyWith(isSuggestionDisplay: false));
 
-      if (event.serviceType == YouTubeServices.piped.name) {
-        await _fetchPipedSearchResult(event, emit);
-      } else {
+      if (event.serviceType == YouTubeServices.invidious.name) {
         await _fetchInvidiousSearchResult(event, emit);
+      } else {
+        await _fetchPipedSearchResult(event, emit);
       }
     });
 
     //get suggestions
     on<GetSearchSuggestion>((event, emit) async {
-      if (event.serviceType == YouTubeServices.piped.name) {
-        await _fetchPipedSearchSuggestion(event, emit);
-      } else {
+      if (event.serviceType == YouTubeServices.invidious.name) {
         await _fetchInvidiousSearchSuggestion(event, emit);
+      } else {
+        await _fetchPipedSearchSuggestion(event, emit);
       }
     });
 
@@ -40,10 +40,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<GetMoreSearchResult>((event, emit) async {
       emit(state.copyWith(isSuggestionDisplay: false));
 
-      if (event.serviceType == YouTubeServices.piped.name) {
-        await _fetchMorePipedSearchResult(event, emit);
-      } else {
+      if (event.serviceType == YouTubeServices.invidious.name) {
         await _fetchMoreInvidiousSearchResult(event, emit);
+      } else {
+        await _fetchMorePipedSearchResult(event, emit);
       }
     });
   }

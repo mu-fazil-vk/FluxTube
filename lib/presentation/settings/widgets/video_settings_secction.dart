@@ -97,12 +97,12 @@ class VideoSettingsSecction extends StatelessWidget {
                   onChanged: (service) {
                     BlocProvider.of<SettingsBloc>(context)
                         .add(SettingsEvent.setYTService(service: service!));
-                    if (state.ytService != YouTubeServices.piped.name) {
-                      BlocProvider.of<SettingsBloc>(context)
-                          .add(SettingsEvent.fetchInvidiousInstances());
-                    } else {
+                    if (state.ytService != YouTubeServices.invidious.name) {
                       BlocProvider.of<SettingsBloc>(context)
                           .add(SettingsEvent.fetchPipedInstances());
+                    } else {
+                      BlocProvider.of<SettingsBloc>(context)
+                          .add(SettingsEvent.fetchInvidiousInstances());
                     }
                   }),
             ),

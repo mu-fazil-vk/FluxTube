@@ -17,8 +17,9 @@ part 'channel_bloc.freezed.dart';
 class ChannelBloc extends Bloc<ChannelEvent, ChannelState> {
   final ChannelServices channelServices;
 
-  ChannelBloc(this.channelServices,)
-      : super(ChannelState.initialize()) {
+  ChannelBloc(
+    this.channelServices,
+  ) : super(ChannelState.initialize()) {
     on<GetChannelData>((event, emit) async {
       // Set loading state
       emit(state.copyWith(
@@ -26,14 +27,13 @@ class ChannelBloc extends Bloc<ChannelEvent, ChannelState> {
           pipedChannelResp: null,
           invidiousChannelResp: null));
 
-
       // Call the appropriate service method based on the serviceType
-      if (event.serviceType == YouTubeServices.piped.name) {
-        log("--------piped bloc---------");
-        await _fetchPipedChannelInfo(event, emit);
-      } else {
+      if (event.serviceType == YouTubeServices.invidious.name) {
         log("--------invidious bloc---------");
         await _fetchInvidiousChannelInfo(event, emit);
+      } else {
+        log("--------piped bloc---------");
+        await _fetchPipedChannelInfo(event, emit);
       }
     });
 
@@ -43,11 +43,10 @@ class ChannelBloc extends Bloc<ChannelEvent, ChannelState> {
           moreChannelDetailsFetchStatus: ApiStatus.loading,
           isMoreFetchCompleted: false));
 
-
-      if (event.serviceType == YouTubeServices.piped.name) {
-        await _fetchMorePipedVideos(event, emit);
-      } else if (event.serviceType == YouTubeServices.invidious.name) {
+      if (event.serviceType == YouTubeServices.invidious.name) {
         await _fetchMoreInvidiousVideos(event, emit);
+      } else {
+        await _fetchMorePipedVideos(event, emit);
       }
     });
   }
