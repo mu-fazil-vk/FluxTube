@@ -28,6 +28,7 @@ class LocalStoreVideoInfo {
   bool? isHistory;
   bool? isLive;
   int? playbackPosition;
+  DateTime? time;
   LocalStoreVideoInfo({
     required this.id,
     this.title,
@@ -44,6 +45,7 @@ class LocalStoreVideoInfo {
     this.isHistory,
     this.isLive,
     this.playbackPosition,
+    this.time,
   });
   LocalStoreVideoInfo.init({
     this.id = '',
@@ -61,5 +63,5 @@ class LocalStoreVideoInfo {
     this.isHistory = false,
     this.isLive = false,
     this.playbackPosition = 0,
-  });
+    this.time,});
 }

@@ -3,6 +3,7 @@ part of 'trending_bloc.dart';
 @freezed
 class TrendingState with _$TrendingState {
   const factory TrendingState({
+    required String lastUsedRegion,
 
     // PIPED
     required List<TrendingResp> trendingResult,
@@ -10,14 +11,14 @@ class TrendingState with _$TrendingState {
     required ApiStatus fetchTrendingStatus,
     required ApiStatus fetchFeedStatus,
 
+    // EXPLODE
 
-    // EXPLODE 
-    
     required ApiStatus fetchInvidiousTrendingStatus,
     required List<InvidiousTrendingResp> invidiousTrendingResult,
   }) = _Initial;
 
   factory TrendingState.initialize() => const TrendingState(
+        lastUsedRegion: 'IN',
 
         // PIPED
 
@@ -27,7 +28,7 @@ class TrendingState with _$TrendingState {
         fetchFeedStatus: ApiStatus.initial,
 
         // EXPLODE
-        
+
         fetchInvidiousTrendingStatus: ApiStatus.initial,
         invidiousTrendingResult: [],
       );

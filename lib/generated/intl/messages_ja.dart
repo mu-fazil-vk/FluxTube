@@ -39,7 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "defaultQuality": MessageLookupByLibrary.simpleMessage("初期選択の品質"),
         "developer": MessageLookupByLibrary.simpleMessage("開発"),
         "disablePipPlayer":
-            MessageLookupByLibrary.simpleMessage("Disable PIP player"),
+            MessageLookupByLibrary.simpleMessage("PIP プレイヤーを無効化"),
         "disableVideoHistory":
             MessageLookupByLibrary.simpleMessage("動画の履歴をとらない"),
         "distractionFree": MessageLookupByLibrary.simpleMessage("集中モード"),
@@ -60,8 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "instances": MessageLookupByLibrary.simpleMessage("インスタンス"),
         "language": MessageLookupByLibrary.simpleMessage("言語"),
         "netherlands": MessageLookupByLibrary.simpleMessage("オランダ"),
-        "noCommentsFound":
-            MessageLookupByLibrary.simpleMessage("No Comments Found"),
+        "noCommentsFound": MessageLookupByLibrary.simpleMessage("コメントなし"),
         "noUploadDate": MessageLookupByLibrary.simpleMessage("日付なし"),
         "noUploaderName": MessageLookupByLibrary.simpleMessage("名無し"),
         "noVideoAvailableChangedToHls":

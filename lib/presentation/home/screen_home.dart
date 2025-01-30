@@ -52,8 +52,9 @@ class ScreenHome extends StatelessWidget {
                         previous.fetchFeedStatus != current.fetchFeedStatus;
                   },
                   builder: (context, trendingState) {
-                    if (settingsState.ytService == YouTubeServices.piped.name) {
-                      return _buildPipedTrendingOrFeedSection(
+                    if (settingsState.ytService ==
+                        YouTubeServices.invidious.name) {
+                      return _buildInvidiousTrendingOrFeedSection(
                         trendingState,
                         locals,
                         context,
@@ -62,7 +63,7 @@ class ScreenHome extends StatelessWidget {
                         settingsState,
                       );
                     } else {
-                      return _buildInvidiousTrendingOrFeedSection(
+                      return _buildPipedTrendingOrFeedSection(
                         trendingState,
                         locals,
                         context,
@@ -92,7 +93,8 @@ class ScreenHome extends StatelessWidget {
         !(trendingState.fetchTrendingStatus == ApiStatus.error)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         trendingBloc.add(TrendingEvent.getTrendingData(
-            serviceType: settingsState.ytService));
+            serviceType: settingsState.ytService,
+            region: settingsState.defaultRegion));
       });
     }
 
@@ -136,7 +138,8 @@ class ScreenHome extends StatelessWidget {
         !(trendingState.fetchInvidiousTrendingStatus == ApiStatus.error)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         trendingBloc.add(TrendingEvent.getTrendingData(
-            serviceType: settingsState.ytService));
+            serviceType: settingsState.ytService,
+            region: settingsState.defaultRegion));
       });
     }
 
@@ -183,38 +186,40 @@ class ScreenHome extends StatelessWidget {
     S locals,
     SettingsState settingsState,
   ) {
-    if (settingsState.ytService == YouTubeServices.piped.name) {
-      if (trendingState.fetchTrendingStatus == ApiStatus.error ||
-          trendingState.trendingResult.isEmpty) {
-        return ErrorRetryWidget(
-          lottie: 'assets/dog.zip',
-          onTap: () => BlocProvider.of<TrendingBloc>(context).add(
-            TrendingEvent.getForcedTrendingData(
-                serviceType: settingsState.ytService),
-          ),
-        );
-      }
-    } else {
+    if (settingsState.ytService == YouTubeServices.invidious.name) {
       if (trendingState.fetchInvidiousTrendingStatus == ApiStatus.error ||
           trendingState.invidiousTrendingResult.isEmpty) {
         return ErrorRetryWidget(
           lottie: 'assets/dog.zip',
           onTap: () => BlocProvider.of<TrendingBloc>(context).add(
             TrendingEvent.getForcedTrendingData(
-                serviceType: settingsState.ytService),
+                serviceType: settingsState.ytService,
+                region: settingsState.defaultRegion),
+          ),
+        );
+      }
+    } else {
+      if (trendingState.fetchTrendingStatus == ApiStatus.error ||
+          trendingState.trendingResult.isEmpty) {
+        return ErrorRetryWidget(
+          lottie: 'assets/dog.zip',
+          onTap: () => BlocProvider.of<TrendingBloc>(context).add(
+            TrendingEvent.getForcedTrendingData(
+                serviceType: settingsState.ytService,
+                region: settingsState.defaultRegion),
           ),
         );
       }
     }
 
-    if (settingsState.ytService == YouTubeServices.piped.name) {
-      return TrendingVideosSection(
+    if (settingsState.ytService == YouTubeServices.invidious.name) {
+      return InvidiousTrendingVideosSection(
         locals: locals,
         state: trendingState,
       );
     }
 
-    return InvidiousTrendingVideosSection(
+    return TrendingVideosSection(
       locals: locals,
       state: trendingState,
     );

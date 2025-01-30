@@ -29,31 +29,40 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
     this.homeServices,
     this.subscribeBloc,
   ) : super(TrendingState.initialize()) {
+
+    settingsBloc.stream.listen((settingsState) {
+      if (settingsState.defaultRegion != state.lastUsedRegion) {
+        // Determine serviceType based on current logic or SettingsBloc's state
+        // Example: Assume serviceType is stored in SettingsBloc
+        final serviceType = settingsState.ytService; // Adjust based on your setup
+        add(GetForcedTrendingData(serviceType: serviceType, region: settingsState.defaultRegion));
+      }
+    });
     // fetch trending videos
     on<GetTrendingData>((event, emit) async {
-      if (event.serviceType == YouTubeServices.piped.name) {
-        if (state.trendingResult.isNotEmpty) {
+      if (event.serviceType == YouTubeServices.invidious.name) {
+        if (state.invidiousTrendingResult.isNotEmpty) {
           return emit(state);
         }
       } else {
-        if (state.invidiousTrendingResult.isNotEmpty) {
+        if (state.trendingResult.isNotEmpty) {
           return emit(state);
         }
       }
 
-      if (event.serviceType == YouTubeServices.piped.name) {
-        await _fetchPipedTrendingInfo(event, emit);
-      } else {
+      if (event.serviceType == YouTubeServices.invidious.name) {
         await _fetchInvidiousTrendingInfo(event, emit);
+      } else {
+        await _fetchPipedTrendingInfo(event, emit);
       }
     });
 
     //get new trending data when refresh
     on<GetForcedTrendingData>((event, emit) async {
-      if (event.serviceType == YouTubeServices.piped.name) {
-        await _fetchPipedTrendingInfo(event, emit);
-      } else {
+      if (event.serviceType == YouTubeServices.invidious.name) {
         await _fetchInvidiousTrendingInfo(event, emit);
+      } else {
+        await _fetchPipedTrendingInfo(event, emit);
       }
     });
 
@@ -106,7 +115,7 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
     emit(state.copyWith(fetchTrendingStatus: ApiStatus.loading));
 
     final result = await trendingService.getTrendingData(
-        region: settingsBloc.state.defaultRegion);
+        region: event.region ?? settingsBloc.state.defaultRegion);
 
     final _state = result.fold(
         (MainFailure failure) =>

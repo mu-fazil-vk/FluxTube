@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
@@ -22,6 +24,16 @@ class HistoryVideosSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final historyVideos = savedState.localSavedHistoryVideos.toList()
+      ..sort((a, b) {
+        if (a.time == null && b.time == null) return 0; // Both are null
+        if (a.time == null) return 1; // a is null, put a after b
+        if (b.time == null) return -1; // b is null, put b after a
+        return b.time!.compareTo(a.time!); // Normal comparison
+      });
+
+    log('HistoryVideosSection: ${historyVideos.map((e) => e.time).toList()}');
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -46,8 +58,7 @@ class HistoryVideosSection extends StatelessWidget {
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      final historyVideo =
-                          savedState.localSavedHistoryVideos[index];
+                      final historyVideo = historyVideos[index];
                       final String videoId = historyVideo.id;
 
                       final String channelId = historyVideo.uploaderId!;

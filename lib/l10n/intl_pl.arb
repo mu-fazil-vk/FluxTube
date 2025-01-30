@@ -1,198 +1,198 @@
 {
-  "home": "ホーム",
+  "home": "Strona główna",
   "@home": {
     "description": "Home label"
   },
-  "trending": "急上昇",
+  "trending": "Na czasie",
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "保存済み",
+  "saved": "Zapisane",
   "@saved": {
     "description": "Saved label"
   },
-  "settings": "設定",
+  "settings": "Ustawienia",
   "@settings": {
     "description": "Settings label"
   },
-  "history": "履歴",
+  "history": "Historia",
   "@history": {
     "description": "History label"
   },
-  "savedVideosTitle": "保存済み動画",
+  "savedVideosTitle": "Zapisane filmy",
   "@savedVideosTitle": {
     "description": "Saved videos app bar title"
   },
-  "noUploaderName": "名無し",
+  "noUploaderName": "Brak nazwy",
   "@noUploaderName": {
     "description": "There is no uploader (channel) name available"
   },
-  "noVideoTitle": "題名なし",
+  "noVideoTitle": "Brak tytułu",
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
-  "videoViews": "{count, plural, =0{視聴なし} =1{回視聴} other{回視聴}}",
+  "videoViews": "{count, plural, =0{Brak widzów} =1{widz} other{widzów}}",
   "@videoViews": {
     "description": "{number} views"
   },
-  "channelSubscribers": "{count, plural, =0{登録者なし} =1{人の登録者} other{人の登録者}}",
+  "channelSubscribers": "{count, plural, =0{Brak subskrybentów} =1{subskrybent} other{subskrybentów}}",
   "@channelSubscribers": {
     "description": "{number} subscribers"
   },
-  "subscribe": "チャンネル登録",
+  "subscribe": "Subskrybuj",
   "@subscribe": {
     "description": "Subscribe button label"
   },
-  "noUploadDate": "日付なし",
+  "noUploadDate": "Brak daty",
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "保存済み動画なし",
+  "thereIsNoSavedVideos": "Nie masz zapisanych filmów",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "保存済み動画・履歴なし",
+  "thereIsNoSavedOrHistoryVideos": "Nie masz zapisanych filmów i historii",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "利用可能な動画形式がないので自動でHLSに変更",
+  "noVideoAvailableChangedToHls": "Brak dostępnego źródła, automatycznie zmienianie na hls",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
-  "unknownQuality": "不明の品質",
+  "unknownQuality": "Nieznana jakość",
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "HLSプレイヤー",
+  "hlsPlayer": "Odtwarzacz Hls",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "すべての品質オプションを選ぶためHLSプレイヤーを有効にします。エラー発生時に無効にしてください。",
+  "enableHlsPlayerDescription": "Włącz odtwarzacz HLS, aby odblokować wszystkie opcje jakości. Wyłącz, jeśli wystąpią błędy.",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
-  "disableVideoHistory": "動画の履歴をとらない",
+  "disableVideoHistory": "Wyłącz historię filmów",
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "低評価を取得",
+  "retrieveDislikes": "Przywróć łapki w dół",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "低評価数を取得",
+  "retrieveDislikeCounts": "Liczba przywróconych łapek w dół",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
-  "noVideoDescription": "説明なし",
+  "noVideoDescription": "Brak opisu",
   "@noVideoDescription": {
     "description": "There is no video description available"
   },
-  "relatedTitle": "関連",
+  "relatedTitle": "Powiązane",
   "@relatedTitle": {
     "description": "Related videos label"
   },
-  "commentAuthorNotFound": "見つかりません",
+  "commentAuthorNotFound": "Nie znaleziono",
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
-  "readMoreText": "もっと読む",
+  "readMoreText": "Więcej",
   "@readMoreText": {
     "description": "Expand the comment text"
   },
-  "showLessText": "少なく表示",
+  "showLessText": "Pokaż mniej",
   "@showLessText": {
     "description": "Collapse the comment text"
   },
-  "commonSettingsTitle": "一般",
+  "commonSettingsTitle": "Zwykłe",
   "@commonSettingsTitle": {
     "description": "Common settings label"
   },
-  "language": "言語",
+  "language": "Język",
   "@language": {
     "description": "Language label"
   },
-  "region": "地域",
+  "region": "Region",
   "@region": {
     "description": "Region label"
   },
-  "theme": "テーマ",
+  "theme": "Motyw",
   "@theme": {
     "description": "Theme label"
   },
-  "developer": "開発",
+  "developer": "Programista",
   "@developer": {
     "description": "Developer label"
   },
-  "translators": "翻訳",
+  "translators": "Tłumacze",
   "@translators": {
     "description": "Translators label"
   },
-  "version": "バージョン",
+  "version": "Wersja",
   "@version": {
     "description": "Version label"
   },
-  "about": "情報",
+  "about": "Informacje",
   "@about": {
     "description": "About label"
   },
-  "video": "動画",
+  "video": "Film",
   "@video": {
     "description": "Video label"
   },
-  "unknown": "不明",
+  "unknown": "nieznana",
   "@unknown": {
     "description": "Unknown label"
   },
-  "defaultQuality": "初期選択の品質",
+  "defaultQuality": "Domyślna jakość",
   "@defaultQuality": {
     "description": "Default video quality label"
   },
-  "retry": "再試行",
+  "retry": "Ponów",
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{返信} other{返信}}",
+  "repliesPlural": "{count, plural, =1{odpowiedź} other{odpowiedzi}}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
-  "canada": "カナダ",
-  "france": "フランス",
-  "india": "インド",
-  "netherlands": "オランダ",
-  "unitedKingdom": "イギリス",
-  "unitedStates": "アメリカ",
-  "distractionFree": "集中モード",
+  "canada": "Kanada",
+  "france": "Francja",
+  "india": "Indie",
+  "netherlands": "Holandia",
+  "unitedKingdom": "Wielka Brytania",
+  "unitedStates": "Stany Zjednoczone",
+  "distractionFree": "Tryb skupienia",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
-  "hideComments": "コメントを非表示",
+  "hideComments": "Ukryj komentarze",
   "@hideComments": {
     "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "視聴画面のコメントボタンを非表示",
+  "hideCommentsButtonFromWatchScreen": "Ukryj przycisk komentarzy z ekranu oglądania",
   "@hideCommentsButtonFromWatchScreen": {
     "description": "Hide the comment button from video streaming screen."
   },
-  "hideRelated": "関連を非表示",
+  "hideRelated": "Ukryj powiązane",
   "@hideRelated": {
     "description": "Hide Related videos label."
   },
-  "hideRelatedVideosFromWatchScreen": "視聴画面の関連動画を非表示",
+  "hideRelatedVideosFromWatchScreen": "Ukryj powiązane filmy z ekranu oglądania",
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
   },
-  "share": "共有",
+  "share": "Udostępnij",
   "@share": {
     "description": "Share label."
   },
-  "includeTitle": "題名とURLを含める",
+  "includeTitle": "Zawiera tytuł",
   "@includeTitle": {
     "description": "Include title along with url"
   },
-  "instances": "インスタンス",
-  "switchRegion": "より良い結果にするため、地域へ変更もできます。",
-  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
-  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
-  "noCommentsFound": "コメントなし",
-  "disablePipPlayer": "PIP プレイヤーを無効化"
+  "instances": "Wystąpienia",
+  "switchRegion": "Rozważ zmianę regionu, aby uzyskać lepsze wyniki.",
+  "swipeDownToDismissDisabled": "Funkcja „Przesuń w dół, aby odrzucić” wyłączona",
+  "swipeUpToDismissEnabled": "Funkcja „Przesuń w dół, aby odrzucić” włączona",
+  "noCommentsFound": "Nie znaleziono komentarzy",
+  "disablePipPlayer": "Wyłącz obraz w obrazie"
 }

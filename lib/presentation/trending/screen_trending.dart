@@ -27,10 +27,10 @@ class ScreenTrending extends StatelessWidget {
         context,
         settingsState,
       ) {
-        BlocProvider.of<TrendingBloc>(context)
-            .add(TrendingEvent.getTrendingData(
-          serviceType: settingsState.ytService,
-        ));
+        BlocProvider.of<TrendingBloc>(context).add(
+            TrendingEvent.getTrendingData(
+                serviceType: settingsState.ytService,
+                region: settingsState.defaultRegion));
         return SafeArea(
             child: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -47,16 +47,17 @@ class ScreenTrending extends StatelessWidget {
                     }
                     BlocProvider.of<TrendingBloc>(context).add(
                         TrendingEvent.getForcedTrendingData(
-                            serviceType: settingsState.ytService));
+                            serviceType: settingsState.ytService,
+                            region: settingsState.defaultRegion));
                   },
                   child: BlocBuilder<TrendingBloc, TrendingState>(
                     builder: (context, state) {
                       if (settingsState.ytService ==
-                          YouTubeServices.piped.name) {
-                        return _buildPipedTrendingSection(
+                          YouTubeServices.invidious.name) {
+                        return _buildInvidiousTrendingSection(
                             state, locals, context, settingsState);
                       } else {
-                        return _buildInvidiousTrendingSection(
+                        return _buildPipedTrendingSection(
                             state, locals, context, settingsState);
                       }
                     },
@@ -90,7 +91,8 @@ class ScreenTrending extends StatelessWidget {
         lottie: 'assets/black-cat.zip',
         onTap: () => BlocProvider.of<TrendingBloc>(context).add(
             TrendingEvent.getForcedTrendingData(
-                serviceType: settingsState.ytService)),
+                serviceType: settingsState.ytService,
+                region: settingsState.defaultRegion)),
       );
     } else {
       return TrendingVideosSection(state: state, locals: locals);
@@ -121,7 +123,8 @@ class ScreenTrending extends StatelessWidget {
         lottie: 'assets/black-cat.zip',
         onTap: () => BlocProvider.of<TrendingBloc>(context).add(
             TrendingEvent.getForcedTrendingData(
-                serviceType: settingsState.ytService)),
+                serviceType: settingsState.ytService,
+                region: settingsState.defaultRegion)),
       );
     } else {
       return InvidiousTrendingVideosSection(state: state, locals: locals);

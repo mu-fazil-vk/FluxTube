@@ -12,6 +12,7 @@ class SavedImplimentation extends SavedServices {
 
 // add new video info to local database
   Future<void> _addVideoInformations(LocalStoreVideoInfo videoInfo) async {
+    videoInfo.time = DateTime.now();
     await isar.writeTxn(() async {
       await isar.localStoreVideoInfos.put(videoInfo);
     });

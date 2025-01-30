@@ -46,7 +46,10 @@ class InvidiousTrendingVideoInfoCardWidget extends StatelessWidget {
                     ? DecorationImage(
                         image: CachedNetworkImageProvider(
                             cardInfo!.videoThumbnails!.first.url!),
-                        fit: BoxFit.cover)
+                        fit: BoxFit.cover,
+                        onError: (exception, stackTrace) {
+                          const SizedBox();
+                        })
                     : null,
               ),
               child: Align(
