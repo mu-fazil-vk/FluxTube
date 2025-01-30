@@ -59,6 +59,31 @@ class AppInfo {
       url: 'https://crowdin.com/profile/mirnyang',
       description: 'Korean',
     ),
+    AppInfoModel(
+      name: 'Patriot77',
+      url: 'https://crowdin.com/profile/patriot77',
+      description: 'Polish',
+    ),
+    AppInfoModel(
+      name: 'Liu Zehao',
+      url: 'https://crowdin.com/profile/tonyblur',
+      description: 'Chinese (Simplified)',
+    ),
+    AppInfoModel(
+      name: 'Hualiang',
+      url: 'https://crowdin.com/profile/hualiong',
+      description: 'Chinese (Simplified)',
+    ),
+    AppInfoModel(
+      name: 'Mathis Serrieres Maniecki',
+      url: 'https://crowdin.com/profile/minarox',
+      description: 'French',
+    ),
+    AppInfoModel(
+      name: 'Mickael81',
+      url: 'https://crowdin.com/profile/mickael81',
+      description: 'French',
+    ),
     // more...
   ];
 }
