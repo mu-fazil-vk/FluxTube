@@ -1,5 +1,12 @@
 ## Changelog
 
+### v0.8.2
+
+- Changed the Piped API to primary.
+- Added history listing based on time.
+- Added French and Polish languages.
+- Minor improvements.
+
 ### v0.8.1
 
 - Added Arabic, Japanese and Korean Languages.
