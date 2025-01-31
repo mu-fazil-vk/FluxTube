@@ -75,7 +75,7 @@
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Beğenmeme sayılarını gör",
+  "retrieveDislikes": "Beğenilmeyenleri Getir",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
