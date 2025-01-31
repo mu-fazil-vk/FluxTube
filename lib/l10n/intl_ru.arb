@@ -151,7 +151,7 @@
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{ответ} other{ответа}}",
+  "repliesPlural": "{count, plural, =1{ответ} few{ответа} many{ответов} other{ответа}}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
