@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.8.3
+
+- The signing key was changed to the previous one.
+
 ### v0.8.2
 
 - Changed the Piped API to primary.

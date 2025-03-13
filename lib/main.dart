@@ -44,8 +44,6 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
-          
-
           return MaterialApp.router(
             title: AppInfo.myApp.name,
             theme: AppTheme.lightTheme,
