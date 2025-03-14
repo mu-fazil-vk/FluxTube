@@ -1,33 +1,33 @@
 {
-  "home": "Home",
+  "home": "בית",
   "@home": {
     "description": "Home label"
   },
-  "trending": "Trending",
+  "trending": "טנדים",
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "Saved",
+  "saved": "נשמר",
   "@saved": {
     "description": "Saved label"
   },
-  "settings": "Settings",
+  "settings": "הגדרות",
   "@settings": {
     "description": "Settings label"
   },
-  "history": "History",
+  "history": "היסטוריה",
   "@history": {
     "description": "History label"
   },
-  "savedVideosTitle": "Saved Videos",
+  "savedVideosTitle": "סרטונים שמורים",
   "@savedVideosTitle": {
     "description": "Saved videos app bar title"
   },
-  "noUploaderName": "No name",
+  "noUploaderName": "אין שם",
   "@noUploaderName": {
     "description": "There is no uploader (channel) name available"
   },
-  "noVideoTitle": "No title",
+  "noVideoTitle": "אין כותרת",
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
@@ -39,15 +39,15 @@
   "@channelSubscribers": {
     "description": "{number} subscribers"
   },
-  "subscribe": "Subscribe",
+  "subscribe": "הרשמה",
   "@subscribe": {
     "description": "Subscribe button label"
   },
-  "noUploadDate": "No date",
+  "noUploadDate": "אין תאריך",
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "There are no saved videos",
+  "thereIsNoSavedVideos": "עדיין לא שמרת סרטונים",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
