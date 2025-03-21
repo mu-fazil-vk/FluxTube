@@ -71,7 +71,7 @@
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
-  "disableVideoHistory": "動画の履歴をとらない",
+  "disableVideoHistory": "動画の履歴を記録しない",
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
