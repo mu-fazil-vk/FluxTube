@@ -191,8 +191,8 @@
   },
   "instances": "インスタンス",
   "switchRegion": "より良い結果にするため、地域へ変更もできます。",
-  "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
-  "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
+  "swipeDownToDismissDisabled": "「下にスワイプで非表示」を無効化しました",
+  "swipeUpToDismissEnabled": "「上にスワイプで非表示」を有効化しました",
   "noCommentsFound": "コメントなし",
   "disablePipPlayer": "PIP プレイヤーを無効化"
 }
