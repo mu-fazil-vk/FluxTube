@@ -1,5 +1,88 @@
 {
   "home": "Home",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "youtubeService": "YouTube Service",
+  "servicePiped": "Piped",
+  "serviceExplode": "Explode",
+  "serviceInvidious": "Invidious",
+  "serviceNewPipe": "NewPipe Extractor",
+  "quality144p": "144p",
+  "quality240p": "240p",
+  "quality360p": "360p",
+  "quality480p": "480p",
+  "quality720p": "720p",
+  "quality1080p": "1080p",
+  "quality1440p": "1440p",
+  "searchFilters": "Filters",
+  "filterAll": "All",
+  "filterVideos": "Videos",
+  "filterChannels": "Channels",
+  "filterPlaylists": "Playlists",
+  "playlist": "Playlist",
+  "filterMusic": "Music",
+  "videoFit": "Video Fit",
+  "videoFitContain": "Contain",
+  "videoFitCover": "Cover",
+  "videoFitFill": "Fill",
+  "videoFitFitWidth": "Fit Width",
+  "videoFitFitHeight": "Fit Height",
+  "skipInterval": "Skip Interval",
+  "skipIntervalDescription": "Double-tap skip duration in seconds",
+  "seconds": "seconds",
+  "sponsorBlock": "SponsorBlock",
+  "sponsorBlockDescription": "Skip sponsored segments automatically",
+  "sponsorBlockCategories": "Skip Categories",
+  "sponsor": "Sponsor",
+  "intro": "Intro",
+  "outro": "Outro",
+  "selfPromotion": "Self Promotion",
+  "interaction": "Interaction",
+  "musicOfftopic": "Music: Non-Music",
+  "openInBrowser": "Open in Browser",
+  "openLinksExternally": "Open links in external browser",
+  "exportData": "Export Data",
+  "importData": "Import Data",
+  "exportSubscriptions": "Export Subscriptions",
+  "importSubscriptions": "Import Subscriptions",
+  "backupRestore": "Backup & Restore",
+  "backupRestoreDescription": "Export or import your subscriptions",
+  "exportSuccess": "Export successful",
+  "importSuccess": "Import successful",
+  "importError": "Import failed",
+  "selectFile": "Select File",
+  "homeFeedMode": "Home Feed",
+  "homeFeedModeAuto": "Auto",
+  "homeFeedModeFeedOnly": "Subscriptions",
+  "homeFeedModeTrendingOnly": "Trending",
+  "homeFeedModeAutoHint": "Show subscriptions if available, otherwise trending",
+  "homeFeedModeFeedOnlyHint": "Only show videos from subscribed channels",
+  "homeFeedModeTrendingOnlyHint": "Always show trending videos only",
+  "noSubscriptions": "No Subscriptions",
+  "noSubscriptionsHint": "Subscribe to channels to see their videos here",
+  "profiles": "Profiles",
+  "profilesDescription": "Create separate profiles for different accounts or preferences",
+  "addProfile": "Add Profile",
+  "deleteProfile": "Delete Profile",
+  "renameProfile": "Rename Profile",
+  "switchProfile": "Switch Profile",
+  "profileName": "Profile Name",
+  "newProfileName": "New Profile Name",
+  "defaultProfile": "Default",
+  "profileInUse": "Active",
+  "cannotDeleteDefault": "Cannot delete default profile",
+  "cannotRenameDefault": "Cannot rename default profile",
+  "audioFocus": "Audio Focus",
+  "audioFocusDescription": "Pause playback on interruptions",
+  "pauseOnCall": "Pause on Phone Call",
+  "pauseOnHeadphones": "Pause on Headphone Disconnect",
+  "subtitleSize": "Subtitle Size",
+  "subtitleSizeDescription": "Adjust the size of subtitles on video",
+  "subtitleSizeSmall": "Small",
+  "subtitleSizeMedium": "Medium",
+  "subtitleSizeLarge": "Large",
+  "subtitleSizeExtraLarge": "Extra Large",
   "@home": {
     "description": "Home label"
   },
@@ -194,5 +277,232 @@
   "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
   "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
   "noCommentsFound": "No Comments Found",
-  "disablePipPlayer": "Disable PIP player"
+  "commentsDisabled": "Comments are disabled",
+  "repliesNotSupported": "Replies are not available yet",
+  "pinned": "Pinned",
+  "disablePipPlayer": "Disable PIP player",
+  "videos": "Videos",
+  "shorts": "Shorts",
+  "playlists": "Playlists",
+  "noShorts": "No shorts available",
+  "noPlaylists": "No playlists available",
+  "library": "Library",
+  "sortBy": "Sort by",
+  "dateAdded": "Date added",
+  "title": "Title",
+  "duration": "Duration",
+  "selected": "selected",
+  "selectAll": "Select all",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "sort": "Sort",
+  "selectVideos": "Select videos",
+  "clearAllSaved": "Clear all saved",
+  "clearAllHistory": "Clear all history",
+  "clearAllSavedConfirm": "Are you sure you want to remove all saved videos?",
+  "clearAllHistoryConfirm": "Are you sure you want to clear all watch history?",
+  "clearAll": "Clear all",
+  "searchSavedVideos": "Search saved videos...",
+  "noSavedVideos": "No saved videos",
+  "startSavingVideos": "Start saving videos to watch later",
+  "noHistory": "No watch history",
+  "watchSomeVideos": "Videos you watch will appear here",
+  "deleteVideo": "Delete video",
+  "deleteVideoConfirm": "Are you sure you want to remove this video?",
+  "removeFromSaved": "Remove from saved",
+  "removeFromHistory": "Remove from history",
+  "views": "views",
+  "subscriptions": "Subscriptions",
+  "channels": "Channels",
+  "searchSubscriptions": "Search subscriptions...",
+  "noVideosFound": "No videos found",
+  "refreshToLoad": "Pull down to refresh",
+  "unsubscribe": "Unsubscribe",
+  "unsubscribeConfirm": "Unsubscribe from this channel?",
+  "search": "Search",
+  "searchYouTube": "Search YouTube...",
+  "searchForVideosChannels": "Search for videos, channels, and playlists",
+  "recentSearches": "Recent searches",
+  "searchHistoryEnabled": "Save Search History",
+  "searchHistoryEnabledDescription": "Save your search queries for quick access",
+  "showSearchHistory": "Show Search History",
+  "showSearchHistoryDescription": "Display your recent searches in search screen",
+  "copyLink": "Copy link",
+  "@copyLink": {
+    "description": "Copy link button label"
+  },
+  "shareVia": "Share via",
+  "@shareVia": {
+    "description": "Share via apps button label"
+  },
+  "copiedToClipboard": "Copied to clipboard",
+  "@copiedToClipboard": {
+    "description": "Snackbar message when link is copied"
+  },
+  "like": "Like",
+  "@like": {
+    "description": "Like button label when count is unavailable"
+  },
+  "dislike": "Dislike",
+  "@dislike": {
+    "description": "Dislike button label when count is unavailable"
+  },
+  "download": "Download",
+  "@download": {
+    "description": "Download button label"
+  },
+  "downloads": "Downloads",
+  "@downloads": {
+    "description": "Downloads screen title"
+  },
+  "downloading": "Downloading",
+  "@downloading": {
+    "description": "Downloading status label"
+  },
+  "completed": "Completed",
+  "@completed": {
+    "description": "Completed status label"
+  },
+  "pending": "Pending",
+  "@pending": {
+    "description": "Pending status label"
+  },
+  "paused": "Paused",
+  "@paused": {
+    "description": "Paused status label"
+  },
+  "failed": "Failed",
+  "@failed": {
+    "description": "Failed status label"
+  },
+  "cancelled": "Cancelled",
+  "@cancelled": {
+    "description": "Cancelled status label"
+  },
+  "merging": "Merging",
+  "@merging": {
+    "description": "Merging audio and video status"
+  },
+  "downloadingVideo": "Downloading video",
+  "@downloadingVideo": {
+    "description": "Phase indicator when downloading video track"
+  },
+  "downloadingAudio": "Downloading audio",
+  "@downloadingAudio": {
+    "description": "Phase indicator when downloading audio track"
+  },
+  "noDownloads": "No Downloads",
+  "@noDownloads": {
+    "description": "Empty downloads state title"
+  },
+  "noDownloadsHint": "Downloaded videos will appear here",
+  "@noDownloadsHint": {
+    "description": "Empty downloads state hint"
+  },
+  "downloadType": "Download Type",
+  "@downloadType": {
+    "description": "Download type selector label"
+  },
+  "videoWithAudio": "Video + Audio",
+  "@videoWithAudio": {
+    "description": "Video with audio download type"
+  },
+  "videoOnly": "Video Only",
+  "@videoOnly": {
+    "description": "Video only download type"
+  },
+  "audioOnly": "Audio Only",
+  "@audioOnly": {
+    "description": "Audio only download type"
+  },
+  "audio": "Audio",
+  "@audio": {
+    "description": "Audio badge label"
+  },
+  "videoAudio": "Video+Audio",
+  "@videoAudio": {
+    "description": "Video with audio badge label"
+  },
+  "videoQuality": "Video Quality",
+  "@videoQuality": {
+    "description": "Video quality selector label"
+  },
+  "audioQuality": "Audio Quality",
+  "@audioQuality": {
+    "description": "Audio quality selector label"
+  },
+  "startDownload": "Start Download",
+  "@startDownload": {
+    "description": "Start download button label"
+  },
+  "downloadStarted": "Download started",
+  "@downloadStarted": {
+    "description": "Download started snackbar message"
+  },
+  "deleteDownload": "Delete Download",
+  "@deleteDownload": {
+    "description": "Delete download dialog title"
+  },
+  "deleteDownloadConfirm": "Are you sure you want to delete this download?",
+  "@deleteDownloadConfirm": {
+    "description": "Delete download confirmation message"
+  },
+  "pause": "Pause",
+  "@pause": {
+    "description": "Pause button label"
+  },
+  "resume": "Resume",
+  "@resume": {
+    "description": "Resume button label"
+  },
+  "all": "All",
+  "@all": {
+    "description": "All tab label"
+  },
+  "unknownError": "An unknown error occurred",
+  "@unknownError": {
+    "description": "Unknown error message"
+  },
+  "failedToOpenFile": "Failed to open file",
+  "@failedToOpenFile": {
+    "description": "Error message when file cannot be opened"
+  },
+  "fileNotFound": "File not found",
+  "@fileNotFound": {
+    "description": "Error message when downloaded file is missing"
+  },
+  "downloadFailed": "Download failed: {title}",
+  "@downloadFailed": {
+    "description": "Error message when download fails",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Video Title"
+      }
+    }
+  },
+  "autoPip": "Auto Picture-in-Picture",
+  "@autoPip": {
+    "description": "Setting to enable auto PiP when pressing home button"
+  },
+  "autoPipDescription": "Automatically enter PiP mode when pressing home button while video is playing",
+  "@autoPipDescription": {
+    "description": "Description for auto PiP setting"
+  },
+  "saveToDevice": "Save to Device",
+  "@saveToDevice": {
+    "description": "Save downloaded file to device storage"
+  },
+  "savingToDevice": "Saving to device...",
+  "@savingToDevice": {
+    "description": "Message shown while saving file to device"
+  },
+  "savedToDevice": "Saved to device",
+  "@savedToDevice": {
+    "description": "Success message when file is saved to device"
+  },
+  "saveToDeviceFailed": "Failed to save to device",
+  "@saveToDeviceFailed": {
+    "description": "Error message when save to device fails"
+  }
 }
