@@ -1,45 +1,33 @@
-name: Build Flutter APK
+name: Build Android APK
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      # Manual install Flutter 3.19.1
-      - name: Install Flutter manually
-        run: |
-          git clone https://github.com/flutter/flutter.git -b 3.19.1
-          echo "$PWD/flutter/bin" >> $GITHUB_PATH
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
 
-      - name: Prepare Android folder
-        run: mkdir -p android/app
-
-      - name: Generate Keystore
-        run: |
-          keytool -genkey -v \
-            -keystore android/app/key.jks \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass "${{ secrets.KEYSTORE_PASSWORD }}" \
-            -keypass "${{ secrets.KEY_PASSWORD }}" \
-            -alias "${{ secrets.KEY_ALIAS }}" \
-            -dname "CN=Ilham, OU=Dev, O=FluxTube, L=Jakarta, S=ID, C=ID"
-
-      - name: Get dependencies
-        run: flutter pub get
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
 
       - name: Build APK
+        # Kita pake build biasa aja tanpa clean dulu biar cepet
         run: flutter build apk --release
 
-      - name: Upload Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: fluxtube-indonesia
+          # MANTERA SAPU BERSIH: Cari semua file .apk di mana aja!
+          path: "**/*.apk"
