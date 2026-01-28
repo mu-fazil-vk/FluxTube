@@ -19,15 +19,18 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
+          # Kita pake channel stable terbaru biar aman
           channel: 'stable'
+          cache: true # Biar lebih cepet
 
-      - name: Fix Directory & Get Dependencies
-        # Mantra sakti biar dia nemu pubspec.yaml dimanapun foldernya
+      - name: Get Dependencies
+        # Kita paksa robotnya buat benerin masalah library dulu
         run: |
           flutter pub get
 
       - name: Build APK
-        run: flutter build apk --release --no-tree-shake-icons
+        # Tambahin flag --no-pub biar dia nggak download ulang pas build
+        run: flutter build apk --release --no-tree-shake-icons --no-pub
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
