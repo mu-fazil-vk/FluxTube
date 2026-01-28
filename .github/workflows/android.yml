@@ -19,21 +19,18 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          # Kita pake channel stable terbaru biar aman
           channel: 'stable'
-          cache: true # Biar lebih cepet
+          cache: true
 
       - name: Get Dependencies
-        # Kita paksa robotnya buat benerin masalah library dulu
-        run: |
-          flutter pub get
+        run: flutter pub get
 
       - name: Build APK
-        # Tambahin flag --no-pub biar dia nggak download ulang pas build
-        run: flutter build apk --release --no-tree-shake-icons --no-pub
+        run: flutter build apk --release --no-tree-shake-icons
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: fluxtube-indonesia
-          path: build/app/outputs/flutter-apk/app-release.apk
+          # Kita pake tanda bintang biar robotnya nyari sendiri di folder itu
+          path: build/app/outputs/flutter-apk/*.apk
