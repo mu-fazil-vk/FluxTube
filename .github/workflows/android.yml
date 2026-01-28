@@ -20,19 +20,14 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          cache: true
-
-      - name: Clean & Get Deps
-        run: |
-          flutter clean
-          flutter pub get
 
       - name: Build APK
+        # Kita pake build biasa aja tanpa clean dulu biar cepet
         run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: fluxtube-indonesia
-          # Kita balikin pake wildcard yang paling aman sedunia
-          path: build/app/outputs/flutter-apk/*.apk
+          # MANTERA SAPU BERSIH: Cari semua file .apk di mana aja!
+          path: "**/*.apk"
