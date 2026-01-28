@@ -1,7 +1,7 @@
 name: Build Android APK
 
 on:
-  workflow_dispatch: # Biar lo bisa klik tombol "Run" manual
+  workflow_dispatch:
 
 jobs:
   build:
@@ -21,8 +21,10 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Get Dependencies
-        run: flutter pub get
+      - name: Fix Directory & Get Dependencies
+        # Mantra sakti biar dia nemu pubspec.yaml dimanapun foldernya
+        run: |
+          flutter pub get
 
       - name: Build APK
         run: flutter build apk --release --no-tree-shake-icons
