@@ -6,6 +6,7 @@ const fallbackLocale = Locale('en');
 final supportedLocales = [
   const Locale('ar'), //Arabic
   const Locale('en'), // English
+  const Locale('id'), // Indonesia
   const Locale('fr'), //French
   const Locale('ja'), //Japanese
   const Locale('ko'), //Korean
