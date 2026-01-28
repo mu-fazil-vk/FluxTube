@@ -21,13 +21,13 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Build APK
-        # Kita pake build biasa aja tanpa clean dulu biar cepet
-        run: flutter build apk --release
+      - name: Build Debug APK
+        # Kita ganti ke debug biar prosesnya super ringan buat si robot
+        run: flutter build apk --debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: fluxtube-indonesia
-          # MANTERA SAPU BERSIH: Cari semua file .apk di mana aja!
+          # Cari semua file .apk biar pasti ketemu!
           path: "**/*.apk"
