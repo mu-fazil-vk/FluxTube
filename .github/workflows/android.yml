@@ -23,9 +23,9 @@ jobs:
           keytool -genkey -v \
             -keystore android/app/key.jks \
             -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass ${{ secrets.KEYSTORE_PASSWORD }} \
-            -keypass ${{ secrets.KEY_PASSWORD }} \
-            -alias ${{ secrets.KEY_ALIAS }} \
+            -storepass "${{ secrets.KEYSTORE_PASSWORD }}" \
+            -keypass "${{ secrets.KEY_PASSWORD }}" \
+            -alias "${{ secrets.KEY_ALIAS }}" \
             -dname "CN=Ilham, OU=Dev, O=FluxTube, L=Jakarta, S=ID, C=ID"
 
       - name: Build APK
