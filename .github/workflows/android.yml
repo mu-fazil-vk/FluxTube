@@ -32,5 +32,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fluxtube-indonesia
-          # Kali ini kita suruh dia cari di SEMUA folder 'build' biar gak ada alasan!
-          path: "**/build/app/outputs/flutter-apk/*.apk"
+          # Versi paling simpel tanpa tanda petik & tanpa folder build di depan
+          path: build/app/outputs/apk/release/*.apk
