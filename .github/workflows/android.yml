@@ -13,10 +13,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.19.1'
+      # Manual install Flutter 3.19.1
+      - name: Install Flutter manually
+        run: |
+          git clone https://github.com/flutter/flutter.git -b 3.19.1
+          echo "$PWD/flutter/bin" >> $GITHUB_PATH
+
+      - name: Prepare Android folder
+        run: mkdir -p android/app
 
       - name: Generate Keystore
         run: |
@@ -27,6 +31,9 @@ jobs:
             -keypass "${{ secrets.KEY_PASSWORD }}" \
             -alias "${{ secrets.KEY_ALIAS }}" \
             -dname "CN=Ilham, OU=Dev, O=FluxTube, L=Jakarta, S=ID, C=ID"
+
+      - name: Get dependencies
+        run: flutter pub get
 
       - name: Build APK
         run: flutter build apk --release
