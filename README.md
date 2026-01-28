@@ -1,4 +1,4 @@
-# FluxTube: YouTube Client App
+# FluxTube Indonesia: YouTube Client App
 
 ![FluxTube](doc/banner.jpg)
 

@@ -6,6 +6,7 @@ const fallbackLocale = Locale('en');
 final supportedLocales = [
   const Locale('ar'), //Arabic
   const Locale('en'), // English
+  const Locale('id'), // Indonesia
   const Locale('fr'), //French
   const Locale('ja'), //Japanese
   const Locale('ko'), //Korean
@@ -22,6 +23,7 @@ final supportedLocales = [
 final List<LanguageModel> languages = [
   LanguageModel(name: "العربية", code: "ar"),
   LanguageModel(name: "English", code: "en"),
+  LanguageModel(name: "Indonesia", code: "id"),
   LanguageModel(name: "Français", code: "fr"),
   LanguageModel(name: "日本語", code: "ja"),
   LanguageModel(name: "한국어", code: "ko"),
