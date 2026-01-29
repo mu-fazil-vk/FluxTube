@@ -1,9 +1,7 @@
-name: Flutter Analyzer (VAR Check)
+name: Flutter Analyze (VAR Check)
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
   workflow_dispatch:
 
@@ -14,14 +12,24 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Setup Java
+        # Kita pake Java 17 biar cocok sama Flutter lo
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
       - name: Install Dependencies
-        run: flutter pub get
+        run: |
+          flutter pub get
+          # Kita tambahin ini biar file bahasanya dibuat dulu sebelum dicek
+          flutter gen-l10n
 
       - name: Static Analysis
-        # Ini bagian yang bakal nge-scan kode lo yang bikin layar merah
+        # Ini perintah saktinya
         run: flutter analyze
