@@ -20,7 +20,5 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Run Scan
-        run: |
-          flutter pub get
-          flutter analyze
+      - run: flutter pub get
+      - run: flutter analyze
