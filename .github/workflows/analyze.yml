@@ -13,7 +13,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Java
-        # Kita pake Java 17 biar cocok sama Flutter lo
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -24,12 +23,9 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Install Dependencies
+      - name: Prepare and Analyze
+        # Digabung jadi satu biar robotnya nggak bingung urutan
         run: |
           flutter pub get
-          # Kita tambahin ini biar file bahasanya dibuat dulu sebelum dicek
           flutter gen-l10n
-
-      - name: Static Analysis
-        # Ini perintah saktinya
-        run: flutter analyze
+          flutter analyze
