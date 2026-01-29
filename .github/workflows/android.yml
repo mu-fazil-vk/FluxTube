@@ -1,33 +1,6 @@
-name: Build Android APK
-
-on:
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-
-      - name: Build Debug APK
-        # Kita ganti ke debug biar prosesnya super ringan buat si robot
-        run: flutter build apk --debug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: fluxtube-indonesia
-          # Cari semua file .apk biar pasti ketemu!
-          path: "**/*.apk"
+      - name: Build Targeted APK
+        run: |
+          flutter clean
+          flutter pub get
+          # Ini perintah buat masak khusus menu arm64-v8a aja, biar langsing!
+          flutter build apk --debug --target-platform android-arm64 --split-per-abi
