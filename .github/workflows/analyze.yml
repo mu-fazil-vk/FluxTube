@@ -24,7 +24,7 @@ jobs:
           channel: 'stable'
 
       - name: Prepare and Analyze
-        # Digabung jadi satu biar robotnya nggak bingung urutan
+        # Ini rahasianya: Gabungin semua perintah dalam satu 'run'
         run: |
           flutter pub get
           flutter gen-l10n
