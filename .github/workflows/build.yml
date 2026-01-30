@@ -1,62 +1,45 @@
-name: Build FluxTube Android 📱
+name: Build Android APK
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main, master ]
-  workflow_dispatch: # Biar bisa di-klik manual tombol run-nya
+    branches: [ "main" ]
 
 jobs:
   build:
-    name: Build APK Release
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout Code
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # 2. Setup Java (Wajib buat Android build)
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
           java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
 
-      # 3. Setup Flutter
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
+      - name: Grant Execute Permission for Gradlew
+        run: chmod +x gradlew
 
-      # 4. Decode Keystore (Ini magic-nya!)
-      # Kita ubah Base64 secret balik jadi file .jks
+      # Step 1: Decode Base64 dari Secrets jadi file keystore fisik
       - name: Decode Keystore
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/keystore.jks
 
-      # 5. Buat key.properties
-      # Biar Gradle tau password & alias keystore-nya tanpa harus edit code
-      - name: Create key.properties
-        run: |
-          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" > android/key.properties
-          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
-          echo "storeFile=upload-keystore.jks" >> android/key.properties
+      # Step 2: Build APK sambil ngirim "kunci" ke Gradle
+      - name: Build with Gradle
+        run: ./gradlew assembleRelease
+        env:
+          # Di sini kita hubungkan nama di GitHub Secrets ke nama di build.gradle
+          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
-      # 6. Install Dependencies
-      - name: Get Dependencies
-        run: flutter pub get
-
-      # 7. Build APK (Split per ABI biar file lebih kecil, atau hapus --split-per-abi kalau mau universal)
-      - name: Build APK
-        run: flutter build apk --release
-
-      # 8. Upload Artifact (Biar bisa didownload hasil build-nya)
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: android/app/build/outputs/apk/release/*.apk
