@@ -18,33 +18,29 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      # LANGKAH PENTING: Install Flutter di server GitHub
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
 
-      - name: Get Flutter Dependencies
+      - name: Get Dependencies
         run: flutter pub get
 
       - name: Decode Keystore
         run: |
-          mkdir -p app
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > app/key.jks
-
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x gradlew
+          mkdir -p android/app
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/key.jks
 
       - name: Build APK with Flutter
-        # Pakai perintah flutter build supaya semua library otomatis ke-download
+        # Pakai perintah ini biar Flutter yang ngatur Gradle-nya sendiri
         run: flutter build apk --release
         env:
           SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           SIGNING_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
-      - name: Upload APK Result
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: FluxTube-Release
