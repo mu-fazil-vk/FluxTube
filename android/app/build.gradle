@@ -12,21 +12,8 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
-
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode') ?: '1'
+def flutterVersionName = localProperties.getProperty('flutter.versionName') ?: '1.0'
 
 android {
     namespace "com.fazilvk.fluxtube"
@@ -34,7 +21,6 @@ android {
     ndkVersion flutter.ndkVersion
 
     compileOptions {
-        // Enable core library desugaring for NewPipe Extractor (requires Java 8+ APIs on older Android)
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -44,34 +30,25 @@ android {
         jvmTarget = '17'
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
     defaultConfig {
         applicationId "com.fazilvk.fluxtube"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
-    }   
-    signingConfigs {
-        release {
-            //From decoded key
-            storeFile = file('key.jks')
-
-            //From key.properties
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storePassword keystoreProperties['storePassword']
-        }
     }
 
-    buildFeatures {
-        buildConfig = true
+    signingConfigs {
+        release {
+            // Membaca file jks yang dibuat oleh Robot GitHub
+            storeFile = file('key.jks')
+            
+            // Mengambil password dari environment variable yang di-set di file .yml
+            storePassword System.getenv("SIGNING_STORE_PASSWORD")
+            keyAlias System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword System.getenv("SIGNING_KEY_PASSWORD")
+        }
     }
 
     buildTypes {
@@ -84,17 +61,12 @@ android {
     }
 
     dependenciesInfo {
-        // Disables dependency metadata when building APKs.
         includeInApk = false
-        // Disables dependency metadata when building Android App Bundles.
         includeInBundle = false
     }
 
     lint {
-        // Disable NullSafeMutableLiveData lint check that crashes with newer Kotlin/Gradle versions
-        // This is a known issue with the androidx.lifecycle.lint detector
         disable "NullSafeMutableLiveData"
-        // Don't abort build on lint errors (issues are in third-party plugins)
         abortOnError false
         checkReleaseBuilds false
     }
@@ -106,19 +78,9 @@ flutter {
 
 dependencies {
     implementation platform("org.jetbrains.kotlin:kotlin-bom:2.1.0")
-
-    // Core library desugaring for NewPipe Extractor (Java 8+ APIs on older Android)
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.1.3'
-
-    // NewPipe Extractor - YouTube data extraction library (lowercase required for JitPack)
     implementation 'com.github.teamnewpipe:NewPipeExtractor:v0.25.0'
-
-    // OkHttp - Required by NewPipe Extractor for HTTP requests
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-
-    // Gson - JSON serialization for Flutter communication
     implementation 'com.google.code.gson:gson:2.11.0'
-
-    // Kotlin Coroutines - Async operations for background extraction
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
 }
