@@ -28,12 +28,12 @@ jobs:
         run: flutter pub get
 
       - name: Decode Keystore
+        # PERBAIKAN: Kita taruh file kuncinya langsung di folder android/app/
         run: |
-          mkdir -p android/app
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/key.jks
 
       - name: Build APK with Flutter
-        # Pakai perintah ini biar Flutter yang ngatur Gradle-nya sendiri
+        # Pakai perintah ini biar lebih aman dan otomatis sign
         run: flutter build apk --release
         env:
           SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
