@@ -13,6 +13,7 @@ import 'package:fluxtube/application/trending/trending_bloc.dart';
 import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/core/app_info.dart';
 import 'package:fluxtube/core/app_theme.dart';
+import 'package:fluxtube/core/locals.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
 import 'package:fluxtube/infrastructure/download/download_notification_service.dart';
 import 'package:fluxtube/infrastructure/settings/setting_impl.dart';
@@ -26,15 +27,21 @@ import 'core/di/injectable.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize media_kit
   MediaKit.ensureInitialized();
+
   Bloc.observer = AppBlocObserver();
   await SettingImpl.initializeDB();
+  // Initialize GetIt and register dependencies
   configureInjection();
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -44,8 +51,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    // Initialize services after the first frame
+    // This ensures the Activity is fully attached and can show permission dialogs
     WidgetsBinding.instance.addPostFrameCallback((_) {
       DownloadNotificationService().initialize();
+      // Initialize audio service for background playback notification controls
       initAudioService();
     });
   }
@@ -53,6 +63,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    // Dispose the global player when app is closing
     GlobalPlayerController().disposePlayer();
     super.dispose();
   }
@@ -60,6 +71,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
+    // When app is detached (being destroyed), stop the player to prevent crash
     if (state == AppLifecycleState.detached) {
       GlobalPlayerController().disposePlayer();
     }
@@ -92,16 +104,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             debugShowCheckedModeBanner: false,
             routerConfig: router,
             localizationsDelegates: const [
-              S.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
+              S.delegate,
             ],
-            // INI PERUBAHANNYA: Daftarin Bahasa Indonesia secara paksa
-            supportedLocales: const [
-              Locale('en', ''),
-              Locale('id', ''),
-            ],
+            supportedLocales: supportedLocales,
             locale: Locale(state.defaultLanguage),
             builder: (context, child) {
               return GlobalPipOverlay(
@@ -116,9 +124,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   ThemeMode _getThemeMode(String themeMode) {
     switch (themeMode) {
-      case 'dark': return ThemeMode.dark;
-      case 'light': return ThemeMode.light;
-      default: return ThemeMode.system;
+      case 'dark':
+        return ThemeMode.dark;
+      case 'light':
+        return ThemeMode.light;
+      default:
+        return ThemeMode.system;
     }
   }
 }
