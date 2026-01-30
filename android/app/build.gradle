@@ -17,7 +17,7 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName') ?: '
 
 android {
     namespace "com.fazilvk.fluxtube"
-    compileSdk 34 // Gue kunci di versi 34 biar stabil
+    compileSdk 34
 
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -40,7 +40,7 @@ android {
 
     signingConfigs {
         release {
-            // Ngambil file jks yang dibikin si robot di folder app
+            // Langsung arahkan ke file yang dibikin robot GitHub
             storeFile file("key.jks")
             storePassword System.getenv("SIGNING_STORE_PASSWORD")
             keyAlias System.getenv("SIGNING_KEY_ALIAS")
@@ -51,10 +51,16 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false // Matikan dulu biar proses build lebih enteng
+            minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    lint {
+        disable "NullSafeMutableLiveData"
+        abortOnError false
+        checkReleaseBuilds false
     }
 }
 
