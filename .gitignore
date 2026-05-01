@@ -56,3 +56,5 @@ android/app/key.jks
 
 # Claude flow files
 .claude-flow/
+
+.gradle/
