@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/core/animations/animations.dart';
@@ -241,17 +241,9 @@ class _ShortThumbnailCard extends StatelessWidget {
             children: [
               // Thumbnail
               if (short.thumbnailUrl != null)
-                CachedNetworkImage(
-                  imageUrl: short.thumbnailUrl!,
-                  fit: BoxFit.cover,
-                  errorWidget: (_, __, ___) => Container(
-                    color: isDark
-                        ? AppColors.surfaceVariantDark
-                        : AppColors.surfaceVariant,
-                  ),
-                )
+                ThumbnailImage.small(url: short.thumbnailUrl!)
               else
-                Container(
+                ColoredBox(
                   color: isDark
                       ? AppColors.surfaceVariantDark
                       : AppColors.surfaceVariant,
@@ -423,12 +415,11 @@ class _RelatedVideoCard extends StatelessWidget {
                               ],
                             ),
                             child: ClipOval(
-                              child: CachedNetworkImage(
-                                imageUrl: related.uploaderAvatar!,
-                                fit: BoxFit.cover,
-                                errorWidget: (_, __, ___) => Container(
+                              child: ThumbnailImage.small(
+                                url: related.uploaderAvatar!,
+                                errorWidget: (_, __, ___) => ColoredBox(
                                   color: AppColors.surfaceVariant,
-                                  child: Icon(
+                                  child: const Icon(
                                     CupertinoIcons.person_fill,
                                     size: 16,
                                     color: AppColors.onSurfaceVariant,
@@ -509,20 +500,7 @@ class _RelatedVideoCard extends StatelessWidget {
           children: [
             // Image
             if (related.thumbnail != null)
-              CachedNetworkImage(
-                imageUrl: related.thumbnail!,
-                fit: BoxFit.cover,
-                placeholder: (_, __) => Container(
-                  color: isDark
-                      ? AppColors.surfaceVariantDark
-                      : AppColors.surfaceVariant,
-                ),
-                errorWidget: (_, __, ___) => Container(
-                  color: isDark
-                      ? AppColors.surfaceVariantDark
-                      : AppColors.surfaceVariant,
-                ),
-              )
+              ThumbnailImage.small(url: related.thumbnail!)
             else
               Container(
                 color: isDark

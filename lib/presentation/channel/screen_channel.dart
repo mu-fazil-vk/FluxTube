@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -615,7 +615,7 @@ class ChannelBannerWidget extends StatelessWidget {
               image: bannerUrl == null
                   ? null
                   : DecorationImage(
-                      image: CachedNetworkImageProvider(bannerUrl!),
+                      image: cachedThumbnailProvider(bannerUrl!),
                       fit: BoxFit.cover),
               color: kBlackColor.withValues(alpha: 0.9),
               borderRadius: BorderRadius.circular(10)),

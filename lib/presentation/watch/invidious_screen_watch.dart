@@ -7,6 +7,7 @@ import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
+import 'package:fluxtube/core/player/playback_queue_controller.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/widgets.dart';
@@ -144,11 +145,12 @@ class _InvidiousScreenWatchState extends State<InvidiousScreenWatch>
     await globalPlayer.validateBeforePlay(widget.id);
 
     // Check if returning from PiP with same video already loaded
-    final isReturningFromPip =
-        globalPlayer.hasVideoLoaded(widget.id) &&
-            watchBloc.state.invidiousWatchResp.title != null;
+    final isReturningFromPip = globalPlayer.hasVideoLoaded(widget.id) &&
+        watchBloc.state.invidiousWatchResp.title != null;
 
-    watchBloc.add(WatchEvent.togglePip(value: false));
+    if (!globalPlayer.isSystemPipMode) {
+      watchBloc.add(WatchEvent.togglePip(value: false));
+    }
 
     // Only fetch data if not returning from PiP with data already loaded
     if (!isReturningFromPip) {
@@ -165,14 +167,15 @@ class _InvidiousScreenWatchState extends State<InvidiousScreenWatch>
 
     // Only fetch all videos list if not returning from PiP
     if (!isReturningFromPip) {
-      savedBloc.add(SavedEvent.getAllVideoInfoList(profileName: currentProfile));
+      savedBloc
+          .add(SavedEvent.getAllVideoInfoList(profileName: currentProfile));
     }
 
     // Only check video info if we don't already have it for this video
     // This prevents flickering when returning from PiP
     if (savedBloc.state.videoInfo?.id != widget.id) {
-      savedBloc.add(
-          SavedEvent.checkVideoInfo(id: widget.id, profileName: currentProfile));
+      savedBloc.add(SavedEvent.checkVideoInfo(
+          id: widget.id, profileName: currentProfile));
     }
 
     subscribeBloc.add(SubscribeEvent.checkSubscribeInfo(
@@ -219,6 +222,21 @@ class _InvidiousScreenWatchState extends State<InvidiousScreenWatch>
                 channelId: watchInfo.authorId,
               ),
             ),
+          );
+          PlaybackQueueController.instance.setQueue(
+            currentVideoId: widget.id,
+            videos: (watchInfo.recommendedVideos ?? []).map((related) {
+              return VideoBasicInfo(
+                id: related.videoId ?? '',
+                title: related.title,
+                thumbnailUrl: related.videoThumbnails?.isNotEmpty == true
+                    ? related.videoThumbnails!.first.url
+                    : null,
+                channelName: related.author,
+                channelId: related.authorId,
+                uploaderVerified: related.authorVerified,
+              );
+            }),
           );
         }
       },
@@ -313,19 +331,24 @@ class _InvidiousScreenWatchState extends State<InvidiousScreenWatch>
                                   Builder(
                                     builder: (context) {
                                       // Determine if we should show loading
-                                      final bool isLoading = ((state.fetchInvidiousWatchInfoStatus ==
-                                                  ApiStatus.initial ||
-                                              state.fetchInvidiousWatchInfoStatus ==
-                                                  ApiStatus.loading ||
-                                              state.fetchSubtitlesStatus ==
-                                                  ApiStatus.loading) &&
-                                          state.oldId != widget.id &&
-                                          !GlobalPlayerController().hasVideoLoaded(widget.id));
+                                      final bool isLoading =
+                                          ((state.fetchInvidiousWatchInfoStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchInvidiousWatchInfoStatus ==
+                                                      ApiStatus.loading ||
+                                                  state.fetchSubtitlesStatus ==
+                                                      ApiStatus.loading) &&
+                                              state.oldId != widget.id &&
+                                              !GlobalPlayerController()
+                                                  .hasVideoLoaded(widget.id));
 
                                       // Once player should be shown, track it in state
                                       // This ensures player stays in widget tree during rebuilds
-                                      if (!isLoading && !hasPlayerUrlError && !_showPlayer) {
-                                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                                      if (!isLoading &&
+                                          !hasPlayerUrlError &&
+                                          !_showPlayer) {
+                                        WidgetsBinding.instance
+                                            .addPostFrameCallback((_) {
                                           if (mounted && !_showPlayer) {
                                             setState(() {
                                               _showPlayer = true;
@@ -336,7 +359,9 @@ class _InvidiousScreenWatchState extends State<InvidiousScreenWatch>
                                       }
 
                                       // Use stable visibility: once shown, keep showing until video changes
-                                      final bool shouldShowPlayer = _showPlayer && _playerVideoId == widget.id;
+                                      final bool shouldShowPlayer =
+                                          _showPlayer &&
+                                              _playerVideoId == widget.id;
 
                                       if (isLoading && !shouldShowPlayer) {
                                         return Container(
@@ -346,31 +371,32 @@ class _InvidiousScreenWatchState extends State<InvidiousScreenWatch>
                                             child: cIndicator(context),
                                           ),
                                         );
-                                      } else if (hasPlayerUrlError && !shouldShowPlayer) {
+                                      } else if (hasPlayerUrlError &&
+                                          !shouldShowPlayer) {
                                         return PlayerErrorWidget(
                                           message:
                                               'DASH stream unavailable for this video. Try disabling HLS in settings.',
-                                          onRetry: () => BlocProvider.of<
-                                                  WatchBloc>(context)
-                                              .add(WatchEvent
-                                                  .getInvidiousWatchInfo(
-                                                      id: widget.id)),
+                                          onRetry: () =>
+                                              BlocProvider.of<WatchBloc>(
+                                                      context)
+                                                  .add(WatchEvent
+                                                      .getInvidiousWatchInfo(
+                                                          id: widget.id)),
                                         );
                                       } else {
                                         return InvidiousMediaKitPlayer(
                                           videoId: widget.id,
-                                          watchInfo:
-                                              state.invidiousWatchResp,
+                                          watchInfo: state.invidiousWatchResp,
                                           defaultQuality:
                                               settingsState.defaultQuality,
                                           // Only use playback position if it's for the current video
-                                          playbackPosition: savedState
-                                                      .videoInfo?.id ==
-                                                  widget.id
-                                              ? (savedState.videoInfo
-                                                      ?.playbackPosition ??
-                                                  0)
-                                              : 0,
+                                          playbackPosition:
+                                              savedState.videoInfo?.id ==
+                                                      widget.id
+                                                  ? (savedState.videoInfo
+                                                          ?.playbackPosition ??
+                                                      0)
+                                                  : 0,
                                           isSaved: isSaved,
                                           isHlsPlayer:
                                               settingsState.isHlsPlayer,
@@ -383,8 +409,8 @@ class _InvidiousScreenWatchState extends State<InvidiousScreenWatch>
                                               settingsState.videoFitMode,
                                           skipInterval:
                                               settingsState.skipInterval,
-                                          isAudioFocusEnabled: settingsState
-                                              .isAudioFocusEnabled,
+                                          isAudioFocusEnabled:
+                                              settingsState.isAudioFocusEnabled,
                                           subtitleSize:
                                               settingsState.subtitleSize,
                                           sponsorSegments: settingsState
@@ -514,7 +540,8 @@ class _InvidiousScreenWatchState extends State<InvidiousScreenWatch>
                                                                 const NeverScrollableScrollPhysics(),
                                                             itemCount: 3,
                                                             itemBuilder:
-                                                                (context, index) {
+                                                                (context,
+                                                                    index) {
                                                               return const ShimmerRelatedVideoWidget();
                                                             },
                                                           )

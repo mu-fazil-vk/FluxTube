@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:fluxtube/application/channel/channel_bloc.dart';
 import 'package:fluxtube/application/download/download_bloc.dart';
-import 'package:fluxtube/application/playlist/playlist_bloc.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/application/saved/saved_bloc.dart';
-import 'package:fluxtube/application/search/search_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
 import 'package:fluxtube/application/subscribe/subscribe_bloc.dart';
 import 'package:fluxtube/application/trending/trending_bloc.dart';
@@ -30,6 +27,9 @@ void main() async {
 
   // Initialize media_kit
   MediaKit.ensureInitialized();
+
+  // Allow up to 200 MB for decoded image bitmaps (default is 100 MB)
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 200 << 20;
 
   Bloc.observer = AppBlocObserver();
   await SettingImpl.initializeDB();
@@ -83,12 +83,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       providers: [
         BlocProvider(create: (context) => getIt<TrendingBloc>()),
         BlocProvider(create: (context) => getIt<WatchBloc>()),
-        BlocProvider(create: (context) => getIt<SearchBloc>()),
         BlocProvider(create: (context) => getIt<SettingsBloc>()),
         BlocProvider(create: (context) => getIt<SavedBloc>()),
         BlocProvider(create: (context) => getIt<SubscribeBloc>()),
-        BlocProvider(create: (context) => getIt<ChannelBloc>()),
-        BlocProvider(create: (context) => getIt<PlaylistBloc>()),
         BlocProvider(create: (context) => getIt<DownloadBloc>()),
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxtube/core/colors.dart';
@@ -108,7 +107,7 @@ class NewPipeSearchVideoInfoCardWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               image: cardInfo?.thumbnailUrl != null
                   ? DecorationImage(
-                      image: CachedNetworkImageProvider(cardInfo!.thumbnailUrl!),
+                      image: cachedThumbnailProvider(cardInfo!.thumbnailUrl!),
                       fit: BoxFit.cover,
                       onError: (exception, stackTrace) {
                         const SizedBox();

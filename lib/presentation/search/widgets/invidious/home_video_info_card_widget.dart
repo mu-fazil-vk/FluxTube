@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
@@ -44,8 +43,7 @@ class InvidiousSearchVideoInfoCardWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 image: cardInfo?.videoThumbnails?.first.url != null
                     ? DecorationImage(
-                        image: CachedNetworkImageProvider(
-                            cardInfo!.videoThumbnails!.first.url!),
+                        image: cachedThumbnailProvider(cardInfo!.videoThumbnails!.first.url!),
                         fit: BoxFit.cover)
                     : null,
               ),

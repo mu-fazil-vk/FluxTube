@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -516,11 +516,7 @@ class _ShortVideoPage extends StatelessWidget {
             ),
           )
         else if (short.thumbnailUrl != null)
-          CachedNetworkImage(
-            imageUrl: short.thumbnailUrl!,
-            fit: BoxFit.cover,
-            errorWidget: (_, __, ___) => Container(color: kBlackColor),
-          )
+          ThumbnailImage.small(url: short.thumbnailUrl!)
         else
           Container(color: kBlackColor),
 
@@ -778,11 +774,10 @@ class _ShortVideoPage extends StatelessWidget {
   Widget _buildChannelAvatar(String? avatarUrl) {
     if (avatarUrl != null && avatarUrl.isNotEmpty) {
       return ClipOval(
-        child: CachedNetworkImage(
-          imageUrl: avatarUrl,
+        child: ThumbnailImage.small(
+          url: avatarUrl,
           width: 36,
           height: 36,
-          fit: BoxFit.cover,
           errorWidget: (_, __, ___) => _buildDefaultAvatar(),
         ),
       );
@@ -984,11 +979,10 @@ class _CommentTile extends StatelessWidget {
           // Avatar
           ClipOval(
             child: avatarUrl != null
-                ? CachedNetworkImage(
-                    imageUrl: avatarUrl!,
+                ? ThumbnailImage.small(
+                    url: avatarUrl!,
                     width: 32,
                     height: 32,
-                    fit: BoxFit.cover,
                     errorWidget: (_, __, ___) => Container(
                       width: 32,
                       height: 32,

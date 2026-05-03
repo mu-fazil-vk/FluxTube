@@ -1,45 +1,101 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 
-/// Centralized API client with retry logic, timeout handling, and error conversion
+/// Centralized HTTP layer.
+///
+/// Two shared Dio instances live here. Infrastructure callsites should NEVER
+/// instantiate a fresh `Dio()` — every per-call instantiation costs a TLS
+/// handshake, prevents keep-alive reuse, and breaks HTTP connection pooling.
+///
+/// - [dio]      — short-timeout (15s) client for regular API calls.
+/// - [downloadDio] — long-running client used by the chunked downloader.
+///
+/// Both share an underlying `HttpClient` configuration with a generous
+/// per-host connection cap so several parallel calls (watch info +
+/// SponsorBlock + thumbnails + comments) don't queue behind each other.
 class ApiClient {
   static ApiClient? _instance;
-  late final Dio _dio;
+
+  late final Dio _apiDio;
+  late final Dio _downloadDio;
 
   ApiClient._() {
-    _dio = Dio(BaseOptions(
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
-      sendTimeout: const Duration(seconds: 15),
-      followRedirects: false,
-      validateStatus: (status) => true, // Handle all status codes manually
-    ));
+    _apiDio = _buildApiDio();
+    _downloadDio = _buildDownloadDio();
   }
 
-  /// Get singleton instance
   static ApiClient get instance {
     _instance ??= ApiClient._();
     return _instance!;
   }
 
-  /// Perform a GET request with automatic error handling
+  /// Convenience static accessor for raw API client.
+  static Dio get dio => instance._apiDio;
+
+  /// Convenience static accessor for the download client.
+  static Dio get downloadDio => instance._downloadDio;
+
+  Dio _buildApiDio() {
+    final dio = Dio(BaseOptions(
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
+      sendTimeout: const Duration(seconds: 15),
+      followRedirects: false,
+      // Handle all status codes manually so callers don't need try/catch
+      // around routine 4xx/5xx.
+      validateStatus: (status) => true,
+    ));
+    dio.httpClientAdapter = IOHttpClientAdapter(
+      createHttpClient: _buildHttpClient,
+    );
+    return dio;
+  }
+
+  Dio _buildDownloadDio() {
+    final dio = Dio(BaseOptions(
+      connectTimeout: const Duration(seconds: 30),
+      // Bulk transfers — but never 30 minutes (which masks dead sockets).
+      receiveTimeout: const Duration(minutes: 5),
+      sendTimeout: const Duration(seconds: 30),
+      followRedirects: true,
+      validateStatus: (status) => status != null && status < 500,
+    ));
+    dio.httpClientAdapter = IOHttpClientAdapter(
+      createHttpClient: _buildHttpClient,
+    );
+    return dio;
+  }
+
+  HttpClient _buildHttpClient() {
+    final client = HttpClient();
+    // Default is 6 — far too low when we fan out to thumbnails + watch info +
+    // related streams + sponsorblock concurrently.
+    client.maxConnectionsPerHost = 32;
+    client.idleTimeout = const Duration(seconds: 60);
+    client.connectionTimeout = const Duration(seconds: 15);
+    return client;
+  }
+
+  /// Perform a GET request with automatic error handling.
   ///
-  /// Returns [Either<MainFailure, T>] where T is the parsed response
+  /// Returns [Either<MainFailure, T>] where T is the parsed response.
   Future<Either<MainFailure, T>> get<T>({
     required String url,
     required T Function(dynamic data) parser,
     Map<String, dynamic>? queryParameters,
-    int maxRetries = 1,
+    int maxAttempts = 1,
   }) async {
     int attempts = 0;
 
-    while (attempts < maxRetries) {
+    while (attempts < maxAttempts) {
       attempts++;
 
       try {
-        final response = await _dio.get(
+        final response = await _apiDio.get(
           url,
           queryParameters: queryParameters,
         );
@@ -48,8 +104,7 @@ class ApiClient {
       } on DioException catch (e) {
         log('DioException on $url (attempt $attempts): ${e.type}');
 
-        // If we have retries left and it's a retriable error, continue
-        if (attempts < maxRetries && _isRetriableError(e)) {
+        if (attempts < maxAttempts && _isRetriableError(e)) {
           await Future.delayed(Duration(milliseconds: 500 * attempts));
           continue;
         }
@@ -61,11 +116,9 @@ class ApiClient {
       }
     }
 
-    // Should never reach here, but just in case
     return const Left(MainFailure.unknown());
   }
 
-  /// Handle response and convert to Either
   Either<MainFailure, T> _handleResponse<T>(
     Response response,
     T Function(dynamic data) parser,
@@ -104,7 +157,6 @@ class ApiClient {
     }
   }
 
-  /// Check if error is retriable
   bool _isRetriableError(DioException e) {
     return e.type == DioExceptionType.connectionTimeout ||
         e.type == DioExceptionType.receiveTimeout ||
@@ -112,7 +164,6 @@ class ApiClient {
         e.type == DioExceptionType.connectionError;
   }
 
-  /// Convert DioException to MainFailure
   MainFailure _mapDioException(DioException e) {
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
@@ -146,26 +197,27 @@ class ApiClient {
     }
   }
 
-  /// Close the Dio client (call when app is disposed)
+  /// Close the Dio client (call when app is disposed).
   void close() {
-    _dio.close();
+    _apiDio.close(force: true);
+    _downloadDio.close(force: true);
     _instance = null;
   }
 }
 
-/// Extension to simplify API calls that return lists
+/// Extension to simplify API calls that return lists.
 extension ApiClientListExtension on ApiClient {
-  /// GET request that parses response as a list
+  /// GET request that parses response as a list.
   Future<Either<MainFailure, List<T>>> getList<T>({
     required String url,
     required T Function(Map<String, dynamic> json) itemParser,
     Map<String, dynamic>? queryParameters,
-    int maxRetries = 1,
+    int maxAttempts = 1,
   }) {
     return get(
       url: url,
       queryParameters: queryParameters,
-      maxRetries: maxRetries,
+      maxAttempts: maxAttempts,
       parser: (data) {
         if (data is List) {
           return data.map((item) => itemParser(item as Map<String, dynamic>)).toList();

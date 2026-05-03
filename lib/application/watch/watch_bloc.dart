@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
@@ -23,6 +24,10 @@ part 'watch_bloc.freezed.dart';
 
 @injectable
 class WatchBloc extends Bloc<WatchEvent, WatchState> {
+  static const bool _verboseTimingLogs = false;
+
+  int _newPipeWatchRequestSerial = 0;
+
   WatchBloc(
     WatchService watchService,
     SponsorBlockService sponsorBlockService,
@@ -83,7 +88,8 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
     on<ForceFetchCommentData>((event, emit) async {
       // Clear old comments and set loading
       emit(state.copyWith(
-        comments: CommentsResp(comments: [], nextpage: null, disabled: false, commentCount: 0),
+        comments: CommentsResp(
+            comments: [], nextpage: null, disabled: false, commentCount: 0),
         fetchCommentsStatus: ApiStatus.loading,
         isMoreCommentsFetchCompleted: false,
       ));
@@ -91,7 +97,8 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
       final _result = await watchService.getCommentsData(id: event.id);
 
       final _state = _result.fold(
-        (MainFailure failure) => state.copyWith(fetchCommentsStatus: ApiStatus.error),
+        (MainFailure failure) =>
+            state.copyWith(fetchCommentsStatus: ApiStatus.error),
         (CommentsResp resp) => state.copyWith(
           fetchCommentsStatus: ApiStatus.loaded,
           comments: resp,
@@ -132,7 +139,8 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
               fetchCommentRepliesStatus: ApiStatus.loaded,
               commentReplies: resp,
               // Mark as completed if no more pages (null or empty)
-              isMoreReplyCommentsFetchCompleted: resp.nextpage == null || resp.nextpage!.isEmpty));
+              isMoreReplyCommentsFetchCompleted:
+                  resp.nextpage == null || resp.nextpage!.isEmpty));
 
       //update to ui
       emit(_state);
@@ -464,7 +472,10 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
             final updatedComments = InvidiousCommentsResp(
               commentCount: state.invidiousComments.commentCount,
               videoId: state.invidiousComments.videoId,
-              comments: [...(state.invidiousComments.comments ?? []), ...(resp.comments ?? [])],
+              comments: [
+                ...(state.invidiousComments.comments ?? []),
+                ...(resp.comments ?? [])
+              ],
               continuation: resp.continuation,
             );
             return state.copyWith(
@@ -503,7 +514,10 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
             final updatedReplies = InvidiousCommentsResp(
               commentCount: state.invidiousCommentReplies.commentCount,
               videoId: state.invidiousCommentReplies.videoId,
-              comments: [...(state.invidiousCommentReplies.comments ?? []), ...(resp.comments ?? [])],
+              comments: [
+                ...(state.invidiousCommentReplies.comments ?? []),
+                ...(resp.comments ?? [])
+              ],
               continuation: resp.continuation,
             );
             return state.copyWith(
@@ -525,6 +539,7 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
 
     // NEWPIPE
     on<GetNewPipeWatchInfo>((event, emit) async {
+      final requestSerial = ++_newPipeWatchRequestSerial;
       emit(state.copyWith(
         newPipeWatchResp: NewPipeWatchResp(),
         fetchNewPipeWatchInfoStatus: ApiStatus.loading,
@@ -532,7 +547,9 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
         isDescriptionTapped: false,
       ));
 
+      final stopwatch = Stopwatch()..start();
       final result = await watchService.getNewPipeVideoData(id: event.id);
+      if (requestSerial != _newPipeWatchRequestSerial) return;
 
       final _state = result.fold(
         (MainFailure failure) => state.copyWith(
@@ -545,11 +562,17 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
         ),
       );
 
+      stopwatch.stop();
+      if (kDebugMode && _verboseTimingLogs) {
+        debugPrint(
+            '[WatchBloc] NewPipe full watch ${event.id}: ${stopwatch.elapsedMilliseconds}ms');
+      }
       emit(_state);
     });
 
     // NewPipe video info with parallel SponsorBlock fetch
     on<GetNewPipeWatchInfoFast>((event, emit) async {
+      final requestSerial = ++_newPipeWatchRequestSerial;
       emit(state.copyWith(
         newPipeWatchResp: NewPipeWatchResp(),
         fetchNewPipeWatchInfoStatus: ApiStatus.loading,
@@ -562,8 +585,9 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
       ));
 
       // Fetch video info and SponsorBlock segments in parallel
+      final stopwatch = Stopwatch()..start();
       final List<Future<dynamic>> futures = [
-        watchService.getNewPipeVideoData(id: event.id),
+        watchService.getNewPipeVideoDataFast(id: event.id),
       ];
 
       // Only fetch SponsorBlock if categories are provided
@@ -575,6 +599,7 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
       }
 
       final results = await Future.wait(futures);
+      if (requestSerial != _newPipeWatchRequestSerial) return;
 
       final videoResult = results[0] as Either<MainFailure, NewPipeWatchResp>;
 
@@ -597,7 +622,8 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
 
       // Process SponsorBlock result if fetched
       if (event.sponsorBlockCategories.isNotEmpty && results.length > 1) {
-        final sponsorResult = results[1] as Either<MainFailure, List<SponsorSegment>>;
+        final sponsorResult =
+            results[1] as Either<MainFailure, List<SponsorSegment>>;
         newState = sponsorResult.fold(
           (MainFailure failure) => newState.copyWith(
             fetchSponsorSegmentsStatus: ApiStatus.error,
@@ -610,7 +636,45 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
         );
       }
 
+      stopwatch.stop();
+      if (kDebugMode && _verboseTimingLogs) {
+        debugPrint(
+            '[WatchBloc] NewPipe fast watch ${event.id}: ${stopwatch.elapsedMilliseconds}ms');
+      }
       emit(newState);
+
+      final shouldFetchFullWatch = videoResult.fold(
+        (_) => false,
+        (resp) => (resp.relatedStreams == null || resp.relatedStreams!.isEmpty),
+      );
+      if (!shouldFetchFullWatch) return;
+
+      final fullStopwatch = Stopwatch()..start();
+      final fullResult = await watchService.getNewPipeVideoData(id: event.id);
+      if (requestSerial != _newPipeWatchRequestSerial) return;
+
+      fullResult.fold(
+        (_) {
+          fullStopwatch.stop();
+          if (kDebugMode && _verboseTimingLogs) {
+            debugPrint(
+                '[WatchBloc] NewPipe full follow-up ${event.id} failed after ${fullStopwatch.elapsedMilliseconds}ms');
+          }
+        },
+        (resp) {
+          fullStopwatch.stop();
+          if (kDebugMode && _verboseTimingLogs) {
+            debugPrint(
+                '[WatchBloc] NewPipe full follow-up ${event.id}: ${fullStopwatch.elapsedMilliseconds}ms');
+          }
+          emit(state.copyWith(
+            newPipeWatchResp: resp,
+            fetchNewPipeWatchInfoStatus: ApiStatus.loaded,
+            newPipeErrorMessage: null,
+            oldId: event.id,
+          ));
+        },
+      );
     });
 
     on<GetNewPipeComments>((event, emit) async {
@@ -640,7 +704,8 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
 
         emit(_state);
       } else {
-        emit(loadingState.copyWith(fetchNewPipeCommentsStatus: ApiStatus.initial));
+        emit(loadingState.copyWith(
+            fetchNewPipeCommentsStatus: ApiStatus.initial));
       }
     });
 
@@ -690,7 +755,10 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
             );
           } else {
             final updatedComments = NewPipeCommentsResp(
-              comments: [...(state.newPipeComments.comments ?? []), ...(resp.comments ?? [])],
+              comments: [
+                ...(state.newPipeComments.comments ?? []),
+                ...(resp.comments ?? [])
+              ],
               nextPage: resp.nextPage,
               commentCount: state.newPipeComments.commentCount,
               isDisabled: state.newPipeComments.isDisabled,
@@ -754,7 +822,10 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
             );
           } else {
             final updatedReplies = NewPipeCommentsResp(
-              comments: [...(state.newPipeCommentReplies.comments ?? []), ...(resp.comments ?? [])],
+              comments: [
+                ...(state.newPipeCommentReplies.comments ?? []),
+                ...(resp.comments ?? [])
+              ],
               nextPage: resp.nextPage,
               commentCount: state.newPipeCommentReplies.commentCount,
               isDisabled: state.newPipeCommentReplies.isDisabled,

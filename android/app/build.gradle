@@ -27,6 +27,10 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
+def releaseStoreFile = keystoreProperties['storeFile']
+        ? file(keystoreProperties['storeFile'])
+        : file('key.jks')
+def hasReleaseKeystore = releaseStoreFile.exists()
 
 android {
     namespace "com.fazilvk.fluxtube"
@@ -60,13 +64,12 @@ android {
     }   
     signingConfigs {
         release {
-            //From decoded key
-            storeFile = file('key.jks')
-
-            //From key.properties
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storePassword keystoreProperties['storePassword']
+            if (hasReleaseKeystore) {
+                storeFile releaseStoreFile
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storePassword keystoreProperties['storePassword']
+            }
         }
     }
 
@@ -76,7 +79,9 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            signingConfig hasReleaseKeystore
+                    ? signingConfigs.release
+                    : signingConfigs.debug
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -111,7 +116,7 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.1.3'
 
     // NewPipe Extractor - YouTube data extraction library (lowercase required for JitPack)
-    implementation 'com.github.teamnewpipe:NewPipeExtractor:v0.25.0'
+    implementation 'com.github.teamnewpipe:newpipeextractor:v0.26.1'
 
     // OkHttp - Required by NewPipe Extractor for HTTP requests
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
@@ -121,4 +126,11 @@ dependencies {
 
     // Kotlin Coroutines - Async operations for background extraction
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
+
+    // Media3 / ExoPlayer - native Android playback path for NewPipe streams
+    def media3Version = '1.4.1'
+    implementation "androidx.media3:media3-exoplayer:$media3Version"
+    implementation "androidx.media3:media3-exoplayer-dash:$media3Version"
+    implementation "androidx.media3:media3-exoplayer-hls:$media3Version"
+    implementation "androidx.media3:media3-ui:$media3Version"
 }

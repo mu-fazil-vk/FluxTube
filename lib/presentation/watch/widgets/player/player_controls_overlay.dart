@@ -78,6 +78,8 @@ class _PlayerControlsOverlayState extends State<PlayerControlsOverlay>
   // Playback state
   double _currentSpeed = 1.0;
   String? _currentSubtitle;
+  bool _isScrubbing = false;
+  double? _scrubPositionMs;
 
   // Volume and brightness gesture state
   bool _isVerticalDragging = false;
@@ -1191,8 +1193,10 @@ class _PlayerControlsOverlayState extends State<PlayerControlsOverlay>
                   ),
                   child: Slider(
                     value: duration.inMilliseconds > 0
-                        ? position.inMilliseconds.toDouble().clamp(
-                            0, duration.inMilliseconds.toDouble())
+                        ? (_isScrubbing
+                                ? (_scrubPositionMs ?? 0)
+                                : position.inMilliseconds.toDouble())
+                            .clamp(0, duration.inMilliseconds.toDouble())
                         : 0,
                     min: 0,
                     max: duration.inMilliseconds > 0
@@ -1203,12 +1207,20 @@ class _PlayerControlsOverlayState extends State<PlayerControlsOverlay>
                             0, duration.inMilliseconds.toDouble())
                         : 0,
                     onChanged: (value) {
-                      widget.player.seek(Duration(milliseconds: value.toInt()));
+                      setState(() {
+                        _isScrubbing = true;
+                        _scrubPositionMs = value;
+                      });
                     },
                     onChangeStart: (_) {
                       _hideTimer?.cancel();
                     },
-                    onChangeEnd: (_) {
+                    onChangeEnd: (value) {
+                      widget.player.seek(Duration(milliseconds: value.toInt()));
+                      setState(() {
+                        _isScrubbing = false;
+                        _scrubPositionMs = null;
+                      });
                       _startHideTimer();
                     },
                   ),

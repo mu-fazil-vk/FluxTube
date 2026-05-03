@@ -46,7 +46,8 @@ class InvidiousMediaKitPlayer extends StatefulWidget {
   final List<SponsorSegment> sponsorSegments;
 
   @override
-  State<InvidiousMediaKitPlayer> createState() => _InvidiousMediaKitPlayerState();
+  State<InvidiousMediaKitPlayer> createState() =>
+      _InvidiousMediaKitPlayerState();
 }
 
 class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
@@ -93,8 +94,10 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
     // CRITICAL: First thing - check if wrong video is playing and stop it
     final currentPlayingId = _globalPlayer.currentVideoId;
     if (currentPlayingId != null && currentPlayingId != widget.videoId) {
-      debugPrint('[InvidiousPlayer] CRITICAL: Wrong video $currentPlayingId playing, expected ${widget.videoId}');
-      debugPrint('[InvidiousPlayer] Stopping wrong video and waiting for completion');
+      debugPrint(
+          '[InvidiousPlayer] CRITICAL: Wrong video $currentPlayingId playing, expected ${widget.videoId}');
+      debugPrint(
+          '[InvidiousPlayer] Stopping wrong video and waiting for completion');
       await _globalPlayer.stopAndClear();
       debugPrint('[InvidiousPlayer] Wrong video stopped successfully');
     }
@@ -107,11 +110,13 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
 
     if (_isRestoringFromPip) {
       // Restore from PiP - set initialized immediately since player is already active
-      debugPrint('[InvidiousPlayer] Restoring from PiP for video ${widget.videoId}');
+      debugPrint(
+          '[InvidiousPlayer] Restoring from PiP for video ${widget.videoId}');
       _restoreFromPipSync();
     } else {
       // New video - initialize fresh
-      debugPrint('[InvidiousPlayer] Starting fresh initialization for video ${widget.videoId}');
+      debugPrint(
+          '[InvidiousPlayer] Starting fresh initialization for video ${widget.videoId}');
       _initializePlayback();
     }
     _setupHistoryListener();
@@ -123,7 +128,8 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
     super.didUpdateWidget(oldWidget);
     // If the video ID changed, reinitialize playback
     if (oldWidget.videoId != widget.videoId) {
-      debugPrint('[InvidiousPlayer] Video ID changed from ${oldWidget.videoId} to ${widget.videoId}');
+      debugPrint(
+          '[InvidiousPlayer] Video ID changed from ${oldWidget.videoId} to ${widget.videoId}');
       // IMMEDIATELY stop the player to prevent old audio from playing
       _player.stop();
       // Cancel old sponsor block subscription
@@ -172,8 +178,10 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
   Future<void> _initializePlayback() async {
     try {
       // If global player was playing a different video (e.g., in PiP), stop it first
-      if (_globalPlayer.hasActivePlayer && _globalPlayer.currentVideoId != widget.videoId) {
-        debugPrint('[InvidiousPlayer] Stopping previous video ${_globalPlayer.currentVideoId} to play ${widget.videoId}');
+      if (_globalPlayer.hasActivePlayer &&
+          _globalPlayer.currentVideoId != widget.videoId) {
+        debugPrint(
+            '[InvidiousPlayer] Stopping previous video ${_globalPlayer.currentVideoId} to play ${widget.videoId}');
         await _globalPlayer.stopAndClear();
       }
 
@@ -254,7 +262,9 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
         // Find the selected quality stream
         final selectedStream = formatStreams.firstWhere(
           (v) => v.qualityLabel == quality,
-          orElse: () => formatStreams.isNotEmpty ? formatStreams.first : formatStreams.first,
+          orElse: () => formatStreams.isNotEmpty
+              ? formatStreams.first
+              : formatStreams.first,
         );
         videoUrl = selectedStream.url;
 
@@ -274,7 +284,8 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
       debugPrint('Quality: $quality');
       debugPrint('Is DASH: $isDash');
       debugPrint('Is Live: $isLive');
-      debugPrint('Video URL: ${videoUrl.substring(0, videoUrl.length > 80 ? 80 : videoUrl.length)}...');
+      debugPrint(
+          'Video URL: ${videoUrl.substring(0, videoUrl.length > 80 ? 80 : videoUrl.length)}...');
 
       // Open the media
       await _player.open(
@@ -316,7 +327,8 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
         if (!mounted) return;
 
         await _player.seek(Duration(seconds: widget.playbackPosition));
-        debugPrint('Seeked to position: ${widget.playbackPosition}s (after play)');
+        debugPrint(
+            'Seeked to position: ${widget.playbackPosition}s (after play)');
 
         // Wait for buffering to complete after seek
         await _waitForBufferingComplete();
@@ -337,13 +349,15 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
   }
 
   /// Wait for buffering to complete after seek
-  Future<void> _waitForBufferingComplete({Duration timeout = const Duration(seconds: 5)}) async {
+  Future<void> _waitForBufferingComplete(
+      {Duration timeout = const Duration(seconds: 5)}) async {
     final startTime = DateTime.now();
 
     // Wait until player is not buffering
     while (_player.state.buffering) {
       if (DateTime.now().difference(startTime) > timeout) {
-        debugPrint('[Player] Timeout waiting for buffering complete, proceeding anyway');
+        debugPrint(
+            '[Player] Timeout waiting for buffering complete, proceeding anyway');
         break;
       }
       await Future.delayed(const Duration(milliseconds: 100));
@@ -358,22 +372,11 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
       return targetQuality;
     }
 
-    // Parse target resolution
-    final targetRes = GenericQualityInfo.parseResolution(targetQuality);
-
-    // Find closest available quality
-    GenericQualityInfo? closest = _availableQualities!.first;
-    int smallestDiff = (closest.resolution - targetRes).abs();
-
-    for (var quality in _availableQualities!) {
-      final diff = (quality.resolution - targetRes).abs();
-      if (diff < smallestDiff) {
-        smallestDiff = diff;
-        closest = quality;
-      }
-    }
-
-    return closest?.label ?? targetQuality;
+    return GenericQualityInfo.findBestMatchingQuality(
+          _availableQualities!,
+          targetQuality,
+        )?.label ??
+        targetQuality;
   }
 
   void _setupHistoryListener() {
@@ -462,7 +465,8 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
     _updateVideoHistory();
     // Don't dispose the global player - save state for PiP transition
     _globalPlayer.savePlaybackState();
-    debugPrint('[InvidiousPlayer] Dispose called - saving state for potential PiP');
+    debugPrint(
+        '[InvidiousPlayer] Dispose called - saving state for potential PiP');
     super.dispose();
   }
 
@@ -513,7 +517,9 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
             builder: (context, snapshot) {
               final isBuffering = snapshot.data ?? false;
               // Show loading for buffering, quality change, or seeking to position
-              if (!isBuffering && !_isChangingQuality && !_isSeekingToPosition) {
+              if (!isBuffering &&
+                  !_isChangingQuality &&
+                  !_isSeekingToPosition) {
                 return const SizedBox.shrink();
               }
               return Container(
@@ -558,9 +564,8 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
 
   Widget _buildCustomControls(VideoState state) {
     // Convert subtitles to generic format
-    final genericSubtitles = widget.subtitles
-        .map((s) => GenericSubtitle.fromMap(s))
-        .toList();
+    final genericSubtitles =
+        widget.subtitles.map((s) => GenericSubtitle.fromMap(s)).toList();
 
     return GenericPlayerControlsOverlay(
       player: _player,
@@ -623,7 +628,8 @@ class _InvidiousMediaKitPlayerState extends State<InvidiousMediaKitPlayer> {
   void _updateVideoHistory() {
     final currentPosition = _player.state.position;
 
-    _watchBloc.add(WatchEvent.updatePlayBack(playBack: currentPosition.inSeconds));
+    _watchBloc
+        .add(WatchEvent.updatePlayBack(playBack: currentPosition.inSeconds));
 
     if (currentPosition.inSeconds > 0 && widget.videoId.isNotEmpty) {
       // Get author thumbnail URL

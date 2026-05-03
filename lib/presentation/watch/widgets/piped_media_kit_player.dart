@@ -102,8 +102,10 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
     // CRITICAL: First thing - check if wrong video is playing and stop it
     final currentPlayingId = _globalPlayer.currentVideoId;
     if (currentPlayingId != null && currentPlayingId != widget.videoId) {
-      debugPrint('[PipedPlayer] CRITICAL: Wrong video $currentPlayingId playing, expected ${widget.videoId}');
-      debugPrint('[PipedPlayer] Stopping wrong video and waiting for completion');
+      debugPrint(
+          '[PipedPlayer] CRITICAL: Wrong video $currentPlayingId playing, expected ${widget.videoId}');
+      debugPrint(
+          '[PipedPlayer] Stopping wrong video and waiting for completion');
       await _globalPlayer.stopAndClear();
       debugPrint('[PipedPlayer] Wrong video stopped successfully');
     }
@@ -116,11 +118,13 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
 
     if (_isRestoringFromPip) {
       // Restore from PiP - set initialized immediately since player is already active
-      debugPrint('[PipedPlayer] Restoring from PiP for video ${widget.videoId}');
+      debugPrint(
+          '[PipedPlayer] Restoring from PiP for video ${widget.videoId}');
       _restoreFromPipSync();
     } else {
       // New video - initialize fresh
-      debugPrint('[PipedPlayer] Starting fresh initialization for video ${widget.videoId}');
+      debugPrint(
+          '[PipedPlayer] Starting fresh initialization for video ${widget.videoId}');
       _initializePlayback();
     }
     _setupHistoryListener();
@@ -132,7 +136,8 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
     super.didUpdateWidget(oldWidget);
     // If the video ID changed, reinitialize playback
     if (oldWidget.videoId != widget.videoId) {
-      debugPrint('[PipedPlayer] Video ID changed from ${oldWidget.videoId} to ${widget.videoId}');
+      debugPrint(
+          '[PipedPlayer] Video ID changed from ${oldWidget.videoId} to ${widget.videoId}');
       // IMMEDIATELY stop the player to prevent old audio from playing
       _player.stop();
       // Cancel old sponsor block subscription
@@ -173,11 +178,13 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
     _currentQualityLabel = widget.defaultQuality;
 
     // Build audio tracks list
-    _availableAudioTracks = PipedStreamHelper.getAvailableAudioTracks(widget.watchInfo.audioStreams);
+    _availableAudioTracks = PipedStreamHelper.getAvailableAudioTracks(
+        widget.watchInfo.audioStreams);
 
     // Restore audio track from global state
     final savedAudioTrack = _globalPlayer.currentAudioTrackId;
-    if (savedAudioTrack != null && _availableAudioTracks!.any((t) => t.trackId == savedAudioTrack)) {
+    if (savedAudioTrack != null &&
+        _availableAudioTracks!.any((t) => t.trackId == savedAudioTrack)) {
       _currentAudioTrackId = savedAudioTrack;
     } else if (_availableAudioTracks!.isNotEmpty) {
       _currentAudioTrackId = _availableAudioTracks!.first.trackId;
@@ -195,8 +202,10 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
   Future<void> _initializePlayback() async {
     try {
       // If global player was playing a different video (e.g., in PiP), stop it first
-      if (_globalPlayer.hasActivePlayer && _globalPlayer.currentVideoId != widget.videoId) {
-        debugPrint('[PipedPlayer] Stopping previous video ${_globalPlayer.currentVideoId} to play ${widget.videoId}');
+      if (_globalPlayer.hasActivePlayer &&
+          _globalPlayer.currentVideoId != widget.videoId) {
+        debugPrint(
+            '[PipedPlayer] Stopping previous video ${_globalPlayer.currentVideoId} to play ${widget.videoId}');
         await _globalPlayer.stopAndClear();
       }
 
@@ -242,7 +251,8 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
       _currentQualityLabel = targetQuality;
 
       // Build audio tracks list
-      _availableAudioTracks = PipedStreamHelper.getAvailableAudioTracks(widget.watchInfo.audioStreams);
+      _availableAudioTracks = PipedStreamHelper.getAvailableAudioTracks(
+          widget.watchInfo.audioStreams);
       if (_availableAudioTracks!.isNotEmpty) {
         _currentAudioTrackId = _availableAudioTracks!.first.trackId;
         _globalPlayer.setCurrentAudioTrackId(_currentAudioTrackId);
@@ -309,7 +319,8 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
       debugPrint('Quality: $quality');
       debugPrint('Is HLS: $isHls');
       debugPrint('Is Live: $isLive');
-      debugPrint('Video URL: ${videoUrl.substring(0, videoUrl.length > 80 ? 80 : videoUrl.length)}...');
+      debugPrint(
+          'Video URL: ${videoUrl.substring(0, videoUrl.length > 80 ? 80 : videoUrl.length)}...');
 
       // Open the media
       await _player.open(
@@ -349,7 +360,8 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
         if (!mounted) return;
 
         await _player.seek(Duration(seconds: widget.playbackPosition));
-        debugPrint('Seeked to position: ${widget.playbackPosition}s (after play)');
+        debugPrint(
+            'Seeked to position: ${widget.playbackPosition}s (after play)');
 
         // Wait for buffering to complete after seek
         await _waitForBufferingComplete();
@@ -370,13 +382,15 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
   }
 
   /// Wait for buffering to complete after seek
-  Future<void> _waitForBufferingComplete({Duration timeout = const Duration(seconds: 5)}) async {
+  Future<void> _waitForBufferingComplete(
+      {Duration timeout = const Duration(seconds: 5)}) async {
     final startTime = DateTime.now();
 
     // Wait until player is not buffering
     while (_player.state.buffering) {
       if (DateTime.now().difference(startTime) > timeout) {
-        debugPrint('[Player] Timeout waiting for buffering complete, proceeding anyway');
+        debugPrint(
+            '[Player] Timeout waiting for buffering complete, proceeding anyway');
         break;
       }
       await Future.delayed(const Duration(milliseconds: 100));
@@ -391,22 +405,11 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
       return targetQuality;
     }
 
-    // Parse target resolution
-    final targetRes = GenericQualityInfo.parseResolution(targetQuality);
-
-    // Find closest available quality
-    GenericQualityInfo? closest = _availableQualities!.first;
-    int smallestDiff = (closest.resolution - targetRes).abs();
-
-    for (var quality in _availableQualities!) {
-      final diff = (quality.resolution - targetRes).abs();
-      if (diff < smallestDiff) {
-        smallestDiff = diff;
-        closest = quality;
-      }
-    }
-
-    return closest?.label ?? targetQuality;
+    return GenericQualityInfo.findBestMatchingQuality(
+          _availableQualities!,
+          targetQuality,
+        )?.label ??
+        targetQuality;
   }
 
   void _setupHistoryListener() {
@@ -464,7 +467,8 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
       await _setupMediaSource(newQualityLabel);
 
       // Restore position (for non-live streams)
-      if (currentPosition.inSeconds > 0 && widget.watchInfo.livestream != true) {
+      if (currentPosition.inSeconds > 0 &&
+          widget.watchInfo.livestream != true) {
         await _player.seek(currentPosition);
       }
 
@@ -546,7 +550,10 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
             builder: (context, snapshot) {
               final isBuffering = snapshot.data ?? false;
               // Show loading for buffering, quality change, audio track change, or seeking to position
-              if (!isBuffering && !_isChangingQuality && !_isSeekingToPosition && !_isChangingAudioTrack) {
+              if (!isBuffering &&
+                  !_isChangingQuality &&
+                  !_isSeekingToPosition &&
+                  !_isChangingAudioTrack) {
                 return const SizedBox.shrink();
               }
               return Container(
@@ -600,9 +607,8 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
 
   Widget _buildCustomControls(VideoState state) {
     // Convert subtitles to generic format
-    final genericSubtitles = widget.subtitles
-        .map((s) => GenericSubtitle.fromMap(s))
-        .toList();
+    final genericSubtitles =
+        widget.subtitles.map((s) => GenericSubtitle.fromMap(s)).toList();
 
     return GenericPlayerControlsOverlay(
       player: _player,
@@ -701,7 +707,8 @@ class _PipedMediaKitPlayerState extends State<PipedMediaKitPlayer> {
   void _updateVideoHistory() {
     final currentPosition = _player.state.position;
 
-    _watchBloc.add(WatchEvent.updatePlayBack(playBack: currentPosition.inSeconds));
+    _watchBloc
+        .add(WatchEvent.updatePlayBack(playBack: currentPosition.inSeconds));
 
     if (currentPosition.inSeconds > 0 && widget.videoId.isNotEmpty) {
       final videoInfo = LocalStoreVideoInfo(

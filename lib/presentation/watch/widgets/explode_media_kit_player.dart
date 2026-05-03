@@ -57,7 +57,8 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
 
   // Local references for convenience
   Player get _player => _globalPlayer.player;
-  media_kit_video.VideoController get _videoController => _globalPlayer.videoController;
+  media_kit_video.VideoController get _videoController =>
+      _globalPlayer.videoController;
 
   List<GenericQualityInfo>? _availableQualities;
   String? _currentQualityLabel;
@@ -95,8 +96,10 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
     // CRITICAL: First thing - check if wrong video is playing and stop it
     final currentPlayingId = _globalPlayer.currentVideoId;
     if (currentPlayingId != null && currentPlayingId != widget.videoId) {
-      debugPrint('[ExplodePlayer] CRITICAL: Wrong video $currentPlayingId playing, expected ${widget.videoId}');
-      debugPrint('[ExplodePlayer] Stopping wrong video and waiting for completion');
+      debugPrint(
+          '[ExplodePlayer] CRITICAL: Wrong video $currentPlayingId playing, expected ${widget.videoId}');
+      debugPrint(
+          '[ExplodePlayer] Stopping wrong video and waiting for completion');
       await _globalPlayer.stopAndClear();
       debugPrint('[ExplodePlayer] Wrong video stopped successfully');
     }
@@ -109,11 +112,13 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
 
     if (_isRestoringFromPip) {
       // Restore from PiP - set initialized immediately since player is already active
-      debugPrint('[ExplodePlayer] Restoring from PiP for video ${widget.videoId}');
+      debugPrint(
+          '[ExplodePlayer] Restoring from PiP for video ${widget.videoId}');
       _restoreFromPipSync();
     } else {
       // New video - initialize fresh
-      debugPrint('[ExplodePlayer] Starting fresh initialization for video ${widget.videoId}');
+      debugPrint(
+          '[ExplodePlayer] Starting fresh initialization for video ${widget.videoId}');
       _initializePlayback();
     }
     _setupHistoryListener();
@@ -125,7 +130,8 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
     super.didUpdateWidget(oldWidget);
     // If the video ID changed, reinitialize playback
     if (oldWidget.videoId != widget.videoId) {
-      debugPrint('[ExplodePlayer] Video ID changed from ${oldWidget.videoId} to ${widget.videoId}');
+      debugPrint(
+          '[ExplodePlayer] Video ID changed from ${oldWidget.videoId} to ${widget.videoId}');
       // IMMEDIATELY stop the player to prevent old audio from playing
       _player.stop();
       // Cancel old sponsor block subscription
@@ -172,8 +178,10 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
   Future<void> _initializePlayback() async {
     try {
       // If global player was playing a different video (e.g., in PiP), stop it first
-      if (_globalPlayer.hasActivePlayer && _globalPlayer.currentVideoId != widget.videoId) {
-        debugPrint('[ExplodePlayer] Stopping previous video ${_globalPlayer.currentVideoId} to play ${widget.videoId}');
+      if (_globalPlayer.hasActivePlayer &&
+          _globalPlayer.currentVideoId != widget.videoId) {
+        debugPrint(
+            '[ExplodePlayer] Stopping previous video ${_globalPlayer.currentVideoId} to play ${widget.videoId}');
         await _globalPlayer.stopAndClear();
       }
 
@@ -258,7 +266,8 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
           selectedStream = widget.availableVideoTracks.first;
         }
 
-        videoUrl = selectedStream?.url.isNotEmpty == true ? selectedStream!.url : null;
+        videoUrl =
+            selectedStream?.url.isNotEmpty == true ? selectedStream!.url : null;
 
         // Fallback to live URL if available
         if (videoUrl == null && widget.liveUrl != null) {
@@ -274,7 +283,8 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
       debugPrint('=== Explode MediaKit Playback Debug ===');
       debugPrint('Quality: $quality');
       debugPrint('Is Live: $isLive');
-      debugPrint('Video URL: ${videoUrl.substring(0, videoUrl.length > 80 ? 80 : videoUrl.length)}...');
+      debugPrint(
+          'Video URL: ${videoUrl.substring(0, videoUrl.length > 80 ? 80 : videoUrl.length)}...');
 
       // Open the media
       await _player.open(
@@ -304,7 +314,8 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
         if (!mounted) return;
 
         await _player.seek(Duration(seconds: widget.playbackPosition));
-        debugPrint('Seeked to position: ${widget.playbackPosition}s (after play)');
+        debugPrint(
+            'Seeked to position: ${widget.playbackPosition}s (after play)');
 
         // Wait for buffering to complete after seek
         await _waitForBufferingComplete();
@@ -325,13 +336,15 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
   }
 
   /// Wait for buffering to complete after seek
-  Future<void> _waitForBufferingComplete({Duration timeout = const Duration(seconds: 5)}) async {
+  Future<void> _waitForBufferingComplete(
+      {Duration timeout = const Duration(seconds: 5)}) async {
     final startTime = DateTime.now();
 
     // Wait until player is not buffering
     while (_player.state.buffering) {
       if (DateTime.now().difference(startTime) > timeout) {
-        debugPrint('[Player] Timeout waiting for buffering complete, proceeding anyway');
+        debugPrint(
+            '[Player] Timeout waiting for buffering complete, proceeding anyway');
         break;
       }
       await Future.delayed(const Duration(milliseconds: 100));
@@ -346,22 +359,11 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
       return targetQuality;
     }
 
-    // Parse target resolution
-    final targetRes = GenericQualityInfo.parseResolution(targetQuality);
-
-    // Find closest available quality
-    GenericQualityInfo? closest = _availableQualities!.first;
-    int smallestDiff = (closest.resolution - targetRes).abs();
-
-    for (var quality in _availableQualities!) {
-      final diff = (quality.resolution - targetRes).abs();
-      if (diff < smallestDiff) {
-        smallestDiff = diff;
-        closest = quality;
-      }
-    }
-
-    return closest?.label ?? targetQuality;
+    return GenericQualityInfo.findBestMatchingQuality(
+          _availableQualities!,
+          targetQuality,
+        )?.label ??
+        targetQuality;
   }
 
   void _setupHistoryListener() {
@@ -450,7 +452,8 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
     _updateVideoHistory();
     // Don't dispose the global player - save state for PiP transition
     _globalPlayer.savePlaybackState();
-    debugPrint('[ExplodePlayer] Dispose called - saving state for potential PiP');
+    debugPrint(
+        '[ExplodePlayer] Dispose called - saving state for potential PiP');
     super.dispose();
   }
 
@@ -483,7 +486,8 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
               return _buildCustomControls(state);
             },
             fit: _currentFitMode,
-            subtitleViewConfiguration: media_kit_video.SubtitleViewConfiguration(
+            subtitleViewConfiguration:
+                media_kit_video.SubtitleViewConfiguration(
               style: TextStyle(
                 fontSize: widget.subtitleSize,
                 color: Colors.white,
@@ -501,7 +505,9 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
             builder: (context, snapshot) {
               final isBuffering = snapshot.data ?? false;
               // Show loading for buffering, quality change, or seeking to position
-              if (!isBuffering && !_isChangingQuality && !_isSeekingToPosition) {
+              if (!isBuffering &&
+                  !_isChangingQuality &&
+                  !_isSeekingToPosition) {
                 return const SizedBox.shrink();
               }
               return Container(
@@ -546,9 +552,8 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
 
   Widget _buildCustomControls(media_kit_video.VideoState state) {
     // Convert subtitles to generic format
-    final genericSubtitles = widget.subtitles
-        .map((s) => GenericSubtitle.fromMap(s))
-        .toList();
+    final genericSubtitles =
+        widget.subtitles.map((s) => GenericSubtitle.fromMap(s)).toList();
 
     return GenericPlayerControlsOverlay(
       player: _player,
@@ -607,7 +612,8 @@ class _ExplodeMediaKitPlayerState extends State<ExplodeMediaKitPlayer> {
   void _updateVideoHistory() {
     final currentPosition = _player.state.position;
 
-    _watchBloc.add(WatchEvent.updatePlayBack(playBack: currentPosition.inSeconds));
+    _watchBloc
+        .add(WatchEvent.updatePlayBack(playBack: currentPosition.inSeconds));
 
     if (currentPosition.inSeconds > 0 && widget.videoId.isNotEmpty) {
       final videoInfo = LocalStoreVideoInfo(

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxtube/core/api_client.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/colors.dart';
@@ -375,10 +376,6 @@ class _InstanceAutoCheckWidgetState extends State<InstanceAutoCheckWidget> {
       _checkComplete = false;
     });
 
-    final dio = Dio();
-    dio.options.connectTimeout = const Duration(seconds: 10);
-    dio.options.receiveTimeout = const Duration(seconds: 10);
-
     for (int i = 0; i < instances.length; i++) {
       if (!_isChecking) break; // Cancelled
 
@@ -400,11 +397,11 @@ class _InstanceAutoCheckWidgetState extends State<InstanceAutoCheckWidget> {
 
         log('Testing instance: ${instance.name} - $testUrl');
 
-        final response = await dio.get(
+        final response = await ApiClient.dio.get(
           testUrl,
           options: Options(
-            validateStatus: (status) => true,
-            followRedirects: false,
+            receiveTimeout: const Duration(seconds: 10),
+            sendTimeout: const Duration(seconds: 10),
           ),
         );
 
@@ -417,7 +414,6 @@ class _InstanceAutoCheckWidgetState extends State<InstanceAutoCheckWidget> {
             _checkComplete = true;
             _statusMessage = 'Found working instance!';
           });
-          dio.close();
           return;
         } else {
           log('Instance ${instance.name} failed with status: ${response.statusCode}');
@@ -429,8 +425,6 @@ class _InstanceAutoCheckWidgetState extends State<InstanceAutoCheckWidget> {
       // Small delay between checks
       await Future.delayed(const Duration(milliseconds: 200));
     }
-
-    dio.close();
 
     if (_isChecking) {
       // Finished checking all instances

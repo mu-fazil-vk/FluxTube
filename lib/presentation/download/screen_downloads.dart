@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -402,12 +402,10 @@ class _DownloadItemCard extends StatelessWidget {
                   child: Stack(
                     children: [
                       item.thumbnailUrl != null
-                          ? CachedNetworkImage(
-                              imageUrl: item.thumbnailUrl!,
+                          ? ThumbnailImage.small(
+                              url: item.thumbnailUrl!,
                               width: 100,
                               height: 56,
-                              fit: BoxFit.cover,
-                              placeholder: (_, __) => _thumbnailPlaceholder(),
                               errorWidget: (_, __, ___) => _thumbnailPlaceholder(),
                             )
                           : _thumbnailPlaceholder(),

@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:fluxtube/core/animations/animations.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
@@ -62,20 +62,7 @@ class RelatedVideoWidget extends StatelessWidget {
                     children: [
                       // Thumbnail image
                       if (thumbnailUrl != null)
-                        CachedNetworkImage(
-                          imageUrl: thumbnailUrl!,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: isDark
-                                ? AppColors.surfaceVariantDark
-                                : AppColors.surfaceVariant,
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            color: isDark
-                                ? AppColors.surfaceVariantDark
-                                : AppColors.surfaceVariant,
-                          ),
-                        ),
+                        ThumbnailImage.small(url: thumbnailUrl!),
 
                       // Delete button overlay
                       if (isDeleteIcon)

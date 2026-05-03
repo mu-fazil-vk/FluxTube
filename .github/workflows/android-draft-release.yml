@@ -1,0 +1,137 @@
+name: Android Draft Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-android:
+    name: Build signed APKs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Restore Android signing files
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${ANDROID_KEYSTORE_BASE64}" || -z "${ANDROID_KEYSTORE_PASSWORD}" || -z "${ANDROID_KEY_PASSWORD}" || -z "${ANDROID_KEY_ALIAS}" ]]; then
+            echo "Missing Android signing secrets." >&2
+            exit 1
+          fi
+
+          mkdir -p android/app
+          printf '%s' "${ANDROID_KEYSTORE_BASE64}" | base64 --decode > android/app/key.jks
+
+          {
+            printf 'storePassword=%s\n' "${ANDROID_KEYSTORE_PASSWORD}"
+            printf 'keyPassword=%s\n' "${ANDROID_KEY_PASSWORD}"
+            printf 'keyAlias=%s\n' "${ANDROID_KEY_ALIAS}"
+            printf 'storeFile=app/key.jks\n'
+          } > android/key.properties
+
+      - name: Verify signing key fingerprint
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          EXPECTED_CERT_SHA256: ${{ secrets.ANDROID_CERT_SHA256 }}
+        run: |
+          set -euo pipefail
+
+          keytool -list -v \
+            -keystore android/app/key.jks \
+            -alias "${ANDROID_KEY_ALIAS}" \
+            -storepass "${ANDROID_KEYSTORE_PASSWORD}" > keytool-output.txt
+
+          actual_sha256="$(grep 'SHA256:' keytool-output.txt | head -n 1 | sed 's/.*SHA256: //' | tr -d ':' | tr '[:upper:]' '[:lower:]')"
+          expected_sha256="$(printf '%s' "${EXPECTED_CERT_SHA256}" | tr -d ':' | tr '[:upper:]' '[:lower:]')"
+
+          if [[ -n "${expected_sha256}" && "${actual_sha256}" != "${expected_sha256}" ]]; then
+            echo "Signing certificate mismatch." >&2
+            echo "Expected: ${expected_sha256}" >&2
+            echo "Actual:   ${actual_sha256}" >&2
+            exit 1
+          fi
+
+          echo "Signing certificate SHA-256: ${actual_sha256}"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Build universal APK
+        run: flutter build apk --release
+
+      - name: Build split APKs
+        run: flutter build apk --release --split-per-abi
+
+      - name: Collect APKs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          cp build/app/outputs/flutter-apk/*.apk dist/
+          ls -lah dist
+
+      - name: Read app version
+        id: app_version
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(grep '^version:' pubspec.yaml | awk '{print $2}')"
+          tag="v${version//+/-}-run-${GITHUB_RUN_NUMBER}"
+          echo "version=${version}" >> "${GITHUB_OUTPUT}"
+          echo "tag=${tag}" >> "${GITHUB_OUTPUT}"
+
+      - name: Create release notes
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "Automated Android build for ${GITHUB_SHA}."
+            echo
+            echo "Included APKs:"
+            find dist -maxdepth 1 -name '*.apk' -printf "- %f\n" | sort
+            echo
+            echo "Recent changes:"
+            git log --pretty='- %s (%h)' -20
+          } > RELEASE_NOTES.md
+
+      - name: Create draft GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.app_version.outputs.tag }}" dist/*.apk \
+            --draft \
+            --title "FluxTube ${{ steps.app_version.outputs.version }}" \
+            --notes-file RELEASE_NOTES.md

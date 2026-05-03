@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -520,9 +520,8 @@ class _ModernCommentCard extends StatelessWidget {
                       child: ClipOval(
                         child: comment.authorAvatarUrl != null &&
                                 comment.authorAvatarUrl!.isNotEmpty
-                            ? CachedNetworkImage(
-                                imageUrl: comment.authorAvatarUrl!,
-                                fit: BoxFit.cover,
+                            ? ThumbnailImage.small(
+                                url: comment.authorAvatarUrl!,
                                 width: isReply ? 28 : 36,
                                 height: isReply ? 28 : 36,
                                 errorWidget: (_, __, ___) => Icon(

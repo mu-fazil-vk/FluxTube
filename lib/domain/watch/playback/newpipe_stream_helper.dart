@@ -11,8 +11,7 @@ class NewPipeStreamHelper {
   /// Check if a quality requires stream merging (video-only + audio)
   static bool requiresMerging(String qualityLabel) {
     // Extract resolution number
-    final resolution =
-        int.tryParse(qualityLabel.replaceAll(RegExp(r'[^\d]'), ''));
+    final resolution = _parseResolution(qualityLabel);
     if (resolution == null) return false;
 
     // YouTube muxed streams are only available up to 360p
@@ -29,7 +28,8 @@ class NewPipeStreamHelper {
     // These are higher quality and should be preferred
     final bestAudio = getBestAudioStream(watchResp.audioStreams ?? []);
 
-    for (var videoStream in watchResp.videoOnlyStreams ?? []) {
+    for (var videoStream
+        in sortVideoStreams(watchResp.videoOnlyStreams ?? [])) {
       if (videoStream.url == null || videoStream.url!.isEmpty) continue;
 
       final resolution = _parseResolution(videoStream.resolution);
@@ -54,7 +54,7 @@ class NewPipeStreamHelper {
     }
 
     // Process muxed streams (videoStreams - have audio, ≤360p)
-    for (var videoStream in watchResp.videoStreams ?? []) {
+    for (var videoStream in sortVideoStreams(watchResp.videoStreams ?? [])) {
       if (videoStream.url == null || videoStream.url!.isEmpty) continue;
 
       final resolution = _parseResolution(videoStream.resolution);
@@ -99,7 +99,73 @@ class NewPipeStreamHelper {
   /// Parse resolution from string (e.g., "1080p" -> 1080)
   static int? _parseResolution(String? resolution) {
     if (resolution == null) return null;
-    return int.tryParse(resolution.replaceAll(RegExp(r'[^\d]'), ''));
+    final match = RegExp(r'(\d+)').firstMatch(resolution);
+    return match == null ? null : int.tryParse(match.group(1)!);
+  }
+
+  /// Select the nearest quality to a user/default preference.
+  ///
+  /// Matching is intentionally resolution-first: a default of "720p" should
+  /// still choose "720p 60fps" when that is the only 720p stream, and it
+  /// should not jump to the maximum available quality just because the label
+  /// string is not an exact match.
+  static StreamQualityInfo? findBestMatchingQuality(
+    List<StreamQualityInfo> qualities,
+    String preferredQuality,
+  ) {
+    if (qualities.isEmpty) return null;
+
+    final normalizedPreference = preferredQuality.toLowerCase().trim();
+    final exact = qualities
+        .where((quality) =>
+            quality.label.toLowerCase().trim() == normalizedPreference)
+        .firstOrNull;
+    if (exact != null) return exact;
+
+    final targetResolution = _parseResolution(preferredQuality);
+    if (targetResolution == null || targetResolution <= 0) {
+      return qualities.first;
+    }
+
+    final targetFps = _parseFps(preferredQuality);
+    final sorted = List<StreamQualityInfo>.from(qualities);
+    sorted.sort((a, b) {
+      final resolutionCompare = (a.resolution - targetResolution)
+          .abs()
+          .compareTo((b.resolution - targetResolution).abs());
+      if (resolutionCompare != 0) return resolutionCompare;
+
+      final fpsCompare = _fpsPenalty(a.fps, targetFps)
+          .compareTo(_fpsPenalty(b.fps, targetFps));
+      if (fpsCompare != 0) return fpsCompare;
+
+      // If equally close, choose the lower resolution to avoid unexpected heat.
+      final lowerResolutionCompare = a.resolution.compareTo(b.resolution);
+      if (lowerResolutionCompare != 0) return lowerResolutionCompare;
+
+      return _formatPenalty(a.format).compareTo(_formatPenalty(b.format));
+    });
+
+    return sorted.first;
+  }
+
+  static int? _parseFps(String quality) {
+    final match = RegExp(r'(\d+)\s*fps|p\s*(\d{2,3})', caseSensitive: false)
+        .firstMatch(quality);
+    final value = match?.group(1) ?? match?.group(2);
+    final fps = int.tryParse(value ?? '');
+    return fps != null && fps > 0 ? fps : null;
+  }
+
+  static int _fpsPenalty(int? fps, int? targetFps) {
+    final normalizedFps = fps ?? 30;
+    if (targetFps != null) return (normalizedFps - targetFps).abs();
+    return normalizedFps > 30 ? 1 : 0;
+  }
+
+  static int _formatPenalty(String? format) {
+    final index = _preferredVideoFormats.indexOf(format?.toUpperCase() ?? '');
+    return index == -1 ? _preferredVideoFormats.length : index;
   }
 
   /// Sort video streams by quality (NewPipe's algorithm)
@@ -115,9 +181,15 @@ class NewPipeStreamHelper {
       final bRes = _parseResolution(b.resolution) ?? 0;
       if (aRes != bRes) return bRes.compareTo(aRes);
 
-      // 2. FPS (higher first)
+      // 2. FPS preference. Prefer standard frame rate before high-FPS for
+      // equivalent resolutions to reduce decoder load & heat by default.
       final aFps = a.fps ?? 0;
       final bFps = b.fps ?? 0;
+      final aIsHighFps = aFps > 30;
+      final bIsHighFps = bFps > 30;
+      if (aIsHighFps != bIsHighFps) {
+        return aIsHighFps ? 1 : -1;
+      }
       if (aFps != bFps) return bFps.compareTo(aFps);
 
       // 3. Format preference
@@ -152,12 +224,8 @@ class NewPipeStreamHelper {
     final sorted = List<NewPipeAudioStream>.from(streams);
 
     sorted.sort((a, b) {
-      // 1. Average bitrate (higher first)
-      final aBitrate = a.averageBitrate ?? 0;
-      final bBitrate = b.averageBitrate ?? 0;
-      if (aBitrate != bBitrate) return bBitrate.compareTo(aBitrate);
-
-      // 2. Format preference
+      // 1. Format preference. On Android, a hardware-friendly container/codec
+      // is usually more important than a slightly higher bitrate.
       final aFormatIndex =
           preferredFormats.indexOf(a.format?.toUpperCase() ?? '');
       final bFormatIndex =
@@ -169,6 +237,11 @@ class NewPipeStreamHelper {
 
       if (aFormatIndex >= 0) return -1;
       if (bFormatIndex >= 0) return 1;
+
+      // 2. Average bitrate (higher first)
+      final aBitrate = a.averageBitrate ?? 0;
+      final bBitrate = b.averageBitrate ?? 0;
+      if (aBitrate != bBitrate) return bBitrate.compareTo(aBitrate);
 
       // 3. Audio channels (more first)
       final aChannels = a.audioChannels ?? 0;
@@ -287,8 +360,8 @@ class NewPipeStreamHelper {
 
       // Use audioTrackId if available, otherwise fall back to locale or 'default'
       final trackId = stream.audioTrackId ??
-                      stream.audioLocale ??
-                      (stream.isOriginal ? 'original' : 'default');
+          stream.audioLocale ??
+          (stream.isOriginal ? 'original' : 'default');
 
       trackMap.putIfAbsent(trackId, () => []).add(stream);
     }

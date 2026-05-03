@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -259,22 +259,10 @@ class _DownloadOptionsSheetState extends State<DownloadOptionsSheet> {
           ClipRRect(
             borderRadius: AppRadius.borderMd,
             child: widget.thumbnailUrl != null
-                ? CachedNetworkImage(
-                    imageUrl: widget.thumbnailUrl!,
+                ? ThumbnailImage.small(
+                    url: widget.thumbnailUrl!,
                     width: 120,
                     height: 68,
-                    fit: BoxFit.cover,
-                    placeholder: (_, __) => Container(
-                      color: isDark
-                          ? AppColors.surfaceVariantDark
-                          : AppColors.surfaceVariant,
-                    ),
-                    errorWidget: (_, __, ___) => Container(
-                      color: isDark
-                          ? AppColors.surfaceVariantDark
-                          : AppColors.surfaceVariant,
-                      child: const Icon(CupertinoIcons.play_rectangle),
-                    ),
                   )
                 : Container(
                     width: 120,

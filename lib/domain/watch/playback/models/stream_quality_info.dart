@@ -48,9 +48,17 @@ class StreamQualityInfo with _$StreamQualityInfo {
     final resolutionCompare = other.resolution.compareTo(resolution);
     if (resolutionCompare != 0) return resolutionCompare;
 
-    // Higher fps first
+    // Prefer standard frame rates before high-FPS variants for equivalent
+    // resolutions. High-FPS streams are still available, but avoiding them by
+    // default keeps decoding cooler on mobile devices.
     final thisFps = fps ?? 30;
     final otherFps = other.fps ?? 30;
+    final thisIsHighFps = thisFps > 30;
+    final otherIsHighFps = otherFps > 30;
+    if (thisIsHighFps != otherIsHighFps) {
+      return thisIsHighFps ? 1 : -1;
+    }
+
     return otherFps.compareTo(thisFps);
   }
 }

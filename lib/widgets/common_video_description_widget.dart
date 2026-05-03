@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:intl/intl.dart';
@@ -83,20 +83,26 @@ class ViewRowWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(
-          '${_formattedViews == '0' ? '' : _formattedViews} ${S.of(context).videoViews(views ?? 0)}',
-          style: TextStyle(
-              color: kGreyColor, fontWeight: FontWeight.w600, fontSize: 12),
-          overflow: TextOverflow.ellipsis,
+        Flexible(
+          child: Text(
+            '${_formattedViews == '0' ? '' : _formattedViews} ${S.of(context).videoViews(views ?? 0)}',
+            maxLines: 1,
+            style: TextStyle(
+                color: kGreyColor, fontWeight: FontWeight.w600, fontSize: 12),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         SizedBox(
-          width: _size.width * 0.1,
+          width: (_size.width * 0.1).clamp(8.0, 24.0),
         ),
-        Text(
-          _formattedDate,
-          style: TextStyle(
-              color: kGreyColor, fontWeight: FontWeight.w600, fontSize: 12),
-          overflow: TextOverflow.ellipsis,
+        Flexible(
+          child: Text(
+            _formattedDate,
+            maxLines: 1,
+            style: TextStyle(
+                color: kGreyColor, fontWeight: FontWeight.w600, fontSize: 12),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );
@@ -143,9 +149,7 @@ class SubscribeRowWidget extends StatelessWidget {
           CircleAvatar(
             radius: radius,
             backgroundImage: (uploaderUrl != null && uploaderUrl != "")
-                ? CachedNetworkImageProvider(
-                    uploaderUrl!,
-                  )
+                ? cachedAvatarProvider(uploaderUrl!, logicalDiameter: (radius * 2).toInt())
                 : null,
           ),
         spacing ?? kWidthBox10,
@@ -159,8 +163,10 @@ class SubscribeRowWidget extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: subTextStyle ??
                             TextStyle(
-                                color:
-                                    Theme.of(context).textTheme.bodyMedium!.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .color,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14),
                       ),

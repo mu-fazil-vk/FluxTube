@@ -7,6 +7,7 @@ import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
+import 'package:fluxtube/core/player/playback_queue_controller.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/watch/widgets/explode/description_section.dart';
@@ -144,11 +145,12 @@ class _ExplodeScreenWatchState extends State<ExplodeScreenWatch>
     await globalPlayer.validateBeforePlay(widget.id);
 
     // Check if returning from PiP with same video already loaded
-    final isReturningFromPip =
-        globalPlayer.hasVideoLoaded(widget.id) &&
-            watchBloc.state.explodeWatchResp.title.isNotEmpty;
+    final isReturningFromPip = globalPlayer.hasVideoLoaded(widget.id) &&
+        watchBloc.state.explodeWatchResp.title.isNotEmpty;
 
-    watchBloc.add(WatchEvent.togglePip(value: false));
+    if (!globalPlayer.isSystemPipMode) {
+      watchBloc.add(WatchEvent.togglePip(value: false));
+    }
 
     // Only fetch data if not returning from PiP with data already loaded
     if (!isReturningFromPip) {
@@ -167,14 +169,15 @@ class _ExplodeScreenWatchState extends State<ExplodeScreenWatch>
 
     // Only fetch all videos list if not returning from PiP
     if (!isReturningFromPip) {
-      savedBloc.add(SavedEvent.getAllVideoInfoList(profileName: currentProfile));
+      savedBloc
+          .add(SavedEvent.getAllVideoInfoList(profileName: currentProfile));
     }
 
     // Only check video info if we don't already have it for this video
     // This prevents flickering when returning from PiP
     if (savedBloc.state.videoInfo?.id != widget.id) {
-      savedBloc.add(
-          SavedEvent.checkVideoInfo(id: widget.id, profileName: currentProfile));
+      savedBloc.add(SavedEvent.checkVideoInfo(
+          id: widget.id, profileName: currentProfile));
     }
 
     subscribeBloc.add(SubscribeEvent.checkSubscribeInfo(
@@ -201,9 +204,12 @@ class _ExplodeScreenWatchState extends State<ExplodeScreenWatch>
 
     return BlocListener<WatchBloc, WatchState>(
       listenWhen: (previous, current) =>
-          previous.fetchExplodeWatchInfoStatus !=
-              current.fetchExplodeWatchInfoStatus &&
-          current.fetchExplodeWatchInfoStatus == ApiStatus.loaded,
+          (previous.fetchExplodeWatchInfoStatus !=
+                  current.fetchExplodeWatchInfoStatus &&
+              current.fetchExplodeWatchInfoStatus == ApiStatus.loaded) ||
+          (previous.fetchExplodedRelatedVideosStatus !=
+                  current.fetchExplodedRelatedVideosStatus &&
+              current.fetchExplodedRelatedVideosStatus == ApiStatus.loaded),
       listener: (context, state) {
         // Set selectedVideoBasicDetails when video info is loaded
         // This ensures PIP works when navigating from external links
@@ -219,6 +225,18 @@ class _ExplodeScreenWatchState extends State<ExplodeScreenWatch>
                 channelId: watchInfo.channelId,
               ),
             ),
+          );
+          PlaybackQueueController.instance.setQueue(
+            currentVideoId: widget.id,
+            videos: (state.relatedVideos ?? []).map((related) {
+              return VideoBasicInfo(
+                id: related.id,
+                title: related.title,
+                thumbnailUrl: related.thumbnailUrl,
+                channelName: related.author,
+                channelId: related.channelId,
+              );
+            }),
           );
         }
       },
@@ -300,19 +318,24 @@ class _ExplodeScreenWatchState extends State<ExplodeScreenWatch>
                               Builder(
                                 builder: (context) {
                                   // Determine if we should show loading
-                                  final bool isLoading = ((state.fetchExplodeWatchInfoStatus ==
+                                  final bool isLoading = ((state
+                                                  .fetchExplodeWatchInfoStatus ==
                                               ApiStatus.initial ||
                                           state.fetchExplodeWatchInfoStatus ==
                                               ApiStatus.loading ||
                                           state.fetchSubtitlesStatus ==
                                               ApiStatus.loading) &&
                                       state.oldId != widget.id &&
-                                      !GlobalPlayerController().hasVideoLoaded(widget.id));
+                                      !GlobalPlayerController()
+                                          .hasVideoLoaded(widget.id));
 
                                   // Once player should be shown, track it in state
                                   // This ensures player stays in widget tree during rebuilds
-                                  if (!isLoading && !hasStreamError && !_showPlayer) {
-                                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                                  if (!isLoading &&
+                                      !hasStreamError &&
+                                      !_showPlayer) {
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) {
                                       if (mounted && !_showPlayer) {
                                         setState(() {
                                           _showPlayer = true;
@@ -323,7 +346,8 @@ class _ExplodeScreenWatchState extends State<ExplodeScreenWatch>
                                   }
 
                                   // Use stable visibility: once shown, keep showing until video changes
-                                  final bool shouldShowPlayer = _showPlayer && _playerVideoId == widget.id;
+                                  final bool shouldShowPlayer = _showPlayer &&
+                                      _playerVideoId == widget.id;
 
                                   if (isLoading && !shouldShowPlayer) {
                                     return Container(
@@ -333,15 +357,15 @@ class _ExplodeScreenWatchState extends State<ExplodeScreenWatch>
                                         child: cIndicator(context),
                                       ),
                                     );
-                                  } else if (hasStreamError && !shouldShowPlayer) {
+                                  } else if (hasStreamError &&
+                                      !shouldShowPlayer) {
                                     return PlayerErrorWidget(
                                       message:
                                           'Video streams unavailable. This video may be restricted or age-gated.',
                                       onRetry: () {
-                                        BlocProvider.of<WatchBloc>(context)
-                                            .add(WatchEvent
-                                                .getExplodeMuxStreamInfo(
-                                                    id: widget.id));
+                                        BlocProvider.of<WatchBloc>(context).add(
+                                            WatchEvent.getExplodeMuxStreamInfo(
+                                                id: widget.id));
                                       },
                                     );
                                   } else {
@@ -352,8 +376,7 @@ class _ExplodeScreenWatchState extends State<ExplodeScreenWatch>
                                           settingsState.defaultQuality,
                                       // Only use playback position if it's for the current video
                                       playbackPosition:
-                                          savedState.videoInfo?.id ==
-                                                  widget.id
+                                          savedState.videoInfo?.id == widget.id
                                               ? (savedState.videoInfo
                                                       ?.playbackPosition ??
                                                   0)
@@ -362,25 +385,21 @@ class _ExplodeScreenWatchState extends State<ExplodeScreenWatch>
                                       liveUrl: state.liveStreamUrl,
                                       availableVideoTracks:
                                           state.muxedStreams ?? [],
-                                      subtitles: (state
-                                                      .fetchSubtitlesStatus ==
+                                      subtitles: (state.fetchSubtitlesStatus ==
                                                   ApiStatus.loading ||
                                               state.fetchSubtitlesStatus ==
                                                   ApiStatus.initial)
                                           ? []
                                           : state.subtitles,
-                                      videoFitMode:
-                                          settingsState.videoFitMode,
-                                      skipInterval:
-                                          settingsState.skipInterval,
+                                      videoFitMode: settingsState.videoFitMode,
+                                      skipInterval: settingsState.skipInterval,
                                       isAudioFocusEnabled:
                                           settingsState.isAudioFocusEnabled,
-                                      subtitleSize:
-                                          settingsState.subtitleSize,
-                                      sponsorSegments: settingsState
-                                              .isSponsorBlockEnabled
-                                          ? state.sponsorSegments
-                                          : const [],
+                                      subtitleSize: settingsState.subtitleSize,
+                                      sponsorSegments:
+                                          settingsState.isSponsorBlockEnabled
+                                              ? state.sponsorSegments
+                                              : const [],
                                     );
                                   }
                                 },
@@ -505,7 +524,8 @@ class _ExplodeScreenWatchState extends State<ExplodeScreenWatch>
                                                                 const NeverScrollableScrollPhysics(),
                                                             itemCount: 3,
                                                             itemBuilder:
-                                                                (context, index) {
+                                                                (context,
+                                                                    index) {
                                                               return const ShimmerRelatedVideoWidget();
                                                             },
                                                           )

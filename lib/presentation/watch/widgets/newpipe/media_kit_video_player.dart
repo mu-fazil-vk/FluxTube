@@ -31,6 +31,7 @@ class NewPipeMediaKitPlayer extends StatefulWidget {
     this.subtitleSize = 18.0,
     this.sponsorSegments = const [],
     this.isAutoPipEnabled = true,
+    this.preferAdaptivePlayback = false,
   });
 
   final NewPipeWatchResp watchInfo;
@@ -44,6 +45,7 @@ class NewPipeMediaKitPlayer extends StatefulWidget {
   final double subtitleSize;
   final List<SponsorSegment> sponsorSegments;
   final bool isAutoPipEnabled;
+  final bool preferAdaptivePlayback;
 
   @override
   State<NewPipeMediaKitPlayer> createState() => _NewPipeMediaKitPlayerState();
@@ -113,7 +115,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
     // CRITICAL: Prevent concurrent initializations
     // Multiple BlocBuilder rebuilds can trigger initState multiple times
     if (_isInitializing) {
-      debugPrint('[NewPipePlayer] Initialization already in progress, skipping');
+      debugPrint(
+          '[NewPipePlayer] Initialization already in progress, skipping');
       return;
     }
     _isInitializing = true;
@@ -125,11 +128,13 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
 
       if (_isRestoringFromPip) {
         // Restore from PiP - set initialized immediately since player is already active
-        debugPrint('[NewPipePlayer] Restoring from PiP for video ${widget.videoId}');
+        debugPrint(
+            '[NewPipePlayer] Restoring from PiP for video ${widget.videoId}');
         _restoreFromPipSync();
       } else {
         // New video - initialize fresh
-        debugPrint('[NewPipePlayer] Starting fresh initialization for video ${widget.videoId}');
+        debugPrint(
+            '[NewPipePlayer] Starting fresh initialization for video ${widget.videoId}');
         await _initializePlayback();
       }
       _setupHistoryListener();
@@ -146,12 +151,18 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
     super.didUpdateWidget(oldWidget);
     // If the video ID changed, reinitialize playback
     if (oldWidget.videoId != widget.videoId) {
-      debugPrint('[NewPipePlayer] CRITICAL: Video ID changed from ${oldWidget.videoId} to ${widget.videoId}');
+      debugPrint(
+          '[NewPipePlayer] CRITICAL: Video ID changed from ${oldWidget.videoId} to ${widget.videoId}');
       debugPrint('[NewPipePlayer] IMMEDIATELY stopping old video');
 
-      // CRITICAL: Stop both local and global player immediately
-      _player.stop();
-      _globalPlayer.stopAndClear();
+      // Stop both local and global player for the old video. This is awaited
+      // inside the async task below so the next open cannot race the previous
+      // clear operation.
+      unawaited(_globalPlayer.stopAndClear().then((_) {
+        if (mounted) {
+          _initializeAsync();
+        }
+      }));
 
       // Cancel old subscriptions
       _sponsorBlockSubscription?.cancel();
@@ -168,16 +179,16 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
         _isRestoringFromPip = false;
         _lastSavedPositionSeconds = -1;
       });
-      // Initialize new video using the guarded method
-      _initializeAsync();
     }
     // If watchInfo was updated (same videoId but new data), update available qualities
     // This happens when BlocBuilder passes new watchInfo after API response
     else if (oldWidget.watchInfo != widget.watchInfo &&
-             widget.watchInfo.videoStreams != null &&
-             widget.watchInfo.videoStreams!.isNotEmpty) {
-      debugPrint('[NewPipePlayer] watchInfo updated for same video, updating qualities');
-      _availableQualities = NewPipeStreamHelper.getAvailableQualities(widget.watchInfo);
+        widget.watchInfo.videoStreams != null &&
+        widget.watchInfo.videoStreams!.isNotEmpty) {
+      debugPrint(
+          '[NewPipePlayer] watchInfo updated for same video, updating qualities');
+      _availableQualities =
+          NewPipeStreamHelper.getAvailableQualities(widget.watchInfo);
       _availableAudioTracks = NewPipeStreamHelper.getAvailableAudioTracks(
           widget.watchInfo.audioStreams ?? []);
     }
@@ -194,7 +205,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
     // Restore audio track from global state if available
     if (_availableAudioTracks != null && _availableAudioTracks!.isNotEmpty) {
       final savedTrackId = _globalPlayer.currentAudioTrackId;
-      if (savedTrackId != null && _availableAudioTracks!.any((t) => t.trackId == savedTrackId)) {
+      if (savedTrackId != null &&
+          _availableAudioTracks!.any((t) => t.trackId == savedTrackId)) {
         _currentAudioTrackId = savedTrackId;
       } else {
         final originalTrack = _availableAudioTracks!.firstWhere(
@@ -211,6 +223,7 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       watchResp: widget.watchInfo,
       preferredQuality: widget.defaultQuality,
       preferHighQuality: true,
+      preferAdaptive: widget.preferAdaptivePlayback,
     );
 
     // Mark as initialized immediately - player is already playing
@@ -225,14 +238,17 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
   Future<void> _initializePlayback() async {
     try {
       // If global player was playing a different video (e.g., in PiP), stop it first
-      if (_globalPlayer.hasActivePlayer && _globalPlayer.currentVideoId != widget.videoId) {
-        debugPrint('[NewPipePlayer] Stopping previous video ${_globalPlayer.currentVideoId} to play ${widget.videoId}');
+      if (_globalPlayer.hasActivePlayer &&
+          _globalPlayer.currentVideoId != widget.videoId) {
+        debugPrint(
+            '[NewPipePlayer] Stopping previous video ${_globalPlayer.currentVideoId} to play ${widget.videoId}');
         await _globalPlayer.stopAndClear();
       }
 
       // Check mounted after async operation
       if (!mounted) {
-        debugPrint('[NewPipePlayer] Widget disposed during initialization (after stopAndClear)');
+        debugPrint(
+            '[NewPipePlayer] Widget disposed during initialization (after stopAndClear)');
         return;
       }
 
@@ -241,7 +257,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
 
       // Check mounted after async operation
       if (!mounted) {
-        debugPrint('[NewPipePlayer] Widget disposed during initialization (after ensureInitialized)');
+        debugPrint(
+            '[NewPipePlayer] Widget disposed during initialization (after ensureInitialized)');
         return;
       }
 
@@ -251,7 +268,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
 
       // Check mounted after async operation
       if (!mounted) {
-        debugPrint('[NewPipePlayer] Widget disposed during initialization (after enforceVideoId)');
+        debugPrint(
+            '[NewPipePlayer] Widget disposed during initialization (after enforceVideoId)');
         return;
       }
 
@@ -265,7 +283,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       // Restore audio track from global state if available, otherwise set default
       if (_availableAudioTracks != null && _availableAudioTracks!.isNotEmpty) {
         final savedTrackId = _globalPlayer.currentAudioTrackId;
-        if (savedTrackId != null && _availableAudioTracks!.any((t) => t.trackId == savedTrackId)) {
+        if (savedTrackId != null &&
+            _availableAudioTracks!.any((t) => t.trackId == savedTrackId)) {
           _currentAudioTrackId = savedTrackId;
         } else {
           // First try to find an explicitly original, non-dubbed track
@@ -296,6 +315,7 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
         watchResp: widget.watchInfo,
         preferredQuality: targetQuality,
         preferHighQuality: true,
+        preferAdaptive: widget.preferAdaptivePlayback,
       );
 
       // For HLS/DASH, set initial quality label to "Auto" since adaptive streaming handles quality
@@ -325,11 +345,15 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       _globalPlayer.setCurrentVideoId(widget.videoId);
 
       // Setup media source
-      await _setupMediaSource(_currentConfig!);
+      await _setupMediaSource(
+        _currentConfig!,
+        startPosition: Duration(seconds: widget.playbackPosition),
+      );
 
       // Check mounted after async operation
       if (!mounted) {
-        debugPrint('[NewPipePlayer] Widget disposed during initialization (after setupMediaSource)');
+        debugPrint(
+            '[NewPipePlayer] Widget disposed during initialization (after setupMediaSource)');
         return;
       }
 
@@ -350,7 +374,13 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
     }
   }
 
-  Future<void> _setupMediaSource(PlaybackConfiguration config) async {
+  Future<void> _setupMediaSource(
+    PlaybackConfiguration config, {
+    Duration startPosition = Duration.zero,
+    bool play = true,
+    bool updateNotification = true,
+    bool fastSwitch = false,
+  }) async {
     try {
       final isAdaptive = config.sourceType == MediaSourceType.hls ||
           config.sourceType == MediaSourceType.dash;
@@ -366,14 +396,14 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
                     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
               },
             ),
+            play: false,
           );
           debugPrint('Opened progressive stream');
           break;
 
         case MediaSourceType.merging:
           // Separate video + audio (>360p)
-          // Get fresh medium-quality audio URL for this quality change
-          final audioUrl = _selectMediumQualityAudio();
+          final audioUrl = config.audioUrl ?? _selectMediumQualityAudio();
 
           // First open video - don't wait for ready here, just open
           await _player.open(
@@ -389,10 +419,6 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
           debugPrint('Opening merging stream');
 
           // Check mounted after async operation
-          if (!mounted) return;
-
-          // Wait for initial buffering to stabilize before setting audio
-          await Future.delayed(const Duration(milliseconds: 300));
           if (!mounted) return;
 
           if (audioUrl != null) {
@@ -413,21 +439,17 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
 
           // Check mounted after async operation
           if (!mounted) return;
-
-          // Wait for audio track to be attached before any seek/play
-          await Future.delayed(const Duration(milliseconds: 200));
-          if (!mounted) return;
           break;
 
         case MediaSourceType.hls:
           // HLS stream - fast initialization, no separate wait needed
-          await _player.open(Media(config.manifestUrl!));
+          await _player.open(Media(config.manifestUrl!), play: false);
           debugPrint('Opened HLS stream');
           break;
 
         case MediaSourceType.dash:
           // DASH manifest - fast initialization, no separate wait needed
-          await _player.open(Media(config.manifestUrl!));
+          await _player.open(Media(config.manifestUrl!), play: false);
           debugPrint('Opened DASH stream');
           break;
       }
@@ -443,42 +465,40 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       // For HLS/DASH, start playback immediately - they handle buffering internally
       // For progressive/merging, wait for duration to be available
       if (!isAdaptive) {
-        await _waitForPlayerReady(timeout: const Duration(seconds: 3));
+        await _waitForPlayerReady(
+          timeout: fastSwitch
+              ? const Duration(milliseconds: 800)
+              : const Duration(seconds: 2),
+        );
         if (!mounted) return;
       }
 
-      // Start playback
-      await _player.play();
+      if (play) {
+        await _player.play();
+      }
+
+      if (startPosition > Duration.zero && !config.isLive) {
+        unawaited(_player.seek(startPosition));
+        debugPrint('Queued seek to position: ${startPosition.inSeconds}s');
+      }
 
       // Notify native side that video is playing (for auto-PiP)
       await _globalPlayer.updatePlaybackStateForPip();
 
-      // Update media notification for background playback controls
-      await _globalPlayer.updateMediaNotification(
-        title: widget.watchInfo.title ?? 'Video',
-        artist: widget.watchInfo.uploaderName ?? 'Unknown',
-        thumbnailUrl: widget.watchInfo.thumbnailUrl,
-        duration: widget.watchInfo.duration != null
-            ? Duration(seconds: widget.watchInfo.duration!)
-            : null,
-      );
+      if (updateNotification) {
+        // Update media notification for background playback controls.
+        await _globalPlayer.updateMediaNotification(
+          title: widget.watchInfo.title ?? 'Video',
+          artist: widget.watchInfo.uploaderName ?? 'Unknown',
+          thumbnailUrl: widget.watchInfo.thumbnailUrl,
+          duration: widget.watchInfo.duration != null
+              ? Duration(seconds: widget.watchInfo.duration!)
+              : null,
+        );
+      }
 
       // Check mounted after play
       if (!mounted) return;
-
-      // Seek AFTER playback has started to avoid codec recreation
-      // The codec is already running and stable at this point
-      if (widget.playbackPosition > 0 && !config.isLive) {
-        // For HLS/DASH, seek can happen faster due to keyframe-based seeking
-        if (!isAdaptive) {
-          // Small delay only for non-adaptive streams
-          await Future.delayed(const Duration(milliseconds: 50));
-          if (!mounted) return;
-        }
-
-        await _player.seek(Duration(seconds: widget.playbackPosition));
-        debugPrint('Seeked to position: ${widget.playbackPosition}s (after play)');
-      }
 
       debugPrint('Started playback');
     } catch (e) {
@@ -518,7 +538,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
     // Debug: Log all audio streams with URL-based detection
     debugPrint('=== Audio Stream Detection ===');
     for (var audio in audioStreams) {
-      debugPrint('  - ${audio.quality} | ${audio.format} | type: ${audio.audioTrackType ?? "null"} | isOriginal: ${audio.isOriginal} | isDubbed: ${audio.isDubbed}');
+      debugPrint(
+          '  - ${audio.quality} | ${audio.format} | type: ${audio.audioTrackType ?? "null"} | isOriginal: ${audio.isOriginal} | isDubbed: ${audio.isDubbed}');
     }
     debugPrint('==============================');
 
@@ -529,7 +550,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       return audio.isOriginal;
     }).toList();
 
-    debugPrint('Audio filtering: ${originalStreams.length} original streams found out of ${audioStreams.length} total');
+    debugPrint(
+        'Audio filtering: ${originalStreams.length} original streams found out of ${audioStreams.length} total');
 
     // If no original streams found, fall back to all streams (excluding descriptive)
     final candidateStreams = originalStreams.isNotEmpty
@@ -576,10 +598,12 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
 
   /// Wait for the player to be ready (duration > 0) with timeout
   /// Uses stream-based waiting for efficiency instead of polling
-  Future<void> _waitForPlayerReady({Duration timeout = const Duration(seconds: 3)}) async {
+  Future<void> _waitForPlayerReady(
+      {Duration timeout = const Duration(seconds: 3)}) async {
     // If already ready, return immediately
     if (_player.state.duration > Duration.zero) {
-      debugPrint('[Player] Player already ready, duration: ${_player.state.duration}');
+      debugPrint(
+          '[Player] Player already ready, duration: ${_player.state.duration}');
       return;
     }
 
@@ -590,7 +614,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
     // Set up timeout
     final timer = Timer(timeout, () {
       if (!completer.isCompleted) {
-        debugPrint('[Player] Timeout waiting for player ready, proceeding anyway');
+        debugPrint(
+            '[Player] Timeout waiting for player ready, proceeding anyway');
         subscription?.cancel();
         completer.complete();
       }
@@ -614,35 +639,24 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       return targetQuality;
     }
 
-    // Parse target resolution
-    final targetRes =
-        int.tryParse(targetQuality.replaceAll(RegExp(r'[^\d]'), '')) ?? 720;
-
-    // Find closest available quality
-    StreamQualityInfo? closest = _availableQualities!.first;
-    int smallestDiff = (closest.resolution - targetRes).abs();
-
-    for (var quality in _availableQualities!) {
-      final diff = (quality.resolution - targetRes).abs();
-      if (diff < smallestDiff) {
-        smallestDiff = diff;
-        closest = quality;
-      }
-    }
-
-    return closest?.label ?? targetQuality;
+    return NewPipeStreamHelper.findBestMatchingQuality(
+          _availableQualities!,
+          targetQuality,
+        )?.label ??
+        targetQuality;
   }
 
   void _setupHistoryListener() {
     // Cancel any existing subscription
     _historySubscription?.cancel();
 
-    // Update history every 5 seconds (throttled - only when position crosses 5-second boundary)
+    // Update history every 15 seconds. This keeps resume position fresh without
+    // doing database work too often while the decoder is already busy.
     _historySubscription = _player.stream.position.listen((position) {
       final currentSeconds = position.inSeconds;
-      // Only update when we cross a 5-second boundary AND haven't already saved this position
+      // Only update when we cross the boundary AND haven't already saved this position.
       if (currentSeconds > 0 &&
-          currentSeconds % 5 == 0 &&
+          currentSeconds % 15 == 0 &&
           currentSeconds != _lastSavedPositionSeconds) {
         _lastSavedPositionSeconds = currentSeconds;
         _updateVideoHistory();
@@ -662,7 +676,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
           _currentConfig?.sourceType == MediaSourceType.dash;
 
       if (isAdaptive && tracks.video.isNotEmpty) {
-        debugPrint('[NewPipePlayer] HLS/DASH tracks available: ${tracks.video.length} video tracks');
+        debugPrint(
+            '[NewPipePlayer] HLS/DASH tracks available: ${tracks.video.length} video tracks');
 
         // Filter valid video tracks (non-empty id and resolution info)
         final validTracks = tracks.video.where((track) {
@@ -694,7 +709,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
           _availableQualities = _buildQualitiesFromTracks(validTracks);
         });
 
-        debugPrint('[NewPipePlayer] Available HLS/DASH qualities: ${_availableQualities?.map((q) => q.label).join(", ")}');
+        debugPrint(
+            '[NewPipePlayer] Available HLS/DASH qualities: ${_availableQualities?.map((q) => q.label).join(", ")}');
       }
     });
   }
@@ -823,7 +839,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
     final targetTrack = _findTrackByQualityLabel(newQualityLabel);
 
     if (targetTrack == null) {
-      debugPrint('[NewPipePlayer] Could not find track for quality: $newQualityLabel');
+      debugPrint(
+          '[NewPipePlayer] Could not find track for quality: $newQualityLabel');
       _showError('Quality not available');
       setState(() {
         _isChangingQuality = false;
@@ -831,13 +848,11 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       return;
     }
 
-    debugPrint('[NewPipePlayer] Changing HLS/DASH quality to: $newQualityLabel (track: ${targetTrack.id})');
+    debugPrint(
+        '[NewPipePlayer] Changing HLS/DASH quality to: $newQualityLabel (track: ${targetTrack.id})');
 
     // Set the video track
     await _player.setVideoTrack(targetTrack);
-
-    // Wait for buffering to complete after quality change
-    await _waitForBufferingComplete(timeout: const Duration(seconds: 5));
 
     if (!mounted) return;
 
@@ -847,40 +862,7 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       _isChangingQuality = false;
     });
 
-    _showToast('Quality changed to $newQualityLabel');
     debugPrint('[NewPipePlayer] HLS/DASH quality changed to: $newQualityLabel');
-  }
-
-  /// Wait for buffering to complete after quality change
-  Future<void> _waitForBufferingComplete({Duration timeout = const Duration(seconds: 5)}) async {
-    // If not buffering, return immediately
-    if (!_player.state.buffering) {
-      return;
-    }
-
-    final completer = Completer<void>();
-    StreamSubscription<bool>? subscription;
-
-    // Set up timeout
-    final timer = Timer(timeout, () {
-      if (!completer.isCompleted) {
-        debugPrint('[Player] Timeout waiting for buffering complete');
-        subscription?.cancel();
-        completer.complete();
-      }
-    });
-
-    // Listen for buffering changes
-    subscription = _player.stream.buffering.listen((isBuffering) {
-      if (!isBuffering && !completer.isCompleted) {
-        debugPrint('[Player] Buffering complete');
-        timer.cancel();
-        subscription?.cancel();
-        completer.complete();
-      }
-    });
-
-    await completer.future;
   }
 
   /// Change quality for progressive/merging streams (requires reopening stream)
@@ -893,6 +875,7 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       watchResp: widget.watchInfo,
       preferredQuality: newQualityLabel,
       preferHighQuality: true,
+      preferAdaptive: false,
     );
 
     if (!newConfig.isValid) {
@@ -905,18 +888,13 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
 
     debugPrint('Changing quality to: $newQualityLabel (keeping fixed audio)');
 
-    // Setup new source (will use fixed audio URL, only video changes)
-    await _setupMediaSource(newConfig);
-
-    // Restore position
-    if (currentPosition.inSeconds > 0 && !newConfig.isLive) {
-      await _player.seek(currentPosition);
-    }
-
-    // Restore playback state
-    if (wasPlaying) {
-      await _player.play();
-    }
+    await _setupMediaSource(
+      newConfig,
+      startPosition: currentPosition,
+      play: wasPlaying,
+      updateNotification: false,
+      fastSwitch: true,
+    );
 
     setState(() {
       _currentConfig = newConfig;
@@ -924,7 +902,6 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       _isChangingQuality = false;
     });
 
-    _showToast('Quality changed to $newQualityLabel');
     debugPrint('Quality changed to: $newQualityLabel');
   }
 
@@ -942,7 +919,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
     // Get the best stream for this track
     final audioStream = targetTrack.bestStream;
     if (audioStream?.url == null) {
-      debugPrint('[NewPipePlayer] No valid audio stream for track: $newTrackId');
+      debugPrint(
+          '[NewPipePlayer] No valid audio stream for track: $newTrackId');
       _showError('Audio track not available');
       return;
     }
@@ -952,7 +930,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
     });
 
     try {
-      debugPrint('[NewPipePlayer] Changing audio track to: ${targetTrack.displayName} ($newTrackId)');
+      debugPrint(
+          '[NewPipePlayer] Changing audio track to: ${targetTrack.displayName} ($newTrackId)');
 
       // Set the new audio track
       await _player.setAudioTrack(AudioTrack.uri(audioStream!.url!));
@@ -971,7 +950,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       _globalPlayer.setCurrentAudioTrackId(newTrackId);
 
       _showToast('Audio: ${targetTrack.displayName}');
-      debugPrint('[NewPipePlayer] Audio track changed to: ${targetTrack.displayName}');
+      debugPrint(
+          '[NewPipePlayer] Audio track changed to: ${targetTrack.displayName}');
     } catch (e) {
       debugPrint('[NewPipePlayer] Error changing audio track: $e');
       if (mounted) {
@@ -993,7 +973,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
     // Don't dispose the global player - save state for PiP transition
     // The player will persist and can be restored when returning from PiP
     _globalPlayer.savePlaybackState();
-    debugPrint('[NewPipePlayer] Dispose called - saving state for potential PiP');
+    debugPrint(
+        '[NewPipePlayer] Dispose called - saving state for potential PiP');
     super.dispose();
   }
 
@@ -1011,7 +992,8 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
         // 1. ID matches AND
         // 2. Either duration > 0 (metadata loaded) OR position > 0 (has played)
         final duration = durationSnapshot.data ?? Duration.zero;
-        final bool playerIsReady = _globalPlayer.currentVideoId == widget.videoId &&
+        final bool playerIsReady = _globalPlayer.currentVideoId ==
+                widget.videoId &&
             (duration.inSeconds > 0 || _player.state.position.inSeconds > 0);
 
         if (!_isInitialized && !playerIsReady) {
@@ -1040,75 +1022,78 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
         }
 
         return AspectRatio(
-      aspectRatio: _getAspectRatio(),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Video(
-            controller: _videoController,
-            controls: (state) {
-              return _buildCustomControls(state);
-            },
-            fit: _currentFitMode,
-            subtitleViewConfiguration: SubtitleViewConfiguration(
-              style: TextStyle(
-                fontSize: widget.subtitleSize,
-                color: Colors.white,
-                backgroundColor: const Color(0x99000000),
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.center,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-            ),
-          ),
-          // Buffering indicator overlay
-          StreamBuilder<bool>(
-            stream: _player.stream.buffering,
-            initialData: false,
-            builder: (context, snapshot) {
-              final isBuffering = snapshot.data ?? false;
-              // Show loading for buffering, quality change, or audio track change
-              if (!isBuffering && !_isChangingQuality && !_isChangingAudioTrack) {
-                return const SizedBox.shrink();
-              }
-              return Container(
-                color: Colors.black.withValues(alpha: 0.3),
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 3,
-                      ),
-                      if (_isChangingQuality) ...[
-                        const SizedBox(height: 12),
-                        const Text(
-                          'Changing quality...',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ] else if (_isChangingAudioTrack) ...[
-                        const SizedBox(height: 12),
-                        const Text(
-                          'Changing audio track...',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ],
+          aspectRatio: _getAspectRatio(),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Video(
+                controller: _videoController,
+                controls: (state) {
+                  return _buildCustomControls(state);
+                },
+                fit: _currentFitMode,
+                subtitleViewConfiguration: SubtitleViewConfiguration(
+                  style: TextStyle(
+                    fontSize: widget.subtitleSize,
+                    color: Colors.white,
+                    backgroundColor: const Color(0x99000000),
+                    fontWeight: FontWeight.w500,
                   ),
+                  textAlign: TextAlign.center,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                 ),
-              );
-            },
+              ),
+              // Buffering indicator overlay
+              StreamBuilder<bool>(
+                stream: _player.stream.buffering,
+                initialData: false,
+                builder: (context, snapshot) {
+                  final isBuffering = snapshot.data ?? false;
+                  // Show loading for buffering, quality change, or audio track change
+                  if (!isBuffering &&
+                      !_isChangingQuality &&
+                      !_isChangingAudioTrack) {
+                    return const SizedBox.shrink();
+                  }
+                  return Container(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 3,
+                          ),
+                          if (_isChangingQuality) ...[
+                            const SizedBox(height: 12),
+                            const Text(
+                              'Changing quality...',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ] else if (_isChangingAudioTrack) ...[
+                            const SizedBox(height: 12),
+                            const Text(
+                              'Changing audio track...',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        );
       },
     );
   }

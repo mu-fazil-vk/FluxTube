@@ -8,6 +8,7 @@ import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/deep_link_handler.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
+import 'package:fluxtube/core/services/pip_service.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
 import '../download/screen_downloads.dart';
@@ -67,45 +68,79 @@ class MainNavigationState extends State<MainNavigation> {
   bool _hasShownInstanceFailedSnackbar = false;
   final DeepLinkHandler _deepLinkHandler = DeepLinkHandler();
   bool? _previousShowTrending;
+  final Map<String, Widget> _pageCache = {};
 
   List<Widget> _getPages(bool showTrending) {
     if (showTrending) {
-      return const [
-        ScreenHome(),
-        ScreenTrending(),
-        ScreenSubscriptions(),
-        ScreenSaved(),
-        ScreenDownloads(),
-        ScreenSettings(),
+      return [
+        _cachedPage('home', const ScreenHome()),
+        _cachedPage('trending', const ScreenTrending()),
+        _cachedPage('subscriptions', const ScreenSubscriptions()),
+        _cachedPage('saved', const ScreenSaved()),
+        _cachedPage('downloads', const ScreenDownloads()),
+        _cachedPage('settings', const ScreenSettings()),
       ];
     } else {
-      return const [
-        ScreenHome(),
-        ScreenSubscriptions(),
-        ScreenSaved(),
-        ScreenDownloads(),
-        ScreenSettings(),
+      return [
+        _cachedPage('home', const ScreenHome()),
+        _cachedPage('subscriptions', const ScreenSubscriptions()),
+        _cachedPage('saved', const ScreenSaved()),
+        _cachedPage('downloads', const ScreenDownloads()),
+        _cachedPage('settings', const ScreenSettings()),
       ];
     }
+  }
+
+  Widget _cachedPage(String key, Widget page) {
+    return _pageCache.putIfAbsent(key, () => page);
   }
 
   List<TabItem> _getTabItems(S locals, bool showTrending) {
     if (showTrending) {
       return [
-        TabItem(icon: CupertinoIcons.house_fill, title: locals.home, key: "home"),
-        TabItem(icon: CupertinoIcons.flame_fill, title: locals.trending, key: "trending"),
-        TabItem(icon: CupertinoIcons.person_2_fill, title: locals.subscriptions, key: "subscriptions"),
-        TabItem(icon: CupertinoIcons.bookmark_fill, title: locals.saved, key: "saved"),
-        TabItem(icon: CupertinoIcons.arrow_down_circle_fill, title: locals.downloads, key: "downloads"),
-        TabItem(icon: CupertinoIcons.settings, title: locals.settings, key: "settings"),
+        TabItem(
+            icon: CupertinoIcons.house_fill, title: locals.home, key: "home"),
+        TabItem(
+            icon: CupertinoIcons.flame_fill,
+            title: locals.trending,
+            key: "trending"),
+        TabItem(
+            icon: CupertinoIcons.person_2_fill,
+            title: locals.subscriptions,
+            key: "subscriptions"),
+        TabItem(
+            icon: CupertinoIcons.bookmark_fill,
+            title: locals.saved,
+            key: "saved"),
+        TabItem(
+            icon: CupertinoIcons.arrow_down_circle_fill,
+            title: locals.downloads,
+            key: "downloads"),
+        TabItem(
+            icon: CupertinoIcons.settings,
+            title: locals.settings,
+            key: "settings"),
       ];
     } else {
       return [
-        TabItem(icon: CupertinoIcons.house_fill, title: locals.home, key: "home"),
-        TabItem(icon: CupertinoIcons.person_2_fill, title: locals.subscriptions, key: "subscriptions"),
-        TabItem(icon: CupertinoIcons.bookmark_fill, title: locals.saved, key: "saved"),
-        TabItem(icon: CupertinoIcons.arrow_down_circle_fill, title: locals.downloads, key: "downloads"),
-        TabItem(icon: CupertinoIcons.settings, title: locals.settings, key: "settings"),
+        TabItem(
+            icon: CupertinoIcons.house_fill, title: locals.home, key: "home"),
+        TabItem(
+            icon: CupertinoIcons.person_2_fill,
+            title: locals.subscriptions,
+            key: "subscriptions"),
+        TabItem(
+            icon: CupertinoIcons.bookmark_fill,
+            title: locals.saved,
+            key: "saved"),
+        TabItem(
+            icon: CupertinoIcons.arrow_down_circle_fill,
+            title: locals.downloads,
+            key: "downloads"),
+        TabItem(
+            icon: CupertinoIcons.settings,
+            title: locals.settings,
+            key: "settings"),
       ];
     }
   }
@@ -134,14 +169,16 @@ class MainNavigationState extends State<MainNavigation> {
           previous.userInstanceFailed != current.userInstanceFailed,
       builder: (context, settingsState) {
         // Disable trending tab for NewPipe Extractor service
-        final showTrending = settingsState.ytService != YouTubeServices.newpipe.name;
+        final showTrending =
+            settingsState.ytService != YouTubeServices.newpipe.name;
         final pages = _getPages(showTrending);
         final items = _getTabItems(locals, showTrending);
 
         final maxIndex = pages.length - 1;
 
         // Adjust index when transitioning between services with different tab counts
-        if (_previousShowTrending != null && _previousShowTrending != showTrending) {
+        if (_previousShowTrending != null &&
+            _previousShowTrending != showTrending) {
           final currentIndex = indexChangeNotifier.value;
           int newIndex;
 
@@ -180,7 +217,8 @@ class MainNavigationState extends State<MainNavigation> {
           listener: (context, state) {
             if (state.userInstanceFailed && !_hasShownInstanceFailedSnackbar) {
               _hasShownInstanceFailedSnackbar = true;
-              final failedName = state.failedInstanceName ?? 'Your preferred instance';
+              final failedName =
+                  state.failedInstanceName ?? 'Your preferred instance';
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
@@ -205,7 +243,8 @@ class MainNavigationState extends State<MainNavigation> {
               final pendingNav = consumePendingNavigation();
               if (pendingNav == 'downloads') {
                 // Find downloads tab index by key
-                final downloadsIndex = items.indexWhere((item) => item.key == 'downloads');
+                final downloadsIndex =
+                    items.indexWhere((item) => item.key == 'downloads');
                 if (downloadsIndex >= 0) {
                   // Get the pending downloads tab before navigating
                   final pendingDownloadsTab = consumePendingDownloadsTab();
@@ -231,6 +270,15 @@ class MainNavigationState extends State<MainNavigation> {
                 canPop: false,
                 onPopInvokedWithResult: (didPop, _) async {
                   if (didPop) return;
+                  final watchState = context.read<WatchBloc>().state;
+                  if (watchState.isPipEnabled &&
+                      watchState.selectedVideoBasicDetails != null) {
+                    final pipService = PipService();
+                    await pipService.setVideoPlaying(true);
+                    await pipService.setAspectRatio(16, 9);
+                    final entered = await pipService.enterPipMode();
+                    if (entered) return;
+                  }
                   // Stop the player before exiting to prevent FlutterJNI crash
                   final globalPlayer = GlobalPlayerController();
                   if (globalPlayer.hasActivePlayer) {
@@ -243,7 +291,10 @@ class MainNavigationState extends State<MainNavigation> {
                 },
                 child: Scaffold(
                   body: SafeArea(
-                    child: pages[safeIndex],
+                    child: _LazyIndexedStack(
+                      index: safeIndex,
+                      children: pages,
+                    ),
                   ),
                   bottomNavigationBar: BottomBarSalomon(
                     items: items,
@@ -273,6 +324,55 @@ class MainNavigationState extends State<MainNavigation> {
           ),
         );
       },
+    );
+  }
+}
+
+class _LazyIndexedStack extends StatefulWidget {
+  const _LazyIndexedStack({
+    required this.index,
+    required this.children,
+  });
+
+  final int index;
+  final List<Widget> children;
+
+  @override
+  State<_LazyIndexedStack> createState() => _LazyIndexedStackState();
+}
+
+class _LazyIndexedStackState extends State<_LazyIndexedStack> {
+  late List<bool> _built;
+
+  @override
+  void initState() {
+    super.initState();
+    _built = List<bool>.filled(widget.children.length, false);
+    _built[widget.index] = true;
+  }
+
+  @override
+  void didUpdateWidget(covariant _LazyIndexedStack oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_built.length != widget.children.length) {
+      _built = List<bool>.generate(
+        widget.children.length,
+        (index) => index < oldWidget.children.length && index < _built.length
+            ? _built[index]
+            : false,
+      );
+    }
+    _built[widget.index] = true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IndexedStack(
+      index: widget.index,
+      children: [
+        for (var i = 0; i < widget.children.length; i++)
+          _built[i] ? widget.children[i] : const SizedBox.shrink(),
+      ],
     );
   }
 }

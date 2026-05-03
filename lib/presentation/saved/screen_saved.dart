@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -948,21 +948,7 @@ class _SavedVideoCard extends StatelessWidget {
                       fit: StackFit.expand,
                       children: [
                         if (video.thumbnail != null)
-                          CachedNetworkImage(
-                            imageUrl: video.thumbnail!,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Container(
-                              color: isDark
-                                  ? AppColors.surfaceVariantDark
-                                  : AppColors.surfaceVariant,
-                            ),
-                            errorWidget: (context, url, error) => Container(
-                              color: isDark
-                                  ? AppColors.surfaceVariantDark
-                                  : AppColors.surfaceVariant,
-                              child: const Icon(CupertinoIcons.play_rectangle),
-                            ),
-                          ),
+                          ThumbnailImage.small(url: video.thumbnail!),
 
                         // Duration badge
                         Positioned(

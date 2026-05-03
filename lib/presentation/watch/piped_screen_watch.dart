@@ -7,6 +7,7 @@ import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
+import 'package:fluxtube/core/player/playback_queue_controller.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/widgets.dart';
@@ -141,11 +142,12 @@ class _PipedScreenWatchState extends State<PipedScreenWatch>
     await globalPlayer.validateBeforePlay(widget.id);
 
     // Check if returning from PiP with same video already loaded
-    final isReturningFromPip =
-        globalPlayer.hasVideoLoaded(widget.id) &&
-            watchBloc.state.watchResp.title != null;
+    final isReturningFromPip = globalPlayer.hasVideoLoaded(widget.id) &&
+        watchBloc.state.watchResp.title != null;
 
-    watchBloc.add(WatchEvent.togglePip(value: false));
+    if (!globalPlayer.isSystemPipMode) {
+      watchBloc.add(WatchEvent.togglePip(value: false));
+    }
 
     // Only fetch data if not returning from PiP with data already loaded
     if (!isReturningFromPip) {
@@ -162,14 +164,15 @@ class _PipedScreenWatchState extends State<PipedScreenWatch>
 
     // Only fetch all videos list if not returning from PiP
     if (!isReturningFromPip) {
-      savedBloc.add(SavedEvent.getAllVideoInfoList(profileName: currentProfile));
+      savedBloc
+          .add(SavedEvent.getAllVideoInfoList(profileName: currentProfile));
     }
 
     // Only check video info if we don't already have it for this video
     // This prevents flickering when returning from PiP
     if (savedBloc.state.videoInfo?.id != widget.id) {
-      savedBloc.add(
-          SavedEvent.checkVideoInfo(id: widget.id, profileName: currentProfile));
+      savedBloc.add(SavedEvent.checkVideoInfo(
+          id: widget.id, profileName: currentProfile));
     }
 
     subscribeBloc.add(SubscribeEvent.checkSubscribeInfo(
@@ -214,6 +217,20 @@ class _PipedScreenWatchState extends State<PipedScreenWatch>
                 uploaderVerified: watchInfo.uploaderVerified,
               ),
             ),
+          );
+          PlaybackQueueController.instance.setQueue(
+            currentVideoId: widget.id,
+            videos: (watchInfo.relatedStreams ?? []).map((related) {
+              return VideoBasicInfo(
+                id: _videoIdFromUrl(related.url),
+                title: related.title,
+                thumbnailUrl: related.thumbnail,
+                channelName: related.uploaderName,
+                channelId: _channelIdFromUrl(related.uploaderUrl),
+                channelThumbnailUrl: related.uploaderAvatar,
+                uploaderVerified: related.uploaderVerified,
+              );
+            }),
           );
         }
       },
@@ -305,19 +322,25 @@ class _PipedScreenWatchState extends State<PipedScreenWatch>
                                   Builder(
                                     builder: (context) {
                                       // Check if we should show the player
-                                      final shouldShowPlayer = _showPlayer && _playerVideoId == widget.id;
-                                      final canShowPlayer = !((state.fetchWatchInfoStatus ==
-                                                  ApiStatus.initial ||
-                                              state.fetchWatchInfoStatus ==
-                                                  ApiStatus.loading ||
-                                              state.fetchSubtitlesStatus ==
-                                                  ApiStatus.loading) &&
-                                          state.oldId != widget.id &&
-                                          !GlobalPlayerController().hasVideoLoaded(widget.id));
+                                      final shouldShowPlayer = _showPlayer &&
+                                          _playerVideoId == widget.id;
+                                      final canShowPlayer =
+                                          !((state.fetchWatchInfoStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchWatchInfoStatus ==
+                                                      ApiStatus.loading ||
+                                                  state.fetchSubtitlesStatus ==
+                                                      ApiStatus.loading) &&
+                                              state.oldId != widget.id &&
+                                              !GlobalPlayerController()
+                                                  .hasVideoLoaded(widget.id));
 
                                       // Once we can show the player, set _showPlayer to true
-                                      if (canShowPlayer && !shouldShowPlayer && !hasPlayerUrlError) {
-                                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                                      if (canShowPlayer &&
+                                          !shouldShowPlayer &&
+                                          !hasPlayerUrlError) {
+                                        WidgetsBinding.instance
+                                            .addPostFrameCallback((_) {
                                           if (mounted && !_showPlayer) {
                                             setState(() {
                                               _showPlayer = true;
@@ -345,48 +368,47 @@ class _PipedScreenWatchState extends State<PipedScreenWatch>
                                                   'HLS Player'
                                               ? 'HLS stream unavailable for this video. Try disabling HLS in settings.'
                                               : 'Video stream unavailable',
-                                          onRetry: () => BlocProvider.of<
-                                                  WatchBloc>(context)
-                                              .add(WatchEvent.getWatchInfo(
-                                                  id: widget.id)),
+                                          onRetry: () =>
+                                              BlocProvider.of<WatchBloc>(
+                                                      context)
+                                                  .add(WatchEvent.getWatchInfo(
+                                                      id: widget.id)),
                                         );
                                       }
 
                                       // Show player
                                       return PipedMediaKitPlayer(
                                         key: ValueKey('player_${widget.id}'),
-                                              videoId: widget.id,
-                                              watchInfo: state.watchResp,
-                                              defaultQuality:
-                                                  settingsState.defaultQuality,
-                                              // Only use playback position if it's for the current video
-                                              playbackPosition: savedState
-                                                          .videoInfo?.id ==
-                                                      widget.id
-                                                  ? (savedState.videoInfo
-                                                          ?.playbackPosition ??
-                                                      0)
-                                                  : 0,
-                                              isSaved: isSaved,
-                                              isHlsPlayer:
-                                                  settingsState.isHlsPlayer,
-                                              subtitles:
-                                                  state.fetchSubtitlesStatus ==
-                                                          ApiStatus.loading
-                                                      ? []
-                                                      : state.subtitles,
-                                              videoFitMode:
-                                                  settingsState.videoFitMode,
-                                              skipInterval:
-                                                  settingsState.skipInterval,
-                                              isAudioFocusEnabled: settingsState
-                                                  .isAudioFocusEnabled,
-                                              subtitleSize:
-                                                  settingsState.subtitleSize,
-                                        sponsorSegments: settingsState
-                                                .isSponsorBlockEnabled
-                                            ? state.sponsorSegments
-                                            : const [],
+                                        videoId: widget.id,
+                                        watchInfo: state.watchResp,
+                                        defaultQuality:
+                                            settingsState.defaultQuality,
+                                        // Only use playback position if it's for the current video
+                                        playbackPosition:
+                                            savedState.videoInfo?.id ==
+                                                    widget.id
+                                                ? (savedState.videoInfo
+                                                        ?.playbackPosition ??
+                                                    0)
+                                                : 0,
+                                        isSaved: isSaved,
+                                        isHlsPlayer: settingsState.isHlsPlayer,
+                                        subtitles: state.fetchSubtitlesStatus ==
+                                                ApiStatus.loading
+                                            ? []
+                                            : state.subtitles,
+                                        videoFitMode:
+                                            settingsState.videoFitMode,
+                                        skipInterval:
+                                            settingsState.skipInterval,
+                                        isAudioFocusEnabled:
+                                            settingsState.isAudioFocusEnabled,
+                                        subtitleSize:
+                                            settingsState.subtitleSize,
+                                        sponsorSegments:
+                                            settingsState.isSponsorBlockEnabled
+                                                ? state.sponsorSegments
+                                                : const [],
                                       );
                                     },
                                   ),
@@ -508,7 +530,8 @@ class _PipedScreenWatchState extends State<PipedScreenWatch>
                                                                 const NeverScrollableScrollPhysics(),
                                                             itemCount: 3,
                                                             itemBuilder:
-                                                                (context, index) {
+                                                                (context,
+                                                                    index) {
                                                               return const ShimmerRelatedVideoWidget();
                                                             },
                                                           )
@@ -541,5 +564,17 @@ class _PipedScreenWatchState extends State<PipedScreenWatch>
         },
       ),
     );
+  }
+
+  String _videoIdFromUrl(String? url) {
+    if (url == null || url.isEmpty) return '';
+    final uri = Uri.tryParse(url);
+    return uri?.queryParameters['v'] ?? url.split('/').last.split('?').first;
+  }
+
+  String? _channelIdFromUrl(String? url) {
+    if (url == null || url.isEmpty) return null;
+    final parts = url.split('/').where((part) => part.isNotEmpty).toList();
+    return parts.isEmpty ? null : parts.last;
   }
 }

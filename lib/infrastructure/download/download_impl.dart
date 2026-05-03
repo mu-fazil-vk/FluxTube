@@ -15,6 +15,7 @@ import 'package:fluxtube/domain/download/models/download_quality.dart';
 import 'package:fluxtube/domain/watch/models/newpipe/newpipe_stream.dart';
 import 'package:fluxtube/domain/watch/models/newpipe/newpipe_watch_resp.dart';
 import 'package:fluxtube/domain/watch/playback/newpipe_stream_helper.dart';
+import 'package:fluxtube/core/api_client.dart';
 import 'package:fluxtube/infrastructure/database/database.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,7 +23,7 @@ import 'package:path_provider/path_provider.dart';
 @LazySingleton(as: DownloadService)
 class DownloadImpl implements DownloadService {
   AppDatabase get _db => AppDatabase.instance;
-  final Dio _dio = Dio();
+  Dio get _dio => ApiClient.downloadDio;
 
   // Platform channel for native MediaMuxer
   static const _muxerChannel = MethodChannel('com.fazilvk.fluxtube/muxer');
@@ -38,14 +39,6 @@ class DownloadImpl implements DownloadService {
   // Multi-threaded download settings
   static const int _downloadThreads = 3;
   static const int _chunkSize = 512 * 1024; // 512KB chunks
-
-  DownloadImpl() {
-    _dio.options.connectTimeout = const Duration(seconds: 30);
-    _dio.options.receiveTimeout = const Duration(minutes: 30);
-    _dio.options.sendTimeout = const Duration(seconds: 30);
-    // Optimize for faster downloads
-    _dio.options.validateStatus = (status) => status != null && status < 500;
-  }
 
   /// Generate a Content Playback Nonce (CPN)
   /// This is a 16-character random string that YouTube uses to track playback sessions
@@ -727,10 +720,6 @@ class DownloadImpl implements DownloadService {
     required List<int> chunkProgress,
     required VoidCallback onProgressUpdate,
   }) async {
-    final dio = Dio();
-    dio.options.connectTimeout = const Duration(seconds: 30);
-    dio.options.receiveTimeout = const Duration(minutes: 10);
-
     for (int chunk = startChunk; chunk < endChunk; chunk++) {
       if (cancelToken.isCancelled) return;
 
@@ -751,7 +740,7 @@ class DownloadImpl implements DownloadService {
       int retries = 0;
       while (retries < 3) {
         try {
-          await dio.download(
+          await ApiClient.downloadDio.download(
             url,
             chunkFile.path,
             cancelToken: cancelToken,
