@@ -11,6 +11,7 @@ enum SettingsPage {
   quality,
   captions,
   audioTrack,
+  resize,
 }
 
 /// YouTube-like player settings bottom sheet
@@ -31,6 +32,8 @@ class PlayerSettingsSheet extends StatefulWidget {
     this.audioTracks,
     this.currentAudioTrackId,
     this.onAudioTrackChanged,
+    this.currentFitMode,
+    this.onFitModeChanged,
   });
 
   final double currentSpeed;
@@ -47,6 +50,8 @@ class PlayerSettingsSheet extends StatefulWidget {
   final List<AudioTrackInfo>? audioTracks;
   final String? currentAudioTrackId;
   final Function(String)? onAudioTrackChanged;
+  final String? currentFitMode;
+  final Function(String)? onFitModeChanged;
 
   @override
   State<PlayerSettingsSheet> createState() => _PlayerSettingsSheetState();
@@ -63,27 +68,30 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF212121),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      child: SafeArea(
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
-          transitionBuilder: (child, animation) {
-            return SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0.1, 0),
-                end: Offset.zero,
-              ).animate(CurvedAnimation(
-                parent: animation,
-                curve: Curves.easeOut,
-              )),
-              child: FadeTransition(opacity: animation, child: child),
-            );
-          },
-          child: _buildCurrentPage(),
+    return SizedBox(
+      width: double.infinity,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Color(0xFF212121),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+        child: SafeArea(
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            transitionBuilder: (child, animation) {
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.1, 0),
+                  end: Offset.zero,
+                ).animate(CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.easeOut,
+                )),
+                child: FadeTransition(opacity: animation, child: child),
+              );
+            },
+            child: _buildCurrentPage(),
+          ),
         ),
       ),
     );
@@ -101,6 +109,8 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
         return _buildCaptionsPage();
       case SettingsPage.audioTrack:
         return _buildAudioTrackPage();
+      case SettingsPage.resize:
+        return _buildResizePage();
     }
   }
 
@@ -108,6 +118,7 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
     return Column(
       key: const ValueKey('main'),
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _buildHandle(),
         const SizedBox(height: 8),
@@ -117,7 +128,9 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
           _buildSettingsTile(
             icon: CupertinoIcons.speedometer,
             title: 'Playback speed',
-            value: widget.currentSpeed == 1.0 ? 'Normal' : '${widget.currentSpeed}x',
+            value: widget.currentSpeed == 1.0
+                ? 'Normal'
+                : '${widget.currentSpeed}x',
             onTap: () => setState(() => _currentPage = SettingsPage.speed),
           ),
 
@@ -148,6 +161,14 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
             onTap: () => setState(() => _currentPage = SettingsPage.audioTrack),
           ),
 
+        if (widget.onFitModeChanged != null)
+          _buildSettingsTile(
+            icon: CupertinoIcons.arrow_up_left_arrow_down_right,
+            title: 'Resize',
+            value: _fitModeLabel(widget.currentFitMode ?? 'contain'),
+            onTap: () => setState(() => _currentPage = SettingsPage.resize),
+          ),
+
         const SizedBox(height: 16),
       ],
     );
@@ -168,6 +189,7 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
     return Column(
       key: const ValueKey('speed'),
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _buildHeader('Playback speed'),
         const Divider(color: Colors.white12, height: 1),
@@ -199,8 +221,10 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
     return Column(
       key: const ValueKey('quality'),
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _buildHeader('Quality', showBackButton: widget.initialPage == SettingsPage.main),
+        _buildHeader('Quality',
+            showBackButton: widget.initialPage == SettingsPage.main),
         const Divider(color: Colors.white12, height: 1),
         ConstrainedBox(
           constraints: BoxConstraints(
@@ -234,8 +258,10 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
     return Column(
       key: const ValueKey('captions'),
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _buildHeader('Captions', showBackButton: widget.initialPage == SettingsPage.main),
+        _buildHeader('Captions',
+            showBackButton: widget.initialPage == SettingsPage.main),
         const Divider(color: Colors.white12, height: 1),
 
         // Off option
@@ -258,12 +284,14 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
             itemCount: widget.subtitles.length,
             itemBuilder: (context, index) {
               final subtitle = widget.subtitles[index];
-              final isSelected = subtitle.languageCode == widget.currentSubtitle;
+              final isSelected =
+                  subtitle.languageCode == widget.currentSubtitle;
               final label = _getSubtitleLabel(subtitle);
 
               return _buildOptionTile(
                 title: label,
-                subtitle: subtitle.autoGenerated == true ? 'Auto-generated' : null,
+                subtitle:
+                    subtitle.autoGenerated == true ? 'Auto-generated' : null,
                 isSelected: isSelected,
                 onTap: () {
                   widget.onSubtitleChanged(subtitle.languageCode);
@@ -282,8 +310,10 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
     return Column(
       key: const ValueKey('audioTrack'),
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _buildHeader('Audio track', showBackButton: widget.initialPage == SettingsPage.main),
+        _buildHeader('Audio track',
+            showBackButton: widget.initialPage == SettingsPage.main),
         const Divider(color: Colors.white12, height: 1),
         ConstrainedBox(
           constraints: BoxConstraints(
@@ -311,6 +341,44 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
         const SizedBox(height: 16),
       ],
     );
+  }
+
+  Widget _buildResizePage() {
+    const modes = ['contain', 'cover', 'fill'];
+    return Column(
+      key: const ValueKey('resize'),
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildHeader('Resize',
+            showBackButton: widget.initialPage == SettingsPage.main),
+        const Divider(color: Colors.white12, height: 1),
+        ...modes.map((mode) {
+          return _buildOptionTile(
+            title: _fitModeLabel(mode),
+            subtitle: switch (mode) {
+              'cover' => 'Zoom to fill',
+              'fill' => 'Stretch to fill',
+              _ => 'Fit entire video',
+            },
+            isSelected: (widget.currentFitMode ?? 'contain') == mode,
+            onTap: () {
+              widget.onFitModeChanged?.call(mode);
+              Navigator.pop(context);
+            },
+          );
+        }),
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
+  String _fitModeLabel(String mode) {
+    return switch (mode) {
+      'cover' => 'Zoom',
+      'fill' => 'Fill',
+      _ => 'Fit',
+    };
   }
 
   String? _getAudioTrackSubtitle(AudioTrackInfo track) {
@@ -383,46 +451,65 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
     required String value,
     required VoidCallback onTap,
   }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          child: Row(
-            children: [
-              Icon(
-                icon,
-                color: Colors.white70,
-                size: 22,
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                  ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.hasBoundedWidth
+            ? constraints.maxWidth
+            : MediaQuery.sizeOf(context).width;
+        return Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            child: ConstrainedBox(
+              constraints: BoxConstraints.tightFor(width: width),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      icon,
+                      color: Colors.white70,
+                      size: 22,
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Text(
+                        title,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: width * 0.34),
+                      child: Text(
+                        value,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                          color: Colors.white54,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(
+                      CupertinoIcons.chevron_right,
+                      color: Colors.white38,
+                      size: 18,
+                    ),
+                  ],
                 ),
               ),
-              Text(
-                value,
-                style: const TextStyle(
-                  color: Colors.white54,
-                  fontSize: 14,
-                ),
-              ),
-              const SizedBox(width: 8),
-              const Icon(
-                CupertinoIcons.chevron_right,
-                color: Colors.white38,
-                size: 18,
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -432,55 +519,75 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
     required bool isSelected,
     required VoidCallback onTap,
   }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 24,
-                child: isSelected
-                    ? const Icon(
-                        CupertinoIcons.checkmark,
-                        color: Colors.white,
-                        size: 18,
-                      )
-                    : null,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.hasBoundedWidth
+            ? constraints.maxWidth
+            : MediaQuery.sizeOf(context).width;
+        return Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            child: ConstrainedBox(
+              constraints: BoxConstraints.tightFor(width: width),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.white70,
-                        fontSize: 15,
-                        fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
+                    SizedBox(
+                      width: 24,
+                      child: isSelected
+                          ? const Icon(
+                              CupertinoIcons.checkmark,
+                              color: Colors.white,
+                              size: 18,
+                            )
+                          : null,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : Colors.white70,
+                              fontSize: 15,
+                              fontWeight: isSelected
+                                  ? FontWeight.w500
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                          if (subtitle != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 2),
+                              child: Text(
+                                subtitle,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  color: Colors.white38,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
-                    if (subtitle != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: Text(
-                          subtitle,
-                          style: const TextStyle(
-                            color: Colors.white38,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
                   ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

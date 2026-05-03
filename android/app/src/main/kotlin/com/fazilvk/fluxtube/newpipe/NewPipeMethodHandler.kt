@@ -21,6 +21,7 @@ import org.schabi.newpipe.extractor.stream.StreamInfo
 import org.schabi.newpipe.extractor.stream.AudioStream
 import org.schabi.newpipe.extractor.stream.VideoStream
 import org.schabi.newpipe.extractor.suggestion.SuggestionExtractor
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Handles all method channel calls from Flutter for NewPipe Extractor operations.
@@ -33,6 +34,8 @@ class NewPipeMethodHandler : MethodChannel.MethodCallHandler {
     private val gson: Gson = GsonBuilder()
         .serializeNulls()
         .create()
+    private val streamInfoCache = ConcurrentHashMap<String, CachedStreamInfo>()
+    private val streamInfoCacheTtlMs = 5 * 60 * 1000L
 
     companion object {
         private var isInitialized = false
@@ -77,8 +80,7 @@ class NewPipeMethodHandler : MethodChannel.MethodCallHandler {
 
         scope.launch {
             try {
-                val url = "https://www.youtube.com/watch?v=$videoId"
-                val streamInfo = StreamInfo.getInfo(ServiceList.YouTube, url)
+                val streamInfo = getCachedOrExtractStreamInfo(videoId)
 
                 // Get the best quality thumbnail
                 val bestThumbnail = streamInfo.thumbnails.maxByOrNull { it.width * it.height }?.url
@@ -138,8 +140,7 @@ class NewPipeMethodHandler : MethodChannel.MethodCallHandler {
 
         scope.launch {
             try {
-                val url = "https://www.youtube.com/watch?v=$videoId"
-                val streamInfo = StreamInfo.getInfo(ServiceList.YouTube, url)
+                val streamInfo = getCachedOrExtractStreamInfo(videoId)
 
                 // Get the best quality thumbnail
                 val bestThumbnail = streamInfo.thumbnails.maxByOrNull { it.width * it.height }?.url
@@ -636,8 +637,7 @@ class NewPipeMethodHandler : MethodChannel.MethodCallHandler {
 
         scope.launch {
             try {
-                val url = "https://www.youtube.com/watch?v=$videoId"
-                val streamInfo = StreamInfo.getInfo(ServiceList.YouTube, url)
+                val streamInfo = getCachedOrExtractStreamInfo(videoId)
 
                 val relatedVideos = streamInfo.relatedItems.map { mapInfoItem(it) }
                 sendSuccess(result, gson.toJson(relatedVideos))
@@ -648,6 +648,19 @@ class NewPipeMethodHandler : MethodChannel.MethodCallHandler {
     }
 
     // Helper methods
+
+    private fun getCachedOrExtractStreamInfo(videoId: String): StreamInfo {
+        val now = System.currentTimeMillis()
+        val cached = streamInfoCache[videoId]
+        if (cached != null && now - cached.timestampMs <= streamInfoCacheTtlMs) {
+            return cached.streamInfo
+        }
+
+        val url = "https://www.youtube.com/watch?v=$videoId"
+        val streamInfo = StreamInfo.getInfo(ServiceList.YouTube, url)
+        streamInfoCache[videoId] = CachedStreamInfo(streamInfo, now)
+        return streamInfo
+    }
 
     private fun mapAudioStream(stream: AudioStream): Map<String, Any?> {
         val itagItem = stream.itagItem
@@ -888,6 +901,11 @@ class NewPipeMethodHandler : MethodChannel.MethodCallHandler {
             result.error(code, message, details)
         }
     }
+
+    private data class CachedStreamInfo(
+        val streamInfo: StreamInfo,
+        val timestampMs: Long
+    )
 
     /**
      * Clean up resources when no longer needed

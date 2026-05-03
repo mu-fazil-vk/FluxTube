@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
+import 'package:fluxtube/core/services/exoplayer_notification_bridge.dart';
 
 /// Audio handler for background playback notification controls
 /// Provides media session controls (play/pause/seek) in notification and lock screen
@@ -18,6 +19,17 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
 
   // Current media item info
   MediaItem? _currentMediaItem;
+  bool _useExternalPlayer = false;
+  bool _externalPlaying = false;
+  bool _externalBuffering = false;
+  Duration _externalPosition = Duration.zero;
+  Duration _externalDuration = Duration.zero;
+  double _externalSpeed = 1.0;
+
+  Future<void> Function()? _externalPlay;
+  Future<void> Function()? _externalPause;
+  Future<void> Function()? _externalStop;
+  Future<void> Function(Duration position)? _externalSeek;
 
   FluxTubeAudioHandler() {
     // Delay listener setup to ensure player is ready
@@ -74,6 +86,11 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
     }
 
     try {
+      if (_useExternalPlayer) {
+        _updateExternalPlaybackStateStream();
+        return;
+      }
+
       final player = _globalPlayer.player;
       final isPlaying = player.state.playing;
       final position = player.state.position;
@@ -82,7 +99,8 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
 
       // Update duration in media item if it changed
       final currentDuration = _currentMediaItem?.duration;
-      if (duration.inSeconds > 0 && (currentDuration == null || currentDuration.inSeconds == 0)) {
+      if (duration.inSeconds > 0 &&
+          (currentDuration == null || currentDuration.inSeconds == 0)) {
         _currentMediaItem = _currentMediaItem!.copyWith(duration: duration);
         mediaItem.add(_currentMediaItem);
       }
@@ -118,6 +136,94 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
     }
   }
 
+  void _updateExternalPlaybackStateStream() {
+    if (_currentMediaItem == null) return;
+
+    playbackState.add(PlaybackState(
+      controls: [
+        MediaControl.rewind,
+        if (_externalPlaying) MediaControl.pause else MediaControl.play,
+        MediaControl.fastForward,
+        MediaControl.stop,
+      ],
+      systemActions: const {
+        MediaAction.play,
+        MediaAction.pause,
+        MediaAction.stop,
+        MediaAction.seek,
+        MediaAction.seekForward,
+        MediaAction.seekBackward,
+        MediaAction.fastForward,
+        MediaAction.rewind,
+      },
+      androidCompactActionIndices: const [0, 1, 2],
+      processingState: _externalBuffering
+          ? AudioProcessingState.buffering
+          : AudioProcessingState.ready,
+      playing: _externalPlaying,
+      updatePosition: _externalPosition,
+      bufferedPosition: _externalPosition,
+      speed: _externalSpeed,
+    ));
+  }
+
+  void configureExternalControls({
+    Future<void> Function()? play,
+    Future<void> Function()? pause,
+    Future<void> Function()? stop,
+    Future<void> Function(Duration position)? seek,
+  }) {
+    _externalPlay = play;
+    _externalPause = pause;
+    _externalStop = stop;
+    _externalSeek = seek;
+  }
+
+  Future<void> setExternalMediaItem({
+    required String id,
+    required String title,
+    required String artist,
+    String? artUri,
+    Duration? duration,
+  }) async {
+    _useExternalPlayer = true;
+    _currentMediaItem = MediaItem(
+      id: id,
+      title: title,
+      artist: artist,
+      artUri: artUri != null && artUri.isNotEmpty ? Uri.tryParse(artUri) : null,
+      duration: duration ?? _externalDuration,
+      playable: true,
+    );
+    mediaItem.add(_currentMediaItem);
+    _updateExternalPlaybackStateStream();
+    log('[AudioHandler] External media item set: $title by $artist');
+  }
+
+  Future<void> updateExternalPlaybackState({
+    required bool playing,
+    required Duration position,
+    required Duration duration,
+    required bool buffering,
+    double speed = 1.0,
+  }) async {
+    _useExternalPlayer = true;
+    _externalPlaying = playing;
+    _externalPosition = position;
+    _externalDuration = duration;
+    _externalBuffering = buffering;
+    _externalSpeed = speed;
+
+    if (_currentMediaItem != null &&
+        duration.inMilliseconds > 0 &&
+        _currentMediaItem!.duration != duration) {
+      _currentMediaItem = _currentMediaItem!.copyWith(duration: duration);
+      mediaItem.add(_currentMediaItem);
+    }
+
+    _updateExternalPlaybackStateStream();
+  }
+
   /// Set the current media item (video/audio info) for notification
   Future<void> setMediaItem({
     required String id,
@@ -133,6 +239,12 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
         (_globalPlayer.player.state.duration.inSeconds > 0
             ? _globalPlayer.player.state.duration
             : Duration.zero);
+
+    _useExternalPlayer = false;
+    _externalPlay = null;
+    _externalPause = null;
+    _externalStop = null;
+    _externalSeek = null;
 
     _currentMediaItem = MediaItem(
       id: id,
@@ -154,6 +266,11 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
   /// Clear the current media (when video stops)
   Future<void> clearMedia() async {
     _currentMediaItem = null;
+    _useExternalPlayer = false;
+    _externalPlay = null;
+    _externalPause = null;
+    _externalStop = null;
+    _externalSeek = null;
     mediaItem.add(null);
     playbackState.add(PlaybackState(
       processingState: AudioProcessingState.idle,
@@ -166,6 +283,14 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
 
   @override
   Future<void> play() async {
+    if (_useExternalPlayer) {
+      await ExoPlayerNotificationBridge.instance.play();
+      await _externalPlay?.call();
+      _externalPlaying = true;
+      _updateExternalPlaybackStateStream();
+      return;
+    }
+
     log('[AudioHandler] Play command received - hasActivePlayer: ${_globalPlayer.hasActivePlayer}');
     try {
       await _globalPlayer.player.play();
@@ -177,6 +302,14 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
 
   @override
   Future<void> pause() async {
+    if (_useExternalPlayer) {
+      await ExoPlayerNotificationBridge.instance.pause();
+      await _externalPause?.call();
+      _externalPlaying = false;
+      _updateExternalPlaybackStateStream();
+      return;
+    }
+
     log('[AudioHandler] Pause command received - hasActivePlayer: ${_globalPlayer.hasActivePlayer}');
     try {
       await _globalPlayer.player.pause();
@@ -188,6 +321,13 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
 
   @override
   Future<void> stop() async {
+    if (_useExternalPlayer) {
+      await ExoPlayerNotificationBridge.instance.stop();
+      await _externalStop?.call();
+      await clearMedia();
+      return;
+    }
+
     log('[AudioHandler] Stop command received');
     try {
       await _globalPlayer.stopAndClear();
@@ -200,6 +340,14 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
 
   @override
   Future<void> seek(Duration position) async {
+    if (_useExternalPlayer) {
+      await ExoPlayerNotificationBridge.instance.seek(position);
+      await _externalSeek?.call(position);
+      _externalPosition = position;
+      _updateExternalPlaybackStateStream();
+      return;
+    }
+
     log('[AudioHandler] Seek command to ${position.inSeconds}s');
     try {
       await _globalPlayer.player.seek(position);
@@ -211,6 +359,14 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
 
   @override
   Future<void> fastForward() async {
+    if (_useExternalPlayer) {
+      final position = await ExoPlayerNotificationBridge.instance
+          .seekBy(const Duration(seconds: 10));
+      _externalPosition = position;
+      _updateExternalPlaybackStateStream();
+      return;
+    }
+
     log('[AudioHandler] FastForward command received');
     try {
       final current = _globalPlayer.player.state.position;
@@ -229,6 +385,14 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
 
   @override
   Future<void> rewind() async {
+    if (_useExternalPlayer) {
+      final position = await ExoPlayerNotificationBridge.instance
+          .seekBy(const Duration(seconds: -10));
+      _externalPosition = position;
+      _updateExternalPlaybackStateStream();
+      return;
+    }
+
     log('[AudioHandler] Rewind command received');
     try {
       final current = _globalPlayer.player.state.position;
@@ -246,6 +410,12 @@ class FluxTubeAudioHandler extends BaseAudioHandler with SeekHandler {
 
   @override
   Future<void> setSpeed(double speed) async {
+    if (_useExternalPlayer) {
+      _externalSpeed = speed;
+      _updateExternalPlaybackStateStream();
+      return;
+    }
+
     await _globalPlayer.player.setRate(speed);
     _updatePlaybackState();
     log('[AudioHandler] Speed set to $speed');
@@ -297,7 +467,8 @@ Future<FluxTubeAudioHandler?> initAudioService() async {
         androidNotificationChannelName: 'FluxTube Playback',
         androidNotificationChannelDescription: 'Media playback controls',
         androidNotificationOngoing: false,
-        androidStopForegroundOnPause: true, // Keep notification when paused but allow dismissal
+        androidStopForegroundOnPause:
+            true, // Keep notification when paused but allow dismissal
         androidNotificationIcon: 'drawable/ic_notification',
         fastForwardInterval: const Duration(seconds: 10),
         rewindInterval: const Duration(seconds: 10),

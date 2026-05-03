@@ -54,10 +54,23 @@ class GlobalPlayerController extends ChangeNotifier {
   /// Initialize player eagerly to avoid first-play issues
   void _initializePlayer() {
     if (_isInitialized) return;
-    _player = Player();
+    _player = Player(
+      configuration: const PlayerConfiguration(
+        bufferSize: 8 * 1024 * 1024,
+      ),
+    );
     _videoController = VideoController(_player!);
     _isInitialized = true;
+    _tuneNetworkPlayback();
     log('[GlobalPlayer] Player and VideoController initialized eagerly');
+  }
+
+  Future<void> _tuneNetworkPlayback() async {
+    try {
+      await (_player!.platform as dynamic).setProperty('hr-seek', 'no');
+    } catch (e) {
+      log('[GlobalPlayer] Could not tune native seek mode: $e');
+    }
   }
 
   /// Ensure player is initialized - call this before using player

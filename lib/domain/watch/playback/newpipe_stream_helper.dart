@@ -29,7 +29,8 @@ class NewPipeStreamHelper {
     // These are higher quality and should be preferred
     final bestAudio = getBestAudioStream(watchResp.audioStreams ?? []);
 
-    for (var videoStream in watchResp.videoOnlyStreams ?? []) {
+    for (var videoStream
+        in sortVideoStreams(watchResp.videoOnlyStreams ?? [])) {
       if (videoStream.url == null || videoStream.url!.isEmpty) continue;
 
       final resolution = _parseResolution(videoStream.resolution);
@@ -54,7 +55,7 @@ class NewPipeStreamHelper {
     }
 
     // Process muxed streams (videoStreams - have audio, ≤360p)
-    for (var videoStream in watchResp.videoStreams ?? []) {
+    for (var videoStream in sortVideoStreams(watchResp.videoStreams ?? [])) {
       if (videoStream.url == null || videoStream.url!.isEmpty) continue;
 
       final resolution = _parseResolution(videoStream.resolution);
@@ -115,9 +116,15 @@ class NewPipeStreamHelper {
       final bRes = _parseResolution(b.resolution) ?? 0;
       if (aRes != bRes) return bRes.compareTo(aRes);
 
-      // 2. FPS (higher first)
+      // 2. FPS preference. Prefer standard frame rate before high-FPS for
+      // equivalent resolutions to reduce decoder load & heat by default.
       final aFps = a.fps ?? 0;
       final bFps = b.fps ?? 0;
+      final aIsHighFps = aFps > 30;
+      final bIsHighFps = bFps > 30;
+      if (aIsHighFps != bIsHighFps) {
+        return aIsHighFps ? 1 : -1;
+      }
       if (aFps != bFps) return bFps.compareTo(aFps);
 
       // 3. Format preference
@@ -152,12 +159,8 @@ class NewPipeStreamHelper {
     final sorted = List<NewPipeAudioStream>.from(streams);
 
     sorted.sort((a, b) {
-      // 1. Average bitrate (higher first)
-      final aBitrate = a.averageBitrate ?? 0;
-      final bBitrate = b.averageBitrate ?? 0;
-      if (aBitrate != bBitrate) return bBitrate.compareTo(aBitrate);
-
-      // 2. Format preference
+      // 1. Format preference. On Android, a hardware-friendly container/codec
+      // is usually more important than a slightly higher bitrate.
       final aFormatIndex =
           preferredFormats.indexOf(a.format?.toUpperCase() ?? '');
       final bFormatIndex =
@@ -169,6 +172,11 @@ class NewPipeStreamHelper {
 
       if (aFormatIndex >= 0) return -1;
       if (bFormatIndex >= 0) return 1;
+
+      // 2. Average bitrate (higher first)
+      final aBitrate = a.averageBitrate ?? 0;
+      final bBitrate = b.averageBitrate ?? 0;
+      if (aBitrate != bBitrate) return bBitrate.compareTo(aBitrate);
 
       // 3. Audio channels (more first)
       final aChannels = a.audioChannels ?? 0;
@@ -287,8 +295,8 @@ class NewPipeStreamHelper {
 
       // Use audioTrackId if available, otherwise fall back to locale or 'default'
       final trackId = stream.audioTrackId ??
-                      stream.audioLocale ??
-                      (stream.isOriginal ? 'original' : 'default');
+          stream.audioLocale ??
+          (stream.isOriginal ? 'original' : 'default');
 
       trackMap.putIfAbsent(trackId, () => []).add(stream);
     }

@@ -11,15 +11,27 @@ class NewPipePlaybackResolver {
     required NewPipeWatchResp watchResp,
     required String preferredQuality,
     bool preferHighQuality = true,
+    bool preferAdaptive = false,
   }) {
-    // Priority: Live streams -> Merging (high quality) -> HLS -> DASH -> Progressive (muxed)
+    // Priority: Live streams -> optionally adaptive -> selected quality ->
+    // adaptive fallback -> progressive fallback.
 
     // 1. Check for live stream - use HLS/DASH
     if (watchResp.isLive == true) {
       return _resolveLiveStream(watchResp);
     }
 
-    // 2. First priority: Try to get the preferred quality via merging or progressive
+    // 2. Battery-friendly mode: prefer one adaptive media source over merging
+    // separate video/audio streams. This usually reduces decoder/sync/network
+    // overhead on phones.
+    if (preferAdaptive) {
+      final adaptiveConfig = _resolveAdaptiveStream(watchResp);
+      if (adaptiveConfig?.isValid == true) {
+        return adaptiveConfig!;
+      }
+    }
+
+    // 3. Try to get the preferred quality via merging or progressive
     final qualityInfo = NewPipeStreamHelper.getAvailableQualities(watchResp)
         .where((q) => q.label == preferredQuality)
         .firstOrNull;
@@ -43,7 +55,7 @@ class NewPipePlaybackResolver {
       }
     }
 
-    // 3. Preferred quality not available - find closest alternative from merging/progressive
+    // 4. Preferred quality not available - find closest alternative from merging/progressive
     if (preferHighQuality) {
       final availableQualities =
           NewPipeStreamHelper.getAvailableQualities(watchResp);
@@ -66,18 +78,13 @@ class NewPipePlaybackResolver {
       }
     }
 
-    // 4. Fallback to HLS (not for live, already handled above)
-    if (watchResp.hlsUrl != null && watchResp.hlsUrl!.isNotEmpty) {
-      return _resolveHlsStream(watchResp.hlsUrl!, watchResp.subtitles ?? []);
+    // 5. Fallback to adaptive playback.
+    final adaptiveConfig = _resolveAdaptiveStream(watchResp);
+    if (adaptiveConfig?.isValid == true) {
+      return adaptiveConfig!;
     }
 
-    // 5. Fallback to DASH
-    if (watchResp.dashMpdUrl != null && watchResp.dashMpdUrl!.isNotEmpty) {
-      return _resolveDashStream(
-          watchResp.dashMpdUrl!, watchResp.subtitles ?? []);
-    }
-
-    // 6. Last resort - any muxed stream
+    // 6. Last resort - any muxed/progressive stream
     final videoStreams = watchResp.videoStreams ?? [];
     if (videoStreams.isNotEmpty) {
       final sorted = NewPipeStreamHelper.sortVideoStreams(videoStreams);
@@ -97,6 +104,19 @@ class NewPipePlaybackResolver {
       sourceType: MediaSourceType.progressive,
       qualityLabel: 'Unknown',
     );
+  }
+
+  PlaybackConfiguration? _resolveAdaptiveStream(NewPipeWatchResp watchResp) {
+    if (watchResp.dashMpdUrl != null && watchResp.dashMpdUrl!.isNotEmpty) {
+      return _resolveDashStream(
+          watchResp.dashMpdUrl!, watchResp.subtitles ?? []);
+    }
+
+    if (watchResp.hlsUrl != null && watchResp.hlsUrl!.isNotEmpty) {
+      return _resolveHlsStream(watchResp.hlsUrl!, watchResp.subtitles ?? []);
+    }
+
+    return null;
   }
 
   /// Resolve live stream (HLS)

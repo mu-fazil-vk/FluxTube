@@ -1,7 +1,13 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
+import 'package:fluxtube/core/services/audio_handler_service.dart';
+import 'package:fluxtube/core/services/exoplayer_notification_bridge.dart';
 import 'package:fluxtube/presentation/routes/app_routes.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 
@@ -28,6 +34,7 @@ class PipVideoWidget extends StatefulWidget {
 
 class _PipVideoWidgetState extends State<PipVideoWidget> {
   final GlobalPlayerController _globalPlayer = GlobalPlayerController();
+  MethodChannel? _nativeChannel;
 
   // Position for draggable
   Offset _position = const Offset(16, 100);
@@ -43,7 +50,7 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
     // This keeps the widget in the tree to preserve its state (position, etc.)
     if (!widget.isVisible) {
       return const Positioned(
-        left: -1000,  // Off-screen to avoid any rendering
+        left: -1000, // Off-screen to avoid any rendering
         top: -1000,
         child: SizedBox.shrink(),
       );
@@ -53,14 +60,18 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
 
     // Don't render if screen is too small (e.g., in system PiP mode)
     // The in-app PiP doesn't make sense when the whole app is already in a tiny window
-    if (screenSize.width < pipWidth + 50 || screenSize.height < pipHeight + 150) {
+    if (screenSize.width < pipWidth + 50 ||
+        screenSize.height < pipHeight + 150) {
       return const SizedBox.shrink();
     }
 
     // Clamp position to screen bounds
     final maxX = (screenSize.width - pipWidth).clamp(0.0, double.infinity);
     final minY = MediaQuery.of(context).padding.top;
-    final maxY = (screenSize.height - pipHeight - MediaQuery.of(context).padding.bottom - 80)
+    final maxY = (screenSize.height -
+            pipHeight -
+            MediaQuery.of(context).padding.bottom -
+            80)
         .clamp(minY, double.infinity);
 
     final clampedX = _position.dx.clamp(0.0, maxX);
@@ -107,6 +118,19 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
                         fit: BoxFit.cover,
                       ),
                     )
+                  else if (Platform.isAndroid)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: AndroidView(
+                        viewType: 'fluxtube/newpipe_exoplayer',
+                        onPlatformViewCreated: _onNativeViewCreated,
+                        creationParams: const {
+                          'attachOnly': true,
+                          'fitMode': 'cover',
+                        },
+                        creationParamsCodec: const StandardMessageCodec(),
+                      ),
+                    )
                   else if (widget.thumbnailUrl != null)
                     // Fallback to thumbnail
                     ClipRRect(
@@ -118,7 +142,8 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
                         height: pipHeight,
                         errorBuilder: (_, __, ___) => Container(
                           color: Colors.grey[900],
-                          child: const Icon(Icons.play_arrow, color: Colors.white54),
+                          child: const Icon(Icons.play_arrow,
+                              color: Colors.white54),
                         ),
                       ),
                     ),
@@ -140,35 +165,6 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
                           color: Colors.white,
                           size: 16,
                         ),
-                      ),
-                    ),
-                  ),
-
-                  // Play/Pause button overlay
-                  Positioned.fill(
-                    child: Center(
-                      child: StreamBuilder<bool>(
-                        stream: _globalPlayer.player.stream.playing,
-                        initialData: _globalPlayer.isPlaying,
-                        builder: (context, snapshot) {
-                          final isPlaying = snapshot.data ?? false;
-                          return GestureDetector(
-                            onTap: _togglePlayPause,
-                            behavior: HitTestBehavior.opaque,
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withValues(alpha: 0.4),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                isPlaying ? Icons.pause : Icons.play_arrow,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                            ),
-                          );
-                        },
                       ),
                     ),
                   ),
@@ -202,6 +198,25 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
     );
   }
 
+  void _onNativeViewCreated(int id) {
+    _nativeChannel =
+        MethodChannel('com.fazilvk.fluxtube/newpipe_exoplayer_$id');
+    ExoPlayerNotificationBridge.instance.attach(_nativeChannel!);
+    unawaited(_configureNativeNotificationControls());
+  }
+
+  Future<void> _configureNativeNotificationControls() async {
+    final handler = await ensureAudioServiceInitialized();
+    handler?.configureExternalControls(
+      stop: () async {
+        if (mounted) {
+          BlocProvider.of<WatchBloc>(context)
+              .add(WatchEvent.togglePip(value: false));
+        }
+      },
+    );
+  }
+
   void _onTap() {
     // Navigate back to watch screen
     BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
@@ -213,17 +228,13 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
     });
   }
 
-  void _togglePlayPause() {
-    if (_globalPlayer.isPlaying) {
-      _globalPlayer.player.pause();
-    } else {
-      _globalPlayer.player.play();
-    }
-  }
-
   void _closePip() {
     // Stop playback and close PiP
-    _globalPlayer.stopAndClear();
+    if (_globalPlayer.hasActivePlayer) {
+      _globalPlayer.stopAndClear();
+    } else {
+      _nativeChannel?.invokeMethod('stop');
+    }
     BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
   }
 }

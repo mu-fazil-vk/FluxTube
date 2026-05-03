@@ -9,6 +9,7 @@ import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import com.fazilvk.fluxtube.newpipe.NewPipeMethodHandler
+import com.fazilvk.fluxtube.player.NewPipeExoPlayerViewFactory
 
 class MainActivity: AudioServiceFragmentActivity() {
     companion object {
@@ -35,6 +36,14 @@ class MainActivity: AudioServiceFragmentActivity() {
         // Register NewPipe method channel
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, NEWPIPE_CHANNEL)
             .setMethodCallHandler(newPipeHandler)
+
+        flutterEngine
+            .platformViewsController
+            .registry
+            .registerViewFactory(
+                "fluxtube/newpipe_exoplayer",
+                NewPipeExoPlayerViewFactory(flutterEngine.dartExecutor.binaryMessenger)
+            )
 
         // Initialize and register MediaMuxer handler
         muxerHandler = MediaMuxerHandler()

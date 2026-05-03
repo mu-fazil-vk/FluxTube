@@ -121,4 +121,11 @@ dependencies {
 
     // Kotlin Coroutines - Async operations for background extraction
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
+
+    // Media3 / ExoPlayer - native Android playback path for NewPipe streams
+    def media3Version = '1.4.1'
+    implementation "androidx.media3:media3-exoplayer:$media3Version"
+    implementation "androidx.media3:media3-exoplayer-dash:$media3Version"
+    implementation "androidx.media3:media3-exoplayer-hls:$media3Version"
+    implementation "androidx.media3:media3-ui:$media3Version"
 }

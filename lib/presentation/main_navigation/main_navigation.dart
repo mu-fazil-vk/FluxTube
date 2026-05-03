@@ -8,6 +8,7 @@ import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/deep_link_handler.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
+import 'package:fluxtube/core/services/pip_service.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
 import '../download/screen_downloads.dart';
@@ -92,20 +93,49 @@ class MainNavigationState extends State<MainNavigation> {
   List<TabItem> _getTabItems(S locals, bool showTrending) {
     if (showTrending) {
       return [
-        TabItem(icon: CupertinoIcons.house_fill, title: locals.home, key: "home"),
-        TabItem(icon: CupertinoIcons.flame_fill, title: locals.trending, key: "trending"),
-        TabItem(icon: CupertinoIcons.person_2_fill, title: locals.subscriptions, key: "subscriptions"),
-        TabItem(icon: CupertinoIcons.bookmark_fill, title: locals.saved, key: "saved"),
-        TabItem(icon: CupertinoIcons.arrow_down_circle_fill, title: locals.downloads, key: "downloads"),
-        TabItem(icon: CupertinoIcons.settings, title: locals.settings, key: "settings"),
+        TabItem(
+            icon: CupertinoIcons.house_fill, title: locals.home, key: "home"),
+        TabItem(
+            icon: CupertinoIcons.flame_fill,
+            title: locals.trending,
+            key: "trending"),
+        TabItem(
+            icon: CupertinoIcons.person_2_fill,
+            title: locals.subscriptions,
+            key: "subscriptions"),
+        TabItem(
+            icon: CupertinoIcons.bookmark_fill,
+            title: locals.saved,
+            key: "saved"),
+        TabItem(
+            icon: CupertinoIcons.arrow_down_circle_fill,
+            title: locals.downloads,
+            key: "downloads"),
+        TabItem(
+            icon: CupertinoIcons.settings,
+            title: locals.settings,
+            key: "settings"),
       ];
     } else {
       return [
-        TabItem(icon: CupertinoIcons.house_fill, title: locals.home, key: "home"),
-        TabItem(icon: CupertinoIcons.person_2_fill, title: locals.subscriptions, key: "subscriptions"),
-        TabItem(icon: CupertinoIcons.bookmark_fill, title: locals.saved, key: "saved"),
-        TabItem(icon: CupertinoIcons.arrow_down_circle_fill, title: locals.downloads, key: "downloads"),
-        TabItem(icon: CupertinoIcons.settings, title: locals.settings, key: "settings"),
+        TabItem(
+            icon: CupertinoIcons.house_fill, title: locals.home, key: "home"),
+        TabItem(
+            icon: CupertinoIcons.person_2_fill,
+            title: locals.subscriptions,
+            key: "subscriptions"),
+        TabItem(
+            icon: CupertinoIcons.bookmark_fill,
+            title: locals.saved,
+            key: "saved"),
+        TabItem(
+            icon: CupertinoIcons.arrow_down_circle_fill,
+            title: locals.downloads,
+            key: "downloads"),
+        TabItem(
+            icon: CupertinoIcons.settings,
+            title: locals.settings,
+            key: "settings"),
       ];
     }
   }
@@ -134,14 +164,16 @@ class MainNavigationState extends State<MainNavigation> {
           previous.userInstanceFailed != current.userInstanceFailed,
       builder: (context, settingsState) {
         // Disable trending tab for NewPipe Extractor service
-        final showTrending = settingsState.ytService != YouTubeServices.newpipe.name;
+        final showTrending =
+            settingsState.ytService != YouTubeServices.newpipe.name;
         final pages = _getPages(showTrending);
         final items = _getTabItems(locals, showTrending);
 
         final maxIndex = pages.length - 1;
 
         // Adjust index when transitioning between services with different tab counts
-        if (_previousShowTrending != null && _previousShowTrending != showTrending) {
+        if (_previousShowTrending != null &&
+            _previousShowTrending != showTrending) {
           final currentIndex = indexChangeNotifier.value;
           int newIndex;
 
@@ -180,7 +212,8 @@ class MainNavigationState extends State<MainNavigation> {
           listener: (context, state) {
             if (state.userInstanceFailed && !_hasShownInstanceFailedSnackbar) {
               _hasShownInstanceFailedSnackbar = true;
-              final failedName = state.failedInstanceName ?? 'Your preferred instance';
+              final failedName =
+                  state.failedInstanceName ?? 'Your preferred instance';
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
@@ -205,7 +238,8 @@ class MainNavigationState extends State<MainNavigation> {
               final pendingNav = consumePendingNavigation();
               if (pendingNav == 'downloads') {
                 // Find downloads tab index by key
-                final downloadsIndex = items.indexWhere((item) => item.key == 'downloads');
+                final downloadsIndex =
+                    items.indexWhere((item) => item.key == 'downloads');
                 if (downloadsIndex >= 0) {
                   // Get the pending downloads tab before navigating
                   final pendingDownloadsTab = consumePendingDownloadsTab();
@@ -231,6 +265,15 @@ class MainNavigationState extends State<MainNavigation> {
                 canPop: false,
                 onPopInvokedWithResult: (didPop, _) async {
                   if (didPop) return;
+                  final watchState = context.read<WatchBloc>().state;
+                  if (watchState.isPipEnabled &&
+                      watchState.selectedVideoBasicDetails != null) {
+                    final pipService = PipService();
+                    await pipService.setVideoPlaying(true);
+                    await pipService.setAspectRatio(16, 9);
+                    final entered = await pipService.enterPipMode();
+                    if (entered) return;
+                  }
                   // Stop the player before exiting to prevent FlutterJNI crash
                   final globalPlayer = GlobalPlayerController();
                   if (globalPlayer.hasActivePlayer) {
