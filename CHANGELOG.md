@@ -1,5 +1,26 @@
 ## Changelog
 
+### v0.9.1
+
+###### Playback Improvements
+
+- Added a playback queue controller to keep playback state more consistent across navigation and player surfaces.
+- Improved NewPipe ExoPlayer integration for native Android playback.
+- Refined stream resolution and quality handling for NewPipe playback.
+- Improved global player and PiP behavior when moving between watch screens and app navigation.
+
+###### UI & Reliability
+
+- Added a shared thumbnail image widget for more consistent thumbnail loading and fallback behavior.
+- Refined watch screen layouts, related video sections, comments, and player overlays across supported backends.
+- Improved video data loading and source handling across channel, playlist, search, trending, and watch flows.
+
+###### Release & Build
+
+- Added GitHub Actions workflow to build signed Android APKs on the main branch.
+- Added automated draft GitHub releases with universal and split APK artifacts.
+- Added signing certificate verification in CI to prevent accidental releases with the wrong Android key.
+
 ### v0.9.0
 
 ###### New Features
