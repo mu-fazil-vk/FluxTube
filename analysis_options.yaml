@@ -8,6 +8,12 @@
 # The following line activates a set of recommended lints for Flutter apps,
 # packages, and plugins designed to encourage good coding practices.
 analyzer:
+  exclude:
+    - lib/generated/**
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - .dart_tool/**
+    - build/**
   errors:
     no_leading_underscores_for_local_identifiers: ignore
     avoid_empty_else: error
