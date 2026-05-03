@@ -102,7 +102,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p dist
-          cp build/app/outputs/flutter-apk/app-*-release.apk dist/
+          cp build/app/outputs/flutter-apk/*.apk dist/
           ls -lah dist
 
       - name: Read app version
