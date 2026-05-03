@@ -91,6 +91,9 @@ jobs:
       - name: Analyze
         run: flutter analyze
 
+      - name: Build universal APK
+        run: flutter build apk --release
+
       - name: Build split APKs
         run: flutter build apk --release --split-per-abi
 
