@@ -56,7 +56,7 @@ jobs:
             printf 'storePassword=%s\n' "${ANDROID_KEYSTORE_PASSWORD}"
             printf 'keyPassword=%s\n' "${ANDROID_KEY_PASSWORD}"
             printf 'keyAlias=%s\n' "${ANDROID_KEY_ALIAS}"
-            printf 'storeFile=app/key.jks\n'
+            printf 'storeFile=key.jks\n'
           } > android/key.properties
 
       - name: Verify signing key fingerprint
@@ -102,8 +102,30 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p dist
-          cp build/app/outputs/flutter-apk/*.apk dist/
+          cp build/app/outputs/flutter-apk/app-release.apk dist/
+          cp build/app/outputs/flutter-apk/app-*-release.apk dist/
           ls -lah dist
+
+      - name: Verify APK signing certificates
+        shell: bash
+        env:
+          EXPECTED_CERT_SHA256: ${{ secrets.ANDROID_CERT_SHA256 }}
+        run: |
+          set -euo pipefail
+
+          expected_sha256="$(printf '%s' "${EXPECTED_CERT_SHA256}" | tr -d ':' | tr '[:upper:]' '[:lower:]')"
+          apksigner="$(find "${ANDROID_HOME}/build-tools" -name apksigner -type f | sort -V | tail -n 1)"
+
+          for apk in dist/*.apk; do
+            echo "Verifying ${apk}"
+            actual_sha256="$("${apksigner}" verify --print-certs "${apk}" | grep 'certificate SHA-256 digest:' | head -n 1 | sed 's/.*digest: //' | tr -d ':' | tr '[:upper:]' '[:lower:]')"
+            if [[ "${actual_sha256}" != "${expected_sha256}" ]]; then
+              echo "APK signing certificate mismatch for ${apk}." >&2
+              echo "Expected: ${expected_sha256}" >&2
+              echo "Actual:   ${actual_sha256}" >&2
+              exit 1
+            fi
+          done
 
       - name: Read app version
         id: app_version
