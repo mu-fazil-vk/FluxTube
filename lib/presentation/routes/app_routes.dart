@@ -1,5 +1,9 @@
 // GoRouter configuration
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/application/channel/channel_bloc.dart';
+import 'package:fluxtube/application/playlist/playlist_bloc.dart';
+import 'package:fluxtube/core/di/injectable.dart';
 import 'package:fluxtube/presentation/channel/screen_channel.dart';
 import 'package:fluxtube/presentation/main_navigation/main_navigation.dart';
 import 'package:fluxtube/presentation/playlist/screen_playlist.dart';
@@ -12,7 +16,6 @@ import 'package:fluxtube/presentation/watch/screen_watch.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
-  debugLogDiagnostics: true,
   initialLocation: '/',
   routes: <RouteBase>[
     GoRoute(
@@ -40,9 +43,12 @@ final GoRouter router = GoRouter(
           name: 'channel',
           path: 'channel/:channelId',
           builder: (BuildContext context, GoRouterState state) {
-            return ScreenChannel(
-              channelId: state.pathParameters['channelId']!,
-              avatarUrl: state.uri.queryParameters['avatarUrl'],
+            return BlocProvider(
+              create: (_) => getIt<ChannelBloc>(),
+              child: ScreenChannel(
+                channelId: state.pathParameters['channelId']!,
+                avatarUrl: state.uri.queryParameters['avatarUrl'],
+              ),
             );
           },
         ),
@@ -50,8 +56,11 @@ final GoRouter router = GoRouter(
           name: 'playlist',
           path: 'playlist/:playlistId',
           builder: (BuildContext context, GoRouterState state) {
-            return ScreenPlaylist(
-              playlistId: state.pathParameters['playlistId']!,
+            return BlocProvider(
+              create: (_) => getIt<PlaylistBloc>(),
+              child: ScreenPlaylist(
+                playlistId: state.pathParameters['playlistId']!,
+              ),
             );
           },
         ),

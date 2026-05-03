@@ -2,6 +2,8 @@ package com.fazilvk.fluxtube.player
 
 import android.content.Context
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -9,7 +11,13 @@ import androidx.media3.common.MimeTypes
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.database.StandaloneDatabaseProvider
+import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.datasource.cache.CacheDataSource
+import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
+import androidx.media3.datasource.cache.SimpleCache
+import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.dash.DashMediaSource
 import androidx.media3.exoplayer.hls.HlsMediaSource
@@ -26,6 +34,7 @@ import io.flutter.plugin.platform.PlatformView
 @UnstableApi
 object NewPipeSharedExoPlayer {
     private var player: ExoPlayer? = null
+    private var cache: SimpleCache? = null
     var sourceKey: String? = null
 
     fun get(context: Context): ExoPlayer {
@@ -43,8 +52,30 @@ object NewPipeSharedExoPlayer {
 
         return ExoPlayer.Builder(context.applicationContext)
             .setTrackSelector(trackSelector)
+            .setLoadControl(
+                DefaultLoadControl.Builder()
+                    .setBufferDurationsMs(
+                        8_000,
+                        30_000,
+                        500,
+                        1_500
+                    )
+                    .setPrioritizeTimeOverSizeThresholds(true)
+                    .build()
+            )
             .build()
             .also { player = it }
+    }
+
+    fun cache(context: Context): SimpleCache {
+        val existing = cache
+        if (existing != null) return existing
+
+        return SimpleCache(
+            context.applicationContext.cacheDir.resolve("exo_media"),
+            LeastRecentlyUsedCacheEvictor(256L * 1024L * 1024L),
+            StandaloneDatabaseProvider(context.applicationContext)
+        ).also { cache = it }
     }
 
     fun play(): Boolean {
@@ -98,11 +129,55 @@ class NewPipeExoPlayerView(
     private val httpDataSourceFactory = DefaultHttpDataSource.Factory()
         .setUserAgent(USER_AGENT)
         .setAllowCrossProtocolRedirects(true)
-    private val mediaSourceFactory = ProgressiveMediaSource.Factory(httpDataSourceFactory)
+    private val dataSourceFactory: DataSource.Factory = CacheDataSource.Factory()
+        .setCache(NewPipeSharedExoPlayer.cache(context))
+        .setUpstreamDataSourceFactory(httpDataSourceFactory)
+        .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+    private val mediaSourceFactory = ProgressiveMediaSource.Factory(dataSourceFactory)
     private val player = NewPipeSharedExoPlayer.get(context)
+    private val mainHandler = Handler(Looper.getMainLooper())
+    private val positionUpdateRunnable = object : Runnable {
+        override fun run() {
+            sendState()
+            if (player.isPlaying) {
+                mainHandler.postDelayed(this, POSITION_UPDATE_INTERVAL_MS)
+            }
+        }
+    }
+    private val listener = object : Player.Listener {
+        override fun onPlaybackStateChanged(playbackState: Int) {
+            sendState()
+            schedulePositionUpdates()
+        }
+
+        override fun onIsPlayingChanged(isPlaying: Boolean) {
+            playerView.keepScreenOn = isPlaying
+            sendState()
+            schedulePositionUpdates()
+        }
+
+        override fun onPositionDiscontinuity(
+            oldPosition: Player.PositionInfo,
+            newPosition: Player.PositionInfo,
+            reason: Int
+        ) {
+            sendState()
+        }
+
+        override fun onPlayerError(error: PlaybackException) {
+            channel.invokeMethod(
+                "onError",
+                mapOf(
+                    "message" to (error.message ?: "Playback error"),
+                    "code" to error.errorCodeName
+                )
+            )
+        }
+    }
     private val playerView = PlayerView(context).apply {
         player = this@NewPipeExoPlayerView.player
         useController = false
+        keepScreenOn = this@NewPipeExoPlayerView.player.isPlaying
         resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
         setShowBuffering(PlayerView.SHOW_BUFFERING_NEVER)
     }
@@ -112,31 +187,15 @@ class NewPipeExoPlayerView(
 
     init {
         channel.setMethodCallHandler(this)
-        player.addListener(object : Player.Listener {
-            override fun onPlaybackStateChanged(playbackState: Int) {
-                sendState()
-            }
-
-            override fun onIsPlayingChanged(isPlaying: Boolean) {
-                sendState()
-            }
-
-            override fun onPlayerError(error: PlaybackException) {
-                channel.invokeMethod(
-                    "onError",
-                    mapOf(
-                        "message" to (error.message ?: "Playback error"),
-                        "code" to error.errorCodeName
-                    )
-                )
-            }
-        })
+        player.addListener(listener)
         load(creationParams)
     }
 
     override fun getView(): View = playerView
 
     override fun dispose() {
+        mainHandler.removeCallbacks(positionUpdateRunnable)
+        player.removeListener(listener)
         channel.setMethodCallHandler(null)
         playerView.player = null
     }
@@ -154,6 +213,8 @@ class NewPipeExoPlayerView(
             "stop" -> {
                 player.stop()
                 NewPipeSharedExoPlayer.sourceKey = null
+                playerView.keepScreenOn = false
+                sendState()
                 result.success(null)
             }
             "seekTo" -> {
@@ -226,13 +287,13 @@ class NewPipeExoPlayerView(
             "dash" -> {
                 val manifestUrl = params["manifestUrl"] as? String
                 if (manifestUrl.isNullOrBlank()) return
-                DashMediaSource.Factory(httpDataSourceFactory)
+                DashMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(mediaItem(manifestUrl, params))
             }
             "hls" -> {
                 val manifestUrl = params["manifestUrl"] as? String
                 if (manifestUrl.isNullOrBlank()) return
-                HlsMediaSource.Factory(httpDataSourceFactory)
+                HlsMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(mediaItem(manifestUrl, params))
             }
             "merging" -> {
@@ -256,6 +317,7 @@ class NewPipeExoPlayerView(
         NewPipeSharedExoPlayer.sourceKey = sourceKey
         player.playWhenReady = playWhenReady
         player.prepare()
+        schedulePositionUpdates()
         sendState()
     }
 
@@ -302,6 +364,13 @@ class NewPipeExoPlayerView(
         )
     }
 
+    private fun schedulePositionUpdates() {
+        mainHandler.removeCallbacks(positionUpdateRunnable)
+        if (player.isPlaying) {
+            mainHandler.postDelayed(positionUpdateRunnable, POSITION_UPDATE_INTERVAL_MS)
+        }
+    }
+
     private fun resizeModeFrom(fitMode: String?): Int {
         return when (fitMode) {
             "cover" -> AspectRatioFrameLayout.RESIZE_MODE_ZOOM
@@ -311,6 +380,7 @@ class NewPipeExoPlayerView(
     }
 
     companion object {
+        private const val POSITION_UPDATE_INTERVAL_MS = 1_000L
         private const val USER_AGENT =
             "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 Chrome/120.0 Mobile Safari/537.36"
     }

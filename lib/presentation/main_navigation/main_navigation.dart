@@ -68,26 +68,31 @@ class MainNavigationState extends State<MainNavigation> {
   bool _hasShownInstanceFailedSnackbar = false;
   final DeepLinkHandler _deepLinkHandler = DeepLinkHandler();
   bool? _previousShowTrending;
+  final Map<String, Widget> _pageCache = {};
 
   List<Widget> _getPages(bool showTrending) {
     if (showTrending) {
-      return const [
-        ScreenHome(),
-        ScreenTrending(),
-        ScreenSubscriptions(),
-        ScreenSaved(),
-        ScreenDownloads(),
-        ScreenSettings(),
+      return [
+        _cachedPage('home', const ScreenHome()),
+        _cachedPage('trending', const ScreenTrending()),
+        _cachedPage('subscriptions', const ScreenSubscriptions()),
+        _cachedPage('saved', const ScreenSaved()),
+        _cachedPage('downloads', const ScreenDownloads()),
+        _cachedPage('settings', const ScreenSettings()),
       ];
     } else {
-      return const [
-        ScreenHome(),
-        ScreenSubscriptions(),
-        ScreenSaved(),
-        ScreenDownloads(),
-        ScreenSettings(),
+      return [
+        _cachedPage('home', const ScreenHome()),
+        _cachedPage('subscriptions', const ScreenSubscriptions()),
+        _cachedPage('saved', const ScreenSaved()),
+        _cachedPage('downloads', const ScreenDownloads()),
+        _cachedPage('settings', const ScreenSettings()),
       ];
     }
+  }
+
+  Widget _cachedPage(String key, Widget page) {
+    return _pageCache.putIfAbsent(key, () => page);
   }
 
   List<TabItem> _getTabItems(S locals, bool showTrending) {
@@ -286,7 +291,10 @@ class MainNavigationState extends State<MainNavigation> {
                 },
                 child: Scaffold(
                   body: SafeArea(
-                    child: pages[safeIndex],
+                    child: _LazyIndexedStack(
+                      index: safeIndex,
+                      children: pages,
+                    ),
                   ),
                   bottomNavigationBar: BottomBarSalomon(
                     items: items,
@@ -316,6 +324,55 @@ class MainNavigationState extends State<MainNavigation> {
           ),
         );
       },
+    );
+  }
+}
+
+class _LazyIndexedStack extends StatefulWidget {
+  const _LazyIndexedStack({
+    required this.index,
+    required this.children,
+  });
+
+  final int index;
+  final List<Widget> children;
+
+  @override
+  State<_LazyIndexedStack> createState() => _LazyIndexedStackState();
+}
+
+class _LazyIndexedStackState extends State<_LazyIndexedStack> {
+  late List<bool> _built;
+
+  @override
+  void initState() {
+    super.initState();
+    _built = List<bool>.filled(widget.children.length, false);
+    _built[widget.index] = true;
+  }
+
+  @override
+  void didUpdateWidget(covariant _LazyIndexedStack oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_built.length != widget.children.length) {
+      _built = List<bool>.generate(
+        widget.children.length,
+        (index) => index < oldWidget.children.length && index < _built.length
+            ? _built[index]
+            : false,
+      );
+    }
+    _built[widget.index] = true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IndexedStack(
+      index: widget.index,
+      children: [
+        for (var i = 0; i < widget.children.length; i++)
+          _built[i] ? widget.children[i] : const SizedBox.shrink(),
+      ],
     );
   }
 }

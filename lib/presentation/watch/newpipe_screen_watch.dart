@@ -8,6 +8,7 @@ import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
+import 'package:fluxtube/core/player/playback_queue_controller.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/presentation/watch/widgets/newpipe/exoplayer_video_player.dart';
@@ -73,7 +74,7 @@ class _NewPipeScreenWatchState extends State<NewPipeScreenWatch>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           final isCurrent = ModalRoute.of(context)?.isCurrent ?? false;
-          if (isCurrent) {
+          if (isCurrent && !GlobalPlayerController().isSystemPipMode) {
             BlocProvider.of<WatchBloc>(context)
                 .add(WatchEvent.togglePip(value: false));
           }
@@ -122,7 +123,7 @@ class _NewPipeScreenWatchState extends State<NewPipeScreenWatch>
 
           // Disable PIP when returning to watch screen from another route
           final watchBloc = BlocProvider.of<WatchBloc>(context);
-          if (watchBloc.state.isPipEnabled) {
+          if (watchBloc.state.isPipEnabled && !globalPlayer.isSystemPipMode) {
             watchBloc.add(WatchEvent.togglePip(value: false));
           }
         }
@@ -156,7 +157,9 @@ class _NewPipeScreenWatchState extends State<NewPipeScreenWatch>
     final isReturningFromPip = globalPlayer.hasVideoLoaded(widget.id) &&
         watchBloc.state.newPipeWatchResp.id == widget.id;
 
-    watchBloc.add(WatchEvent.togglePip(value: false));
+    if (!globalPlayer.isSystemPipMode) {
+      watchBloc.add(WatchEvent.togglePip(value: false));
+    }
 
     // Only fetch data if not returning from PiP with data already loaded
     if (!isReturningFromPip) {
@@ -213,6 +216,21 @@ class _NewPipeScreenWatchState extends State<NewPipeScreenWatch>
                 uploaderVerified: watchInfo.uploaderVerified,
               ),
             ),
+          );
+          PlaybackQueueController.instance.setQueue(
+            currentVideoId: watchInfo.id!,
+            videos: (watchInfo.relatedStreams ?? []).map((related) {
+              final id = _videoIdFromUrl(related.url);
+              return VideoBasicInfo(
+                id: id,
+                title: related.name,
+                thumbnailUrl: related.thumbnailUrl,
+                channelName: related.uploaderName,
+                channelId: _channelIdFromUrl(related.uploaderUrl),
+                channelThumbnailUrl: related.uploaderAvatarUrl,
+                uploaderVerified: related.uploaderVerified,
+              );
+            }),
           );
         }
       },
@@ -544,5 +562,17 @@ class _NewPipeScreenWatchState extends State<NewPipeScreenWatch>
         },
       ),
     );
+  }
+
+  String _videoIdFromUrl(String? url) {
+    if (url == null || url.isEmpty) return '';
+    final uri = Uri.tryParse(url);
+    return uri?.queryParameters['v'] ?? url.split('/').last.split('?').first;
+  }
+
+  String? _channelIdFromUrl(String? url) {
+    if (url == null || url.isEmpty) return null;
+    final parts = url.split('/').where((part) => part.isNotEmpty).toList();
+    return parts.isEmpty ? null : parts.last;
   }
 }

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:fluxtube/core/api_client.dart';
 import 'package:fluxtube/domain/core/api_end_points.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/trending/models/invidious/invidious_trending_resp.dart';
@@ -18,15 +19,9 @@ class TrendingImpl implements TrendingService {
   Future<Either<MainFailure, List<TrendingResp>>> getTrendingData(
       {required String region}) async {
     log(ApiEndPoints.trending + region);
-    final dioClient = Dio();
     try {
-      final Response response = await dioClient.get(
+      final Response response = await ApiClient.dio.get(
         ApiEndPoints.trending + region,
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final List<TrendingResp> result = (response.data as List)
@@ -41,8 +36,6 @@ class TrendingImpl implements TrendingService {
     } catch (e) {
       log('Err on getTrendingData: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 
@@ -51,15 +44,9 @@ class TrendingImpl implements TrendingService {
   Future<Either<MainFailure, List<InvidiousTrendingResp>>>
       getInvidiousTrendingData({required String region}) async {
     log(InvidiousApiEndpoints.trending + region);
-    final dioClient = Dio();
     try {
-      final Response response = await dioClient.get(
+      final Response response = await ApiClient.dio.get(
         InvidiousApiEndpoints.trending + region,
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final List<InvidiousTrendingResp> result = (response.data as List)
@@ -74,8 +61,6 @@ class TrendingImpl implements TrendingService {
     } catch (e) {
       log('Err on getInvidiousTrendingData: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 

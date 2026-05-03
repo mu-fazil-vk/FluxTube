@@ -28,7 +28,8 @@ class LocalStoreVideos extends Table {
   TextColumn get uploaderAvatar => text().nullable()();
   TextColumn get uploaderSubscriberCount => text().nullable()();
   IntColumn get duration => integer().nullable()();
-  BoolColumn get uploaderVerified => boolean().withDefault(const Constant(false))();
+  BoolColumn get uploaderVerified =>
+      boolean().withDefault(const Constant(false))();
   BoolColumn get isSaved => boolean().withDefault(const Constant(false))();
   BoolColumn get isHistory => boolean().withDefault(const Constant(false))();
   BoolColumn get isLive => boolean().withDefault(const Constant(false))();
@@ -135,11 +136,14 @@ class DownloadItems extends Table {
   IntColumn get videoTotalBytes => integer().nullable()();
   IntColumn get audioTotalBytes => integer().nullable()();
   IntColumn get downloadedBytes => integer().withDefault(const Constant(0))();
-  IntColumn get videoDownloadedBytes => integer().withDefault(const Constant(0))();
-  IntColumn get audioDownloadedBytes => integer().withDefault(const Constant(0))();
+  IntColumn get videoDownloadedBytes =>
+      integer().withDefault(const Constant(0))();
+  IntColumn get audioDownloadedBytes =>
+      integer().withDefault(const Constant(0))();
   IntColumn get downloadSpeed => integer().withDefault(const Constant(0))();
   IntColumn get etaSeconds => integer().nullable()();
-  TextColumn get currentPhase => text().nullable()(); // 'video', 'audio', 'merging'
+  TextColumn get currentPhase =>
+      text().nullable()(); // 'video', 'audio', 'merging'
   TextColumn get errorMessage => text().nullable()();
   IntColumn get retryCount => integer().withDefault(const Constant(0))();
   DateTimeColumn get createdAt => dateTime()();
@@ -172,21 +176,27 @@ class AppDatabase extends _$AppDatabase {
   }
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (Migrator m) async {
           await m.createAll();
+          await _createIndexes();
         },
         onUpgrade: (Migrator m, int from, int to) async {
           if (from < 2) {
             // Add new columns for video+audio tracking
             await m.addColumn(downloadItems, downloadItems.videoTotalBytes);
             await m.addColumn(downloadItems, downloadItems.audioTotalBytes);
-            await m.addColumn(downloadItems, downloadItems.videoDownloadedBytes);
-            await m.addColumn(downloadItems, downloadItems.audioDownloadedBytes);
+            await m.addColumn(
+                downloadItems, downloadItems.videoDownloadedBytes);
+            await m.addColumn(
+                downloadItems, downloadItems.audioDownloadedBytes);
             await m.addColumn(downloadItems, downloadItems.currentPhase);
+          }
+          if (from < 3) {
+            await _createIndexes();
           }
         },
       );
@@ -195,12 +205,58 @@ class AppDatabase extends _$AppDatabase {
     return driftDatabase(name: 'fluxtube.db');
   }
 
+  Future<void> _createIndexes() async {
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_local_store_profile_saved_time '
+      'ON local_store_videos(profile_name, is_saved, time DESC)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_local_store_profile_history_time '
+      'ON local_store_videos(profile_name, is_history, time DESC)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_subscriptions_profile '
+      'ON subscriptions(profile_name)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_search_history_profile_searched_at '
+      'ON search_history_entries(profile_name, searched_at DESC)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_user_interactions_profile_timestamp '
+      'ON user_interactions(profile_name, timestamp DESC)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_user_interactions_profile_type_timestamp '
+      'ON user_interactions(profile_name, interaction_type, timestamp DESC)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_topic_preferences_profile_relevance '
+      'ON user_topic_preferences(profile_name, relevance_score DESC)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_download_items_profile_created_at '
+      'ON download_items(profile_name, created_at DESC)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_download_items_profile_status_created_at '
+      'ON download_items(profile_name, status, created_at DESC)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_download_items_profile_video '
+      'ON download_items(profile_name, video_id)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_download_items_status '
+      'ON download_items(status)',
+    );
+  }
+
   // ============================================================================
   // Settings Operations
   // ============================================================================
   Future<String?> getSetting(String name) async {
-    final query = select(settingsEntries)
-      ..where((t) => t.name.equals(name));
+    final query = select(settingsEntries)..where((t) => t.name.equals(name));
     final result = await query.getSingleOrNull();
     return result?.value;
   }
@@ -229,20 +285,24 @@ class AppDatabase extends _$AppDatabase {
 
   Future<List<LocalStoreVideo>> getSavedVideos(String profileName) async {
     final query = select(localStoreVideos)
-      ..where((t) => t.profileName.equals(profileName) & t.isSaved.equals(true));
+      ..where(
+          (t) => t.profileName.equals(profileName) & t.isSaved.equals(true));
     return query.get();
   }
 
   Future<List<LocalStoreVideo>> getHistoryVideos(String profileName) async {
     final query = select(localStoreVideos)
-      ..where((t) => t.profileName.equals(profileName) & t.isHistory.equals(true))
+      ..where(
+          (t) => t.profileName.equals(profileName) & t.isHistory.equals(true))
       ..orderBy([(t) => OrderingTerm.desc(t.time)]);
     return query.get();
   }
 
-  Future<LocalStoreVideo?> getVideoById(String videoId, String profileName) async {
+  Future<LocalStoreVideo?> getVideoById(
+      String videoId, String profileName) async {
     final query = select(localStoreVideos)
-      ..where((t) => t.videoId.equals(videoId) & t.profileName.equals(profileName));
+      ..where(
+          (t) => t.videoId.equals(videoId) & t.profileName.equals(profileName));
     return query.getSingleOrNull();
   }
 
@@ -258,12 +318,15 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> deleteVideo(String videoId, String profileName) async {
     await (delete(localStoreVideos)
-          ..where((t) => t.videoId.equals(videoId) & t.profileName.equals(profileName)))
+          ..where((t) =>
+              t.videoId.equals(videoId) & t.profileName.equals(profileName)))
         .go();
   }
 
   Future<void> deleteAllVideosForProfile(String profileName) async {
-    await (delete(localStoreVideos)..where((t) => t.profileName.equals(profileName))).go();
+    await (delete(localStoreVideos)
+          ..where((t) => t.profileName.equals(profileName)))
+        .go();
   }
 
   // ============================================================================
@@ -275,9 +338,11 @@ class AppDatabase extends _$AppDatabase {
     return query.get();
   }
 
-  Future<Subscription?> getSubscription(String channelId, String profileName) async {
+  Future<Subscription?> getSubscription(
+      String channelId, String profileName) async {
     final query = select(subscriptions)
-      ..where((t) => t.channelId.equals(channelId) & t.profileName.equals(profileName));
+      ..where((t) =>
+          t.channelId.equals(channelId) & t.profileName.equals(profileName));
     return query.getSingleOrNull();
   }
 
@@ -293,12 +358,16 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> deleteSubscription(String channelId, String profileName) async {
     await (delete(subscriptions)
-          ..where((t) => t.channelId.equals(channelId) & t.profileName.equals(profileName)))
+          ..where((t) =>
+              t.channelId.equals(channelId) &
+              t.profileName.equals(profileName)))
         .go();
   }
 
   Future<void> deleteAllSubscriptionsForProfile(String profileName) async {
-    await (delete(subscriptions)..where((t) => t.profileName.equals(profileName))).go();
+    await (delete(subscriptions)
+          ..where((t) => t.profileName.equals(profileName)))
+        .go();
   }
 
   // ============================================================================
@@ -311,9 +380,11 @@ class AppDatabase extends _$AppDatabase {
     return query.get();
   }
 
-  Future<SearchHistoryEntry?> getSearchEntry(String queryText, String profileName) async {
+  Future<SearchHistoryEntry?> getSearchEntry(
+      String queryText, String profileName) async {
     final query = select(searchHistoryEntries)
-      ..where((t) => t.query.equals(queryText) & t.profileName.equals(profileName));
+      ..where(
+          (t) => t.query.equals(queryText) & t.profileName.equals(profileName));
     return query.getSingleOrNull();
   }
 
@@ -329,18 +400,22 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> deleteSearchEntry(String queryText, String profileName) async {
     await (delete(searchHistoryEntries)
-          ..where((t) => t.query.equals(queryText) & t.profileName.equals(profileName)))
+          ..where((t) =>
+              t.query.equals(queryText) & t.profileName.equals(profileName)))
         .go();
   }
 
   Future<void> clearSearchHistory(String profileName) async {
-    await (delete(searchHistoryEntries)..where((t) => t.profileName.equals(profileName))).go();
+    await (delete(searchHistoryEntries)
+          ..where((t) => t.profileName.equals(profileName)))
+        .go();
   }
 
   // ============================================================================
   // User Interaction Operations
   // ============================================================================
-  Future<List<UserInteraction>> getInteractions(String profileName, {int? limit}) async {
+  Future<List<UserInteraction>> getInteractions(String profileName,
+      {int? limit}) async {
     final query = select(userInteractions)
       ..where((t) => t.profileName.equals(profileName))
       ..orderBy([(t) => OrderingTerm.desc(t.timestamp)]);
@@ -351,9 +426,11 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<List<UserInteraction>> getInteractionsByType(
-      String profileName, int type, {int? limit}) async {
+      String profileName, int type,
+      {int? limit}) async {
     final query = select(userInteractions)
-      ..where((t) => t.profileName.equals(profileName) & t.interactionType.equals(type))
+      ..where((t) =>
+          t.profileName.equals(profileName) & t.interactionType.equals(type))
       ..orderBy([(t) => OrderingTerm.desc(t.timestamp)]);
     if (limit != null) {
       query.limit(limit);
@@ -366,21 +443,29 @@ class AppDatabase extends _$AppDatabase {
       interaction,
       onConflict: DoUpdate(
         (old) => interaction,
-        target: [userInteractions.interactionType, userInteractions.entityId, userInteractions.profileName],
+        target: [
+          userInteractions.interactionType,
+          userInteractions.entityId,
+          userInteractions.profileName
+        ],
       ),
     );
   }
 
-  Future<void> deleteOldInteractions(String profileName, DateTime before) async {
+  Future<void> deleteOldInteractions(
+      String profileName, DateTime before) async {
     await (delete(userInteractions)
-          ..where((t) => t.profileName.equals(profileName) & t.timestamp.isSmallerThanValue(before)))
+          ..where((t) =>
+              t.profileName.equals(profileName) &
+              t.timestamp.isSmallerThanValue(before)))
         .go();
   }
 
   // ============================================================================
   // User Topic Preference Operations
   // ============================================================================
-  Future<List<UserTopicPreference>> getTopicPreferences(String profileName, {int? limit}) async {
+  Future<List<UserTopicPreference>> getTopicPreferences(String profileName,
+      {int? limit}) async {
     final query = select(userTopicPreferences)
       ..where((t) => t.profileName.equals(profileName))
       ..orderBy([(t) => OrderingTerm.desc(t.relevanceScore)]);
@@ -390,13 +475,15 @@ class AppDatabase extends _$AppDatabase {
     return query.get();
   }
 
-  Future<UserTopicPreference?> getTopicPreference(String topic, String profileName) async {
+  Future<UserTopicPreference?> getTopicPreference(
+      String topic, String profileName) async {
     final query = select(userTopicPreferences)
       ..where((t) => t.topic.equals(topic) & t.profileName.equals(profileName));
     return query.getSingleOrNull();
   }
 
-  Future<void> upsertTopicPreference(UserTopicPreferencesCompanion preference) async {
+  Future<void> upsertTopicPreference(
+      UserTopicPreferencesCompanion preference) async {
     await into(userTopicPreferences).insert(
       preference,
       onConflict: DoUpdate(
@@ -416,9 +503,11 @@ class AppDatabase extends _$AppDatabase {
     return query.get();
   }
 
-  Future<List<DownloadItem>> getDownloadsByStatus(String profileName, int status) async {
+  Future<List<DownloadItem>> getDownloadsByStatus(
+      String profileName, int status) async {
     final query = select(downloadItems)
-      ..where((t) => t.profileName.equals(profileName) & t.status.equals(status))
+      ..where(
+          (t) => t.profileName.equals(profileName) & t.status.equals(status))
       ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]);
     return query.get();
   }
@@ -428,9 +517,11 @@ class AppDatabase extends _$AppDatabase {
     return query.getSingleOrNull();
   }
 
-  Future<DownloadItem?> getDownloadByVideoId(String videoId, String profileName) async {
+  Future<DownloadItem?> getDownloadByVideoId(
+      String videoId, String profileName) async {
     final query = select(downloadItems)
-      ..where((t) => t.videoId.equals(videoId) & t.profileName.equals(profileName));
+      ..where(
+          (t) => t.videoId.equals(videoId) & t.profileName.equals(profileName));
     return query.getSingleOrNull();
   }
 
@@ -439,7 +530,8 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<void> updateDownload(DownloadItemsCompanion download) async {
-    await (update(downloadItems)..where((t) => t.id.equals(download.id.value))).write(download);
+    await (update(downloadItems)..where((t) => t.id.equals(download.id.value)))
+        .write(download);
   }
 
   Future<void> deleteDownload(int downloadId) async {
@@ -447,12 +539,14 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<int> getActiveDownloadsCount() async {
-    final query = select(downloadItems)..where((t) => t.status.equals(1)); // downloading status
+    final query = select(downloadItems)
+      ..where((t) => t.status.equals(1)); // downloading status
     final results = await query.get();
     return results.length;
   }
 
-  Future<DownloadItem?> getCompletedDownload(String videoId, String profileName) async {
+  Future<DownloadItem?> getCompletedDownload(
+      String videoId, String profileName) async {
     final query = select(downloadItems)
       ..where((t) =>
           t.videoId.equals(videoId) &

@@ -187,7 +187,6 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
       emit(state.copyWith(isLoadingMoreFeed: true));
 
       // Simulate small delay for smoother UX
-      await Future.delayed(const Duration(milliseconds: 200));
 
       final newCount = (currentCount + 10).clamp(0, totalCount);
       emit(state.copyWith(
@@ -203,7 +202,6 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
       if (currentCount >= totalCount) return;
 
       emit(state.copyWith(isLoadingMoreTrending: true));
-      await Future.delayed(const Duration(milliseconds: 200));
 
       final newCount = (currentCount + 10).clamp(0, totalCount);
       emit(state.copyWith(
@@ -219,7 +217,6 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
       if (currentCount >= totalCount) return;
 
       emit(state.copyWith(isLoadingMoreNewPipeFeed: true));
-      await Future.delayed(const Duration(milliseconds: 200));
 
       final newCount = (currentCount + 10).clamp(0, totalCount);
       emit(state.copyWith(
@@ -235,7 +232,6 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
       if (currentCount >= totalCount) return;
 
       emit(state.copyWith(isLoadingMoreNewPipeTrending: true));
-      await Future.delayed(const Duration(milliseconds: 200));
 
       final newCount = (currentCount + 10).clamp(0, totalCount);
       emit(state.copyWith(
@@ -251,7 +247,6 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
       if (currentCount >= totalCount) return;
 
       emit(state.copyWith(isLoadingMoreInvidiousTrending: true));
-      await Future.delayed(const Duration(milliseconds: 200));
 
       final newCount = (currentCount + 10).clamp(0, totalCount);
       emit(state.copyWith(

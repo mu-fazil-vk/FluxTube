@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:intl/intl.dart';
@@ -149,9 +149,7 @@ class SubscribeRowWidget extends StatelessWidget {
           CircleAvatar(
             radius: radius,
             backgroundImage: (uploaderUrl != null && uploaderUrl != "")
-                ? CachedNetworkImageProvider(
-                    uploaderUrl!,
-                  )
+                ? cachedAvatarProvider(uploaderUrl!, logicalDiameter: (radius * 2).toInt())
                 : null,
           ),
         spacing ?? kWidthBox10,

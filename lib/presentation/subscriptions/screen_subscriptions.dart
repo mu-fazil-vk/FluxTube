@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
@@ -801,12 +801,11 @@ class _ChannelGridCard extends StatelessWidget {
                 ),
                 child: ClipOval(
                   child: channel.avatarUrl != null && channel.avatarUrl!.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: channel.avatarUrl!,
+                      ? ThumbnailImage.small(
+                          url: channel.avatarUrl!,
                           width: 64,
                           height: 64,
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) => Center(
+                          errorWidget: (_, __, ___) => Center(
                             child: Text(
                               channel.channelName.isNotEmpty
                                   ? channel.channelName[0].toUpperCase()
@@ -927,12 +926,11 @@ class _ChannelListTile extends StatelessWidget {
                 ),
                 child: ClipOval(
                   child: channel.avatarUrl != null && channel.avatarUrl!.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: channel.avatarUrl!,
+                      ? ThumbnailImage.small(
+                          url: channel.avatarUrl!,
                           width: 48,
                           height: 48,
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) => Center(
+                          errorWidget: (_, __, ___) => Center(
                             child: Text(
                               channel.channelName.isNotEmpty
                                   ? channel.channelName[0].toUpperCase()
@@ -1061,21 +1059,7 @@ class _FeedVideoCardPiped extends StatelessWidget {
                     fit: StackFit.expand,
                     children: [
                       if (video.thumbnail != null)
-                        CachedNetworkImage(
-                          imageUrl: video.thumbnail!,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: isDark
-                                ? AppColors.surfaceVariantDark
-                                : AppColors.surfaceVariant,
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            color: isDark
-                                ? AppColors.surfaceVariantDark
-                                : AppColors.surfaceVariant,
-                            child: const Icon(CupertinoIcons.play_rectangle),
-                          ),
-                        ),
+                        ThumbnailImage.small(url: video.thumbnail!),
                       // Duration badge
                       Positioned(
                         bottom: AppSpacing.sm,
@@ -1112,12 +1096,11 @@ class _FeedVideoCardPiped extends StatelessWidget {
                     // Channel avatar
                     if (video.uploaderAvatar != null)
                       ClipOval(
-                        child: CachedNetworkImage(
-                          imageUrl: video.uploaderAvatar!,
+                        child: ThumbnailImage.small(
+                          url: video.uploaderAvatar!,
                           width: 36,
                           height: 36,
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) => Container(
+                          errorWidget: (_, __, ___) => Container(
                             width: 36,
                             height: 36,
                             color: isDark
@@ -1256,21 +1239,7 @@ class _FeedVideoCardNewPipe extends StatelessWidget {
                     fit: StackFit.expand,
                     children: [
                       if (video.thumbnailUrl != null)
-                        CachedNetworkImage(
-                          imageUrl: video.thumbnailUrl!,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: isDark
-                                ? AppColors.surfaceVariantDark
-                                : AppColors.surfaceVariant,
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            color: isDark
-                                ? AppColors.surfaceVariantDark
-                                : AppColors.surfaceVariant,
-                            child: const Icon(CupertinoIcons.play_rectangle),
-                          ),
-                        ),
+                        ThumbnailImage.small(url: video.thumbnailUrl!),
                       // Duration badge
                       Positioned(
                         bottom: AppSpacing.sm,
@@ -1307,12 +1276,11 @@ class _FeedVideoCardNewPipe extends StatelessWidget {
                     // Channel avatar
                     if (video.uploaderAvatarUrl != null)
                       ClipOval(
-                        child: CachedNetworkImage(
-                          imageUrl: video.uploaderAvatarUrl!,
+                        child: ThumbnailImage.small(
+                          url: video.uploaderAvatarUrl!,
                           width: 36,
                           height: 36,
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) => Container(
+                          errorWidget: (_, __, ___) => Container(
                             width: 36,
                             height: 36,
                             color: isDark

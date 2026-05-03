@@ -1,6 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:fluxtube/core/animations/animations.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
@@ -74,25 +73,7 @@ class HomeVideoInfoCardWidget extends StatelessWidget {
                     children: [
                       // Thumbnail image
                       if (cardInfo?.thumbnail != null)
-                        CachedNetworkImage(
-                          imageUrl: cardInfo!.thumbnail!,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: isDark
-                                ? AppColors.surfaceVariantDark
-                                : AppColors.surfaceVariant,
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            color: isDark
-                                ? AppColors.surfaceVariantDark
-                                : AppColors.surfaceVariant,
-                            child: Icon(
-                              CupertinoIcons.play_rectangle,
-                              size: AppIconSize.xxl,
-                              color: AppColors.disabled,
-                            ),
-                          ),
-                        ),
+                        ThumbnailImage(url: cardInfo!.thumbnail!),
 
                       // Duration badge
                       Positioned(

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:fluxtube/core/api_client.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/home/home_services.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
@@ -17,19 +18,13 @@ class HomeImpl extends HomeServices {
   @override
   Future<Either<MainFailure, List<TrendingResp>>> getHomeFeedData(
       {required List<Subscribe> channels}) async {
-    final dioClient = Dio();
     try {
       final subscribedChannelIds =
           channels.map((channel) => channel.id.toString()).toList();
       final String idsAsString = subscribedChannelIds.join(",");
 
-      final Response response = await dioClient.get(
+      final Response response = await ApiClient.dio.get(
         ApiEndPoints.feed + idsAsString,
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final List<TrendingResp> result = (response.data as List)
@@ -44,8 +39,6 @@ class HomeImpl extends HomeServices {
     } catch (e) {
       log('Err on getHomeFeedData: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 

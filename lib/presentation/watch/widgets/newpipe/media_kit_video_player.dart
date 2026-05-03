@@ -639,23 +639,11 @@ class _NewPipeMediaKitPlayerState extends State<NewPipeMediaKitPlayer> {
       return targetQuality;
     }
 
-    // Parse target resolution
-    final targetRes =
-        int.tryParse(targetQuality.replaceAll(RegExp(r'[^\d]'), '')) ?? 720;
-
-    // Find closest available quality
-    StreamQualityInfo? closest = _availableQualities!.first;
-    int smallestDiff = (closest.resolution - targetRes).abs();
-
-    for (var quality in _availableQualities!) {
-      final diff = (quality.resolution - targetRes).abs();
-      if (diff < smallestDiff) {
-        smallestDiff = diff;
-        closest = quality;
-      }
-    }
-
-    return closest?.label ?? targetQuality;
+    return NewPipeStreamHelper.findBestMatchingQuality(
+          _availableQualities!,
+          targetQuality,
+        )?.label ??
+        targetQuality;
   }
 
   void _setupHistoryListener() {

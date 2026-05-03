@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:fluxtube/core/api_client.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
@@ -198,10 +199,9 @@ class SettingImpl implements SettingsService {
 
   @override
   Future<Either<MainFailure, List<Instance>>> fetchInstances() async {
-    final dio = Dio();
     final List<Instance> instances = [];
     try {
-      final response = await dio.get(kInstanceUrl);
+      final response = await ApiClient.dio.get(kInstanceUrl);
       int skipped = 0;
       final lines = response.data.toString().split('\n');
       for (final line in lines) {
@@ -247,9 +247,8 @@ class SettingImpl implements SettingsService {
   @override
   Future<Either<MainFailure, List<Instance>>> fetchInvidiousInstances() async {
     try {
-      final dio = Dio();
       final List<Instance> instances = [];
-      final response = await dio.get(kInvidiousInstanceUrl);
+      final response = await ApiClient.dio.get(kInvidiousInstanceUrl);
       final data = response.data as List<dynamic>;
 
       for (final instanceData in data) {
@@ -327,24 +326,22 @@ class SettingImpl implements SettingsService {
 
   @override
   Future<bool> testInstanceConnection(String apiUrl) async {
-    final dio = Dio();
-    dio.options.connectTimeout = const Duration(seconds: 5);
-    dio.options.receiveTimeout = const Duration(seconds: 5);
-
     try {
       final testUrl = '${apiUrl}trending?region=US';
-      final response = await dio.get(testUrl);
-      dio.close();
-
+      final response = await ApiClient.dio.get(
+        testUrl,
+        options: Options(
+          receiveTimeout: const Duration(seconds: 5),
+          sendTimeout: const Duration(seconds: 5),
+        ),
+      );
       if (response.statusCode == 200 && response.data != null) {
-        // Verify response is valid JSON array (trending returns array of videos)
         if (response.data is List && (response.data as List).isNotEmpty) {
           return true;
         }
       }
       return false;
     } catch (_) {
-      dio.close();
       return false;
     }
   }
@@ -398,25 +395,22 @@ class SettingImpl implements SettingsService {
 
   @override
   Future<bool> testInvidiousInstanceConnection(String apiUrl) async {
-    final dio = Dio();
-    dio.options.connectTimeout = const Duration(seconds: 5);
-    dio.options.receiveTimeout = const Duration(seconds: 5);
-
     try {
-      // Invidious API uses /api/v1/trending endpoint
       final testUrl = '$apiUrl/api/v1/trending?region=US';
-      final response = await dio.get(testUrl);
-      dio.close();
-
+      final response = await ApiClient.dio.get(
+        testUrl,
+        options: Options(
+          receiveTimeout: const Duration(seconds: 5),
+          sendTimeout: const Duration(seconds: 5),
+        ),
+      );
       if (response.statusCode == 200 && response.data != null) {
-        // Verify response is valid JSON array (trending returns array of videos)
         if (response.data is List && (response.data as List).isNotEmpty) {
           return true;
         }
       }
       return false;
     } catch (_) {
-      dio.close();
       return false;
     }
   }

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
+import 'package:fluxtube/core/player/global_player_controller.dart';
 import 'package:fluxtube/core/services/audio_handler_service.dart';
 import 'package:fluxtube/core/services/exoplayer_notification_bridge.dart';
 import 'package:fluxtube/core/services/pip_service.dart';
@@ -65,8 +66,8 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
 
   final _resolver = NewPipePlaybackResolver();
   final _pipService = PipService();
+  final _globalPlayer = GlobalPlayerController();
   MethodChannel? _channel;
-  Timer? _pollTimer;
   Timer? _historyTimer;
   Timer? _hideTimer;
   int _lastSavedPositionSeconds = -1;
@@ -105,21 +106,33 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     _audioTracks = NewPipeStreamHelper.getAvailableAudioTracks(
       widget.watchInfo.audioStreams ?? [],
     );
+    final hasPersistedSession =
+        _globalPlayer.isNativeVideoLoaded(widget.videoId);
     _currentAudioTrackId = widget.initialAudioTrackId ??
+        (hasPersistedSession ? _globalPlayer.nativeAudioTrackId : null) ??
         (_audioTracks.isEmpty ? null : _audioTracks.first.trackId);
-    _currentSubtitle = widget.initialSubtitleCode;
-    _speed = widget.initialSpeed;
+    _currentSubtitle = widget.initialSubtitleCode ??
+        (hasPersistedSession ? _globalPlayer.nativeSubtitleCode : null);
+    _speed = widget.initialSpeed != 1.0
+        ? widget.initialSpeed
+        : (hasPersistedSession ? _globalPlayer.nativeSpeed : 1.0);
     _currentQuality = widget.initialQuality ??
+        (hasPersistedSession ? _globalPlayer.nativeQuality : null) ??
         (widget.preferAdaptivePlayback ? 'Auto' : _initialQuality());
-    _fitMode = widget.videoFitMode;
+    _fitMode = hasPersistedSession
+        ? (_globalPlayer.nativeFitMode ?? widget.videoFitMode)
+        : widget.videoFitMode;
     _config = _resolveConfig(_currentQuality);
-    _positionMs = widget.playbackPosition * 1000;
+    _positionMs = hasPersistedSession
+        ? _globalPlayer.nativePosition.inMilliseconds
+        : widget.playbackPosition * 1000;
+    _registerNativeSession();
     _initDeviceControls();
     _initPip();
     if (_currentSubtitle != null) {
       unawaited(_loadSubtitle(_currentSubtitle));
     }
-    _startTimers();
+    _startHistoryTimer();
     _startHideTimer();
   }
 
@@ -136,7 +149,6 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
 
   @override
   void dispose() {
-    _pollTimer?.cancel();
     _historyTimer?.cancel();
     _hideTimer?.cancel();
     _saveHistoryPosition();
@@ -152,11 +164,31 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     super.dispose();
   }
 
+  void _registerNativeSession() {
+    _globalPlayer.registerNativeExoPlayerSession(
+      videoId: widget.videoId,
+      quality: _currentQuality,
+      fitMode: _fitMode,
+      audioTrackId: _currentAudioTrackId,
+      subtitleCode: _currentSubtitle,
+      speed: _speed,
+    );
+  }
+
   Future<void> _initPip() async {
     if (!Platform.isAndroid || widget.isFullscreen) return;
     await _pipService.setAspectRatio(16, 9);
     await _pipService.enableAutoPip(widget.isAutoPipEnabled);
     await _pipService.setVideoPlaying(_isPlaying);
+    await _updatePipSourceRect();
+  }
+
+  Future<void> _updatePipSourceRect() async {
+    if (!mounted || !Platform.isAndroid || widget.isFullscreen) return;
+    final renderObject = context.findRenderObject();
+    if (renderObject is! RenderBox || !renderObject.hasSize) return;
+    final topLeft = renderObject.localToGlobal(Offset.zero);
+    await _pipService.setSourceRect(topLeft & renderObject.size);
   }
 
   Future<void> _initDeviceControls() async {
@@ -170,10 +202,11 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
   }
 
   String _initialQuality() {
-    if (_qualities.any((quality) => quality.label == widget.defaultQuality)) {
-      return widget.defaultQuality;
-    }
-    return _qualities.isEmpty ? 'Auto' : _qualities.first.label;
+    return NewPipeStreamHelper.findBestMatchingQuality(
+          _qualities,
+          widget.defaultQuality,
+        )?.label ??
+        'Auto';
   }
 
   PlaybackConfiguration _resolveConfig(String quality) {
@@ -259,18 +292,32 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
         case 'onState':
           final args = Map<String, dynamic>.from(call.arguments as Map);
           if (!mounted) return;
+          final wasPlaying = _isPlaying;
           setState(() {
-            _positionMs = (args['positionMs'] as num? ?? _positionMs).toInt();
+            if (!_isScrubbing) {
+              _positionMs = (args['positionMs'] as num? ?? _positionMs).toInt();
+            }
             _durationMs = (args['durationMs'] as num? ?? _durationMs).toInt();
             _isPlaying = args['isPlaying'] as bool? ?? _isPlaying;
             _isBuffering = args['isBuffering'] as bool? ?? false;
+            _currentCaptionText = _captionForPosition(_positionMs);
             _errorMessage = null;
           });
+          _globalPlayer.updateNativeExoPlayerState(
+            playing: _isPlaying,
+            buffering: _isBuffering,
+            position: Duration(milliseconds: _positionMs),
+            duration: Duration(milliseconds: _durationMs),
+          );
           unawaited(_syncNotificationState(force: true));
           if (!widget.isFullscreen) {
             unawaited(_pipService.setVideoPlaying(_isPlaying));
           }
-          if (_isPlaying) _startHideTimer();
+          if (!_isPlaying) {
+            _hideTimer?.cancel();
+          } else if (!wasPlaying && _showControls) {
+            _startHideTimer();
+          }
           break;
         case 'onError':
           final args = Map<String, dynamic>.from(call.arguments as Map);
@@ -286,27 +333,12 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     if (_speed != 1.0) {
       unawaited(_channel!.invokeMethod('setSpeed', {'speed': _speed}));
     }
+    _registerNativeSession();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _updatePipSourceRect());
     unawaited(_initNotification());
   }
 
-  void _startTimers() {
-    _pollTimer = Timer.periodic(const Duration(milliseconds: 500), (_) async {
-      final channel = _channel;
-      if (channel == null || _isScrubbing) return;
-      try {
-        final position = await channel.invokeMethod<int>('getPosition');
-        final duration = await channel.invokeMethod<int>('getDuration');
-        final playing = await channel.invokeMethod<bool>('isPlaying');
-        if (!mounted) return;
-        setState(() {
-          _positionMs = position ?? _positionMs;
-          _durationMs = duration ?? _durationMs;
-          _isPlaying = playing ?? _isPlaying;
-          _currentCaptionText = _captionForPosition(_positionMs);
-        });
-        unawaited(_syncNotificationState());
-      } catch (_) {}
-    });
+  void _startHistoryTimer() {
     _historyTimer = Timer.periodic(const Duration(seconds: 5), (_) {
       _saveHistoryPosition();
     });
@@ -314,7 +346,7 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
 
   void _startHideTimer() {
     _hideTimer?.cancel();
-    if (!_isPlaying) return;
+    if (!_isPlaying || !_showControls) return;
     _hideTimer = Timer(const Duration(seconds: 3), () {
       if (mounted && _isPlaying) {
         setState(() => _showControls = false);
@@ -325,13 +357,21 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
   Future<void> _togglePlay() async {
     final channel = _channel;
     if (channel == null) return;
-    if (_isPlaying) {
-      await channel.invokeMethod('pause');
-    } else {
-      await channel.invokeMethod('play');
-    }
-    setState(() => _isPlaying = !_isPlaying);
+    final nextPlaying = !_isPlaying;
+    setState(() => _isPlaying = nextPlaying);
+    _globalPlayer.updateNativeExoPlayerState(
+      playing: nextPlaying,
+      buffering: _isBuffering,
+      position: Duration(milliseconds: _positionMs),
+      duration: Duration(milliseconds: _durationMs),
+    );
+    unawaited(_pipService.setVideoPlaying(nextPlaying));
     unawaited(_syncNotificationState(force: true));
+    if (_isPlaying) {
+      await channel.invokeMethod('play');
+    } else {
+      await channel.invokeMethod('pause');
+    }
     _startHideTimer();
   }
 
@@ -355,6 +395,7 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
       _currentQuality = quality;
       _config = _resolveConfig(quality);
     });
+    _globalPlayer.updateNativeExoPlayerSelections(quality: quality);
     await channel.invokeMethod('load', _sourceParams(keepPosition: true));
   }
 
@@ -369,6 +410,10 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
       _currentQuality = quality;
       _config = _resolveConfig(quality);
     });
+    _globalPlayer.updateNativeExoPlayerSelections(
+      quality: quality,
+      audioTrackId: trackId,
+    );
     await channel.invokeMethod('load', _sourceParams(keepPosition: true));
   }
 
@@ -378,6 +423,7 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
       _currentCaptionText = null;
       _captionCues = [];
     });
+    _globalPlayer.setNativeSubtitleCode(languageCode);
     if (languageCode != null) {
       await _loadSubtitle(languageCode);
     }
@@ -409,6 +455,7 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
 
   Future<void> _changeSpeed(double speed) async {
     setState(() => _speed = speed);
+    _globalPlayer.updateNativeExoPlayerSelections(speed: speed);
     await _channel?.invokeMethod('setSpeed', {'speed': speed});
     unawaited(_syncNotificationState(force: true));
   }
@@ -430,9 +477,13 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
       },
       stop: () async {
         if (!mounted) return;
+        final watchBloc = BlocProvider.of<WatchBloc>(context);
         setState(() => _isPlaying = false);
-        BlocProvider.of<WatchBloc>(context)
-            .add(WatchEvent.togglePip(value: false));
+        await ExoPlayerNotificationBridge.instance.stop();
+        _globalPlayer.clearNativeExoPlayerSession();
+        await _globalPlayer.pipService.setVideoPlaying(false);
+        await _globalPlayer.clearMediaNotification();
+        watchBloc.add(WatchEvent.togglePip(value: false));
       },
       seek: (position) async {
         if (!mounted) return;
@@ -510,6 +561,7 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
 
   Future<void> _changeFitMode(String fitMode) async {
     setState(() => _fitMode = fitMode);
+    _globalPlayer.updateNativeExoPlayerSelections(fitMode: fitMode);
     await _channel?.invokeMethod('setResizeMode', {
       'fitMode': fitMode,
     });
@@ -697,8 +749,7 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
         AndroidView(
           viewType: 'fluxtube/newpipe_exoplayer',
           onPlatformViewCreated: _onPlatformViewCreated,
-          creationParams:
-              _sourceParams(startPositionMs: widget.playbackPosition * 1000),
+          creationParams: _sourceParams(startPositionMs: _positionMs),
           creationParamsCodec: const StandardMessageCodec(),
         ),
         _buildGestureLayer(),

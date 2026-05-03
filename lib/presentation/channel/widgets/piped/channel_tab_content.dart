@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
@@ -159,16 +159,7 @@ class _ChannelTabContentState extends State<ChannelTabContent>
           onTap: () => _onShortTap(context, content, index),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: CachedNetworkImage(
-              imageUrl: thumbnailImage,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: kGreyColor?.withValues(alpha: 0.3),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: kGreyColor?.withValues(alpha: 0.3),
-              ),
-            ),
+            child: ThumbnailImage.small(url: thumbnailImage),
           ),
         );
       },

@@ -32,9 +32,12 @@ class NewPipePlaybackResolver {
     }
 
     // 3. Try to get the preferred quality via merging or progressive
-    final qualityInfo = NewPipeStreamHelper.getAvailableQualities(watchResp)
-        .where((q) => q.label == preferredQuality)
-        .firstOrNull;
+    final availableQualities =
+        NewPipeStreamHelper.getAvailableQualities(watchResp);
+    final qualityInfo = NewPipeStreamHelper.findBestMatchingQuality(
+      availableQualities,
+      preferredQuality,
+    );
 
     if (qualityInfo != null) {
       if (qualityInfo.requiresMerging) {
@@ -57,10 +60,12 @@ class NewPipePlaybackResolver {
 
     // 4. Preferred quality not available - find closest alternative from merging/progressive
     if (preferHighQuality) {
-      final availableQualities =
-          NewPipeStreamHelper.getAvailableQualities(watchResp);
       if (availableQualities.isNotEmpty) {
-        final bestQuality = availableQualities.first;
+        final bestQuality = NewPipeStreamHelper.findBestMatchingQuality(
+              availableQualities,
+              preferredQuality,
+            ) ??
+            availableQualities.first;
         if (bestQuality.requiresMerging) {
           return _resolveMergingStream(
             videoStream: bestQuality.videoStream!,

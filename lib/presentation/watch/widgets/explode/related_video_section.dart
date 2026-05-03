@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/core/animations/animations.dart';
@@ -258,20 +258,7 @@ class _RelatedVideoCard extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             // Image
-            CachedNetworkImage(
-              imageUrl: video.thumbnailUrl,
-              fit: BoxFit.cover,
-              placeholder: (_, __) => Container(
-                color: isDark
-                    ? AppColors.surfaceVariantDark
-                    : AppColors.surfaceVariant,
-              ),
-              errorWidget: (_, __, ___) => Container(
-                color: isDark
-                    ? AppColors.surfaceVariantDark
-                    : AppColors.surfaceVariant,
-              ),
-            ),
+            ThumbnailImage.small(url: video.thumbnailUrl),
 
             // Subtle gradient for depth
             Positioned.fill(

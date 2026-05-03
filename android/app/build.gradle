@@ -27,6 +27,10 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
+def releaseStoreFile = keystoreProperties['storeFile']
+        ? file(keystoreProperties['storeFile'])
+        : file('key.jks')
+def hasReleaseKeystore = releaseStoreFile.exists()
 
 android {
     namespace "com.fazilvk.fluxtube"
@@ -60,13 +64,12 @@ android {
     }   
     signingConfigs {
         release {
-            //From decoded key
-            storeFile = file('key.jks')
-
-            //From key.properties
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storePassword keystoreProperties['storePassword']
+            if (hasReleaseKeystore) {
+                storeFile releaseStoreFile
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storePassword keystoreProperties['storePassword']
+            }
         }
     }
 
@@ -76,7 +79,9 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            signingConfig hasReleaseKeystore
+                    ? signingConfigs.release
+                    : signingConfigs.debug
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:fluxtube/core/api_client.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/watch/models/invidious/comments/invidious_comments_resp.dart';
 import 'package:fluxtube/domain/watch/models/invidious/video/invidious_watch_resp.dart';
@@ -19,7 +20,6 @@ import '../../domain/core/api_end_points.dart';
 
 @LazySingleton(as: WatchService)
 class WatchImpl implements WatchService {
-  /// Maps DioException to specific MainFailure types for better error handling
   MainFailure _mapDioExceptionToFailure(DioException e) {
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
@@ -30,11 +30,8 @@ class WatchImpl implements WatchService {
         return MainFailure.networkError(message: e.message);
       case DioExceptionType.badResponse:
         final statusCode = e.response?.statusCode;
-        if (statusCode == 404) {
-          return const MainFailure.notFound();
-        } else if (statusCode == 429) {
-          return const MainFailure.rateLimited();
-        }
+        if (statusCode == 404) return const MainFailure.notFound();
+        if (statusCode == 429) return const MainFailure.rateLimited();
         return MainFailure.serverError(statusCode: statusCode, message: e.message);
       case DioExceptionType.cancel:
         return MainFailure.unknown(message: 'Request cancelled');
@@ -45,25 +42,14 @@ class WatchImpl implements WatchService {
 
   //Piped
 
-  ///[getVideoData] used to fetch video data from Piped.
   @override
   Future<Either<MainFailure, WatchResp>> getVideoData(
       {required String id}) async {
     log(ApiEndPoints.watch + id);
-    final dioClient = Dio();
     try {
-      final Response response = await dioClient.get(
-        ApiEndPoints.watch + id,
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
-      );
+      final Response response = await ApiClient.dio.get(ApiEndPoints.watch + id);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final WatchResp result = WatchResp.fromJson(response.data);
-
-        return Right(result);
+        return Right(WatchResp.fromJson(response.data));
       } else if (response.statusCode == 404) {
         log('Video not found: $id');
         return Left(MainFailure.notFound(resource: 'video $id'));
@@ -73,8 +59,7 @@ class WatchImpl implements WatchService {
       } else {
         log('Err on getVideoData: ${response.statusCode}');
         return Left(MainFailure.serverError(
-            statusCode: response.statusCode,
-            message: 'Failed to load video'));
+            statusCode: response.statusCode, message: 'Failed to load video'));
       }
     } on DioException catch (e) {
       log('Err on getVideoData: $e');
@@ -82,29 +67,17 @@ class WatchImpl implements WatchService {
     } catch (e) {
       log('Err on getVideoData: $e');
       return Left(MainFailure.unknown(message: e.toString()));
-    } finally {
-      dioClient.close();
     }
   }
 
-  ///[getCommentsData] used to fetch comments data from Piped.
   @override
   Future<Either<MainFailure, CommentsResp>> getCommentsData(
       {required String id}) async {
-    final dioClient = Dio();
     try {
-      final Response response = await dioClient.get(
-        ApiEndPoints.comments + id,
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
-      );
+      final Response response =
+          await ApiClient.dio.get(ApiEndPoints.comments + id);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final CommentsResp result = CommentsResp.fromJson(response.data);
-
-        return Right(result);
+        return Right(CommentsResp.fromJson(response.data));
       } else {
         log('Err on getCommentsData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
@@ -112,29 +85,17 @@ class WatchImpl implements WatchService {
     } catch (e) {
       log('Err on getCommentsData: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 
-  ///[getCommentRepliesData] used to fetch comment replies data from Piped.
   @override
   Future<Either<MainFailure, CommentsResp>> getCommentRepliesData(
       {required String id, required String repliesPage}) async {
-    final dioClient = Dio();
     try {
-      final Response response = await dioClient.get(
-        '${ApiEndPoints.commentReplies}$id/?nextpage=$repliesPage',
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
-      );
+      final Response response = await ApiClient.dio
+          .get('${ApiEndPoints.commentReplies}$id/?nextpage=$repliesPage');
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final CommentsResp result = CommentsResp.fromJson(response.data);
-
-        return Right(result);
+        return Right(CommentsResp.fromJson(response.data));
       } else {
         log('Err on getCommentRepliesData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
@@ -142,28 +103,17 @@ class WatchImpl implements WatchService {
     } catch (e) {
       log('Err on getCommentRepliesData: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 
-  ///[getMoreCommentsData] used to fetch more comments/replies data from Piped.
   @override
   Future<Either<MainFailure, CommentsResp>> getMoreCommentsData(
       {required String id, String? nextPage}) async {
-    final dioClient = Dio();
     try {
-      final Response response = await dioClient.get(
-        '${ApiEndPoints.commentReplies}$id/?nextpage=$nextPage',
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
-      );
+      final Response response = await ApiClient.dio
+          .get('${ApiEndPoints.commentReplies}$id/?nextpage=$nextPage');
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final CommentsResp result = CommentsResp.fromJson(response.data);
-        return Right(result);
+        return Right(CommentsResp.fromJson(response.data));
       } else {
         log('Err on getMoreCommentsData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
@@ -171,27 +121,20 @@ class WatchImpl implements WatchService {
     } catch (e) {
       log('Err on getMoreCommentsData: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 
   //Explode
 
-  ///[getSubtitles] used to fetch subtitles data from Explode.
   @override
   Future<Either<MainFailure, List<Map<String, String>>>> getSubtitles(
       {required String id}) async {
     try {
       var yt = YoutubeExplode();
       var manifest = await yt.videos.closedCaptions.getManifest(id);
-
-      // Filter tracks to get only those with type 'vtt'
       var vttTracks = manifest.tracks
           .where((track) => track.format.formatCode == 'vtt')
           .toList();
-
-      // Create a list with code, name, and type
       var vttTrackInfo = vttTracks
           .map((track) => {
                 'code': track.language.code,
@@ -199,10 +142,7 @@ class WatchImpl implements WatchService {
                 'url': track.url.toString()
               })
           .toList();
-
-      // Close the YoutubeExplode instance
       yt.close();
-
       return Right(vttTrackInfo);
     } catch (e) {
       log('Err on getSubtitles: $e');
@@ -210,105 +150,86 @@ class WatchImpl implements WatchService {
     }
   }
 
-  ///[getExplodeVideoData] used to fetch video data from Explode.
   @override
   Future<Either<MainFailure, ExplodeWatchResp>> getExplodeVideoData(
       {required String id}) async {
-    final YoutubeExplode _youtubeExplode = YoutubeExplode();
+    final YoutubeExplode youtubeExplode = YoutubeExplode();
     try {
-      var video = await _youtubeExplode.videos.get(id);
-
-      final ExplodeWatchResp result = ExplodeWatchResp.fromYoutubeVideo(video);
-
-      return Right(result);
+      var video = await youtubeExplode.videos.get(id);
+      return Right(ExplodeWatchResp.fromYoutubeVideo(video));
     } catch (e) {
       log('Error fetching video data: $e');
       return const Left(MainFailure.clientFailure());
     } finally {
-      _youtubeExplode.close(); // Close the YoutubeExplode instance
+      youtubeExplode.close();
     }
   }
 
-  ///[getExplodeMuxedStreamData] used to fetch muxed stream data from Explode.
   @override
   Future<Either<MainFailure, List<MyMuxedStreamInfo>>>
       getExplodeMuxedStreamData({required String id}) async {
-    final YoutubeExplode _youtubeExplode = YoutubeExplode();
+    final YoutubeExplode youtubeExplode = YoutubeExplode();
     try {
-      var manifest = await _youtubeExplode.videos.streamsClient.getManifest(id);
+      var manifest =
+          await youtubeExplode.videos.streamsClient.getManifest(id);
       List<MyMuxedStreamInfo> muxedStreams = manifest.muxed
           .map((stream) => MyMuxedStreamInfo.fromYoutubeStream(stream))
           .toList();
-
       return Right(muxedStreams);
     } catch (e) {
       log('Error fetching muxed streams: $e');
       return const Left(MainFailure.clientFailure());
     } finally {
-      _youtubeExplode.close(); // Close the YoutubeExplode instance
+      youtubeExplode.close();
     }
   }
 
-  ///[getExplodeRelatedVideosData] used to fetch related videos data from Explode.
   @override
   Future<Either<MainFailure, List<MyRelatedVideo>>> getExplodeRelatedVideosData(
       {required String id}) async {
-    final YoutubeExplode _youtubeExplode = YoutubeExplode();
+    final YoutubeExplode youtubeExplode = YoutubeExplode();
     try {
-      var video = await _youtubeExplode.videos.get(id);
-      var relatedVideos = await _youtubeExplode.videos.getRelatedVideos(video);
+      var video = await youtubeExplode.videos.get(id);
+      var relatedVideos = await youtubeExplode.videos.getRelatedVideos(video);
       List<MyRelatedVideo> relatedVideoList = (relatedVideos ?? [])
           .map((video) => MyRelatedVideo.fromYoutubeVideo(video))
           .toList();
-
       return Right(relatedVideoList);
     } catch (e) {
       log('Error fetching related videos: $e');
       return const Left(MainFailure.clientFailure());
     } finally {
-      _youtubeExplode.close(); // Close the YoutubeExplode instance
+      youtubeExplode.close();
     }
   }
 
-  ///[getExplodeLiveStreamUrl] used to fetch live stream url from Explode.
   @override
   Future<Either<MainFailure, String>> getExplodeLiveStreamUrl(
       {required String id}) async {
-    final YoutubeExplode _youtubeExplode = YoutubeExplode();
+    final YoutubeExplode youtubeExplode = YoutubeExplode();
     try {
-      var liveStreamUrl = await _youtubeExplode.videos.streamsClient
+      var liveStreamUrl = await youtubeExplode.videos.streamsClient
           .getHttpLiveStreamUrl(VideoId(id));
       return Right(liveStreamUrl);
     } catch (e) {
       log('Error fetching live stream URL: $e');
       return const Left(MainFailure.clientFailure());
     } finally {
-      _youtubeExplode.close(); // Close the YoutubeExplode instance
+      youtubeExplode.close();
     }
   }
 
   //Invidious
 
-  ///[getInvidiousCommentsData] used to fetch comments data from Invidious.
   @override
   Future<Either<MainFailure, InvidiousCommentsResp>> getInvidiousCommentsData(
       {required String id}) async {
-    final dioClient = Dio();
     try {
       log(InvidiousApiEndpoints.comments + id);
-      final Response response = await dioClient.get(
-        InvidiousApiEndpoints.comments + id,
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
-      );
+      final Response response =
+          await ApiClient.dio.get(InvidiousApiEndpoints.comments + id);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final InvidiousCommentsResp result =
-            InvidiousCommentsResp.fromJson(response.data);
-
-        return Right(result);
+        return Right(InvidiousCommentsResp.fromJson(response.data));
       } else {
         log('Err on getInvidiousCommentsData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
@@ -316,31 +237,18 @@ class WatchImpl implements WatchService {
     } catch (e) {
       log('Err on getInvidiousCommentsData: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 
-  ///[getInvidiousVideoData] used to fetch video data from Invidious.
   @override
   Future<Either<MainFailure, InvidiousWatchResp>> getInvidiousVideoData(
       {required String id}) async {
-    final dioClient = Dio();
     try {
       log(InvidiousApiEndpoints.watch + id);
-      final Response response = await dioClient.get(
-        InvidiousApiEndpoints.watch + id,
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
-      );
+      final Response response =
+          await ApiClient.dio.get(InvidiousApiEndpoints.watch + id);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final InvidiousWatchResp result =
-            InvidiousWatchResp.fromJson(response.data);
-
-        return Right(result);
+        return Right(InvidiousWatchResp.fromJson(response.data));
       } else if (response.statusCode == 404) {
         log('Video not found: $id');
         return Left(MainFailure.notFound(resource: 'video $id'));
@@ -350,8 +258,7 @@ class WatchImpl implements WatchService {
       } else {
         log('Err on getInvidiousVideoData: ${response.statusCode}');
         return Left(MainFailure.serverError(
-            statusCode: response.statusCode,
-            message: 'Failed to load video'));
+            statusCode: response.statusCode, message: 'Failed to load video'));
       }
     } on DioException catch (e) {
       log('Err on getInvidiousVideoData: $e');
@@ -359,31 +266,18 @@ class WatchImpl implements WatchService {
     } catch (e) {
       log('Err on getInvidiousVideoData: $e');
       return Left(MainFailure.unknown(message: e.toString()));
-    } finally {
-      dioClient.close();
     }
   }
 
-  ///[getInvidiousCommentRepliesData] used to fetch comment replies data from Invidious.
   @override
   Future<Either<MainFailure, InvidiousCommentsResp>>
       getInvidiousCommentRepliesData(
           {required String id, required String continuation}) async {
-    final dioClient = Dio();
     try {
-      final Response response = await dioClient.get(
-        '${InvidiousApiEndpoints.comments}$id?continuation=$continuation',
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
-      );
+      final Response response = await ApiClient.dio
+          .get('${InvidiousApiEndpoints.comments}$id?continuation=$continuation');
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final InvidiousCommentsResp result =
-            InvidiousCommentsResp.fromJson(response.data);
-
-        return Right(result);
+        return Right(InvidiousCommentsResp.fromJson(response.data));
       } else {
         log('Err on getInvidiousCommentRepliesData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
@@ -391,31 +285,18 @@ class WatchImpl implements WatchService {
     } catch (e) {
       log('Err on getInvidiousCommentRepliesData: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 
-  ///[getInvidiousMoreCommentsData] used to fetch more comments data from Invidious.
   @override
   Future<Either<MainFailure, InvidiousCommentsResp>>
       getInvidiousMoreCommentsData(
           {required String id, required String continuation}) async {
-    final dioClient = Dio();
     try {
-      final Response response = await dioClient.get(
-        '${InvidiousApiEndpoints.comments}$id?continuation=$continuation',
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
-      );
+      final Response response = await ApiClient.dio
+          .get('${InvidiousApiEndpoints.comments}$id?continuation=$continuation');
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final InvidiousCommentsResp result =
-            InvidiousCommentsResp.fromJson(response.data);
-
-        return Right(result);
+        return Right(InvidiousCommentsResp.fromJson(response.data));
       } else {
         log('Err on getInvidiousMoreCommentsData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
@@ -423,14 +304,11 @@ class WatchImpl implements WatchService {
     } catch (e) {
       log('Err on getInvidiousMoreCommentsData: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 
   //NewPipe
 
-  ///[getNewPipeVideoData] used to fetch video data from NewPipe Extractor.
   @override
   Future<Either<MainFailure, NewPipeWatchResp>> getNewPipeVideoData(
       {required String id}) async {
@@ -444,8 +322,6 @@ class WatchImpl implements WatchService {
     }
   }
 
-  ///[getNewPipeVideoDataFast] used to fetch video data quickly from NewPipe Extractor.
-  ///This returns only essential data for playback, excluding related videos.
   @override
   Future<Either<MainFailure, NewPipeWatchResp>> getNewPipeVideoDataFast(
       {required String id}) async {
@@ -459,7 +335,6 @@ class WatchImpl implements WatchService {
     }
   }
 
-  ///[getNewPipeCommentsData] used to fetch comments data from NewPipe Extractor.
   @override
   Future<Either<MainFailure, NewPipeCommentsResp>> getNewPipeCommentsData(
       {required String id}) async {
@@ -473,7 +348,6 @@ class WatchImpl implements WatchService {
     }
   }
 
-  ///[getNewPipeMoreCommentsData] used to fetch more comments data from NewPipe Extractor.
   @override
   Future<Either<MainFailure, NewPipeCommentsResp>> getNewPipeMoreCommentsData(
       {required String id, required String nextPage}) async {
@@ -490,7 +364,6 @@ class WatchImpl implements WatchService {
     }
   }
 
-  ///[getNewPipeCommentRepliesData] used to fetch comment replies from NewPipe Extractor.
   @override
   Future<Either<MainFailure, NewPipeCommentsResp>> getNewPipeCommentRepliesData(
       {required String videoId, required String repliesPage}) async {

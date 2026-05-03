@@ -54,7 +54,6 @@ android/app/key.jks
 # Fixed docs (generated during refactoring)
 /fixed-docs/
 
-# Claude flow files
-.claude-flow/
 
 .gradle/
+.vscode/

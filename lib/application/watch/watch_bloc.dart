@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
@@ -23,6 +24,8 @@ part 'watch_bloc.freezed.dart';
 
 @injectable
 class WatchBloc extends Bloc<WatchEvent, WatchState> {
+  static const bool _verboseTimingLogs = false;
+
   int _newPipeWatchRequestSerial = 0;
 
   WatchBloc(
@@ -560,9 +563,10 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
       );
 
       stopwatch.stop();
-      // ignore: avoid_print
-      print(
-          '[WatchBloc] NewPipe full watch ${event.id}: ${stopwatch.elapsedMilliseconds}ms');
+      if (kDebugMode && _verboseTimingLogs) {
+        debugPrint(
+            '[WatchBloc] NewPipe full watch ${event.id}: ${stopwatch.elapsedMilliseconds}ms');
+      }
       emit(_state);
     });
 
@@ -633,9 +637,10 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
       }
 
       stopwatch.stop();
-      // ignore: avoid_print
-      print(
-          '[WatchBloc] NewPipe fast watch ${event.id}: ${stopwatch.elapsedMilliseconds}ms');
+      if (kDebugMode && _verboseTimingLogs) {
+        debugPrint(
+            '[WatchBloc] NewPipe fast watch ${event.id}: ${stopwatch.elapsedMilliseconds}ms');
+      }
       emit(newState);
 
       final shouldFetchFullWatch = videoResult.fold(
@@ -651,15 +656,17 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
       fullResult.fold(
         (_) {
           fullStopwatch.stop();
-          // ignore: avoid_print
-          print(
-              '[WatchBloc] NewPipe full follow-up ${event.id} failed after ${fullStopwatch.elapsedMilliseconds}ms');
+          if (kDebugMode && _verboseTimingLogs) {
+            debugPrint(
+                '[WatchBloc] NewPipe full follow-up ${event.id} failed after ${fullStopwatch.elapsedMilliseconds}ms');
+          }
         },
         (resp) {
           fullStopwatch.stop();
-          // ignore: avoid_print
-          print(
-              '[WatchBloc] NewPipe full follow-up ${event.id}: ${fullStopwatch.elapsedMilliseconds}ms');
+          if (kDebugMode && _verboseTimingLogs) {
+            debugPrint(
+                '[WatchBloc] NewPipe full follow-up ${event.id}: ${fullStopwatch.elapsedMilliseconds}ms');
+          }
           emit(state.copyWith(
             newPipeWatchResp: resp,
             fetchNewPipeWatchInfoStatus: ApiStatus.loaded,

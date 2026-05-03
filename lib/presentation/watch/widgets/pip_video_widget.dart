@@ -45,6 +45,12 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
   static const double pipHeight = 101; // 16:9 aspect ratio
 
   @override
+  void dispose() {
+    _nativeChannel?.setMethodCallHandler(null);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // If not visible, return an empty positioned widget to maintain tree position
     // This keeps the widget in the tree to preserve its state (position, etc.)
@@ -109,16 +115,7 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
               child: Stack(
                 children: [
                   // Video player
-                  if (_globalPlayer.hasActivePlayer)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Video(
-                        controller: _globalPlayer.videoController,
-                        controls: NoVideoControls,
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  else if (Platform.isAndroid)
+                  if (Platform.isAndroid && _globalPlayer.hasNativeExoPlayer)
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: AndroidView(
@@ -129,6 +126,15 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
                           'fitMode': 'cover',
                         },
                         creationParamsCodec: const StandardMessageCodec(),
+                      ),
+                    )
+                  else if (_globalPlayer.hasActiveMediaKitPlayer)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Video(
+                        controller: _globalPlayer.videoController,
+                        controls: NoVideoControls,
+                        fit: BoxFit.cover,
                       ),
                     )
                   else if (widget.thumbnailUrl != null)
@@ -202,6 +208,28 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
     _nativeChannel =
         MethodChannel('com.fazilvk.fluxtube/newpipe_exoplayer_$id');
     ExoPlayerNotificationBridge.instance.attach(_nativeChannel!);
+    _nativeChannel!.setMethodCallHandler((call) async {
+      if (call.method != 'onState') return;
+      final args = Map<String, dynamic>.from(call.arguments as Map);
+      final isPlaying = args['isPlaying'] as bool? ?? false;
+      final isBuffering = args['isBuffering'] as bool? ?? false;
+      final positionMs = (args['positionMs'] as num? ?? 0).toInt();
+      final durationMs = (args['durationMs'] as num? ?? 0).toInt();
+      _globalPlayer.updateNativeExoPlayerState(
+        playing: isPlaying,
+        buffering: isBuffering,
+        position: Duration(milliseconds: positionMs),
+        duration: Duration(milliseconds: durationMs),
+      );
+      await _globalPlayer.pipService.setVideoPlaying(isPlaying);
+      final handler = await ensureAudioServiceInitialized();
+      await handler?.updateExternalPlaybackState(
+        playing: isPlaying,
+        position: Duration(milliseconds: positionMs),
+        duration: Duration(milliseconds: durationMs),
+        buffering: isBuffering,
+      );
+    });
     unawaited(_configureNativeNotificationControls());
   }
 
@@ -209,6 +237,7 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
     final handler = await ensureAudioServiceInitialized();
     handler?.configureExternalControls(
       stop: () async {
+        await _globalPlayer.clearMediaNotification();
         if (mounted) {
           BlocProvider.of<WatchBloc>(context)
               .add(WatchEvent.togglePip(value: false));
@@ -228,13 +257,18 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
     });
   }
 
-  void _closePip() {
+  Future<void> _closePip() async {
     // Stop playback and close PiP
     if (_globalPlayer.hasActivePlayer) {
-      _globalPlayer.stopAndClear();
-    } else {
-      _nativeChannel?.invokeMethod('stop');
+      await _globalPlayer.stopAndClear();
+    } else if (Platform.isAndroid) {
+      await ExoPlayerNotificationBridge.instance.stop();
+      await _nativeChannel?.invokeMethod('stop');
+      await _globalPlayer.pipService.setVideoPlaying(false);
+      await _globalPlayer.clearMediaNotification();
+      _globalPlayer.clearNativeExoPlayerSession();
     }
+    if (!mounted) return;
     BlocProvider.of<WatchBloc>(context).add(WatchEvent.togglePip(value: false));
   }
 }

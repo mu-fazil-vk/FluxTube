@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:fluxtube/core/api_client.dart';
 import 'package:fluxtube/domain/core/api_end_points.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/playlist/models/invidious/invidious_playlist_resp.dart';
@@ -15,19 +16,12 @@ class PlaylistImpl implements PlaylistService {
   Future<Either<MainFailure, PlaylistResp>> getPlaylistData({
     required String playlistId,
   }) async {
-    final dioClient = Dio();
     try {
       log('${ApiEndPoints.playlist}$playlistId');
-      final Response response = await dioClient.get(
-        '${ApiEndPoints.playlist}$playlistId',
-        options: Options(
-          followRedirects: false,
-          validateStatus: (status) => true,
-        ),
-      );
+      final Response response =
+          await ApiClient.dio.get('${ApiEndPoints.playlist}$playlistId');
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final PlaylistResp result = PlaylistResp.fromJson(response.data);
-        return Right(result);
+        return Right(PlaylistResp.fromJson(response.data));
       } else {
         log('Err on getPlaylistData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
@@ -35,8 +29,6 @@ class PlaylistImpl implements PlaylistService {
     } catch (e) {
       log('Err on getPlaylistData: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 
@@ -45,20 +37,13 @@ class PlaylistImpl implements PlaylistService {
     required String playlistId,
     required String nextPage,
   }) async {
-    final dioClient = Dio();
     try {
-      final url = '${ApiEndPoints.morePlaylistVideos}$playlistId?nextpage=${Uri.encodeComponent(nextPage)}';
+      final url =
+          '${ApiEndPoints.morePlaylistVideos}$playlistId?nextpage=${Uri.encodeComponent(nextPage)}';
       log(url);
-      final Response response = await dioClient.get(
-        url,
-        options: Options(
-          followRedirects: false,
-          validateStatus: (status) => true,
-        ),
-      );
+      final Response response = await ApiClient.dio.get(url);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final PlaylistResp result = PlaylistResp.fromJson(response.data);
-        return Right(result);
+        return Right(PlaylistResp.fromJson(response.data));
       } else {
         log('Err on getMorePlaylistVideos: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
@@ -66,8 +51,6 @@ class PlaylistImpl implements PlaylistService {
     } catch (e) {
       log('Err on getMorePlaylistVideos: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 
@@ -75,19 +58,12 @@ class PlaylistImpl implements PlaylistService {
   Future<Either<MainFailure, InvidiousPlaylistResp>> getInvidiousPlaylistData({
     required String playlistId,
   }) async {
-    final dioClient = Dio();
     try {
       log('${InvidiousApiEndpoints.playlist}$playlistId');
-      final Response response = await dioClient.get(
-        '${InvidiousApiEndpoints.playlist}$playlistId',
-        options: Options(
-          followRedirects: false,
-          validateStatus: (status) => true,
-        ),
-      );
+      final Response response = await ApiClient.dio
+          .get('${InvidiousApiEndpoints.playlist}$playlistId');
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final InvidiousPlaylistResp result = InvidiousPlaylistResp.fromJson(response.data);
-        return Right(result);
+        return Right(InvidiousPlaylistResp.fromJson(response.data));
       } else {
         log('Err on getInvidiousPlaylistData: ${response.statusCode}');
         return const Left(MainFailure.serverFailure());
@@ -95,8 +71,6 @@ class PlaylistImpl implements PlaylistService {
     } catch (e) {
       log('Err on getInvidiousPlaylistData: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 }

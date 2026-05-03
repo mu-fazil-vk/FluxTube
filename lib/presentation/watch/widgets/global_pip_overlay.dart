@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
+import 'package:fluxtube/core/player/playback_queue_controller.dart';
 import 'package:fluxtube/presentation/routes/app_routes.dart';
 import 'package:fluxtube/presentation/watch/widgets/pip_video_widget.dart';
 import 'package:media_kit_video/media_kit_video.dart';
@@ -30,6 +31,33 @@ class GlobalPipOverlay extends StatefulWidget {
 class _GlobalPipOverlayState extends State<GlobalPipOverlay> {
   final GlobalPlayerController _globalPlayer = GlobalPlayerController();
   bool _wasInSystemPip = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _globalPlayer.pipService.addNextActionListener(_playNextFromQueue);
+  }
+
+  @override
+  void dispose() {
+    _globalPlayer.pipService.removeNextActionListener(_playNextFromQueue);
+    super.dispose();
+  }
+
+  void _playNextFromQueue() {
+    final current = context.read<WatchBloc>().state.selectedVideoBasicDetails;
+    final next = PlaybackQueueController.instance.nextAfter(current?.id);
+    if (next == null) return;
+
+    context
+        .read<WatchBloc>()
+        .add(WatchEvent.setSelectedVideoBasicDetails(details: next));
+    context.read<WatchBloc>().add(WatchEvent.togglePip(value: true));
+    router.goNamed('watch', pathParameters: {
+      'videoId': next.id,
+      'channelId': next.channelId ?? '',
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,19 +136,30 @@ class _GlobalPipOverlayState extends State<GlobalPipOverlay> {
                 // When in system PiP mode (very small window), show ONLY the video player
                 // This ensures the PiP window shows just the video, not the whole app UI
                 // Use AND condition - both flags must indicate PiP mode
-                if (shouldRenderSystemPip && _globalPlayer.hasActivePlayer) {
-                  return ColoredBox(
-                    color: Colors.black,
-                    child: Center(
-                      child: AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: Video(
-                          controller: _globalPlayer.videoController,
-                          controls: NoVideoControls,
-                          fit: BoxFit.contain,
+                if (shouldRenderSystemPip &&
+                    Platform.isAndroid &&
+                    _globalPlayer.hasNativeExoPlayer) {
+                  return const _SystemPipExoPlayerView();
+                }
+
+                if (shouldRenderSystemPip &&
+                    _globalPlayer.hasActiveMediaKitPlayer) {
+                  return Stack(
+                    children: [
+                      ColoredBox(
+                        color: Colors.black,
+                        child: Center(
+                          child: AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: Video(
+                              controller: _globalPlayer.videoController,
+                              controls: NoVideoControls,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   );
                 }
 

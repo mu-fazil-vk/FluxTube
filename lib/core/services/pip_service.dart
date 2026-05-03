@@ -18,6 +18,7 @@ class PipService {
 
   // Callbacks for PiP state changes
   final List<void Function(bool)> _pipModeListeners = [];
+  final List<void Function()> _nextActionListeners = [];
 
   /// Whether the device is currently in PiP mode
   bool get isInPipMode => _isInPipMode;
@@ -38,6 +39,12 @@ class PipService {
             listener(isInPipMode);
           }
           break;
+        case 'onPipNext':
+          for (final listener
+              in List<void Function()>.from(_nextActionListeners)) {
+            listener();
+          }
+          break;
       }
     });
   }
@@ -50,6 +57,14 @@ class PipService {
   /// Remove a PiP mode listener
   void removePipModeListener(void Function(bool) listener) {
     _pipModeListeners.remove(listener);
+  }
+
+  void addNextActionListener(void Function() listener) {
+    _nextActionListeners.add(listener);
+  }
+
+  void removeNextActionListener(void Function() listener) {
+    _nextActionListeners.remove(listener);
   }
 
   /// Check if PiP is supported on this device
@@ -137,6 +152,21 @@ class PipService {
       });
     } catch (e) {
       log('[PipService] Error setting aspect ratio: $e');
+    }
+  }
+
+  Future<void> setSourceRect(Rect rect) async {
+    if (!Platform.isAndroid) return;
+
+    try {
+      await _channel.invokeMethod('setSourceRect', {
+        'left': rect.left.round(),
+        'top': rect.top.round(),
+        'right': rect.right.round(),
+        'bottom': rect.bottom.round(),
+      });
+    } catch (e) {
+      log('[PipService] Error setting source rect: $e');
     }
   }
 

@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:fluxtube/core/api_client.dart';
 import 'package:fluxtube/domain/core/failure/main_failure.dart';
 import 'package:fluxtube/domain/sponsorblock/models/sponsor_segment.dart';
 import 'package:fluxtube/domain/sponsorblock/sponsorblock_service.dart';
@@ -17,8 +18,6 @@ class SponsorBlockImpl implements SponsorBlockService {
     required String videoId,
     required List<String> categories,
   }) async {
-    final dioClient = Dio();
-
     try {
       if (categories.isEmpty) {
         return const Right([]);
@@ -27,14 +26,14 @@ class SponsorBlockImpl implements SponsorBlockService {
       // Build categories query parameter
       final categoriesJson = jsonEncode(categories);
 
-      final Response response = await dioClient.get(
+      final Response response = await ApiClient.dio.get(
         '$_baseUrl/skipSegments',
         queryParameters: {
           'videoID': videoId,
           'categories': categoriesJson,
         },
         options: Options(
-          validateStatus: (status) => true,
+          // SponsorBlock can be slow on cold cache — give it a bit more.
           receiveTimeout: const Duration(seconds: 10),
           sendTimeout: const Duration(seconds: 10),
         ),
@@ -67,8 +66,6 @@ class SponsorBlockImpl implements SponsorBlockService {
     } catch (e) {
       log('[SponsorBlock] Error: $e');
       return const Left(MainFailure.clientFailure());
-    } finally {
-      dioClient.close();
     }
   }
 }

@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
@@ -231,13 +231,7 @@ class ScreenPlaylist extends StatelessWidget {
           children: [
             // Background image
             if (thumbnailUrl != null || bannerUrl != null)
-              CachedNetworkImage(
-                imageUrl: bannerUrl ?? thumbnailUrl!,
-                fit: BoxFit.cover,
-                errorWidget: (context, url, error) => Container(
-                  color: kGreyColor,
-                ),
-              ),
+              ThumbnailImage(url: bannerUrl ?? thumbnailUrl!),
             // Gradient overlay
             Container(
               decoration: BoxDecoration(
@@ -310,7 +304,7 @@ class ScreenPlaylist extends StatelessWidget {
                           CircleAvatar(
                             radius: 12,
                             backgroundImage:
-                                CachedNetworkImageProvider(uploaderAvatar),
+                                cachedAvatarProvider(uploaderAvatar, logicalDiameter: 24),
                             backgroundColor: kGreyColor,
                           ),
                           kWidthBox10,
@@ -400,7 +394,7 @@ class ScreenPlaylist extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     image: thumbnail != null
                         ? DecorationImage(
-                            image: CachedNetworkImageProvider(thumbnail),
+                            image: cachedThumbnailProvider(thumbnail),
                             fit: BoxFit.cover,
                           )
                         : null,

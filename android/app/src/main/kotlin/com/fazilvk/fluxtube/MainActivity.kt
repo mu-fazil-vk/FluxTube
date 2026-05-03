@@ -5,12 +5,15 @@ import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Build
 import android.util.Rational
+import android.view.WindowManager
+import androidx.media3.common.util.UnstableApi
 import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import com.fazilvk.fluxtube.newpipe.NewPipeMethodHandler
 import com.fazilvk.fluxtube.player.NewPipeExoPlayerViewFactory
 
+@UnstableApi
 class MainActivity: AudioServiceFragmentActivity() {
     companion object {
         private const val NEWPIPE_CHANNEL = "com.fazilvk.fluxtube/newpipe"
@@ -26,6 +29,7 @@ class MainActivity: AudioServiceFragmentActivity() {
     private var isPipModeEnabled = false
     private var isVideoPlaying = false
     private var videoAspectRatio: Rational = Rational(16, 9)
+    private var sourceRectHint: Rect? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -66,10 +70,13 @@ class MainActivity: AudioServiceFragmentActivity() {
                 "exitPip" -> {
                     // PiP exit is handled by the system, but we can update our state
                     isVideoPlaying = false
+                    updateKeepScreenOn()
                     result.success(true)
                 }
                 "setVideoPlaying" -> {
                     isVideoPlaying = call.argument<Boolean>("isPlaying") ?: false
+                    updateKeepScreenOn()
+                    updatePipParams()
                     result.success(true)
                 }
                 "isPipSupported" -> {
@@ -85,8 +92,29 @@ class MainActivity: AudioServiceFragmentActivity() {
                     updatePipParams()
                     result.success(true)
                 }
+                "setSourceRect" -> {
+                    val left = call.argument<Int>("left")
+                    val top = call.argument<Int>("top")
+                    val right = call.argument<Int>("right")
+                    val bottom = call.argument<Int>("bottom")
+                    sourceRectHint = if (
+                        left != null &&
+                        top != null &&
+                        right != null &&
+                        bottom != null &&
+                        right > left &&
+                        bottom > top
+                    ) {
+                        Rect(left, top, right, bottom)
+                    } else {
+                        null
+                    }
+                    updatePipParams()
+                    result.success(true)
+                }
                 "enableAutoPip" -> {
                     isPipModeEnabled = call.argument<Boolean>("enabled") ?: false
+                    updatePipParams()
                     result.success(true)
                 }
                 else -> result.notImplemented()
@@ -103,11 +131,7 @@ class MainActivity: AudioServiceFragmentActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             try {
-                val params = PictureInPictureParams.Builder()
-                    .setAspectRatio(videoAspectRatio)
-                    .build()
-
-                enterPictureInPictureMode(params)
+                enterPictureInPictureMode(buildPipParams())
                 return true
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -118,19 +142,36 @@ class MainActivity: AudioServiceFragmentActivity() {
     }
 
     private fun updatePipParams() {
-        if (!isPipSupported() || !isInPictureInPictureMode) return
+        if (!isPipSupported()) return
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             try {
-                val params = PictureInPictureParams.Builder()
-                    .setAspectRatio(videoAspectRatio)
-                    .build()
-
-                setPictureInPictureParams(params)
+                setPictureInPictureParams(buildPipParams())
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun updateKeepScreenOn() {
+        if (isVideoPlaying) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
+
+    private fun buildPipParams(): PictureInPictureParams {
+        val builder = PictureInPictureParams.Builder()
+            .setAspectRatio(videoAspectRatio)
+
+        sourceRectHint?.let { builder.setSourceRectHint(it) }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            builder.setAutoEnterEnabled(isPipModeEnabled && isVideoPlaying)
+        }
+
+        return builder.build()
     }
 
     override fun onUserLeaveHint() {
@@ -168,6 +209,7 @@ class MainActivity: AudioServiceFragmentActivity() {
         pipChannel?.setMethodCallHandler(null)
         pipChannel = null
         newPipeHandler?.dispose()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         super.onDestroy()
     }
 }

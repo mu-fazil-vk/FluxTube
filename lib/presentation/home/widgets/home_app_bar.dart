@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../application/search/search_bloc.dart';
 import '../../../core/colors.dart';
 import '../../../core/constants.dart';
+import '../../../core/di/injectable.dart';
 import '../../search/screen_search.dart';
 import 'circular_icon.dart';
 
@@ -43,7 +46,10 @@ class HomeAppBar extends StatelessWidget {
       actions: [
         GestureDetector(
           onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const ScreenSearch(),
+            builder: (context) => BlocProvider(
+              create: (_) => getIt<SearchBloc>(),
+              child: const ScreenSearch(),
+            ),
           )),
           child: const CircularIcon(
             icon: CupertinoIcons.search,

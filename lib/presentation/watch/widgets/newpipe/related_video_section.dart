@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/core/animations/animations.dart';
@@ -249,16 +249,7 @@ class _ShortCard extends StatelessWidget {
 
   Widget _buildThumbnail(bool isDark) {
     if (short.thumbnailUrl != null) {
-      return CachedNetworkImage(
-        imageUrl: short.thumbnailUrl!,
-        fit: BoxFit.cover,
-        placeholder: (_, __) => Container(
-          color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
-        ),
-        errorWidget: (_, __, ___) => Container(
-          color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
-        ),
-      );
+      return ThumbnailImage.small(url: short.thumbnailUrl!);
     }
     return Container(
       color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
@@ -589,12 +580,11 @@ class _LargeVideoCard extends StatelessWidget {
                               ],
                             ),
                             child: ClipOval(
-                              child: CachedNetworkImage(
-                                imageUrl: video.uploaderAvatarUrl!,
-                                fit: BoxFit.cover,
-                                errorWidget: (_, __, ___) => Container(
+                              child: ThumbnailImage.small(
+                                url: video.uploaderAvatarUrl!,
+                                errorWidget: (_, __, ___) => ColoredBox(
                                   color: AppColors.surfaceVariant,
-                                  child: Icon(
+                                  child: const Icon(
                                     CupertinoIcons.person_fill,
                                     size: 16,
                                     color: AppColors.onSurfaceVariant,
@@ -707,20 +697,7 @@ class _LargeVideoCard extends StatelessWidget {
           children: [
             // Image
             if (video.thumbnailUrl != null)
-              CachedNetworkImage(
-                imageUrl: video.thumbnailUrl!,
-                fit: BoxFit.cover,
-                placeholder: (_, __) => Container(
-                  color: isDark
-                      ? AppColors.surfaceVariantDark
-                      : AppColors.surfaceVariant,
-                ),
-                errorWidget: (_, __, ___) => Container(
-                  color: isDark
-                      ? AppColors.surfaceVariantDark
-                      : AppColors.surfaceVariant,
-                ),
-              )
+              ThumbnailImage.small(url: video.thumbnailUrl!)
             else
               Container(
                 color: isDark

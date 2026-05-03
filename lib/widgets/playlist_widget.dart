@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:intl/intl.dart';
@@ -48,7 +48,7 @@ class PlaylistWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     image: thumbnail != null
                         ? DecorationImage(
-                            image: CachedNetworkImageProvider(thumbnail!),
+                            image: cachedThumbnailProvider(thumbnail!),
                             fit: BoxFit.cover,
                             onError: (exception, stackTrace) {},
                           )
@@ -116,7 +116,7 @@ class PlaylistWidget extends StatelessWidget {
                       if (uploaderAvatar != null) ...[
                         CircleAvatar(
                           radius: 12,
-                          backgroundImage: CachedNetworkImageProvider(uploaderAvatar!),
+                          backgroundImage: cachedAvatarProvider(uploaderAvatar!, logicalDiameter: 24),
                           backgroundColor: kGreyColor,
                         ),
                         kWidthBox10,
@@ -219,7 +219,7 @@ class CompactPlaylistWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     image: thumbnail != null
                         ? DecorationImage(
-                            image: CachedNetworkImageProvider(thumbnail!),
+                            image: cachedThumbnailProvider(thumbnail!),
                             fit: BoxFit.cover,
                           )
                         : null,
