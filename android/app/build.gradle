@@ -77,6 +77,14 @@ android {
         buildConfig = true
     }
 
+    packaging {
+        jniLibs {
+            // Keep native libraries compressed in APKs. This keeps per-ABI release
+            // artifacts small enough for stores with strict APK size limits.
+            useLegacyPackaging = true
+        }
+    }
+
     buildTypes {
         release {
             signingConfig hasReleaseKeystore

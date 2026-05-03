@@ -13,6 +13,8 @@ jobs:
   build-android:
     name: Build signed APKs
     runs-on: ubuntu-latest
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dkotlin.daemon.jvm.options=-Xmx2048m,-XX:-UseParallelGC"
 
     steps:
       - name: Checkout
@@ -89,9 +91,6 @@ jobs:
       - name: Analyze
         run: flutter analyze
 
-      - name: Build universal APK
-        run: flutter build apk --release
-
       - name: Build split APKs
         run: flutter build apk --release --split-per-abi
 
@@ -100,7 +99,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p dist
-          cp build/app/outputs/flutter-apk/*.apk dist/
+          cp build/app/outputs/flutter-apk/app-*-release.apk dist/
           ls -lah dist
 
       - name: Read app version
