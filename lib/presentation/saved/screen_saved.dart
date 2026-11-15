@@ -371,8 +371,7 @@ class _ScreenSavedState extends State<ScreenSaved>
                     savedState.savedVideosFetchStatus == ApiStatus.initial;
 
             return Scaffold(
-              backgroundColor:
-                  isDark ? AppColors.backgroundDark : AppColors.background,
+              backgroundColor: theme.scaffoldBackgroundColor,
               // Top/bottom safe-area is handled by MainNavigationLayout's
               // header/nav padding below, matching Home and Subscriptions —
               // an extra SafeArea here would double-count the bottom inset.
@@ -389,11 +388,9 @@ class _ScreenSavedState extends State<ScreenSaved>
                     floating: true,
                     snap: true,
                     toolbarHeight: 56,
-                    backgroundColor: isDark
-                        ? AppColors.backgroundDark
-                        : AppColors.background,
+                    backgroundColor: theme.scaffoldBackgroundColor,
                     elevation: 0,
-                    surfaceTintColor: kWhiteColor,
+                    surfaceTintColor: Colors.transparent,
                     automaticallyImplyLeading: false,
                     title: _isSelectionMode
                         ? Text(
@@ -950,7 +947,7 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: isDark ? AppColors.backgroundDark : AppColors.background,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: tabBar,
     );
   }

@@ -48,7 +48,9 @@ class SettingsProfileHeader extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      state.currentProfile,
+                      state.currentProfile == 'default'
+                          ? S.of(context).defaultProfile
+                          : state.currentProfile,
                       style: theme.textTheme.titleLarge,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -120,7 +122,8 @@ class SettingsProfileHeader extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   locals.switchProfile,
-                  style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+                  style: theme.textTheme.bodyLarge
+                      ?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ),
             ),
@@ -129,9 +132,13 @@ class SettingsProfileHeader extends StatelessWidget {
               ListTile(
                 leading: Icon(
                   Icons.person,
-                  color: profile == state.currentProfile ? scheme.primary : scheme.onSurfaceVariant,
+                  color: profile == state.currentProfile
+                      ? scheme.primary
+                      : scheme.onSurfaceVariant,
                 ),
-                title: Text(profile),
+                title: Text(profile == 'default'
+                    ? S.of(context).defaultProfile
+                    : profile),
                 trailing: profile == state.currentProfile
                     ? Icon(Icons.check, color: scheme.primary)
                     : null,
@@ -144,12 +151,11 @@ class SettingsProfileHeader extends StatelessWidget {
                     context
                         .read<SettingsBloc>()
                         .add(SettingsEvent.switchProfile(profileName: profile));
-                    context
-                        .read<SubscribeBloc>()
-                        .add(SubscribeEvent.getAllSubscribeList(profileName: profile));
-                    context
-                        .read<SavedBloc>()
-                        .add(SavedEvent.getAllVideoInfoList(profileName: profile));
+                    context.read<SubscribeBloc>().add(
+                        SubscribeEvent.getAllSubscribeList(
+                            profileName: profile));
+                    context.read<SavedBloc>().add(
+                        SavedEvent.getAllVideoInfoList(profileName: profile));
                   }
                   Navigator.pop(sheetContext);
                 },

@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/core/animations/animations.dart';
 import 'package:fluxtube/core/colors.dart';
-import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
@@ -75,7 +74,6 @@ class _NewPipeCommentSectionState extends State<NewPipeCommentSection> {
 
     return Container(
       constraints: BoxConstraints(maxHeight: widget.height * 0.55),
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       decoration: BoxDecoration(
         color: scheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(20),

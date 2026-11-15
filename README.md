@@ -45,10 +45,14 @@ Some features are only available when using the NewPipe Extractor service.
 ## Screenshots
 
 <div align="center">
-  <img src="doc/home.png" alt="FluxTube Home" width="22%">
-  <img src="doc/watch.png" alt="FluxTube Watch" width="22%">
-  <img src="doc/trending.png" alt="FluxTube Trending" width="22%">
-  <img src="doc/settings.png" alt="FluxTube settings" width="22%">
+  <img src="doc/screenshots/home.jpg" alt="Home: hero card, Continue Watching and category chips" width="30%">
+  <img src="doc/screenshots/watch.jpg" alt="Watch: player controls, actions and related videos" width="30%">
+  <img src="doc/screenshots/shorts.jpg" alt="Shorts feed from your subscriptions" width="30%">
+</div>
+<div align="center">
+  <img src="doc/screenshots/subscriptions.jpg" alt="Subscriptions videos feed with filters" width="30%">
+  <img src="doc/screenshots/library.jpg" alt="Library: watch stats, saved, history, downloads and playlists" width="30%">
+  <img src="doc/screenshots/settings.jpg" alt="Settings with profiles" width="30%">
 </div>
 
 ## Download

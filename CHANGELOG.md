@@ -28,6 +28,8 @@
 - Fixed play/pause taps sometimes being ignored, and a pause during buffering looking unresponsive.
 - Fixed Shorts title, channel and buttons being hidden behind the navigation bar.
 - Fixed "-1 views" / "No date" on category feeds, HTML entities like `&apos;` in comments, and the Home header icon alignment.
+- Fixed the hard-edged band under the watch screen's ambient glow and aligned the watch page sections to one margin.
+- Library now follows OLED Black / Dynamic Color backgrounds, and the Dark theme's app bar matches its background.
 
 ###### Removed
 
