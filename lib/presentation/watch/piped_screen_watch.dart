@@ -1,6 +1,8 @@
 import 'package:dismissible_page/dismissible_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxtube/presentation/watch/widgets/newpipe/exoplayer_video_player.dart';
+import 'package:fluxtube/domain/watch/playback/backend_to_newpipe_adapter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/colors.dart';
@@ -12,7 +14,6 @@ import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/widgets/widgets.dart';
 
-import 'widgets/piped_media_kit_player.dart';
 import 'widgets/player_error_widget.dart';
 import 'widgets/sections/sections.dart';
 import 'widgets/widgets.dart';
@@ -255,16 +256,9 @@ class _PipedScreenWatchState extends State<PipedScreenWatch>
               return BlocBuilder<SavedBloc, SavedState>(
                 buildWhen: (previous, current) =>
                     previous.videoInfo?.id != current.videoInfo?.id ||
-                    previous.videoInfo?.isSaved != current.videoInfo?.isSaved ||
-                    previous.videoInfo?.playbackPosition !=
-                        current.videoInfo?.playbackPosition,
+                    previous.videoInfo?.isSaved != current.videoInfo?.isSaved,
                 builder: (context, savedState) {
                   final watchInfo = state.watchResp;
-
-                  bool isSaved = (savedState.videoInfo?.id == widget.id &&
-                          savedState.videoInfo?.isSaved == true)
-                      ? true
-                      : false;
 
                   // Check if there's a player URL issue (HLS null when HLS mode enabled)
                   final bool hasPlayerUrlError =
@@ -313,12 +307,25 @@ class _PipedScreenWatchState extends State<PipedScreenWatch>
                         },
                         child: Scaffold(
                           body: SafeArea(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  // Show player with stable visibility to prevent disposal during rebuilds
-                                  Builder(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                // Show player with stable visibility to prevent disposal during rebuilds
+                                // Pinned outside the scroll view below, so it
+                                // stays fixed at the top while the chrome
+                                // (title/actions/description/related/comments)
+                                // scrolls underneath it. Capped to a max
+                                // height: without this, the aspect-ratio
+                                // player can briefly ask for more height than
+                                // this now-unscrollable Column has available
+                                // (e.g. mid-transition back from the
+                                // fullscreen route, before orientation has
+                                // fully settled), overflowing the layout.
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    maxHeight: height * 0.45,
+                                  ),
+                                  child: Builder(
                                     builder: (context) {
                                       // Check if we should show the player
                                       final shouldShowPlayer = _showPlayer &&
@@ -376,71 +383,45 @@ class _PipedScreenWatchState extends State<PipedScreenWatch>
                                       }
 
                                       // Show player
-                                      return PipedMediaKitPlayer(
-                                        key: ValueKey('player_${widget.id}'),
-                                        videoId: widget.id,
-                                        watchInfo: state.watchResp,
-                                        defaultQuality:
-                                            settingsState.defaultQuality,
-                                        // Only use playback position if it's for the current video
-                                        playbackPosition:
-                                            savedState.videoInfo?.id ==
-                                                    widget.id
-                                                ? (savedState.videoInfo
-                                                        ?.playbackPosition ??
-                                                    0)
-                                                : 0,
-                                        isSaved: isSaved,
-                                        isHlsPlayer: settingsState.isHlsPlayer,
-                                        subtitles: state.fetchSubtitlesStatus ==
-                                                ApiStatus.loading
-                                            ? []
-                                            : state.subtitles,
-                                        videoFitMode:
-                                            settingsState.videoFitMode,
-                                        skipInterval:
-                                            settingsState.skipInterval,
-                                        isAudioFocusEnabled:
-                                            settingsState.isAudioFocusEnabled,
-                                        subtitleSize:
-                                            settingsState.subtitleSize,
-                                        sponsorSegments:
-                                            settingsState.isSponsorBlockEnabled
-                                                ? state.sponsorSegments
-                                                : const [],
-                                      );
+                                      return NewPipeExoPlayer(
+                                          key: ValueKey('exo_player_${widget.id}'),
+                                          videoId: widget.id,
+                                          watchInfo: newPipeRespFromPiped(state.watchResp,
+                                                videoId: widget.id,
+                                                extraSubtitles: state.subtitles),
+                                          playbackPosition: savedState.videoInfo?.id == widget.id
+                                              ? (savedState.videoInfo?.playbackPosition ?? 0)
+                                              : 0,
+                                          defaultQuality: settingsState.defaultQuality,
+                                          videoFitMode: settingsState.videoFitMode,
+                                          skipInterval: settingsState.skipInterval,
+                                          sponsorSegments: settingsState.isSponsorBlockEnabled
+                                              ? state.sponsorSegments
+                                              : const [],
+                                          preferAdaptivePlayback: settingsState.isHlsPlayer,
+                                          isAutoPipEnabled: settingsState.isAutoPipEnabled,
+                                        );
                                     },
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 12, left: 20, right: 20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // * caption row
-                                        (state.fetchWatchInfoStatus ==
-                                                    ApiStatus.initial ||
-                                                state.fetchWatchInfoStatus ==
-                                                    ApiStatus.loading)
-                                            ? CaptionRowWidget(
-                                                caption: state
-                                                        .selectedVideoBasicDetails
-                                                        ?.title ??
-                                                    locals.noVideoTitle,
-                                                icon: state.isDescriptionTapped
-                                                    ? CupertinoIcons.chevron_up
-                                                    : CupertinoIcons
-                                                        .chevron_down,
-                                              )
-                                            : GestureDetector(
-                                                onTap: () =>
-                                                    BlocProvider.of<WatchBloc>(
-                                                            context)
-                                                        .add(WatchEvent
-                                                            .tapDescription()),
-                                                child: CaptionRowWidget(
-                                                  caption: watchInfo.title ??
+                                ),
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 12, left: 20, right: 20),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // * caption row
+                                          (state.fetchWatchInfoStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchWatchInfoStatus ==
+                                                      ApiStatus.loading)
+                                              ? CaptionRowWidget(
+                                                  caption: state
+                                                          .selectedVideoBasicDetails
+                                                          ?.title ??
                                                       locals.noVideoTitle,
                                                   icon:
                                                       state.isDescriptionTapped
@@ -448,108 +429,125 @@ class _PipedScreenWatchState extends State<PipedScreenWatch>
                                                               .chevron_up
                                                           : CupertinoIcons
                                                               .chevron_down,
-                                                ),
-                                              ),
-
-                                        kHeightBox5,
-
-                                        // * views row
-                                        (state.fetchWatchInfoStatus ==
-                                                    ApiStatus.initial ||
-                                                state.fetchWatchInfoStatus ==
-                                                    ApiStatus.loading)
-                                            ? const SizedBox()
-                                            : ViewRowWidget(
-                                                views: watchInfo.views,
-                                                uploadedDate:
-                                                    watchInfo.uploadDate,
-                                              ),
-
-                                        kHeightBox10,
-
-                                        // * like row
-                                        (state.fetchWatchInfoStatus ==
-                                                    ApiStatus.initial ||
-                                                state.fetchWatchInfoStatus ==
-                                                    ApiStatus.loading)
-                                            ? const ShimmerLikeWidget()
-                                            : LikeSection(
-                                                id: widget.id,
-                                                state: state,
-                                                watchInfo: watchInfo,
-                                                pipClicked: () {
-                                                  GlobalPlayerController()
-                                                      .enterPipMode();
-                                                  BlocProvider.of<WatchBloc>(
-                                                          context)
-                                                      .add(WatchEvent.togglePip(
-                                                          value: true));
-                                                  Navigator.pop(context);
-                                                },
-                                              ),
-
-                                        kHeightBox10,
-
-                                        const Divider(),
-
-                                        // * channel info row
-                                        (state.fetchWatchInfoStatus ==
-                                                    ApiStatus.initial ||
-                                                state.fetchWatchInfoStatus ==
-                                                    ApiStatus.loading)
-                                            ? const ShimmerSubscribeWidget()
-                                            : ChannelInfoSection(
-                                                state: state,
-                                                watchInfo: watchInfo,
-                                                locals: locals),
-                                        if (!state.isTapComments)
-                                          const Divider(),
-                                        kHeightBox10,
-
-                                        // * description
-                                        state.isDescriptionTapped
-                                            ? DescriptionSection(
-                                                height: height,
-                                                watchInfo: watchInfo,
-                                                locals: locals)
-                                            :
-                                            // * related videos
-                                            state.isTapComments == false
-                                                ? settingsState.isHideRelated
-                                                    ? const SizedBox()
-                                                    : (state.fetchWatchInfoStatus ==
-                                                                ApiStatus
-                                                                    .initial ||
-                                                            state.fetchWatchInfoStatus ==
-                                                                ApiStatus
-                                                                    .loading)
-                                                        ? ListView.builder(
-                                                            shrinkWrap: true,
-                                                            physics:
-                                                                const NeverScrollableScrollPhysics(),
-                                                            itemCount: 3,
-                                                            itemBuilder:
-                                                                (context,
-                                                                    index) {
-                                                              return const ShimmerRelatedVideoWidget();
-                                                            },
-                                                          )
-                                                        : RelatedVideoSection(
-                                                            locals: locals,
-                                                            watchInfo:
-                                                                watchInfo)
-                                                //comments section
-                                                : CommentSection(
-                                                    videoId: widget.id,
-                                                    state: state,
-                                                    height: height,
-                                                    locals: locals,
+                                                )
+                                              : GestureDetector(
+                                                  onTap: () => BlocProvider.of<
+                                                          WatchBloc>(context)
+                                                      .add(WatchEvent
+                                                          .tapDescription()),
+                                                  child: CaptionRowWidget(
+                                                    caption: watchInfo.title ??
+                                                        locals.noVideoTitle,
+                                                    icon:
+                                                        state.isDescriptionTapped
+                                                            ? CupertinoIcons
+                                                                .chevron_up
+                                                            : CupertinoIcons
+                                                                .chevron_down,
                                                   ),
-                                      ],
+                                                ),
+
+                                          kHeightBox5,
+
+                                          // * views row
+                                          (state.fetchWatchInfoStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchWatchInfoStatus ==
+                                                      ApiStatus.loading)
+                                              ? const SizedBox()
+                                              : ViewRowWidget(
+                                                  views: watchInfo.views,
+                                                  uploadedDate:
+                                                      watchInfo.uploadDate,
+                                                ),
+
+                                          kHeightBox10,
+
+                                          // * like row
+                                          (state.fetchWatchInfoStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchWatchInfoStatus ==
+                                                      ApiStatus.loading)
+                                              ? const ShimmerLikeWidget()
+                                              : LikeSection(
+                                                  id: widget.id,
+                                                  state: state,
+                                                  watchInfo: watchInfo,
+                                                  pipClicked: () {
+                                                    GlobalPlayerController()
+                                                        .enterPipMode();
+                                                    BlocProvider.of<WatchBloc>(
+                                                            context)
+                                                        .add(WatchEvent
+                                                            .togglePip(
+                                                                value: true));
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+
+                                          kHeightBox10,
+
+                                          const Divider(),
+
+                                          // * channel info row
+                                          (state.fetchWatchInfoStatus ==
+                                                      ApiStatus.initial ||
+                                                  state.fetchWatchInfoStatus ==
+                                                      ApiStatus.loading)
+                                              ? const ShimmerSubscribeWidget()
+                                              : ChannelInfoSection(
+                                                  state: state,
+                                                  watchInfo: watchInfo,
+                                                  locals: locals),
+                                          if (!state.isTapComments)
+                                            const Divider(),
+                                          kHeightBox10,
+
+                                          // * description
+                                          state.isDescriptionTapped
+                                              ? DescriptionSection(
+                                                  height: height,
+                                                  watchInfo: watchInfo,
+                                                  locals: locals)
+                                              :
+                                              // * related videos
+                                              state.isTapComments == false
+                                                  ? settingsState.isHideRelated
+                                                      ? const SizedBox()
+                                                      : (state.fetchWatchInfoStatus ==
+                                                                  ApiStatus
+                                                                      .initial ||
+                                                              state.fetchWatchInfoStatus ==
+                                                                  ApiStatus
+                                                                      .loading)
+                                                          ? ListView.builder(
+                                                              shrinkWrap: true,
+                                                              physics:
+                                                                  const NeverScrollableScrollPhysics(),
+                                                              itemCount: 3,
+                                                              itemBuilder:
+                                                                  (context,
+                                                                      index) {
+                                                                return const ShimmerRelatedVideoWidget();
+                                                              },
+                                                            )
+                                                          : RelatedVideoSection(
+                                                              locals: locals,
+                                                              watchInfo:
+                                                                  watchInfo)
+                                                  //comments section
+                                                  : CommentSection(
+                                                      videoId: widget.id,
+                                                      state: state,
+                                                      height: height,
+                                                      locals: locals,
+                                                    ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

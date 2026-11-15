@@ -92,7 +92,23 @@
   "@trending": {
     "description": "Trending label"
   },
+  "categoryGaming": "Gaming",
+  "@categoryGaming": {
+    "description": "Home category chip: gaming kiosk"
+  },
+  "categoryMoviesAndShows": "Movies & Shows",
+  "@categoryMoviesAndShows": {
+    "description": "Home category chip: movies and shows trailers kiosk"
+  },
+  "categoryPodcasts": "Podcasts",
+  "@categoryPodcasts": {
+    "description": "Home category chip: podcasts kiosk"
+  },
   "saved": "Saved",
+  "save": "Save",
+  "serviceLimited": "Limited",
+  "serviceRemovedNote": "Piped and YouTube Explode were retired. YouTube now blocks the server IPs Piped instances run on, so no public instance can play video (its team is rebuilding on a new extractor). YouTube Explode stopped receiving fixes in May 2026 and only 360p still works. NewPipe Extractor does the same on-device extraction, is actively maintained, and plays up to 4K.",
+  "serviceInvidiousNote": "Few public Invidious instances still allow apps; playback may fail if your instance blocks API access.",
   "@saved": {
     "description": "Saved label"
   },
@@ -286,7 +302,7 @@
   "videos": "Videos",
   "shorts": "Shorts",
   "playlists": "Playlists",
-  "noShorts": "No shorts available",
+  "noShorts": "Subscribe to channels to see their Shorts here",
   "noPlaylists": "No playlists available",
   "library": "Library",
   "sortBy": "Sort by",
@@ -506,35 +522,6 @@
   "saveToDeviceFailed": "Failed to save to device",
   "@saveToDeviceFailed": {
     "description": "Error message when save to device fails"
-  },
-  "castTitle": "Cast",
-  "@castTitle": {
-    "description": "Cast button label"
-  },
-  "castConnected": "Connected",
-  "@castConnected": {
-    "description": "Cast connected state"
-  },
-  "castConnectedTo": "Casting to {device}",
-  "@castConnectedTo": {
-    "description": "Cast target device",
-    "placeholders": {
-      "device": {
-        "type": "String"
-      }
-    }
-  },
-  "castStop": "Stop casting",
-  "@castStop": {
-    "description": "Ends the Cast session"
-  },
-  "castUnavailable": "Cast is not available on this device",
-  "@castUnavailable": {
-    "description": "Shown when the Cast framework is missing"
-  },
-  "castFailed": "This video cannot be cast",
-  "@castFailed": {
-    "description": "No castable stream exists"
   },
   "newVideoNotifications": "New upload notifications",
   "@newVideoNotifications": {
@@ -764,5 +751,101 @@
   "sleepTimerEnded": "Sleep timer ended",
   "@sleepTimerEnded": {
     "description": "Sleep timer fired"
+  },
+  "following": "Following",
+  "@following": {
+    "description": "Header for the subscribed-channels avatar row"
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Filter chip: videos uploaded today"
+  },
+  "live": "Live",
+  "@live": {
+    "description": "Filter chip / badge for live streams"
+  },
+  "continueWatching": "Continue Watching",
+  "@continueWatching": {
+    "description": "Filter chip: partially watched videos"
+  },
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "Link to open a full section listing"
+  },
+  "storageUsed": "{amount} used",
+  "@storageUsed": {
+    "description": "Aggregate storage consumed by downloads, e.g. 2.4 GB used",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "comments": "Comments",
+  "@comments": {
+    "description": "Comments section title"
+  },
+  "commentsLoadFailed": "Couldn't load comments",
+  "@commentsLoadFailed": {
+    "description": "Comments failed to load"
+  },
+  "checkConnectionAndRetry": "Check your connection and try again",
+  "@checkConnectionAndRetry": {
+    "description": "Generic retry hint"
+  },
+  "commentsDisabledByCreator": "The creator has turned off comments for this video",
+  "@commentsDisabledByCreator": {
+    "description": "Comments disabled explanation"
+  },
+  "noCommentsYet": "There are no comments on this video yet",
+  "@noCommentsYet": {
+    "description": "Empty comments explanation"
+  },
+  "heartedByCreator": "Hearted by creator",
+  "@heartedByCreator": {
+    "description": "Comment liked by the video's creator"
+  },
+  "downloadsCount": "{count, plural, =1{1 download} other{{count} downloads}}",
+  "@downloadsCount": {
+    "description": "Number of completed downloads",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "watchStatsTitle": "Your watch stats",
+  "@watchStatsTitle": {
+    "description": "Library watch stats card title"
+  },
+  "watchStatsWatched": "watched",
+  "@watchStatsWatched": {
+    "description": "Label under total watch time"
+  },
+  "watchStatsVideos": "videos",
+  "@watchStatsVideos": {
+    "description": "Label under watched video count"
+  },
+  "watchStatsSaved": "saved",
+  "@watchStatsSaved": {
+    "description": "Label under saved video count"
+  },
+  "watchStatsTopChannel": "Most watched: {channel}",
+  "@watchStatsTopChannel": {
+    "description": "Most watched channel line",
+    "placeholders": {
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "watchStatsThisWeek": "{count} this week",
+  "@watchStatsThisWeek": {
+    "description": "Videos watched in the last 7 days",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

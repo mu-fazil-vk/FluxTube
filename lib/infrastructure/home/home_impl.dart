@@ -53,26 +53,26 @@ class HomeImpl extends HomeServices {
       final stopwatch = Stopwatch()..start();
       log('[HomeImpl] Starting parallel fetch for ${channels.length} channels');
 
-      // OPTIMIZATION: Fetch ALL channels in parallel with batching
-      // Limit concurrent requests to avoid overwhelming the system
-      const int batchSize = 10;
-      final List<NewPipeTrendingResp> allVideos = [];
-
-      // Process channels in batches for better performance
-      for (int i = 0; i < channels.length; i += batchSize) {
-        final batch = channels.skip(i).take(batchSize).toList();
-
-        // Fetch batch in parallel
-        final batchResults = await Future.wait(
-          batch.map((channel) => _fetchChannelVideos(channel, videosPerChannel)),
-          eagerError: false, // Continue even if some fail
-        );
-
-        // Collect results from this batch
-        for (final videos in batchResults) {
-          allVideos.addAll(videos);
+      // Rolling pool: keep [maxInFlight] requests busy at all times instead of
+      // waiting for the slowest channel of each fixed batch.
+      const int maxInFlight = 10;
+      final results = List<List<NewPipeTrendingResp>>.filled(
+          channels.length, const []);
+      var next = 0;
+      Future<void> worker() async {
+        while (next < channels.length) {
+          final index = next++;
+          results[index] =
+              await _fetchChannelVideos(channels[index], videosPerChannel);
         }
       }
+
+      await Future.wait(List.generate(
+          maxInFlight < channels.length ? maxInFlight : channels.length,
+          (_) => worker()));
+      final List<NewPipeTrendingResp> allVideos = [
+        for (final videos in results) ...videos,
+      ];
 
       stopwatch.stop();
       log('[HomeImpl] Fetched ${allVideos.length} videos from ${channels.length} channels in ${stopwatch.elapsedMilliseconds}ms');
@@ -121,11 +121,12 @@ class HomeImpl extends HomeServices {
 
   /// Sort videos by recency using smart date string parsing
   void _sortByRecency(List<NewPipeTrendingResp> videos) {
-    videos.sort((a, b) {
-      final aScore = _parseUploadDateToScore(a.uploadDate);
-      final bScore = _parseUploadDateToScore(b.uploadDate);
-      return bScore.compareTo(aScore); // Higher score = more recent
-    });
+    // Score each item once; parsing inside the comparator re-parsed every
+    // date string O(n log n) times.
+    final scores = {
+      for (final v in videos) v: _parseUploadDateToScore(v.uploadDate),
+    };
+    videos.sort((a, b) => scores[b]!.compareTo(scores[a]!));
   }
 
   /// Parse upload date string to a numeric score for sorting

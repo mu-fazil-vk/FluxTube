@@ -1,11 +1,9 @@
 import 'dart:developer';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxtube/application/application.dart';
-import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/channel/models/newpipe/newpipe_channel_resp.dart';
@@ -200,13 +198,19 @@ class _ScreenChannelState extends State<ScreenChannel>
                       Center(
                         child: Text(
                           locals.noShorts,
-                          style: TextStyle(color: kGreyColor),
+                          style: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                         ),
                       ),
                       Center(
                         child: Text(
                           locals.noPlaylists,
-                          style: TextStyle(color: kGreyColor),
+                          style: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                         ),
                       ),
                     ],
@@ -401,7 +405,8 @@ class _NewPipeChannelViewState extends State<_NewPipeChannelView>
     // If no tabs available, default to showing just videos
     if (_availableTabs.isEmpty) {
       _availableTabs = [
-        NewPipeChannelTab(name: 'videos', url: null, id: null, contentFilters: ['videos'])
+        NewPipeChannelTab(
+            name: 'videos', url: null, id: null, contentFilters: ['videos'])
       ];
     }
 
@@ -491,6 +496,11 @@ class _NewPipeChannelViewState extends State<_NewPipeChannelView>
                 controller: _tabController,
                 dividerColor: Colors.transparent,
                 isScrollable: _availableTabs.length > 3,
+                // M3's scrollable default (startOffset) leaves a ~52px gap
+                // before the first tab.
+                tabAlignment: _availableTabs.length > 3
+                    ? TabAlignment.start
+                    : TabAlignment.fill,
                 tabs: _availableTabs.map((tab) {
                   return Tab(text: _getTabDisplayName(tab.name));
                 }).toList(),
@@ -617,7 +627,7 @@ class ChannelBannerWidget extends StatelessWidget {
                   : DecorationImage(
                       image: cachedThumbnailProvider(bannerUrl!),
                       fit: BoxFit.cover),
-              color: kBlackColor.withValues(alpha: 0.9),
+              color: Colors.black.withValues(alpha: 0.9),
               borderRadius: BorderRadius.circular(10)),
           child: bannerUrl == null
               ? Center(

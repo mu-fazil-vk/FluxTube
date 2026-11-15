@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
-import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/settings/widgets/settings_components.dart';
 
 List<DropdownMenuItem<String>> _getQualities(S locals) => [
   DropdownMenuItem(value: "144p", child: Text(locals.quality144p)),
@@ -46,11 +46,28 @@ List<DropdownMenuItem<YouTubeServices>> _getServices(S locals) {
     ));
   }
 
-  services.addAll([
-    DropdownMenuItem(value: YouTubeServices.piped, child: Text(locals.servicePiped)),
-    DropdownMenuItem(value: YouTubeServices.explode, child: Text(locals.serviceExplode)),
-    DropdownMenuItem(value: YouTubeServices.invidious, child: Text(locals.serviceInvidious)),
-  ]);
+  // Piped and Explode are deliberately absent — see removedYouTubeServices.
+  services.add(DropdownMenuItem(
+    value: YouTubeServices.invidious,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(locals.serviceInvidious),
+        const SizedBox(width: 4),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+          decoration: BoxDecoration(
+            color: Colors.orange.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            locals.serviceLimited,
+            style: const TextStyle(fontSize: 10, color: Colors.orange),
+          ),
+        ),
+      ],
+    ),
+  ));
 
   return services;
 }
@@ -84,210 +101,169 @@ class VideoSettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locals = S.of(context);
+    final scheme = Theme.of(context).colorScheme;
+
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        return SettingsSectionCard(
+          title: locals.video,
           children: [
-            Text(
-              locals.video,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontSize: 16),
-            ),
-            kHeightBox10,
-            ListTile(
-              title: Text(locals.defaultQuality,
-                  style: Theme.of(context).textTheme.titleMedium),
-              leading: const Icon(Icons.hd_sharp),
+            SettingsActionTile(
+              icon: Icons.hd_outlined,
+              title: locals.defaultQuality,
               trailing: DropdownButton(
-                  value: state.defaultQuality,
-                  items: _getQualities(locals),
-                  onChanged: (quality) => BlocProvider.of<SettingsBloc>(context)
-                      .add(SettingsEvent.getDefaultQuality(
-                          quality: quality.toString()))),
+                value: state.defaultQuality,
+                underline: const SizedBox.shrink(),
+                dropdownColor: scheme.surfaceContainerHigh,
+                items: _getQualities(locals),
+                onChanged: (quality) => context.read<SettingsBloc>().add(
+                    SettingsEvent.getDefaultQuality(quality: quality.toString())),
+              ),
             ),
-            ListTile(
-              title: Text(locals.youtubeService,
-                  style: Theme.of(context).textTheme.titleMedium),
-              leading: const Icon(Icons.network_cell),
+            SettingsActionTile(
+              icon: Icons.network_cell_outlined,
+              title: locals.youtubeService,
               trailing: DropdownButton(
-                  value: YouTubeServices.values
-                      .firstWhere((e) => e.name == state.ytService),
-                  items: _getServices(locals),
-                  onChanged: (service) {
-                    if (service == null) return;
-                    final oldService = state.ytService;
-                    BlocProvider.of<SettingsBloc>(context)
-                        .add(SettingsEvent.setYTService(service: service));
+                value: YouTubeServices.values.firstWhere((e) => e.name == state.ytService),
+                underline: const SizedBox.shrink(),
+                dropdownColor: scheme.surfaceContainerHigh,
+                items: _getServices(locals),
+                onChanged: (service) {
+                  if (service == null) return;
+                  final oldService = state.ytService;
+                  context.read<SettingsBloc>().add(SettingsEvent.setYTService(service: service));
 
-                    // Only fetch instances for services that need them (not NewPipe)
-                    if (service != YouTubeServices.newpipe) {
-                      if (service == YouTubeServices.invidious) {
-                        BlocProvider.of<SettingsBloc>(context)
-                            .add(SettingsEvent.fetchInvidiousInstances());
-                      } else {
-                        BlocProvider.of<SettingsBloc>(context)
-                            .add(SettingsEvent.fetchPipedInstances());
-                      }
+                  // Only fetch instances for services that need them (not NewPipe)
+                  if (service != YouTubeServices.newpipe) {
+                    if (service == YouTubeServices.invidious) {
+                      context.read<SettingsBloc>().add(SettingsEvent.fetchInvidiousInstances());
+                    } else {
+                      context.read<SettingsBloc>().add(SettingsEvent.fetchPipedInstances());
                     }
+                  }
 
-                    if (oldService != service.name) {
-                      final serviceName = switch (service) {
-                        YouTubeServices.newpipe => locals.serviceNewPipe,
-                        YouTubeServices.piped => locals.servicePiped,
-                        YouTubeServices.invidious => locals.serviceInvidious,
-                        YouTubeServices.explode => locals.serviceExplode,
-                      };
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Switched to $serviceName'),
-                          duration: const Duration(seconds: 2),
-                          behavior: SnackBarBehavior.floating,
-                        ),
-                      );
-                    }
-                  }),
+                  if (oldService != service.name) {
+                    final serviceName = switch (service) {
+                      YouTubeServices.newpipe => locals.serviceNewPipe,
+                      YouTubeServices.piped => locals.servicePiped,
+                      YouTubeServices.invidious => locals.serviceInvidious,
+                      YouTubeServices.explode => locals.serviceExplode,
+                    };
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Switched to $serviceName'),
+                        duration: const Duration(seconds: 2),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
-            // Video Fit Mode
-            ListTile(
-              title: Text(locals.videoFit,
-                  style: Theme.of(context).textTheme.titleMedium),
-              leading: const Icon(Icons.aspect_ratio),
+            _ProviderNote(
+              text: state.ytService == YouTubeServices.invidious.name
+                  ? locals.serviceInvidiousNote
+                  : locals.serviceRemovedNote,
+            ),
+            SettingsActionTile(
+              icon: Icons.aspect_ratio_outlined,
+              title: locals.videoFit,
               trailing: DropdownButton(
-                  value: state.videoFitMode,
-                  items: _getVideoFitModes(locals),
-                  onChanged: (fitMode) {
-                    if (fitMode == null) return;
-                    BlocProvider.of<SettingsBloc>(context)
-                        .add(SettingsEvent.setVideoFitMode(fitMode: fitMode));
-                  }),
+                value: state.videoFitMode,
+                underline: const SizedBox.shrink(),
+                dropdownColor: scheme.surfaceContainerHigh,
+                items: _getVideoFitModes(locals),
+                onChanged: (fitMode) {
+                  if (fitMode == null) return;
+                  context.read<SettingsBloc>().add(SettingsEvent.setVideoFitMode(fitMode: fitMode));
+                },
+              ),
             ),
-            // Skip Interval
-            ListTile(
-              title: Text(locals.skipInterval,
-                  style: Theme.of(context).textTheme.titleMedium),
-              subtitle: Text(locals.skipIntervalDescription),
-              leading: const Icon(Icons.fast_forward),
+            SettingsActionTile(
+              icon: Icons.fast_forward_outlined,
+              title: locals.skipInterval,
+              subtitle: locals.skipIntervalDescription,
               trailing: DropdownButton(
-                  value: state.skipInterval,
-                  items: _getSkipIntervals(locals),
-                  onChanged: (interval) {
-                    if (interval == null) return;
-                    BlocProvider.of<SettingsBloc>(context)
-                        .add(SettingsEvent.setSkipInterval(seconds: interval));
-                  }),
+                value: state.skipInterval,
+                underline: const SizedBox.shrink(),
+                dropdownColor: scheme.surfaceContainerHigh,
+                items: _getSkipIntervals(locals),
+                onChanged: (interval) {
+                  if (interval == null) return;
+                  context.read<SettingsBloc>().add(SettingsEvent.setSkipInterval(seconds: interval));
+                },
+              ),
             ),
-            // Subtitle Size
-            ListTile(
-              title: Text(locals.subtitleSize,
-                  style: Theme.of(context).textTheme.titleMedium),
-              subtitle: Text(locals.subtitleSizeDescription),
-              leading: const Icon(Icons.subtitles),
+            SettingsActionTile(
+              icon: Icons.subtitles_outlined,
+              title: locals.subtitleSize,
+              subtitle: locals.subtitleSizeDescription,
               trailing: DropdownButton(
-                  value: state.subtitleSize,
-                  items: _getSubtitleSizes(locals),
-                  onChanged: (size) {
-                    if (size == null) return;
-                    BlocProvider.of<SettingsBloc>(context)
-                        .add(SettingsEvent.setSubtitleSize(size: size));
-                  }),
-            ),
-            ListTile(
-              title: Text(locals.hlsPlayer,
-                  style: Theme.of(context).textTheme.titleMedium),
-              subtitle: Text(locals.enableHlsPlayerDescription),
-              leading: const Icon(CupertinoIcons.play),
-              trailing: Switch(
-                value: state.isHlsPlayer,
-                onChanged: (_) {
-                  BlocProvider.of<SettingsBloc>(context)
-                      .add(SettingsEvent.toggleHlsPlayer());
+                value: state.subtitleSize,
+                underline: const SizedBox.shrink(),
+                dropdownColor: scheme.surfaceContainerHigh,
+                items: _getSubtitleSizes(locals),
+                onChanged: (size) {
+                  if (size == null) return;
+                  context.read<SettingsBloc>().add(SettingsEvent.setSubtitleSize(size: size));
                 },
               ),
             ),
-            ListTile(
-              title: Text(locals.history,
-                  style: Theme.of(context).textTheme.titleMedium),
-              subtitle: Text(locals.disableVideoHistory),
-              leading: const Icon(Icons.history),
-              trailing: Switch(
-                value: !state.isHistoryVisible,
-                onChanged: (_) {
-                  BlocProvider.of<SettingsBloc>(context)
-                      .add(SettingsEvent.toggleHistoryVisibility());
-                },
-              ),
+            SettingsSwitchTile(
+              icon: CupertinoIcons.play,
+              title: locals.hlsPlayer,
+              subtitle: locals.enableHlsPlayerDescription,
+              value: state.isHlsPlayer,
+              onChanged: (_) => context.read<SettingsBloc>().add(SettingsEvent.toggleHlsPlayer()),
             ),
-            ListTile(
-              title: Text(locals.retrieveDislikes,
-                  style: Theme.of(context).textTheme.titleMedium),
-              subtitle: Text(locals.retrieveDislikeCounts),
-              leading: const Icon(CupertinoIcons.hand_thumbsdown),
-              trailing: Switch(
-                value: state.isDislikeVisible,
-                onChanged: (_) {
-                  BlocProvider.of<SettingsBloc>(context)
-                      .add(SettingsEvent.toggleDislikeVisibility());
-                },
-              ),
+            SettingsSwitchTile(
+              icon: Icons.history,
+              title: locals.history,
+              subtitle: locals.disableVideoHistory,
+              value: !state.isHistoryVisible,
+              onChanged: (_) =>
+                  context.read<SettingsBloc>().add(SettingsEvent.toggleHistoryVisibility()),
             ),
-            ListTile(
-              title: Text(locals.disablePipPlayer,
-                  style: Theme.of(context).textTheme.titleMedium),
-              leading: const Icon(Icons.picture_in_picture_alt),
-              trailing: Switch(
-                value: state.isPipDisabled,
-                onChanged: (_) {
-                  BlocProvider.of<SettingsBloc>(context)
-                      .add(SettingsEvent.togglePipPlayer());
-                },
-              ),
+            SettingsSwitchTile(
+              icon: CupertinoIcons.hand_thumbsdown,
+              title: locals.retrieveDislikes,
+              subtitle: locals.retrieveDislikeCounts,
+              value: state.isDislikeVisible,
+              onChanged: (_) =>
+                  context.read<SettingsBloc>().add(SettingsEvent.toggleDislikeVisibility()),
+            ),
+            SettingsSwitchTile(
+              icon: Icons.picture_in_picture_alt_outlined,
+              title: locals.disablePipPlayer,
+              value: state.isPipDisabled,
+              onChanged: (_) => context.read<SettingsBloc>().add(SettingsEvent.togglePipPlayer()),
             ),
             // Auto PiP - only available on Android
             if (Platform.isAndroid && !state.isPipDisabled)
-              ListTile(
-                title: Text(locals.autoPip,
-                    style: Theme.of(context).textTheme.titleMedium),
-                subtitle: Text(locals.autoPipDescription),
-                leading: const Icon(Icons.home),
-                trailing: Switch(
-                  value: state.isAutoPipEnabled,
-                  onChanged: (_) {
-                    BlocProvider.of<SettingsBloc>(context)
-                        .add(SettingsEvent.toggleAutoPip());
-                  },
-                ),
+              SettingsSwitchTile(
+                icon: Icons.home_outlined,
+                title: locals.autoPip,
+                subtitle: locals.autoPipDescription,
+                value: state.isAutoPipEnabled,
+                onChanged: (_) => context.read<SettingsBloc>().add(SettingsEvent.toggleAutoPip()),
               ),
-            const Divider(),
-            // Search History Privacy Settings
-            ListTile(
-              title: Text(locals.searchHistoryEnabled,
-                  style: Theme.of(context).textTheme.titleMedium),
-              subtitle: Text(locals.searchHistoryEnabledDescription),
-              leading: const Icon(CupertinoIcons.doc_text_search),
-              trailing: Switch(
-                value: state.isSearchHistoryEnabled,
-                onChanged: (_) {
-                  BlocProvider.of<SettingsBloc>(context)
-                      .add(SettingsEvent.toggleSearchHistoryEnabled());
-                },
-              ),
+            SettingsSwitchTile(
+              icon: CupertinoIcons.doc_text_search,
+              title: locals.searchHistoryEnabled,
+              subtitle: locals.searchHistoryEnabledDescription,
+              value: state.isSearchHistoryEnabled,
+              onChanged: (_) =>
+                  context.read<SettingsBloc>().add(SettingsEvent.toggleSearchHistoryEnabled()),
             ),
             if (state.isSearchHistoryEnabled)
-              ListTile(
-                title: Text(locals.showSearchHistory,
-                    style: Theme.of(context).textTheme.titleMedium),
-                subtitle: Text(locals.showSearchHistoryDescription),
-                leading: const Icon(CupertinoIcons.eye),
-                trailing: Switch(
-                  value: state.isSearchHistoryVisible,
-                  onChanged: (_) {
-                    BlocProvider.of<SettingsBloc>(context)
-                        .add(SettingsEvent.toggleSearchHistoryVisibility());
-                  },
-                ),
+              SettingsSwitchTile(
+                icon: CupertinoIcons.eye,
+                title: locals.showSearchHistory,
+                subtitle: locals.showSearchHistoryDescription,
+                value: state.isSearchHistoryVisible,
+                onChanged: (_) => context
+                    .read<SettingsBloc>()
+                    .add(SettingsEvent.toggleSearchHistoryVisibility()),
               ),
           ],
         );
@@ -295,3 +271,55 @@ class VideoSettingsSection extends StatelessWidget {
     );
   }
 }
+
+/// Full-width provider status note under the service picker — collapsed to
+/// two lines so it doesn't crowd the settings list, expandable on tap.
+class _ProviderNote extends StatefulWidget {
+  const _ProviderNote({required this.text});
+
+  final String text;
+
+  @override
+  State<_ProviderNote> createState() => _ProviderNoteState();
+}
+
+class _ProviderNoteState extends State<_ProviderNote> {
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: () => setState(() => _expanded = !_expanded),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(CupertinoIcons.info_circle,
+                size: 16, color: scheme.onSurfaceVariant),
+            const SizedBox(width: 8),
+            Expanded(
+              child: AnimatedSize(
+                duration: const Duration(milliseconds: 200),
+                alignment: Alignment.topCenter,
+                child: Text(
+                  widget.text,
+                  maxLines: _expanded ? null : 2,
+                  overflow:
+                      _expanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    height: 1.35,
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

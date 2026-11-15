@@ -79,6 +79,20 @@ class SavedImpl extends SavedServices {
     }
   }
 
+  @override
+  Future<Either<MainFailure, LocalStoreVideoInfo>> upsertVideoInfo(
+      {required LocalStoreVideoInfo videoInfo,
+      String profileName = 'default'}) async {
+    try {
+      videoInfo.profileName = profileName;
+      videoInfo.time = DateTime.now();
+      await db.upsertVideo(_toCompanion(videoInfo));
+      return Right(videoInfo);
+    } catch (e) {
+      return const Left(MainFailure.clientFailure());
+    }
+  }
+
   // delete video info
   @override
   Future<Either<MainFailure, List<LocalStoreVideoInfo>>> deleteVideoInfo(

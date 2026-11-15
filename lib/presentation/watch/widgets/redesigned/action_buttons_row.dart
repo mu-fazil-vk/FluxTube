@@ -7,6 +7,7 @@ import 'package:fluxtube/core/animations/animations.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
+import 'package:fluxtube/core/services/ryd_service.dart';
 import 'package:fluxtube/generated/l10n.dart';
 
 /// Redesigned action buttons row with labeled style (like YouTube)
@@ -32,6 +33,7 @@ class ActionButtonsRow extends StatelessWidget {
     this.showDislike = false,
     this.showPip = true,
     this.isLive = false,
+    this.videoId,
   });
 
   final int likes;
@@ -53,11 +55,29 @@ class ActionButtonsRow extends StatelessWidget {
   final bool showPip;
   final bool isLive;
 
+  /// When set and the backend has no dislike count, the count is looked up
+  /// from Return YouTube Dislike.
+  final String? videoId;
+
+  Widget _buildDislike(String label) {
+    return _ActionButton(
+      index: 1,
+      icon: isDisliked
+          ? CupertinoIcons.hand_thumbsdown_fill
+          : CupertinoIcons.hand_thumbsdown,
+      label: label,
+      onTap: onTapDislike,
+      isActive: isDisliked,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final locals = S.of(context);
-    final formattedLikes = likes == -1 ? locals.like : formatCount(likes.toString());
-    final formattedDislikes = dislikes == -1 ? locals.dislike : formatCount(dislikes.toString());
+    final formattedLikes =
+        likes == -1 ? locals.like : formatCount(likes.toString());
+    final formattedDislikes =
+        dislikes == -1 ? locals.dislike : formatCount(dislikes.toString());
 
     return SizedBox(
       height: 70,
@@ -80,21 +100,25 @@ class ActionButtonsRow extends StatelessWidget {
 
             // Dislike button (optional)
             if (showDislike)
-              _ActionButton(
-                index: 1,
-                icon: isDisliked
-                    ? CupertinoIcons.hand_thumbsdown_fill
-                    : CupertinoIcons.hand_thumbsdown,
-                label: formattedDislikes,
-                onTap: onTapDislike,
-                isActive: isDisliked,
-              ),
+              (dislikes > 0 || videoId == null)
+                  ? _buildDislike(formattedDislikes)
+                  : FutureBuilder<int?>(
+                      future: RydService.instance.dislikes(videoId!),
+                      builder: (context, snapshot) {
+                        final count = snapshot.data;
+                        return _buildDislike(count == null
+                            ? formattedDislikes
+                            : formatCount(count.toString()));
+                      },
+                    ),
 
             // Save button
             _ActionButton(
               index: showDislike ? 2 : 1,
-              icon: isSaved ? CupertinoIcons.bookmark_fill : CupertinoIcons.bookmark,
-              label: locals.saved,
+              icon: isSaved
+                  ? CupertinoIcons.bookmark_fill
+                  : CupertinoIcons.bookmark,
+              label: isSaved ? locals.saved : locals.save,
               onTap: onTapSave,
               isActive: isSaved,
             ),
@@ -183,12 +207,13 @@ class _ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
 
-    final defaultColor = isDark ? AppColors.onSurfaceDark : AppColors.onSurfaceVariant;
-    final iconColor = isActive ? (activeColor ?? AppColors.primary) : defaultColor;
-    final labelColor = isActive ? (activeColor ?? AppColors.primary) : defaultColor;
+    final defaultColor = colorScheme.onSurfaceVariant;
+    final iconColor =
+        isActive ? (activeColor ?? colorScheme.primary) : defaultColor;
+    final labelColor =
+        isActive ? (activeColor ?? colorScheme.primary) : defaultColor;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
@@ -203,9 +228,12 @@ class _ActionButton extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: isActive
-                ? (activeColor ?? AppColors.primary).withValues(alpha: 0.12)
-                : (isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant),
-            borderRadius: AppRadius.borderFull,
+                ? (activeColor ?? colorScheme.primary).withValues(alpha: 0.12)
+                : colorScheme.surfaceContainerHigh,
+            // A tall icon-over-label chip reads oddly with a full pill
+            // radius (that shape assumes a wide, short chip) — a smaller
+            // rounded-rect radius matches the actual proportions here.
+            borderRadius: AppRadius.borderLg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -254,9 +282,8 @@ class _YouTubeActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final defaultColor = isDark ? AppColors.onSurfaceDark : AppColors.onSurfaceVariant;
+    final colorScheme = Theme.of(context).colorScheme;
+    final defaultColor = colorScheme.onSurfaceVariant;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
@@ -269,17 +296,21 @@ class _YouTubeActionButton extends StatelessWidget {
             vertical: AppSpacing.sm,
           ),
           decoration: BoxDecoration(
-            color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
-            borderRadius: AppRadius.borderFull,
+            color: colorScheme.surfaceContainerHigh,
+            borderRadius: AppRadius.borderLg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // Neutral, same as every other icon in this row by default —
+              // a permanently-brand-red icon stood out as the only "active
+              // looking" button while doing nothing active, breaking the
+              // row's own color-means-active-state convention.
               SvgPicture.asset(
                 'assets/icons/youtube.svg',
                 height: AppIconSize.md,
                 colorFilter: ColorFilter.mode(
-                  AppColors.youtubeRed,
+                  defaultColor,
                   BlendMode.srcIn,
                 ),
               ),
@@ -322,7 +353,8 @@ class ActionButtonsRowCompact extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locals = S.of(context);
-    final formattedLikes = likes == -1 ? locals.like : formatCount(likes.toString());
+    final formattedLikes =
+        likes == -1 ? locals.like : formatCount(likes.toString());
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -338,7 +370,8 @@ class ActionButtonsRowCompact extends StatelessWidget {
         ),
         AppSpacing.width8,
         _CompactButton(
-          icon: isSaved ? CupertinoIcons.bookmark_fill : CupertinoIcons.bookmark,
+          icon:
+              isSaved ? CupertinoIcons.bookmark_fill : CupertinoIcons.bookmark,
           onTap: onTapSave,
           isActive: isSaved,
         ),
@@ -369,10 +402,10 @@ class _CompactButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final defaultColor = isDark ? AppColors.onSurfaceDark : AppColors.onSurfaceVariant;
-    final iconColor = isActive ? (activeColor ?? AppColors.primary) : defaultColor;
+    final colorScheme = Theme.of(context).colorScheme;
+    final defaultColor = colorScheme.onSurfaceVariant;
+    final iconColor =
+        isActive ? (activeColor ?? colorScheme.primary) : defaultColor;
 
     return ScaleTap(
       onTap: onTap,
@@ -384,9 +417,8 @@ class _CompactButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: isActive
-              ? (activeColor ?? AppColors.primary).withValues(alpha: 0.12)
-              : (isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant)
-                  .withValues(alpha: 0.5),
+              ? (activeColor ?? colorScheme.primary).withValues(alpha: 0.12)
+              : colorScheme.surfaceContainerHigh.withValues(alpha: 0.5),
           borderRadius: AppRadius.borderSm,
         ),
         child: Row(

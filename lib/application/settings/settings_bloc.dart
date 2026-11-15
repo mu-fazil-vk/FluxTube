@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,10 +39,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final String? defaultLanguage = settingsMap[selectedDefaultLanguage];
       final String? defaultQuality = settingsMap[selectedDefaultQuality];
       final String? defaultRegion = settingsMap[selectedDefaultRegion];
-      final String defaultThemeMode = settingsMap[selectedTheme] == 'dark'
-          ? 'dark'
-          : settingsMap[selectedTheme] == 'light'
-              ? 'light'
+      const knownThemes = {'dark', 'light', 'oled', 'dynamic', 'system'};
+      final String defaultThemeMode =
+          knownThemes.contains(settingsMap[selectedTheme])
+              ? settingsMap[selectedTheme]!
               : 'system';
       final bool defaultHistoryVisibility =
           settingsMap[historyVisibility] == "true";
@@ -50,13 +51,25 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final bool defaultHlsPlayer = settingsMap[hlsPlayer] == "true";
       final bool isPipDisabled = settingsMap[pipDisabled] == "true";
 
-      final String ytService =
+      var ytService =
           settingsMap[youtubeService] ?? YouTubeServices.newpipe.name;
+      final migrated =
+          removedYouTubeServices.any((s) => s.name == ytService);
+      if (migrated) {
+        ytService = Platform.isAndroid
+            ? YouTubeServices.newpipe.name
+            : YouTubeServices.invidious.name;
+        await settingsService.setTYService(
+            service: YouTubeServices.values.byName(ytService));
+      }
 
       final String instanceApi;
       log('YT Service: $ytService');
       if (ytService == YouTubeServices.invidious.name) {
-        instanceApi = settingsMap[instanceApiUrl] ?? BaseUrl.kInvidiousBaseUrl;
+        // A migrated user's stored instance belongs to the removed provider.
+        instanceApi = migrated
+            ? BaseUrl.kInvidiousBaseUrl
+            : settingsMap[instanceApiUrl] ?? BaseUrl.kInvidiousBaseUrl;
       } else {
         instanceApi = settingsMap[instanceApiUrl] ?? BaseUrl.kBaseUrl;
       }
@@ -467,12 +480,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final _state = _result.fold(
           (MainFailure f) => state.copyWith(ytService: state.ytService),
           (YouTubeServices r) {
+        // state.instance still belongs to the previous provider here; feeding
+        // it to the new one made the first load hit the wrong host. Start
+        // from the provider's own base URL — instance failover refines it.
         if (r == YouTubeServices.invidious) {
-          BaseUrl.updateInvidiousBaseUrl(state.instance);
-        } else {
-          BaseUrl.updateBaseUrl(state.instance);
+          return state.copyWith(
+              ytService: r.name, instance: BaseUrl.kInvidiousBaseUrl);
         }
-        return state.copyWith(ytService: r.name);
+        if (r.name == state.ytService) return state;
+        return state.copyWith(ytService: r.name, instance: BaseUrl.kBaseUrl);
       });
       emit(_state);
     });

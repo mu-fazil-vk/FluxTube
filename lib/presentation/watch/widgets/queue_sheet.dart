@@ -1,3 +1,4 @@
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/watch/watch_bloc.dart';
@@ -141,12 +142,12 @@ class QueueSheet extends StatelessWidget {
     }
     return ClipRRect(
       borderRadius: BorderRadius.circular(3),
-      child: Image.network(
-        url,
+      child: ThumbnailImage.small(
+        url: url,
         width: 48,
         height: 27,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => const SizedBox(width: 48, height: 27),
+        errorWidget: (_, __, ___) => const SizedBox(width: 48, height: 27),
       ),
     );
   }

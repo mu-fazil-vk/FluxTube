@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
+import 'package:fluxtube/core/player/global_player_controller.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:share_plus/share_plus.dart';
@@ -46,8 +47,25 @@ class ShareBottomSheet extends StatefulWidget {
 
 class _ShareBottomSheetState extends State<ShareBottomSheet> {
   bool _includeTitle = false;
+  bool _includeTimestamp = false;
+  late final int _positionSeconds = _currentPositionSeconds();
 
-  String get _videoUrl => '$kYTBaseUrl${widget.videoId}';
+  int _currentPositionSeconds() {
+    final player = GlobalPlayerController();
+    if (player.currentVideoId != widget.videoId) return 0;
+    return player.livePosition.inSeconds;
+  }
+
+  String get _videoUrl => _includeTimestamp && _positionSeconds > 0
+      ? '$kYTBaseUrl${widget.videoId}&t=${_positionSeconds}s'
+      : '$kYTBaseUrl${widget.videoId}';
+
+  static String _formatTime(int seconds) {
+    final h = seconds ~/ 3600;
+    final m = (seconds % 3600) ~/ 60;
+    final s = (seconds % 60).toString().padLeft(2, '0');
+    return h > 0 ? '$h:${m.toString().padLeft(2, '0')}:$s' : '$m:$s';
+  }
 
   String get _shareContent {
     if (_includeTitle) {
@@ -141,6 +159,18 @@ class _ShareBottomSheetState extends State<ShareBottomSheet> {
                 isDark: isDark,
               ),
             ),
+
+            if (_positionSeconds >= 5)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+                child: _ToggleOption(
+                  label: 'Start at ${_formatTime(_positionSeconds)}',
+                  value: _includeTimestamp,
+                  onChanged: (value) =>
+                      setState(() => _includeTimestamp = value),
+                  isDark: isDark,
+                ),
+              ),
 
             AppSpacing.height20,
 

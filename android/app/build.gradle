@@ -136,7 +136,7 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.1.3'
 
     // NewPipe Extractor - YouTube data extraction library (lowercase required for JitPack)
-    implementation 'com.github.teamnewpipe:newpipeextractor:v0.26.5'
+    implementation 'com.github.teamnewpipe:newpipeextractor:v0.27.1'
 
     // OkHttp - Required by NewPipe Extractor for HTTP requests
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
@@ -153,14 +153,4 @@ dependencies {
     implementation "androidx.media3:media3-exoplayer-dash:$media3Version"
     implementation "androidx.media3:media3-exoplayer-hls:$media3Version"
     implementation "androidx.media3:media3-ui:$media3Version"
-
-    // Google Cast — sends a single progressive/HLS URL to a receiver.
-    // Guarded at runtime: devices without Play Services simply hide the button.
-    implementation "androidx.media3:media3-cast:$media3Version"
-    implementation "com.google.android.gms:play-services-cast-framework:21.5.0"
-    implementation "androidx.mediarouter:mediarouter:1.7.0"
-    // MediaRouteChooserDialog (used for the Cast device picker) extends
-    // AppCompatDialog, so mediarouter needs appcompat on the classpath even
-    // though the rest of the app has no AppCompat activities.
-    implementation "androidx.appcompat:appcompat:1.7.0"
 }

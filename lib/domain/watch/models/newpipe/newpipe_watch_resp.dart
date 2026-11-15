@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'newpipe_stream.dart';
 import 'newpipe_related.dart';
 import 'newpipe_subtitle.dart';
+import 'newpipe_chapter.dart';
 
 part 'newpipe_watch_resp.g.dart';
 
@@ -31,6 +32,7 @@ class NewPipeWatchResp {
   final List<NewPipeVideoStream>? videoStreams;
   final List<NewPipeVideoStream>? videoOnlyStreams;
   final List<NewPipeRelatedStream>? relatedStreams;
+  final List<NewPipeChapter>? chapters;
   final List<NewPipeSubtitle>? subtitles;
 
   NewPipeWatchResp({
@@ -58,6 +60,7 @@ class NewPipeWatchResp {
     this.videoStreams,
     this.videoOnlyStreams,
     this.relatedStreams,
+    this.chapters,
     this.subtitles,
   });
 

@@ -8,7 +8,6 @@ import 'package:fluxtube/core/player/global_player_controller.dart';
 import 'package:fluxtube/core/player/playback_queue.dart';
 import 'package:fluxtube/presentation/routes/app_routes.dart';
 import 'package:fluxtube/presentation/watch/widgets/pip_video_widget.dart';
-import 'package:media_kit_video/media_kit_video.dart';
 
 /// Global key for the PiP widget to maintain its state across route changes
 final GlobalKey<State<PipVideoWidget>> _pipWidgetKey =
@@ -140,27 +139,6 @@ class _GlobalPipOverlayState extends State<GlobalPipOverlay> {
                     Platform.isAndroid &&
                     _globalPlayer.hasNativeExoPlayer) {
                   return const _SystemPipExoPlayerView();
-                }
-
-                if (shouldRenderSystemPip &&
-                    _globalPlayer.hasActiveMediaKitPlayer) {
-                  return Stack(
-                    children: [
-                      ColoredBox(
-                        color: Colors.black,
-                        child: Center(
-                          child: AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: Video(
-                              controller: _globalPlayer.videoController,
-                              controls: NoVideoControls,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
                 }
 
                 if (shouldRenderSystemPip &&

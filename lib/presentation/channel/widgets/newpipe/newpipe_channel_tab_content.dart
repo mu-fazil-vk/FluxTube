@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/subscribe/subscribe_bloc.dart';
-import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/domain/channel/models/newpipe/newpipe_channel_resp.dart';
 import 'package:fluxtube/domain/watch/models/newpipe/newpipe_related.dart';
 import 'package:fluxtube/generated/l10n.dart';
@@ -225,12 +224,12 @@ class _NewPipeChannelTabContentState extends State<NewPipeChannelTabContent> {
           Icon(
             icon,
             size: 48,
-            color: kGreyColor,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
           const SizedBox(height: 16),
           Text(
             message,
-            style: TextStyle(color: kGreyColor, fontSize: 16),
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 16),
           ),
         ],
       ),
@@ -245,12 +244,12 @@ class _NewPipeChannelTabContentState extends State<NewPipeChannelTabContent> {
           Icon(
             Icons.error_outline,
             size: 48,
-            color: kGreyColor,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
           const SizedBox(height: 16),
           Text(
             'Failed to load ${widget.tabName}',
-            style: TextStyle(color: kGreyColor, fontSize: 16),
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 16),
           ),
           const SizedBox(height: 8),
           TextButton(

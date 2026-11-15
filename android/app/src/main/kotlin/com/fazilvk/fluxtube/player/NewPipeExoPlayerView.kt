@@ -1,10 +1,13 @@
 package com.fazilvk.fluxtube.player
 
 import android.content.Context
+import android.media.audiofx.LoudnessEnhancer
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
+import com.fazilvk.fluxtube.R
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MimeTypes
@@ -67,6 +70,33 @@ object NewPipeSharedExoPlayer {
             .also { player = it }
     }
 
+    private var loudness: LoudnessEnhancer? = null
+    private var loudnessSessionId = C.AUDIO_SESSION_ID_UNSET
+
+    /** Returns false when the boost could not be applied (no audio session yet). */
+    fun setVolumeBoost(player: ExoPlayer, gainMb: Int): Boolean {
+        return try {
+            if (gainMb <= 0) {
+                loudness?.enabled = false
+                return true
+            }
+            val sessionId = player.audioSessionId
+            // Session 0 is the global output mix; never attach an effect to it.
+            if (sessionId == C.AUDIO_SESSION_ID_UNSET) return false
+            if (loudness == null || loudnessSessionId != sessionId) {
+                loudness?.release()
+                loudness = LoudnessEnhancer(sessionId)
+                loudnessSessionId = sessionId
+            }
+            loudness?.setTargetGain(gainMb)
+            loudness?.enabled = true
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    @Synchronized
     fun cache(context: Context): SimpleCache {
         val existing = cache
         if (existing != null) return existing
@@ -159,6 +189,10 @@ class NewPipeExoPlayerView(
             schedulePositionUpdates()
         }
 
+        override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
+            sendState()
+        }
+
         override fun onIsPlayingChanged(isPlaying: Boolean) {
             playerView.keepScreenOn = isPlaying
             sendState()
@@ -193,12 +227,11 @@ class NewPipeExoPlayerView(
             }
         }
     }
-    private val playerView = PlayerView(context).apply {
+    private val playerView = (LayoutInflater.from(context)
+        .inflate(R.layout.newpipe_player_view, null) as PlayerView).apply {
         player = this@NewPipeExoPlayerView.player
-        useController = false
         keepScreenOn = this@NewPipeExoPlayerView.player.isPlaying
         resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
-        setShowBuffering(PlayerView.SHOW_BUFFERING_NEVER)
     }
 
     private var sourceType = ""
@@ -253,8 +286,21 @@ class NewPipeExoPlayerView(
             }
             "setSpeed" -> {
                 val speed = (call.argument<Number>("speed") ?: 1.0).toFloat()
-                player.setPlaybackSpeed(speed.coerceIn(0.25f, 2.0f))
+                player.setPlaybackSpeed(speed.coerceIn(0.25f, 3.0f))
                 result.success(null)
+            }
+            "setLooping" -> {
+                val looping = call.argument<Boolean>("looping") ?: false
+                player.repeatMode = if (looping) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+                result.success(null)
+            }
+            "setSkipSilence" -> {
+                player.skipSilenceEnabled = call.argument<Boolean>("enabled") ?: false
+                result.success(null)
+            }
+            "setVolumeBoost" -> {
+                val gainMb = (call.argument<Number>("gainMb") ?: 0).toInt()
+                result.success(NewPipeSharedExoPlayer.setVolumeBoost(player, gainMb))
             }
             "getPosition" -> result.success(player.currentPosition.coerceAtLeast(0))
             "getDuration" -> {
@@ -374,6 +420,9 @@ class NewPipeExoPlayerView(
             "onState",
             mapOf(
                 "isPlaying" to player.isPlaying,
+                "playWhenReady" to (player.playWhenReady &&
+                    player.playbackState != Player.STATE_ENDED &&
+                    player.playbackState != Player.STATE_IDLE),
                 "isBuffering" to (player.playbackState == Player.STATE_BUFFERING),
                 "positionMs" to player.currentPosition.coerceAtLeast(0),
                 "durationMs" to if (duration == C.TIME_UNSET) 0 else duration.coerceAtLeast(0),

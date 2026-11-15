@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluxtube/core/services/subscription_notifier.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/settings/widgets/settings_components.dart';
 
 /// Switch for new-upload notifications from subscribed channels.
 ///
@@ -65,15 +66,14 @@ class _NewVideoNotificationTileState extends State<NewVideoNotificationTile> {
     if (!SubscriptionNotifier.isSupported) return const SizedBox.shrink();
     final locals = S.of(context);
 
-    return ListTile(
-      title: Text(locals.newVideoNotifications,
-          style: Theme.of(context).textTheme.titleMedium),
-      subtitle: Text(locals.newVideoNotificationsDescription),
-      leading: const Icon(Icons.notifications_active_outlined),
-      trailing: Switch(
-        value: _notifier.isEnabled,
-        onChanged: _busy ? null : _toggle,
-      ),
+    return SettingsSwitchTile(
+      icon: Icons.notifications_active_outlined,
+      title: locals.newVideoNotifications,
+      subtitle: locals.newVideoNotificationsDescription,
+      value: _notifier.isEnabled,
+      onChanged: (value) {
+        if (!_busy) _toggle(value);
+      },
     );
   }
 }

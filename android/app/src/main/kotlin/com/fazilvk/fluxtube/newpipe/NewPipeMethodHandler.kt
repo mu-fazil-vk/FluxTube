@@ -111,6 +111,7 @@ class NewPipeMethodHandler : MethodChannel.MethodCallHandler {
                     "videoStreams" to streamInfo.videoStreams.map { mapVideoStream(it) },
                     "videoOnlyStreams" to streamInfo.videoOnlyStreams.map { mapVideoStream(it) },
                     "relatedStreams" to streamInfo.relatedItems.take(20).map { mapInfoItem(it) },
+                    "chapters" to streamInfo.streamSegments.map { mapStreamSegment(it) },
                     "subtitles" to streamInfo.subtitles.map { subtitle ->
                         mapOf(
                             "url" to subtitle.content,
@@ -168,6 +169,7 @@ class NewPipeMethodHandler : MethodChannel.MethodCallHandler {
                     "audioStreams" to streamInfo.audioStreams.map { mapAudioStream(it) },
                     "videoStreams" to streamInfo.videoStreams.map { mapVideoStream(it) },
                     "videoOnlyStreams" to streamInfo.videoOnlyStreams.map { mapVideoStream(it) },
+                    "chapters" to streamInfo.streamSegments.map { mapStreamSegment(it) },
                     "subtitles" to streamInfo.subtitles.map { subtitle ->
                         mapOf(
                             "url" to subtitle.content,
@@ -187,15 +189,22 @@ class NewPipeMethodHandler : MethodChannel.MethodCallHandler {
     }
 
     /**
-     * Get trending videos for a specific region
+     * Get trending videos for a specific region.
+     *
+     * [kioskId], when given, picks a specific YouTube kiosk instead of the
+     * extractor's default one — e.g. "Trending", "trending_music",
+     * "trending_gaming", "trending_movies_and_shows",
+     * "trending_podcasts_episodes", "live" (the exact ids YoutubeService
+     * registers). Omitting it keeps the existing default-kiosk behavior
+     * unchanged for every current call site.
      */
     private fun handleGetTrending(call: MethodCall, result: MethodChannel.Result) {
         val region = call.argument<String>("region") ?: "US"
+        val kioskId = call.argument<String>("kioskId")
 
         scope.launch {
             try {
                 val service = ServiceList.YouTube
-                val kiosk = service.kioskList.defaultKioskExtractor
 
                 // Set content country for region-specific trending
                 NewPipe.setupLocalization(
@@ -203,13 +212,37 @@ class NewPipeMethodHandler : MethodChannel.MethodCallHandler {
                     ContentCountry(region)
                 )
 
-                val kioskInfo = KioskInfo.getInfo(service, kiosk.url)
+                val videos: List<Map<String, Any?>>
+                val nextPageUrl: String?
 
-                val videos = kioskInfo.relatedItems.map { mapInfoItem(it) }
+                if (kioskId != null) {
+                    // Fetch directly from the kiosk extractor instead of via
+                    // KioskInfo.getInfo(), which also calls
+                    // extractor.getName() internally and throws if that
+                    // fails on its own — e.g. YoutubeTrendingExtractor's
+                    // getName() currently throws "Could not get Trending
+                    // name" because YouTube's actual trending-page header no
+                    // longer matches any of the renderer shapes it knows how
+                    // to parse (an upstream YouTube-vs-extractor mismatch).
+                    // We never use the kiosk's display name here (the Dart
+                    // side already has its own labels for these chips), so
+                    // skip that lookup entirely rather than let it sink the
+                    // whole request.
+                    val kioskExtractor = service.kioskList.getExtractorById(kioskId, null)
+                    kioskExtractor.fetchPage()
+                    val page = kioskExtractor.initialPage
+                    videos = page.items.map { mapInfoItem(it) }
+                    nextPageUrl = page.nextPage?.url
+                } else {
+                    val kiosk = service.kioskList.defaultKioskExtractor
+                    val kioskInfo = KioskInfo.getInfo(service, kiosk.url)
+                    videos = kioskInfo.relatedItems.map { mapInfoItem(it) }
+                    nextPageUrl = kioskInfo.nextPage?.url
+                }
 
                 val response = mapOf(
                     "videos" to videos,
-                    "nextPage" to kioskInfo.nextPage?.url
+                    "nextPage" to nextPageUrl
                 )
 
                 sendSuccess(result, gson.toJson(response))
@@ -671,6 +704,14 @@ class NewPipeMethodHandler : MethodChannel.MethodCallHandler {
         val streamInfo = StreamInfo.getInfo(ServiceList.YouTube, url)
         streamInfoCache[videoId] = CachedStreamInfo(streamInfo, now)
         return streamInfo
+    }
+
+    private fun mapStreamSegment(segment: org.schabi.newpipe.extractor.stream.StreamSegment): Map<String, Any?> {
+        return mapOf(
+            "title" to segment.title,
+            "startTimeSeconds" to segment.startTimeSeconds,
+            "previewUrl" to segment.previewUrl
+        )
     }
 
     private fun mapAudioStream(stream: AudioStream): Map<String, Any?> {

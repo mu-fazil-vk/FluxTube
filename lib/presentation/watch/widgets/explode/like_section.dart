@@ -46,6 +46,7 @@ class ExplodeLikeSection extends StatelessWidget {
               previous.isPipDisabled != current.isPipDisabled,
           builder: (context, settingsState) {
             return ActionButtonsRow(
+              videoId: id,
               likes: watchInfo.likeCount,
               dislikes: watchInfo.dislikeCount,
               showDislike: settingsState.isDislikeVisible,

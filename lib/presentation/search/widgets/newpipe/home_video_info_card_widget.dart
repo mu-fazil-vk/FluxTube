@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/domain/search/models/newpipe/newpipe_search_resp.dart';
@@ -103,7 +102,7 @@ class NewPipeSearchVideoInfoCardWidget extends StatelessWidget {
             width: double.infinity,
             height: 230,
             decoration: BoxDecoration(
-              color: kGreyColor,
+              color: Theme.of(context).colorScheme.surfaceContainerHigh,
               borderRadius: BorderRadius.circular(20),
               image: cardInfo?.thumbnailUrl != null
                   ? DecorationImage(
@@ -122,11 +121,13 @@ class NewPipeSearchVideoInfoCardWidget extends StatelessWidget {
                   bottom: 8,
                   right: 8,
                   child: Container(
-                    color: duration == "Live" ? kRedColor : kBlackColor,
+                    color: duration == "Live"
+                        ? Theme.of(context).colorScheme.error
+                        : Colors.black87,
                     padding: const EdgeInsets.only(right: 5, left: 5),
                     child: Text(
                       duration,
-                      style: const TextStyle(color: kWhiteColor),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),

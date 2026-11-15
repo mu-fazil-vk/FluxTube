@@ -349,10 +349,10 @@ class _ShortCard extends StatelessWidget {
             children: [
               // Thumbnail
               if (short.thumbnailUrl != null)
-                Image.network(
-                  short.thumbnailUrl!,
+                ThumbnailImage.small(
+                  url: short.thumbnailUrl!,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
+                  errorWidget: (_, __, ___) => Container(
                     color: isDark
                         ? AppColors.surfaceVariantDark
                         : AppColors.surfaceVariant,

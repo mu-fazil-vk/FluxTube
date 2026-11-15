@@ -27,19 +27,6 @@ class SettingImpl implements SettingsService {
     final _ = AppDatabase.instance;
   }
 
-  // Common setting fetch code
-  Future<Map<String, String>> _getOrDefault(
-      String settingName, String defaultValue) async {
-    final setting = await db.getSetting(settingName);
-
-    if (setting == null) {
-      await db.setSetting(settingName, defaultValue);
-      return {settingName: defaultValue};
-    } else {
-      return {settingName: setting};
-    }
-  }
-
   /// Generic method to set any setting value
   /// Eliminates duplicate code across all setting methods
   Future<Either<MainFailure, T>> _setSetting<T>({
@@ -88,14 +75,18 @@ class SettingImpl implements SettingsService {
       {"name": autoPipEnabledKey, "default": "true"},
     ];
 
-    // Initialize settings list
-    List<Map<String, String>> settingsList = [];
-
-    // Iterate over settingsDefaults and initialize each setting
-    for (var setting in settingsDefaults) {
-      settingsList
-          .add(await _getOrDefault(setting["name"]!, setting["default"]!));
+    // One read for every setting, then a single batch for any missing
+    // defaults, instead of ~2 round-trips per setting on the startup path.
+    final stored = await db.getAllSettings();
+    final missing = <String, String>{};
+    final settingsList = <Map<String, String>>[];
+    for (final setting in settingsDefaults) {
+      final name = setting["name"]!;
+      final value = stored[name];
+      if (value == null) missing[name] = setting["default"]!;
+      settingsList.add({name: value ?? setting["default"]!});
     }
+    if (missing.isNotEmpty) await db.setSettings(missing);
 
     return settingsList;
   }
@@ -258,14 +249,23 @@ class SettingImpl implements SettingsService {
         final apiEnabled = instanceInfo['api'] == true;
         final isHttps = instanceInfo['type'] == 'https';
 
-        if (isHttps) {
+        // An instance with its API disabled can't serve an app at all, so
+        // listing it only offers the user a guaranteed failure.
+        if (isHttps && apiEnabled) {
           instances.add(Instance(
-            name:
-                '${instanceData[0] as String}${apiEnabled ? '' : ' (API disabled)'}',
+            name: instanceData[0] as String,
             api: instanceInfo['uri'] as String,
             locations: instanceInfo['region'] as String? ?? 'Unknown',
           ));
         }
+      }
+
+      if (instances.isEmpty) {
+        instances.add(Instance(
+          name: Uri.parse(BaseUrl.kInvidiousBaseUrl).host,
+          api: BaseUrl.kInvidiousBaseUrl,
+          locations: 'Unknown',
+        ));
       }
 
       return Right(instances);

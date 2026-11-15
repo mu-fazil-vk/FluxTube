@@ -261,6 +261,29 @@ class AppDatabase extends _$AppDatabase {
     return result?.value;
   }
 
+  Future<Map<String, String?>> getAllSettings() async {
+    final rows = await select(settingsEntries).get();
+    return {for (final row in rows) row.name: row.value};
+  }
+
+  Future<void> setSettings(Map<String, String> values) async {
+    await batch((b) {
+      for (final entry in values.entries) {
+        b.insert(
+          settingsEntries,
+          SettingsEntriesCompanion.insert(
+            name: entry.key,
+            value: Value(entry.value),
+          ),
+          onConflict: DoUpdate(
+            (old) => SettingsEntriesCompanion(value: Value(entry.value)),
+            target: [settingsEntries.name],
+          ),
+        );
+      }
+    });
+  }
+
   Future<void> setSetting(String settingName, String? value) async {
     await into(settingsEntries).insert(
       SettingsEntriesCompanion.insert(

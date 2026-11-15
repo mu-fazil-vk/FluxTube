@@ -23,7 +23,7 @@ class ScreenWatch extends StatelessWidget {
         builder: (context, settingsState) {
       final ytService = settingsState.ytService;
 
-      // All services now use MediaKit player exclusively
+      // Every service plays through the native ExoPlayer.
       if (ytService == YouTubeServices.newpipe.name) {
         return NewPipeScreenWatch(
           id: id,

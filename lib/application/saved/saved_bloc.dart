@@ -205,26 +205,32 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
         },
       );
 
-      // Save the video info
-      final result = await _savedServices.addVideoInfo(
+      // Position ticks arrive every ~15s of playback, so write the one row and
+      // patch the in-memory lists rather than re-reading the whole table.
+      final result = await _savedServices.upsertVideoInfo(
           videoInfo: videoInfoToSave, profileName: event.profileName);
 
       final newState = result.fold(
           (MainFailure f) =>
               state.copyWith(savedVideosFetchStatus: ApiStatus.error),
-          (List<LocalStoreVideoInfo> resp) {
-        final List<LocalStoreVideoInfo> historyVideos =
-            resp.where((e) => e.isHistory ?? false).toList();
-        final List<LocalStoreVideoInfo> savedVideos =
-            resp.where((e) => e.isSaved ?? false).toList();
+          (LocalStoreVideoInfo saved) {
+        List<LocalStoreVideoInfo> patch(
+            List<LocalStoreVideoInfo> list, bool include) {
+          final next = list.where((e) => e.id != saved.id).toList();
+          if (include) next.insert(0, saved);
+          return next;
+        }
 
-        // Update videoInfo directly here to avoid extra CheckVideoInfo call
-        // which causes UI flickering
         return state.copyWith(
             savedVideosFetchStatus: ApiStatus.loaded,
-            localSavedVideos: savedVideos,
-            localSavedHistoryVideos: historyVideos,
-            videoInfo: videoInfoToSave);
+            localSavedHistoryVideos: patch(
+                state.localSavedHistoryVideos, saved.isHistory ?? false),
+            localSavedVideos: (saved.isSaved ?? false)
+                ? state.localSavedVideos
+                    .map((e) => e.id == saved.id ? saved : e)
+                    .toList()
+                : state.localSavedVideos,
+            videoInfo: saved);
       });
 
       emit(newState);

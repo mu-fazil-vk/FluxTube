@@ -1,3 +1,4 @@
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -9,7 +10,6 @@ import 'package:fluxtube/core/player/global_player_controller.dart';
 import 'package:fluxtube/core/services/audio_handler_service.dart';
 import 'package:fluxtube/core/services/exoplayer_notification_bridge.dart';
 import 'package:fluxtube/presentation/routes/app_routes.dart';
-import 'package:media_kit_video/media_kit_video.dart';
 
 /// A draggable Picture-in-Picture video overlay widget
 class PipVideoWidget extends StatefulWidget {
@@ -128,25 +128,16 @@ class _PipVideoWidgetState extends State<PipVideoWidget> {
                         creationParamsCodec: const StandardMessageCodec(),
                       ),
                     )
-                  else if (_globalPlayer.hasActiveMediaKitPlayer)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Video(
-                        controller: _globalPlayer.videoController,
-                        controls: NoVideoControls,
-                        fit: BoxFit.cover,
-                      ),
-                    )
                   else if (widget.thumbnailUrl != null)
                     // Fallback to thumbnail
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        widget.thumbnailUrl!,
+                      child: ThumbnailImage.small(
+                        url: widget.thumbnailUrl!,
                         fit: BoxFit.cover,
                         width: pipWidth,
                         height: pipHeight,
-                        errorBuilder: (_, __, ___) => Container(
+                        errorWidget: (_, __, ___) => Container(
                           color: Colors.grey[900],
                           child: const Icon(Icons.play_arrow,
                               color: Colors.white54),

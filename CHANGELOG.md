@@ -1,5 +1,44 @@
 ## Changelog
 
+### v0.10.0
+
+###### Redesign
+
+- **New look ("Kinetic Obsidian")**: Montserrat typography, refreshed light/dark/OLED palettes, and a floating glass navigation bar with four tabs: Home, Shorts, Subscriptions, Library.
+- **Home**: Hero card for the top video, a Continue Watching row, and category chips (Music, Movies & Shows, Gaming, Podcasts, Live). The header hides while you scroll down.
+- **Shorts tab**: A dedicated Shorts feed built from your subscribed channels' Shorts.
+- **Library**: Saved, History, Downloads (with storage used) and Playlists in one place, plus watch stats.
+- **Subscriptions**: Channel grid/list, a videos feed with All / Today / Live filters.
+- **Settings**: Reorganised into cards, with a quick profile switcher. Opened from the profile button on Home.
+- **Update checker**: Get notified in the app when a new release is available.
+
+###### Player
+
+- Redesigned controls: centered rewind / play-pause / forward, time with a quality pill, full-width seek bar, and a chapter strip in fullscreen.
+- Shorts: hold to play at 2x, quality picker moved into the side action rail, and a redesigned quality sheet.
+- All playback now runs on the native ExoPlayer for every backend (media_kit removed), giving a smaller APK and faster startup.
+
+###### Comments
+
+- Cleaner, flat comment threads on the watch screen and in Shorts, following your theme (including Dynamic Color). The replies sheet shows the original comment.
+
+###### Fixes
+
+- Fixed fullscreen video turning black while audio kept playing.
+- Fixed play/pause taps sometimes being ignored, and a pause during buffering looking unresponsive.
+- Fixed Shorts title, channel and buttons being hidden behind the navigation bar.
+- Fixed "-1 views" / "No date" on category feeds, HTML entities like `&apos;` in comments, and the Home header icon alignment.
+
+###### Removed
+
+- **Google Cast** has been removed. FluxTube no longer depends on Google Play Services.
+- Piped and YouTube Explode are hidden from the service picker while their public instances/APIs are broken. NewPipe (recommended) and Invidious remain.
+
+###### Build & Dependencies
+
+- Updated NewPipe Extractor to v0.27.1 (updated YouTube n-sig parsing; removes broken Android/iOS clients).
+- Removed unused dependencies and dead code.
+
 ### v0.9.3
 
 ###### New Features

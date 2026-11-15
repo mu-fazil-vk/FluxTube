@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxtube/widgets/thumbnail_image.dart';
+import 'package:fluxtube/core/animations/animations.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:intl/intl.dart';
 
-import '../core/colors.dart';
 import '../core/constants.dart';
 
 //caption widget
@@ -23,21 +23,21 @@ class CaptionRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Text(
             caption,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            style: theme.textTheme.titleMedium?.copyWith(height: 1.3),
             overflow: TextOverflow.visible,
           ),
         ),
         if (icon != null)
           IconButton(
-            icon: Icon(
-              icon,
-              color: Theme.of(context).iconTheme.color,
-            ),
+            icon: Icon(icon, color: theme.colorScheme.onSurfaceVariant),
             onPressed: onTap,
           ),
       ],
@@ -58,52 +58,59 @@ class ViewRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size _size = MediaQuery.of(context).size;
+    final locals = S.of(context);
+    // Extractors report unknown counts as -1 and callers pass the "No date"
+    // placeholder for missing dates; neither is worth showing.
+    final viewCount = views ?? -1;
+    final viewsText = viewCount < 0
+        ? ''
+        : '${viewCount >= 1000 ? NumberFormat.compact().format(viewCount) : viewCount} ${locals.videoViews(viewCount)}';
 
-    var _formattedViews =
-        views! > 1000 ? NumberFormat.compact().format(views ?? 0) : views;
-
-    //format date
-    String _formattedDate;
-    try {
-      //for date eg: 2024-05-22T08:51:33-07:00
-      // Parse the date string to a DateTime object
-      DateTime dateTime = DateTime.parse(uploadedDate ?? '0');
-
-      // Define the desired format
-      DateFormat dateFormat = DateFormat('yyyy-MM-dd  hh:mm a');
-
-      // Format the DateTime object to a string
-      _formattedDate = dateFormat.format(dateTime);
-    } catch (_) {
-      //for eg: 1 day ago
-      _formattedDate = uploadedDate ?? '';
+    String formattedDate;
+    final rawDate = uploadedDate ?? '';
+    if (rawDate.isEmpty || rawDate == locals.noUploadDate) {
+      formattedDate = '';
+    } else {
+      try {
+        formattedDate =
+            DateFormat('yyyy-MM-dd  hh:mm a').format(DateTime.parse(rawDate));
+      } catch (_) {
+        formattedDate = rawDate;
+      }
     }
+
+    final style = Theme.of(context).textTheme.bodySmall?.copyWith(
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          fontWeight: FontWeight.w600,
+        );
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Flexible(
-          child: Text(
-            '${_formattedViews == '0' ? '' : _formattedViews} ${S.of(context).videoViews(views ?? 0)}',
-            maxLines: 1,
-            style: TextStyle(
-                color: kGreyColor, fontWeight: FontWeight.w600, fontSize: 12),
-            overflow: TextOverflow.ellipsis,
+        if (viewsText.isNotEmpty)
+          Flexible(
+            child: Text(
+              viewsText,
+              maxLines: 1,
+              style: style,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        SizedBox(
-          width: (_size.width * 0.1).clamp(8.0, 24.0),
-        ),
-        Flexible(
-          child: Text(
-            _formattedDate,
-            maxLines: 1,
-            style: TextStyle(
-                color: kGreyColor, fontWeight: FontWeight.w600, fontSize: 12),
-            overflow: TextOverflow.ellipsis,
+        if (formattedDate.isNotEmpty) ...[
+          if (viewsText.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+              child: Text('•', style: style),
+            ),
+          Flexible(
+            child: Text(
+              formattedDate,
+              maxLines: 1,
+              style: style,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
+        ],
       ],
     );
   }
@@ -141,18 +148,30 @@ class SubscribeRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _formattedSubCount = formatCount(subcount ?? '0');
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final formattedSubCount = formatCount(subcount ?? '0');
 
     return Row(
       children: [
         if (uploaderUrl != null && uploaderUrl != "")
-          CircleAvatar(
-            radius: radius,
-            backgroundImage: (uploaderUrl != null && uploaderUrl != "")
-                ? cachedAvatarProvider(uploaderUrl!, logicalDiameter: (radius * 2).toInt())
-                : null,
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: colorScheme.outlineVariant.withValues(alpha: 0.4),
+              ),
+            ),
+            padding: const EdgeInsets.all(1.5),
+            child: CircleAvatar(
+              radius: radius,
+              backgroundImage: cachedAvatarProvider(
+                uploaderUrl!,
+                logicalDiameter: (radius * 2).toInt(),
+              ),
+            ),
           ),
-        spacing ?? kWidthBox10,
+        spacing ?? AppSpacing.width12,
         Expanded(
           child: subcount == null || subcount == '-1'
               ? Row(
@@ -162,26 +181,19 @@ class SubscribeRowWidget extends StatelessWidget {
                         uploader ?? '',
                         overflow: TextOverflow.ellipsis,
                         style: subTextStyle ??
-                            TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .color,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14),
+                            theme.textTheme.titleSmall?.copyWith(
+                              color: colorScheme.onSurface,
+                            ),
                       ),
                     ),
-                    kWidthBox5,
-                    isVerified ?? false
-                        ? const Padding(
-                            padding: EdgeInsets.only(right: 5),
-                            child: Icon(
-                              Icons.verified,
-                              color: kRedColor,
-                              size: 20,
-                            ),
-                          )
-                        : const SizedBox.shrink(),
+                    if (isVerified ?? false) ...[
+                      AppSpacing.width4,
+                      Icon(
+                        Icons.verified,
+                        color: colorScheme.primary,
+                        size: 18,
+                      ),
+                    ],
                   ],
                 )
               : Column(
@@ -195,63 +207,91 @@ class SubscribeRowWidget extends StatelessWidget {
                             uploader ?? '',
                             overflow: TextOverflow.ellipsis,
                             style: subTextStyle ??
-                                TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .color,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14),
+                                theme.textTheme.titleSmall?.copyWith(
+                                  color: colorScheme.onSurface,
+                                ),
                           ),
                         ),
-                        kWidthBox5,
-                        isVerified ?? false
-                            ? const Icon(
-                                Icons.verified,
-                                color: kRedColor,
-                                size: 20,
-                              )
-                            : const SizedBox.shrink(),
+                        if (isVerified ?? false) ...[
+                          AppSpacing.width4,
+                          Icon(
+                            Icons.verified,
+                            color: colorScheme.primary,
+                            size: 18,
+                          ),
+                        ],
                       ],
                     ),
                     Text(
-                      '${_formattedSubCount == '0' ? '' : _formattedSubCount} ${S.of(context).channelSubscribers(int.tryParse(subcount!) ?? 0)}',
+                      '${formattedSubCount == '0' ? '' : formattedSubCount} ${S.of(context).channelSubscribers(int.tryParse(subcount!) ?? 2)}',
                       overflow: TextOverflow.ellipsis,
                       style: subCountTextStyle ??
-                          TextStyle(
-                              color: kGreyColor,
-                              fontSize: 12,
-                              overflow: TextOverflow.ellipsis),
+                          theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
                     )
                   ],
                 ),
         ),
-        kWidthBox10,
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          height: 40,
-          width: subscribed ? 65 : 130,
-          child: ElevatedButton(
-              style: ButtonStyle(
-                  elevation: const WidgetStatePropertyAll(0),
-                  backgroundColor: WidgetStatePropertyAll(
-                      subscribed ? kGreyOpacityColor : kRedColor),
-                  foregroundColor: WidgetStatePropertyAll(
-                      subscribed ? kRedColor : kWhiteColor),
-                  surfaceTintColor: WidgetStatePropertyAll(
-                      subscribed ? kTransparentColor : kRedColor)),
-              onPressed: onSubscribeTap,
-              child: subscribed
-                  ? const Icon(CupertinoIcons.check_mark_circled)
-                  : FittedBox(
-                      child: Text(
-                        S.of(context).subscribe,
-                        overflow: TextOverflow.clip,
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    )),
-        )
+        AppSpacing.width12,
+        _SubscribeButton(
+          subscribed: subscribed,
+          onTap: onSubscribeTap,
+        ),
       ],
+    );
+  }
+}
+
+/// A pill-shaped subscribe/subscribed toggle matching the app's Kinetic
+/// design tokens instead of the old hardcoded-color flat [ElevatedButton].
+class _SubscribeButton extends StatelessWidget {
+  const _SubscribeButton({required this.subscribed, this.onTap});
+
+  final bool subscribed;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final locals = S.of(context);
+
+    return ScaleTap(
+      enableHaptic: false,
+      onTap: onTap ?? () {},
+      child: AnimatedContainer(
+        duration: AppAnimations.medium,
+        curve: AppAnimations.defaultCurve,
+        height: 40,
+        width: subscribed ? 44 : 118,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: subscribed
+              ? colorScheme.surfaceContainerHigh
+              : colorScheme.primary,
+          borderRadius: AppRadius.borderFull,
+        ),
+        child: AnimatedSwitcher(
+          duration: AppAnimations.fast,
+          child: subscribed
+              ? Icon(
+                  CupertinoIcons.check_mark,
+                  key: const ValueKey('subscribed'),
+                  color: colorScheme.onSurfaceVariant,
+                  size: 18,
+                )
+              : Text(
+                  locals.subscribe,
+                  key: const ValueKey('subscribe'),
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(
+                    color: colorScheme.onPrimary,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                ),
+        ),
+      ),
     );
   }
 }
