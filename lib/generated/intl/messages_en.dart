@@ -20,37 +20,48 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m3(name) => "Added to ${name}";
+
   static String m0(count) =>
       "${Intl.plural(count, zero: 'No subscribers', one: 'subscriber', other: 'subscribers')}";
 
-  static String m3(title) => "Download failed: ${title}";
+  static String m4(name) => "Delete ${name}?";
+
+  static String m5(title) => "Download failed: ${title}";
+
+  static String m6(count) =>
+      "${Intl.plural(count, one: '1 download', other: '${count} downloads')}";
 
   static String m1(count) =>
       "${Intl.plural(count, one: 'Reply', other: 'Replies')}";
 
+  static String m7(count) => "${count} minutes";
+
+  static String m8(count) => "${count} min";
+
+  static String m9(amount) => "${amount} used";
+
+  static String m10(count) => "${count} videos";
+
   static String m2(count) =>
       "${Intl.plural(count, zero: 'No views', one: 'view', other: 'views')}";
 
-  static String m4(device) => "Casting to ${device}";
+  static String m11(count) => "${count} this week";
 
-  static String m5(name) => "Delete ${name}?";
-
-  static String m6(name) => "Added to ${name}";
-
-  static String m7(count) => "${count} videos";
-
-  static String m8(count) => "${count} minutes";
-
-  static String m9(count) => "${count} min";
+  static String m12(channel) => "Most watched: ${channel}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("About"),
     "addProfile": MessageLookupByLibrary.simpleMessage("Add Profile"),
     "addToQueue": MessageLookupByLibrary.simpleMessage("Add to queue"),
-    "addVideosHint": MessageLookupByLibrary.simpleMessage("Long-press a video to save it to a playlist"),
-    "addedToPlayNext": MessageLookupByLibrary.simpleMessage("Added to play next"),
-    "addedToPlaylist": m6,
+    "addVideosHint": MessageLookupByLibrary.simpleMessage(
+      "Long-press a video to save it to a playlist",
+    ),
+    "addedToPlayNext": MessageLookupByLibrary.simpleMessage(
+      "Added to play next",
+    ),
+    "addedToPlaylist": m3,
     "addedToQueue": MessageLookupByLibrary.simpleMessage("Added to queue"),
     "all": MessageLookupByLibrary.simpleMessage("All"),
     "audio": MessageLookupByLibrary.simpleMessage("Audio"),
@@ -79,14 +90,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "cannotRenameDefault": MessageLookupByLibrary.simpleMessage(
       "Cannot rename default profile",
     ),
-    "castConnected": MessageLookupByLibrary.simpleMessage("Connected"),
-    "castConnectedTo": m4,
-    "castFailed": MessageLookupByLibrary.simpleMessage("This video cannot be cast"),
-    "castStop": MessageLookupByLibrary.simpleMessage("Stop casting"),
-    "castTitle": MessageLookupByLibrary.simpleMessage("Cast"),
-    "castUnavailable": MessageLookupByLibrary.simpleMessage("Cast is not available on this device"),
+    "categoryGaming": MessageLookupByLibrary.simpleMessage("Gaming"),
+    "categoryMoviesAndShows": MessageLookupByLibrary.simpleMessage(
+      "Movies & Shows",
+    ),
+    "categoryPodcasts": MessageLookupByLibrary.simpleMessage("Podcasts"),
     "channelSubscribers": m0,
     "channels": MessageLookupByLibrary.simpleMessage("Channels"),
+    "checkConnectionAndRetry": MessageLookupByLibrary.simpleMessage(
+      "Check your connection and try again",
+    ),
     "clearAll": MessageLookupByLibrary.simpleMessage("Clear all"),
     "clearAllHistory": MessageLookupByLibrary.simpleMessage(
       "Clear all history",
@@ -100,11 +113,21 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "clearLogs": MessageLookupByLibrary.simpleMessage("Clear logs"),
     "commentAuthorNotFound": MessageLookupByLibrary.simpleMessage("Not found"),
+    "comments": MessageLookupByLibrary.simpleMessage("Comments"),
     "commentsDisabled": MessageLookupByLibrary.simpleMessage(
       "Comments are disabled",
     ),
+    "commentsDisabledByCreator": MessageLookupByLibrary.simpleMessage(
+      "The creator has turned off comments for this video",
+    ),
+    "commentsLoadFailed": MessageLookupByLibrary.simpleMessage(
+      "Couldn\'t load comments",
+    ),
     "commonSettingsTitle": MessageLookupByLibrary.simpleMessage("Common"),
     "completed": MessageLookupByLibrary.simpleMessage("Completed"),
+    "continueWatching": MessageLookupByLibrary.simpleMessage(
+      "Continue Watching",
+    ),
     "copiedToClipboard": MessageLookupByLibrary.simpleMessage(
       "Copied to clipboard",
     ),
@@ -119,9 +142,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteDownloadConfirm": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this download?",
     ),
-    "deletePlaylistAction": MessageLookupByLibrary.simpleMessage("Delete playlist"),
-    "deletePlaylistConfirm": m5,
-    "deletePlaylistTitle": MessageLookupByLibrary.simpleMessage("Delete Playlist"),
+    "deletePlaylistAction": MessageLookupByLibrary.simpleMessage(
+      "Delete playlist",
+    ),
+    "deletePlaylistConfirm": m4,
+    "deletePlaylistTitle": MessageLookupByLibrary.simpleMessage(
+      "Delete Playlist",
+    ),
     "deleteProfile": MessageLookupByLibrary.simpleMessage("Delete Profile"),
     "deleteVideo": MessageLookupByLibrary.simpleMessage("Delete video"),
     "deleteVideoConfirm": MessageLookupByLibrary.simpleMessage(
@@ -137,7 +164,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dislike": MessageLookupByLibrary.simpleMessage("Dislike"),
     "distractionFree": MessageLookupByLibrary.simpleMessage("Distraction Free"),
     "download": MessageLookupByLibrary.simpleMessage("Download"),
-    "downloadFailed": m3,
+    "downloadFailed": m5,
     "downloadStarted": MessageLookupByLibrary.simpleMessage("Download started"),
     "downloadType": MessageLookupByLibrary.simpleMessage("Download Type"),
     "downloading": MessageLookupByLibrary.simpleMessage("Downloading"),
@@ -148,6 +175,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Downloading video",
     ),
     "downloads": MessageLookupByLibrary.simpleMessage("Downloads"),
+    "downloadsCount": m6,
     "duration": MessageLookupByLibrary.simpleMessage("Duration"),
     "enableHlsPlayerDescription": MessageLookupByLibrary.simpleMessage(
       "Enable HLS player to unlock all quality options. Disable if errors occur.",
@@ -167,7 +195,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "filterMusic": MessageLookupByLibrary.simpleMessage("Music"),
     "filterPlaylists": MessageLookupByLibrary.simpleMessage("Playlists"),
     "filterVideos": MessageLookupByLibrary.simpleMessage("Videos"),
+    "following": MessageLookupByLibrary.simpleMessage("Following"),
     "france": MessageLookupByLibrary.simpleMessage("France"),
+    "heartedByCreator": MessageLookupByLibrary.simpleMessage(
+      "Hearted by creator",
+    ),
     "hideComments": MessageLookupByLibrary.simpleMessage("Hide Comments"),
     "hideCommentsButtonFromWatchScreen": MessageLookupByLibrary.simpleMessage(
       "Hide comments button from watch screen.",
@@ -211,6 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "library": MessageLookupByLibrary.simpleMessage("Library"),
     "like": MessageLookupByLibrary.simpleMessage("Like"),
+    "live": MessageLookupByLibrary.simpleMessage("Live"),
     "localPlaylists": MessageLookupByLibrary.simpleMessage("Playlists"),
     "logsLabel": MessageLookupByLibrary.simpleMessage("Logs"),
     "merging": MessageLookupByLibrary.simpleMessage("Merging"),
@@ -220,10 +253,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "newPlaylist": MessageLookupByLibrary.simpleMessage("New Playlist"),
     "newPlaylistShort": MessageLookupByLibrary.simpleMessage("+ New"),
     "newProfileName": MessageLookupByLibrary.simpleMessage("New Profile Name"),
-    "newVideoNotifications": MessageLookupByLibrary.simpleMessage("New upload notifications"),
-    "newVideoNotificationsDescription": MessageLookupByLibrary.simpleMessage("Get notified when channels you subscribe to upload"),
+    "newVideoNotifications": MessageLookupByLibrary.simpleMessage(
+      "New upload notifications",
+    ),
+    "newVideoNotificationsDescription": MessageLookupByLibrary.simpleMessage(
+      "Get notified when channels you subscribe to upload",
+    ),
     "noCommentsFound": MessageLookupByLibrary.simpleMessage(
       "No Comments Found",
+    ),
+    "noCommentsYet": MessageLookupByLibrary.simpleMessage(
+      "There are no comments on this video yet",
     ),
     "noDownloads": MessageLookupByLibrary.simpleMessage("No Downloads"),
     "noDownloadsHint": MessageLookupByLibrary.simpleMessage(
@@ -234,10 +274,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "noPlaylists": MessageLookupByLibrary.simpleMessage(
       "No playlists available",
     ),
-    "noPlaylistsYet": MessageLookupByLibrary.simpleMessage("No playlists yet.\nTap + to create one."),
-    "noPlaylistsYetPicker": MessageLookupByLibrary.simpleMessage("No playlists yet.\nTap + New to create one."),
+    "noPlaylistsYet": MessageLookupByLibrary.simpleMessage(
+      "No playlists yet.\nTap + to create one.",
+    ),
+    "noPlaylistsYetPicker": MessageLookupByLibrary.simpleMessage(
+      "No playlists yet.\nTap + New to create one.",
+    ),
     "noSavedVideos": MessageLookupByLibrary.simpleMessage("No saved videos"),
-    "noShorts": MessageLookupByLibrary.simpleMessage("No shorts available"),
+    "noShorts": MessageLookupByLibrary.simpleMessage(
+      "Subscribe to channels to see their Shorts here",
+    ),
     "noSubscriptions": MessageLookupByLibrary.simpleMessage("No Subscriptions"),
     "noSubscriptionsHint": MessageLookupByLibrary.simpleMessage(
       "Subscribe to channels to see their videos here",
@@ -253,7 +299,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noVideoTitle": MessageLookupByLibrary.simpleMessage("No title"),
     "noVideosFound": MessageLookupByLibrary.simpleMessage("No videos found"),
     "noVideosInPlaylist": MessageLookupByLibrary.simpleMessage("No videos yet"),
-    "notificationsDenied": MessageLookupByLibrary.simpleMessage("Notification permission was denied"),
+    "notificationsDenied": MessageLookupByLibrary.simpleMessage(
+      "Notification permission was denied",
+    ),
     "openInBrowser": MessageLookupByLibrary.simpleMessage("Open in Browser"),
     "openLinksExternally": MessageLookupByLibrary.simpleMessage(
       "Open links in external browser",
@@ -272,7 +320,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "playNext": MessageLookupByLibrary.simpleMessage("Play next"),
     "playlist": MessageLookupByLibrary.simpleMessage("Playlist"),
     "playlistNameHint": MessageLookupByLibrary.simpleMessage("Playlist name"),
-    "playlistNotFound": MessageLookupByLibrary.simpleMessage("Playlist not found"),
+    "playlistNotFound": MessageLookupByLibrary.simpleMessage(
+      "Playlist not found",
+    ),
     "playlists": MessageLookupByLibrary.simpleMessage("Playlists"),
     "profileInUse": MessageLookupByLibrary.simpleMessage("Active"),
     "profileName": MessageLookupByLibrary.simpleMessage("Profile Name"),
@@ -301,12 +351,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "removeFromHistory": MessageLookupByLibrary.simpleMessage(
       "Remove from history",
     ),
-    "removeFromQueue": MessageLookupByLibrary.simpleMessage("Remove from queue"),
+    "removeFromQueue": MessageLookupByLibrary.simpleMessage(
+      "Remove from queue",
+    ),
     "removeFromSaved": MessageLookupByLibrary.simpleMessage(
       "Remove from saved",
     ),
     "renameAction": MessageLookupByLibrary.simpleMessage("Rename"),
-    "renamePlaylistTitle": MessageLookupByLibrary.simpleMessage("Rename Playlist"),
+    "renamePlaylistTitle": MessageLookupByLibrary.simpleMessage(
+      "Rename Playlist",
+    ),
     "renameProfile": MessageLookupByLibrary.simpleMessage("Rename Profile"),
     "repliesNotSupported": MessageLookupByLibrary.simpleMessage(
       "Replies are not available yet",
@@ -320,6 +374,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Retrieve Dislikes",
     ),
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
+    "save": MessageLookupByLibrary.simpleMessage("Save"),
     "saveToDevice": MessageLookupByLibrary.simpleMessage("Save to Device"),
     "saveToDeviceFailed": MessageLookupByLibrary.simpleMessage(
       "Failed to save to device",
@@ -357,8 +412,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "selfPromotion": MessageLookupByLibrary.simpleMessage("Self Promotion"),
     "serviceExplode": MessageLookupByLibrary.simpleMessage("Explode"),
     "serviceInvidious": MessageLookupByLibrary.simpleMessage("Invidious"),
+    "serviceInvidiousNote": MessageLookupByLibrary.simpleMessage(
+      "Few public Invidious instances still allow apps; playback may fail if your instance blocks API access.",
+    ),
+    "serviceLimited": MessageLookupByLibrary.simpleMessage("Limited"),
     "serviceNewPipe": MessageLookupByLibrary.simpleMessage("NewPipe Extractor"),
     "servicePiped": MessageLookupByLibrary.simpleMessage("Piped"),
+    "serviceRemovedNote": MessageLookupByLibrary.simpleMessage(
+      "Piped and YouTube Explode were retired. YouTube now blocks the server IPs Piped instances run on, so no public instance can play video (its team is rebuilding on a new extractor). YouTube Explode stopped receiving fixes in May 2026 and only 360p still works. NewPipe Extractor does the same on-device extraction, is actively maintained, and plays up to 4K.",
+    ),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "share": MessageLookupByLibrary.simpleMessage("Share"),
     "shareLogs": MessageLookupByLibrary.simpleMessage("Share logs"),
@@ -377,12 +439,20 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "sleepTimer": MessageLookupByLibrary.simpleMessage("Sleep timer"),
     "sleepTimerCustom": MessageLookupByLibrary.simpleMessage("Custom"),
-    "sleepTimerCustomTitle": MessageLookupByLibrary.simpleMessage("Custom timer"),
-    "sleepTimerEndOfVideo": MessageLookupByLibrary.simpleMessage("End of video"),
-    "sleepTimerEnded": MessageLookupByLibrary.simpleMessage("Sleep timer ended"),
-    "sleepTimerEnterMinutes": MessageLookupByLibrary.simpleMessage("Enter minutes"),
-    "sleepTimerMinutes": m8,
-    "sleepTimerMinutesShort": m9,
+    "sleepTimerCustomTitle": MessageLookupByLibrary.simpleMessage(
+      "Custom timer",
+    ),
+    "sleepTimerEndOfVideo": MessageLookupByLibrary.simpleMessage(
+      "End of video",
+    ),
+    "sleepTimerEnded": MessageLookupByLibrary.simpleMessage(
+      "Sleep timer ended",
+    ),
+    "sleepTimerEnterMinutes": MessageLookupByLibrary.simpleMessage(
+      "Enter minutes",
+    ),
+    "sleepTimerMinutes": m7,
+    "sleepTimerMinutesShort": m8,
     "sleepTimerOff": MessageLookupByLibrary.simpleMessage("Off"),
     "sleepTimerSet": MessageLookupByLibrary.simpleMessage("Set"),
     "sort": MessageLookupByLibrary.simpleMessage("Sort"),
@@ -399,6 +469,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "startSavingVideos": MessageLookupByLibrary.simpleMessage(
       "Start saving videos to watch later",
     ),
+    "storageUsed": m9,
     "subscribe": MessageLookupByLibrary.simpleMessage("Subscribe"),
     "subscriptions": MessageLookupByLibrary.simpleMessage("Subscriptions"),
     "subtitleSize": MessageLookupByLibrary.simpleMessage("Subtitle Size"),
@@ -434,6 +505,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "There are no saved videos",
     ),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
+    "today": MessageLookupByLibrary.simpleMessage("Today"),
     "translators": MessageLookupByLibrary.simpleMessage("Translators"),
     "trending": MessageLookupByLibrary.simpleMessage("Trending"),
     "unitedKingdom": MessageLookupByLibrary.simpleMessage("United Kingdom"),
@@ -450,7 +522,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "version": MessageLookupByLibrary.simpleMessage("Version"),
     "video": MessageLookupByLibrary.simpleMessage("Video"),
     "videoAudio": MessageLookupByLibrary.simpleMessage("Video+Audio"),
-    "videoCountLabel": m7,
+    "videoCountLabel": m10,
     "videoFit": MessageLookupByLibrary.simpleMessage("Video Fit"),
     "videoFitContain": MessageLookupByLibrary.simpleMessage("Contain"),
     "videoFitCover": MessageLookupByLibrary.simpleMessage("Cover"),
@@ -462,10 +534,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "videoViews": m2,
     "videoWithAudio": MessageLookupByLibrary.simpleMessage("Video + Audio"),
     "videos": MessageLookupByLibrary.simpleMessage("Videos"),
+    "viewAll": MessageLookupByLibrary.simpleMessage("View All"),
     "views": MessageLookupByLibrary.simpleMessage("views"),
     "watchSomeVideos": MessageLookupByLibrary.simpleMessage(
       "Videos you watch will appear here",
     ),
+    "watchStatsSaved": MessageLookupByLibrary.simpleMessage("saved"),
+    "watchStatsThisWeek": m11,
+    "watchStatsTitle": MessageLookupByLibrary.simpleMessage("Your watch stats"),
+    "watchStatsTopChannel": m12,
+    "watchStatsVideos": MessageLookupByLibrary.simpleMessage("videos"),
+    "watchStatsWatched": MessageLookupByLibrary.simpleMessage("watched"),
     "youtubeService": MessageLookupByLibrary.simpleMessage("YouTube Service"),
   };
 }

@@ -38,6 +38,12 @@ class PlayerSettingsSheet extends StatefulWidget {
     this.onFitModeChanged,
     this.sleepTimerMinutes,
     this.onSleepTimerChanged,
+    this.isLooping,
+    this.onLoopingChanged,
+    this.isSkipSilence,
+    this.onSkipSilenceChanged,
+    this.isVolumeBoost,
+    this.onVolumeBoostChanged,
   });
 
   final double currentSpeed;
@@ -58,6 +64,12 @@ class PlayerSettingsSheet extends StatefulWidget {
   final Function(String)? onFitModeChanged;
   final int? sleepTimerMinutes;
   final Function(int?)? onSleepTimerChanged;
+  final bool? isLooping;
+  final ValueChanged<bool>? onLoopingChanged;
+  final bool? isSkipSilence;
+  final ValueChanged<bool>? onSkipSilenceChanged;
+  final bool? isVolumeBoost;
+  final ValueChanged<bool>? onVolumeBoostChanged;
 
   @override
   State<PlayerSettingsSheet> createState() => _PlayerSettingsSheetState();
@@ -67,6 +79,9 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
   S get locals => S.of(context);
 
   late SettingsPage _currentPage;
+  late bool _looping = widget.isLooping ?? false;
+  late bool _skipSilence = widget.isSkipSilence ?? false;
+  late bool _volumeBoost = widget.isVolumeBoost ?? false;
 
   @override
   void initState() {
@@ -84,7 +99,11 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
           borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         ),
         child: SafeArea(
-          child: AnimatedSwitcher(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                maxHeight: MediaQuery.sizeOf(context).height * 0.85),
+            child: SingleChildScrollView(
+              child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
             transitionBuilder: (child, animation) {
               return SlideTransition(
@@ -99,6 +118,8 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
               );
             },
             child: _buildCurrentPage(),
+              ),
+            ),
           ),
         ),
       ),
@@ -185,6 +206,39 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
             title: locals.sleepTimer,
             value: _sleepTimerLabel(widget.sleepTimerMinutes),
             onTap: () => setState(() => _currentPage = SettingsPage.sleepTimer),
+          ),
+
+        if (widget.onLoopingChanged != null && !widget.isLive)
+          _buildSwitchTile(
+            icon: CupertinoIcons.repeat_1,
+            title: 'Loop video',
+            value: _looping,
+            onChanged: (v) {
+              setState(() => _looping = v);
+              widget.onLoopingChanged!(v);
+            },
+          ),
+
+        if (widget.onSkipSilenceChanged != null && !widget.isLive)
+          _buildSwitchTile(
+            icon: CupertinoIcons.waveform,
+            title: 'Skip silence',
+            value: _skipSilence,
+            onChanged: (v) {
+              setState(() => _skipSilence = v);
+              widget.onSkipSilenceChanged!(v);
+            },
+          ),
+
+        if (widget.onVolumeBoostChanged != null)
+          _buildSwitchTile(
+            icon: CupertinoIcons.speaker_3_fill,
+            title: 'Volume boost',
+            value: _volumeBoost,
+            onChanged: (v) {
+              setState(() => _volumeBoost = v);
+              widget.onVolumeBoostChanged!(v);
+            },
           ),
 
         const SizedBox(height: 16),
@@ -565,6 +619,41 @@ class _PlayerSettingsSheetState extends State<PlayerSettingsSheet> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSwitchTile({
+    required IconData icon,
+    required String title,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => onChanged(!value),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 4, 8, 4),
+          child: Row(
+            children: [
+              Icon(icon, color: Colors.white70, size: 22),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(color: Colors.white, fontSize: 15),
+                ),
+              ),
+              Switch(
+                value: value,
+                onChanged: onChanged,
+                activeThumbColor: Colors.white,
+                activeTrackColor: Colors.red,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

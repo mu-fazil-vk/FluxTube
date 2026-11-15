@@ -798,6 +798,7 @@ class _CommentTextState extends State<_CommentText> {
         .replaceAll('&gt;', '>')
         .replaceAll('&quot;', '"')
         .replaceAll('&#39;', "'")
+        .replaceAll('&apos;', "'")
         .replaceAll('&nbsp;', ' ');
 
     // Regex patterns
@@ -884,7 +885,7 @@ class _CommentTextState extends State<_CommentText> {
     } else if (parts.length == 2) {
       seconds = parts[0] * 60 + parts[1];
     }
-    GlobalPlayerController().player.seek(Duration(seconds: seconds));
+    GlobalPlayerController().seekTo(Duration(seconds: seconds));
   }
 
   void _onUrlTap(String url) async {

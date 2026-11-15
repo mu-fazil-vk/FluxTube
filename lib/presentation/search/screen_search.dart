@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
-import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/domain/search/models/search_history.dart';
@@ -147,7 +146,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final scheme = theme.colorScheme;
     final locals = S.of(context);
 
     return BlocBuilder<SettingsBloc, SettingsState>(
@@ -157,94 +156,65 @@ class _ScreenSearchState extends State<ScreenSearch> {
           previous.isSearchHistoryVisible != current.isSearchHistoryVisible,
       builder: (context, settingsState) {
         return Scaffold(
-          backgroundColor:
-              isDark ? AppColors.backgroundDark : AppColors.background,
+          backgroundColor: scheme.surface,
+          appBar: AppBar(
+            title: Text(locals.search),
+            backgroundColor: scheme.surface,
+            surfaceTintColor: Colors.transparent,
+          ),
           body: SafeArea(
-            child: NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                // App Bar with title
-                SliverAppBar(
-                  floating: true,
-                  snap: true,
-                  toolbarHeight: 60,
-                  backgroundColor:
-                      isDark ? AppColors.backgroundDark : AppColors.background,
-                  elevation: 0,
-                  surfaceTintColor: kWhiteColor,
-                  title: Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: ShaderMask(
-                      shaderCallback: (bounds) => const LinearGradient(
-                        colors: [Color(0xFFFF4444), Color(0xFFCC0000)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ).createShader(bounds),
-                      child: Text(
-                        locals.search,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 24,
-                          letterSpacing: -0.5,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
+            child: Column(
+              children: [
                 // Search Bar
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.lg,
-                      vertical: AppSpacing.sm,
-                    ),
-                    child: SizedBox(
-                      height: 40,
-                      child: TextField(
-                        controller: _textEditingController,
-                        focusNode: _searchFocusNode,
-                        style:
-                            theme.textTheme.bodyMedium?.copyWith(fontSize: 14),
-                        textInputAction: TextInputAction.search,
-                        onSubmitted: (value) {
-                          if (value.isNotEmpty) {
-                            EasyDebounce.cancel('suggestions');
-                            _performSearch(value, settingsState.ytService);
-                          }
-                        },
-                        onChanged: (value) => _onSearchQueryChanged(
-                            value, settingsState.ytService),
-                        decoration: InputDecoration(
-                          hintText: locals.searchYouTube,
-                          hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                            fontSize: 14,
-                            color: isDark
-                                ? AppColors.onSurfaceVariantDark
-                                : AppColors.onSurfaceVariant,
-                          ),
-                          prefixIcon:
-                              const Icon(CupertinoIcons.search, size: 18),
-                          suffixIcon: _textEditingController.text.isNotEmpty
-                              ? IconButton(
-                                  icon: const Icon(
-                                      CupertinoIcons.xmark_circle_fill,
-                                      size: 16),
-                                  onPressed: _clearSearch,
-                                )
-                              : null,
-                          filled: true,
-                          fillColor: isDark
-                              ? AppColors.surfaceVariantDark
-                              : AppColors.surfaceVariant,
-                          border: OutlineInputBorder(
-                            borderRadius: AppRadius.borderMd,
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.md,
-                            vertical: AppSpacing.sm,
-                          ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                    vertical: AppSpacing.sm,
+                  ),
+                  child: SizedBox(
+                    height: 44,
+                    child: TextField(
+                      controller: _textEditingController,
+                      focusNode: _searchFocusNode,
+                      autofocus: true,
+                      style: theme.textTheme.bodyMedium?.copyWith(fontSize: 14),
+                      textInputAction: TextInputAction.search,
+                      onSubmitted: (value) {
+                        if (value.isNotEmpty) {
+                          EasyDebounce.cancel('suggestions');
+                          _performSearch(value, settingsState.ytService);
+                        }
+                      },
+                      onChanged: (value) =>
+                          _onSearchQueryChanged(value, settingsState.ytService),
+                      decoration: InputDecoration(
+                        hintText: locals.searchYouTube,
+                        hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 14,
+                          color: scheme.onSurfaceVariant,
+                        ),
+                        prefixIcon: const Icon(CupertinoIcons.search, size: 18),
+                        suffixIcon: _textEditingController.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(
+                                    CupertinoIcons.xmark_circle_fill,
+                                    size: 16),
+                                onPressed: _clearSearch,
+                              )
+                            : null,
+                        filled: true,
+                        fillColor: scheme.surfaceContainerHigh,
+                        border: OutlineInputBorder(
+                          borderRadius: AppRadius.borderFull,
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: AppRadius.borderFull,
+                          borderSide: BorderSide(color: scheme.primary),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.md,
+                          vertical: AppSpacing.sm,
                         ),
                       ),
                     ),
@@ -252,93 +222,95 @@ class _ScreenSearchState extends State<ScreenSearch> {
                 ),
 
                 // Filter Chips
-                SliverToBoxAdapter(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        children: settingsState.ytService ==
-                                YouTubeServices.invidious.name
-                            ? [
-                                _buildFilterChip(locals.filterAll, 'all',
-                                    settingsState.ytService),
-                                const SizedBox(width: 8),
-                                _buildFilterChip(locals.filterVideos, 'video',
-                                    settingsState.ytService),
-                                const SizedBox(width: 8),
-                                _buildFilterChip(locals.filterChannels,
-                                    'channel', settingsState.ytService),
-                                const SizedBox(width: 8),
-                                _buildFilterChip(locals.filterPlaylists,
-                                    'playlist', settingsState.ytService),
-                              ]
-                            : settingsState.ytService ==
-                                    YouTubeServices.newpipe.name
-                                ? [
-                                    _buildFilterChip(locals.filterAll, 'all',
-                                        settingsState.ytService),
-                                    const SizedBox(width: 8),
-                                    _buildFilterChip(locals.filterVideos,
-                                        'videos', settingsState.ytService),
-                                    const SizedBox(width: 8),
-                                    _buildFilterChip(locals.filterChannels,
-                                        'channels', settingsState.ytService),
-                                    const SizedBox(width: 8),
-                                    _buildFilterChip(locals.filterPlaylists,
-                                        'playlists', settingsState.ytService),
-                                    const SizedBox(width: 8),
-                                    _buildFilterChip(locals.filterMusic,
-                                        'music_songs', settingsState.ytService),
-                                  ]
-                                : [
-                                    _buildFilterChip(locals.filterAll, 'all',
-                                        settingsState.ytService),
-                                    const SizedBox(width: 8),
-                                    _buildFilterChip(locals.filterVideos,
-                                        'videos', settingsState.ytService),
-                                    const SizedBox(width: 8),
-                                    _buildFilterChip(locals.filterChannels,
-                                        'channels', settingsState.ytService),
-                                    const SizedBox(width: 8),
-                                    _buildFilterChip(locals.filterPlaylists,
-                                        'playlists', settingsState.ytService),
-                                    const SizedBox(width: 8),
-                                    _buildFilterChip(locals.filterMusic,
-                                        'music_songs', settingsState.ytService),
-                                  ],
-                      ),
+                SizedBox(
+                  height: 40,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                    child: Row(
+                      children: settingsState.ytService ==
+                              YouTubeServices.invidious.name
+                          ? [
+                              _buildFilterChip(locals.filterAll, 'all',
+                                  settingsState.ytService),
+                              AppSpacing.width8,
+                              _buildFilterChip(locals.filterVideos, 'video',
+                                  settingsState.ytService),
+                              AppSpacing.width8,
+                              _buildFilterChip(locals.filterChannels,
+                                  'channel', settingsState.ytService),
+                              AppSpacing.width8,
+                              _buildFilterChip(locals.filterPlaylists,
+                                  'playlist', settingsState.ytService),
+                            ]
+                          : settingsState.ytService ==
+                                  YouTubeServices.newpipe.name
+                              ? [
+                                  _buildFilterChip(locals.filterAll, 'all',
+                                      settingsState.ytService),
+                                  AppSpacing.width8,
+                                  _buildFilterChip(locals.filterVideos,
+                                      'videos', settingsState.ytService),
+                                  AppSpacing.width8,
+                                  _buildFilterChip(locals.filterChannels,
+                                      'channels', settingsState.ytService),
+                                  AppSpacing.width8,
+                                  _buildFilterChip(locals.filterPlaylists,
+                                      'playlists', settingsState.ytService),
+                                  AppSpacing.width8,
+                                  _buildFilterChip(locals.filterMusic,
+                                      'music_songs', settingsState.ytService),
+                                ]
+                              : [
+                                  _buildFilterChip(locals.filterAll, 'all',
+                                      settingsState.ytService),
+                                  AppSpacing.width8,
+                                  _buildFilterChip(locals.filterVideos,
+                                      'videos', settingsState.ytService),
+                                  AppSpacing.width8,
+                                  _buildFilterChip(locals.filterChannels,
+                                      'channels', settingsState.ytService),
+                                  AppSpacing.width8,
+                                  _buildFilterChip(locals.filterPlaylists,
+                                      'playlists', settingsState.ytService),
+                                  AppSpacing.width8,
+                                  _buildFilterChip(locals.filterMusic,
+                                      'music_songs', settingsState.ytService),
+                                ],
                     ),
                   ),
                 ),
-              ],
-              body: BlocBuilder<SearchBloc, SearchState>(
-                builder: (context, state) {
-                  // Show search history when text is empty and history is enabled
-                  if (_showSearchHistory &&
-                      _textEditingController.text.isEmpty &&
-                      settingsState.isSearchHistoryVisible &&
-                      settingsState.isSearchHistoryEnabled) {
-                    return _buildSearchHistorySection(
-                        state.searchHistory, isDark);
-                  }
+                AppSpacing.height8,
+                Expanded(
+                  child: BlocBuilder<SearchBloc, SearchState>(
+                    builder: (context, state) {
+                      // Show search history when text is empty and history is enabled
+                      if (_showSearchHistory &&
+                          _textEditingController.text.isEmpty &&
+                          settingsState.isSearchHistoryVisible &&
+                          settingsState.isSearchHistoryEnabled) {
+                        return _buildSearchHistorySection(state.searchHistory);
+                      }
 
-                  // NEWPIPE
-                  if (settingsState.ytService == YouTubeServices.newpipe.name) {
-                    return _buildNewPipeContent(state, settingsState, locals);
-                  }
-                  // INVIDIOUS
-                  else if (settingsState.ytService ==
-                      YouTubeServices.invidious.name) {
-                    return _buildInvidiousContent(state, settingsState, locals);
-                  }
-                  // PIPED
-                  else {
-                    return _buildPipedContent(state, settingsState, locals);
-                  }
-                },
-              ),
+                      // NEWPIPE
+                      if (settingsState.ytService ==
+                          YouTubeServices.newpipe.name) {
+                        return _buildNewPipeContent(state, settingsState, locals);
+                      }
+                      // INVIDIOUS
+                      else if (settingsState.ytService ==
+                          YouTubeServices.invidious.name) {
+                        return _buildInvidiousContent(
+                            state, settingsState, locals);
+                      }
+                      // PIPED
+                      else {
+                        return _buildPipedContent(state, settingsState, locals);
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         );
@@ -346,9 +318,9 @@ class _ScreenSearchState extends State<ScreenSearch> {
     );
   }
 
-  Widget _buildSearchHistorySection(
-      List<LocalSearchHistory> history, bool isDark) {
+  Widget _buildSearchHistorySection(List<LocalSearchHistory> history) {
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final locals = S.of(context);
 
     if (history.isEmpty) {
@@ -359,15 +331,13 @@ class _ScreenSearchState extends State<ScreenSearch> {
             Container(
               padding: const EdgeInsets.all(AppSpacing.xl),
               decoration: BoxDecoration(
-                color: isDark
-                    ? AppColors.surfaceVariantDark
-                    : AppColors.surfaceVariant,
+                color: scheme.surfaceContainerHigh,
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 CupertinoIcons.search,
                 size: AppIconSize.xxxl,
-                color: AppColors.disabled,
+                color: scheme.onSurfaceVariant,
               ),
             ),
             AppSpacing.height24,
@@ -382,9 +352,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
             Text(
               locals.searchForVideosChannels,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: isDark
-                    ? AppColors.onSurfaceVariantDark
-                    : AppColors.onSurfaceVariant,
+                color: scheme.onSurfaceVariant,
               ),
               textAlign: TextAlign.center,
             ),
@@ -408,9 +376,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
                 locals.recentSearches,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: isDark
-                      ? AppColors.onSurfaceVariantDark
-                      : AppColors.onSurfaceVariant,
+                  color: scheme.onSurfaceVariant,
                 ),
               ),
               TextButton(
@@ -423,10 +389,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
                 ),
                 child: Text(
                   locals.clearAll,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: AppColors.primary,
-                  ),
+                  style: TextStyle(fontSize: 13, color: scheme.primary),
                 ),
               ),
             ],
@@ -446,9 +409,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
                 leading: Icon(
                   CupertinoIcons.time,
                   size: 18,
-                  color: isDark
-                      ? AppColors.onSurfaceVariantDark
-                      : AppColors.onSurfaceVariant,
+                  color: scheme.onSurfaceVariant,
                 ),
                 title: Text(
                   item.query,
@@ -460,9 +421,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
                   icon: Icon(
                     CupertinoIcons.xmark,
                     size: 16,
-                    color: isDark
-                        ? AppColors.onSurfaceVariantDark
-                        : AppColors.onSurfaceVariant,
+                    color: scheme.onSurfaceVariant,
                   ),
                   onPressed: () => _deleteSearchHistoryItem(item.query),
                 ),
@@ -610,7 +569,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
 
   Widget _buildFilterChip(String label, String filter, String serviceType) {
     final isSelected = _selectedFilter == filter;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final scheme = Theme.of(context).colorScheme;
 
     return Theme(
       data: Theme.of(context).copyWith(
@@ -622,31 +581,17 @@ class _ScreenSearchState extends State<ScreenSearch> {
           label,
           style: TextStyle(
             fontSize: 13,
-            color: isSelected
-                ? (isDarkMode ? kWhiteColor : kWhiteColor)
-                : (isDarkMode
-                    ? kWhiteColor.withValues(alpha: 0.8)
-                    : kBlackColor),
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            color: isSelected ? scheme.onPrimaryContainer : scheme.onSurfaceVariant,
+            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
           ),
         ),
         selected: isSelected,
         onSelected: (_) => _onFilterChanged(filter, serviceType),
-        backgroundColor:
-            isDarkMode ? kWhiteColor.withValues(alpha: 0.1) : kGreyOpacityColor,
-        selectedColor: kRedColor,
-        checkmarkColor: kWhiteColor,
-        side: BorderSide(
-          color: isSelected
-              ? kRedColor
-              : (isDarkMode
-                  ? kWhiteColor.withValues(alpha: 0.3)
-                  : kGreyColor!.withValues(alpha: 0.3)),
-          width: 1,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        backgroundColor: scheme.surfaceContainerHigh,
+        selectedColor: scheme.primaryContainer,
+        checkmarkColor: scheme.onPrimaryContainer,
+        side: BorderSide.none,
+        shape: const StadiumBorder(),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         showCheckmark: false,
       ),

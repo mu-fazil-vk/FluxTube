@@ -25,6 +25,12 @@
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
+            <!-- YouTube links are routed by DeepLinkHandler (app_links). Flutter's
+                 built-in deep linking would also push the raw URL into GoRouter,
+                 which has no route for it and shows "Page Not Found". -->
+            <meta-data
+              android:name="flutter_deeplinking_enabled"
+              android:value="false" />
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
@@ -100,11 +106,6 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON"/>
             </intent-filter>
         </receiver>
-
-        <!-- Google Cast: the framework locates our CastOptions through this. -->
-        <meta-data
-            android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
-            android:value="com.fazilvk.fluxtube.player.CastOptionsProvider"/>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility?hl=en and

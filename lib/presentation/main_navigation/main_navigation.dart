@@ -1,60 +1,51 @@
-import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
-import 'package:fluxtube/core/colors.dart';
+import 'package:fluxtube/core/animations/animations.dart';
 import 'package:fluxtube/core/deep_link_handler.dart';
-import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
 import 'package:fluxtube/core/services/pip_service.dart';
+import 'package:fluxtube/core/services/update_checker.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/main_navigation/main_navigation_layout.dart';
+import 'package:fluxtube/presentation/main_navigation/widgets/floating_pill_nav_bar.dart';
+import 'package:fluxtube/presentation/main_navigation/widgets/fluxtube_app_bar.dart';
+import 'package:fluxtube/presentation/shorts/shorts_tab_page.dart';
 
-import '../download/screen_downloads.dart';
 import '../home/screen_home.dart';
 import '../saved/screen_saved.dart';
-import '../settings/screen_settings.dart';
 import '../subscriptions/screen_subscriptions.dart';
-import '../trending/screen_trending.dart';
 
-ValueNotifier<int> indexChangeNotifier = ValueNotifier(0);
+/// Fixed tab indices — Settings is reached via the profile avatar in
+/// [FluxTubeAppBar], not a tab, and Downloads/Trending are folded into
+/// Library/Home respectively, so there is no longer a variable tab count to
+/// track (the pre-redesign version of this file re-indexed tabs at runtime
+/// depending on whether the active backend supported Trending).
+const _homeIndex = 0;
+const _shortsIndex = 1;
+const _libraryIndex = 3;
 
-/// Notifier for downloads screen tab selection
+/// Public alias of the Shorts tab's index, so [ShortsTabPage] can tell
+/// (via [indexChangeNotifier]) whether it's the currently active tab, to
+/// pause its video when the user swipes to another tab instead of letting
+/// it keep playing offstage inside the `IndexedStack`.
+const shortsTabIndex = _shortsIndex;
+
+ValueNotifier<int> indexChangeNotifier = ValueNotifier(_homeIndex);
+
+/// Notifier for the Library tab's Downloads section sub-tab selection.
 /// 0 = Downloading, 1 = Completed, 2 = All
 ValueNotifier<int?> downloadsTabNotifier = ValueNotifier(null);
 
-/// Pending navigation info
-String? _pendingNavigation;
-int? _pendingDownloadsTab;
-
-/// Navigate to the Downloads tab
-/// [downloadsTabIndex] - optional tab index within Downloads screen (0=Downloading, 1=Completed, 2=All)
+/// Navigate to the Library tab (Downloads now lives there, not its own tab).
+/// [downloadsTabIndex] - optional sub-tab (0=Downloading, 1=Completed, 2=All)
 void navigateToDownloadsTab({int? downloadsTabIndex}) {
-  _pendingNavigation = 'downloads';
-  _pendingDownloadsTab = downloadsTabIndex;
-  // Set the downloads tab notifier if specified
   if (downloadsTabIndex != null) {
     downloadsTabNotifier.value = downloadsTabIndex;
   }
-  // Set index to a known downloads position (will be adjusted by MainNavigation if needed)
-  // Downloads is at index 4 with trending, index 3 without
-  // Use index 4, the MainNavigation will handle pending navigation and find correct index
-  indexChangeNotifier.value = 4;
-}
-
-/// Get and clear pending navigation target
-String? consumePendingNavigation() {
-  final target = _pendingNavigation;
-  _pendingNavigation = null;
-  return target;
-}
-
-/// Get and clear pending downloads tab index
-int? consumePendingDownloadsTab() {
-  final tab = _pendingDownloadsTab;
-  _pendingDownloadsTab = null;
-  return tab;
+  indexChangeNotifier.value = _libraryIndex;
 }
 
 class MainNavigation extends StatefulWidget {
@@ -67,94 +58,86 @@ class MainNavigation extends StatefulWidget {
 class MainNavigationState extends State<MainNavigation> {
   bool _hasShownInstanceFailedSnackbar = false;
   final DeepLinkHandler _deepLinkHandler = DeepLinkHandler();
-  bool? _previousShowTrending;
   final Map<String, Widget> _pageCache = {};
 
-  List<Widget> _getPages(bool showTrending) {
-    if (showTrending) {
-      return [
-        _cachedPage('home', const ScreenHome()),
-        _cachedPage('trending', const ScreenTrending()),
-        _cachedPage('subscriptions', const ScreenSubscriptions()),
-        _cachedPage('saved', const ScreenSaved()),
-        _cachedPage('downloads', const ScreenDownloads()),
-        _cachedPage('settings', const ScreenSettings()),
-      ];
-    } else {
-      return [
-        _cachedPage('home', const ScreenHome()),
-        _cachedPage('subscriptions', const ScreenSubscriptions()),
-        _cachedPage('saved', const ScreenSaved()),
-        _cachedPage('downloads', const ScreenDownloads()),
-        _cachedPage('settings', const ScreenSettings()),
-      ];
+  // Header show/hide is driven by `headerVisibleNotifier` (declared in
+  // main_navigation_layout.dart, not here) so tab pages can read it too and
+  // collapse the space they reserve for the header in lockstep — see
+  // MainNavigationLayout.headerSpacer.
+
+  void _onTabChanged() => headerVisibleNotifier.value = true;
+
+  bool _onContentScroll(ScrollNotification notification) {
+    final metrics = notification.metrics;
+    // Horizontal rails (category chips, Continue Watching, shorts) must not
+    // toggle the header.
+    if (metrics.axis != Axis.vertical) return false;
+    // At the top there is nothing left to scroll, so no "forward" user scroll
+    // ever arrives — without this the header could stay hidden for good.
+    if (metrics.pixels <= metrics.minScrollExtent + 8) {
+      headerVisibleNotifier.value = true;
+      return false;
     }
+    if (notification is UserScrollNotification) {
+      switch (notification.direction) {
+        case ScrollDirection.reverse: // scrolling down -> hide
+          headerVisibleNotifier.value = false;
+        case ScrollDirection.forward: // scrolling up -> reveal
+          headerVisibleNotifier.value = true;
+        case ScrollDirection.idle:
+          break;
+      }
+    }
+    return false;
   }
 
   Widget _cachedPage(String key, Widget page) {
     return _pageCache.putIfAbsent(key, () => page);
   }
 
-  List<TabItem> _getTabItems(S locals, bool showTrending) {
-    if (showTrending) {
-      return [
-        TabItem(
-            icon: CupertinoIcons.house_fill, title: locals.home, key: "home"),
-        TabItem(
-            icon: CupertinoIcons.flame_fill,
-            title: locals.trending,
-            key: "trending"),
-        TabItem(
-            icon: CupertinoIcons.person_2_fill,
-            title: locals.subscriptions,
-            key: "subscriptions"),
-        TabItem(
-            icon: CupertinoIcons.bookmark_fill,
-            title: locals.saved,
-            key: "saved"),
-        TabItem(
-            icon: CupertinoIcons.arrow_down_circle_fill,
-            title: locals.downloads,
-            key: "downloads"),
-        TabItem(
-            icon: CupertinoIcons.settings,
-            title: locals.settings,
-            key: "settings"),
+  List<Widget> _pages() => [
+        _cachedPage('home', const ScreenHome()),
+        _cachedPage('shorts', const ShortsTabPage()),
+        _cachedPage('subscriptions', const ScreenSubscriptions()),
+        _cachedPage('library', const ScreenSaved()),
       ];
-    } else {
-      return [
-        TabItem(
-            icon: CupertinoIcons.house_fill, title: locals.home, key: "home"),
-        TabItem(
-            icon: CupertinoIcons.person_2_fill,
-            title: locals.subscriptions,
-            key: "subscriptions"),
-        TabItem(
-            icon: CupertinoIcons.bookmark_fill,
-            title: locals.saved,
-            key: "saved"),
-        TabItem(
-            icon: CupertinoIcons.arrow_down_circle_fill,
-            title: locals.downloads,
-            key: "downloads"),
-        TabItem(
-            icon: CupertinoIcons.settings,
-            title: locals.settings,
-            key: "settings"),
+
+  List<PillNavItem> _tabItems(S locals) => [
+        PillNavItem(
+          icon: Icons.home_outlined,
+          activeIcon: Icons.home,
+          label: locals.home,
+        ),
+        PillNavItem(
+          icon: Icons.bolt_outlined,
+          activeIcon: Icons.bolt,
+          label: locals.shorts,
+        ),
+        PillNavItem(
+          icon: Icons.subscriptions_outlined,
+          activeIcon: Icons.subscriptions,
+          label: locals.subscriptions,
+        ),
+        PillNavItem(
+          icon: Icons.video_library_outlined,
+          activeIcon: Icons.video_library,
+          label: locals.library,
+        ),
       ];
-    }
-  }
 
   @override
   void initState() {
     super.initState();
+    indexChangeNotifier.addListener(_onTabChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _deepLinkHandler.init(context);
+      UpdateChecker().checkOnStartup(context);
     });
   }
 
   @override
   void dispose() {
+    indexChangeNotifier.removeListener(_onTabChanged);
     _deepLinkHandler.dispose();
     super.dispose();
   }
@@ -162,168 +145,111 @@ class MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     final locals = S.of(context);
+    final pages = _pages();
+    final items = _tabItems(locals);
 
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      buildWhen: (previous, current) =>
-          previous.ytService != current.ytService ||
-          previous.userInstanceFailed != current.userInstanceFailed,
-      builder: (context, settingsState) {
-        // Disable trending tab for NewPipe Extractor service
-        final showTrending =
-            settingsState.ytService != YouTubeServices.newpipe.name;
-        final pages = _getPages(showTrending);
-        final items = _getTabItems(locals, showTrending);
-
-        final maxIndex = pages.length - 1;
-
-        // Adjust index when transitioning between services with different tab counts
-        if (_previousShowTrending != null &&
-            _previousShowTrending != showTrending) {
-          final currentIndex = indexChangeNotifier.value;
-          int newIndex;
-
-          if (showTrending && !_previousShowTrending!) {
-            // Switching FROM NewPipe (4 tabs) TO other service (5 tabs)
-            // Indices after Home need to shift up by 1 to account for Trending tab
-            // 0 (Home) -> 0 (Home)
-            // 1 (Subscriptions) -> 2 (Subscriptions)
-            // 2 (Saved) -> 3 (Saved)
-            // 3 (Settings) -> 4 (Settings)
-            newIndex = currentIndex == 0 ? 0 : currentIndex + 1;
-          } else {
-            // Switching FROM other service (5 tabs) TO NewPipe (4 tabs)
-            // Indices after Trending need to shift down by 1
-            // 0 (Home) -> 0 (Home)
-            // 1 (Trending) -> 0 (Home) - Trending doesn't exist, go to Home
-            // 2 (Subscriptions) -> 1 (Subscriptions)
-            // 3 (Saved) -> 2 (Saved)
-            // 4 (Settings) -> 3 (Settings)
-            if (currentIndex <= 1) {
-              newIndex = 0;
-            } else {
-              newIndex = currentIndex - 1;
-            }
-          }
-
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            indexChangeNotifier.value = newIndex;
-          });
-        }
-        _previousShowTrending = showTrending;
-
-        return BlocListener<SettingsBloc, SettingsState>(
-          listenWhen: (previous, current) =>
-              !previous.userInstanceFailed && current.userInstanceFailed,
-          listener: (context, state) {
-            if (state.userInstanceFailed && !_hasShownInstanceFailedSnackbar) {
-              _hasShownInstanceFailedSnackbar = true;
-              final failedName =
-                  state.failedInstanceName ?? 'Your preferred instance';
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    '$failedName is not responding. Switched to a working instance.',
-                  ),
-                  duration: const Duration(seconds: 4),
-                  behavior: SnackBarBehavior.floating,
-                  action: SnackBarAction(
-                    label: 'OK',
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    },
-                  ),
-                ),
-              );
-            }
-          },
-          child: ValueListenableBuilder(
-            valueListenable: indexChangeNotifier,
-            builder: (BuildContext context, int index, Widget? _) {
-              // Check for pending navigation from notification tap
-              final pendingNav = consumePendingNavigation();
-              if (pendingNav == 'downloads') {
-                // Find downloads tab index by key
-                final downloadsIndex =
-                    items.indexWhere((item) => item.key == 'downloads');
-                if (downloadsIndex >= 0) {
-                  // Get the pending downloads tab before navigating
-                  final pendingDownloadsTab = consumePendingDownloadsTab();
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    indexChangeNotifier.value = downloadsIndex;
-                    // Set the downloads tab after navigation
-                    if (pendingDownloadsTab != null) {
-                      downloadsTabNotifier.value = pendingDownloadsTab;
-                    }
-                  });
-                }
-              }
-
-              // Ensure index is within bounds
-              final safeIndex = index.clamp(0, maxIndex);
-              // Update the notifier if index was out of bounds (e.g., when trending tab is removed)
-              if (index != safeIndex) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  indexChangeNotifier.value = safeIndex;
-                });
-              }
-              return PopScope(
-                canPop: false,
-                onPopInvokedWithResult: (didPop, _) async {
-                  if (didPop) return;
-                  final watchState = context.read<WatchBloc>().state;
-                  if (watchState.isPipEnabled &&
-                      watchState.selectedVideoBasicDetails != null) {
-                    final pipService = PipService();
-                    await pipService.setVideoPlaying(true);
-                    await pipService.setAspectRatio(16, 9);
-                    final entered = await pipService.enterPipMode();
-                    if (entered) return;
-                  }
-                  // Stop the player before exiting to prevent FlutterJNI crash
-                  final globalPlayer = GlobalPlayerController();
-                  if (globalPlayer.hasActivePlayer) {
-                    globalPlayer.disposePlayer();
-                    // Small delay to ensure player is fully stopped
-                    await Future.delayed(const Duration(milliseconds: 100));
-                  }
-                  // Exit the app
-                  SystemNavigator.pop();
+    return BlocListener<SettingsBloc, SettingsState>(
+      listenWhen: (previous, current) =>
+          !previous.userInstanceFailed && current.userInstanceFailed,
+      listener: (context, state) {
+        if (state.userInstanceFailed && !_hasShownInstanceFailedSnackbar) {
+          _hasShownInstanceFailedSnackbar = true;
+          final failedName =
+              state.failedInstanceName ?? 'Your preferred instance';
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '$failedName is not responding. Switched to a working instance.',
+              ),
+              duration: const Duration(seconds: 4),
+              behavior: SnackBarBehavior.floating,
+              action: SnackBarAction(
+                label: 'OK',
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 },
-                child: Scaffold(
-                  body: SafeArea(
-                    child: _LazyIndexedStack(
-                      index: safeIndex,
-                      children: pages,
-                    ),
-                  ),
-                  bottomNavigationBar: BottomBarSalomon(
-                    items: items,
-                    top: 25,
-                    bottom: 25,
-                    iconSize: 26,
-                    heightItem: 50,
-                    backgroundColor: kTransparentColor,
-                    color: kGreyColor!,
-                    colorSelected: kRedColor,
-                    backgroundSelected: kGreyOpacityColor!,
-                    indexSelected: safeIndex,
-                    titleStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                    onTap: (int index) => indexChangeNotifier.value = index,
-                  ),
-                ),
-              );
-            },
-          ),
-        );
+              ),
+            ),
+          );
+        }
       },
+      child: ValueListenableBuilder(
+        valueListenable: indexChangeNotifier,
+        builder: (BuildContext context, int index, Widget? _) {
+          final safeIndex = index.clamp(0, pages.length - 1);
+          if (index != safeIndex) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              indexChangeNotifier.value = safeIndex;
+            });
+          }
+          return PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (didPop, _) async {
+              if (didPop) return;
+              final watchState = context.read<WatchBloc>().state;
+              if (watchState.isPipEnabled &&
+                  watchState.selectedVideoBasicDetails != null) {
+                final pipService = PipService();
+                await pipService.setVideoPlaying(true);
+                await pipService.setAspectRatio(16, 9);
+                final entered = await pipService.enterPipMode();
+                if (entered) return;
+              }
+              // Stop the player before exiting to prevent FlutterJNI crash
+              final globalPlayer = GlobalPlayerController();
+              if (globalPlayer.hasActivePlayer) {
+                globalPlayer.disposePlayer();
+                // Small delay to ensure player is fully stopped
+                await Future.delayed(const Duration(milliseconds: 100));
+              }
+              // Exit the app
+              SystemNavigator.pop();
+            },
+            child: Scaffold(
+              extendBody: true,
+              body: Stack(
+                children: [
+                  NotificationListener<ScrollNotification>(
+                    onNotification: _onContentScroll,
+                    child: _LazyIndexedStack(index: safeIndex, children: pages),
+                  ),
+                  // Only Home has the floating wordmark/search/profile bar —
+                  // every other tab already carries its own header UI
+                  // (Subscriptions/Library have their own search rows and
+                  // app bars; Shorts is full-bleed with its own overlay).
+                  if (safeIndex == _homeIndex)
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: ValueListenableBuilder<bool>(
+                        valueListenable: headerVisibleNotifier,
+                        builder: (context, visible, child) => AnimatedSlide(
+                          offset: visible ? Offset.zero : const Offset(0, -1),
+                          duration: AppAnimations.medium,
+                          curve: AppAnimations.defaultCurve,
+                          child: AnimatedOpacity(
+                            opacity: visible ? 1 : 0,
+                            duration: AppAnimations.medium,
+                            curve: AppAnimations.defaultCurve,
+                            child: child,
+                          ),
+                        ),
+                        child: const FluxTubeAppBar(),
+                      ),
+                    ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FloatingPillNavBar(
+                      items: items,
+                      currentIndex: safeIndex,
+                      onTap: (i) => indexChangeNotifier.value = i,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

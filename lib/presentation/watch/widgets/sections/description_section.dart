@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:fluxtube/core/colors.dart';
+import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/watch/models/piped/video/watch_resp.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,17 +22,25 @@ class DescriptionSection extends StatelessWidget {
     final theme = Theme.of(context);
     final description = watchInfo.description ?? locals.noVideoDescription;
 
-    return SizedBox(
-      height: _height * 0.40,
-      child: SingleChildScrollView(
-        child: SelectableText.rich(
-          _buildDescriptionSpan(context, description, theme),
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainer,
+        borderRadius: AppRadius.borderLg,
+      ),
+      child: SizedBox(
+        height: _height * 0.40,
+        child: SingleChildScrollView(
+          child: SelectableText.rich(
+            _buildDescriptionSpan(context, description, theme),
+          ),
         ),
       ),
     );
   }
 
-  TextSpan _buildDescriptionSpan(BuildContext context, String text, ThemeData theme) {
+  TextSpan _buildDescriptionSpan(
+      BuildContext context, String text, ThemeData theme) {
     // Decode HTML entities
     String decoded = text
         .replaceAll('&amp;', '&')
@@ -62,11 +70,10 @@ class DescriptionSection extends StatelessWidget {
       spans.add(TextSpan(
         text: url,
         style: theme.textTheme.bodyMedium?.copyWith(
-          color: AppColors.primary,
+          color: theme.colorScheme.primary,
           decoration: TextDecoration.none,
         ),
-        recognizer: TapGestureRecognizer()
-          ..onTap = () => _launchUrl(url),
+        recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(url),
       ));
 
       lastEnd = match.end;

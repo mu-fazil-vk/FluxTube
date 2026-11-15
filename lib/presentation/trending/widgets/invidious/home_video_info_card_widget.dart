@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:fluxtube/core/colors.dart';
+import 'package:flutter/material.dart' show Colors, Theme;
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/domain/trending/models/invidious/invidious_trending_resp.dart';
@@ -28,8 +28,14 @@ class InvidiousTrendingVideoInfoCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locals = S.of(context);
+    final scheme = Theme.of(context).colorScheme;
+    // Invidious reports live streams as lengthSeconds == 0 (and often
+    // liveNow == false), which otherwise renders as "00:00 · 0 seconds ago".
+    final bool live = isLive ||
+        (cardInfo?.liveNow ?? false) ||
+        cardInfo?.lengthSeconds == 0;
     final String duration =
-        formatDuration(isLive ? -1 : cardInfo?.lengthSeconds);
+        formatDuration(live ? -1 : cardInfo?.lengthSeconds);
     return Padding(
       padding: const EdgeInsets.only(top: 5, left: 20, right: 20, bottom: 10),
       child: Column(
@@ -39,7 +45,7 @@ class InvidiousTrendingVideoInfoCardWidget extends StatelessWidget {
               width: double.infinity,
               height: 230,
               decoration: BoxDecoration(
-                color: kGreyColor,
+                color: scheme.surfaceContainerHigh,
                 borderRadius: BorderRadius.circular(20),
                 image: cardInfo?.videoThumbnails?.first.url != null
                     ? DecorationImage(
@@ -53,11 +59,11 @@ class InvidiousTrendingVideoInfoCardWidget extends StatelessWidget {
               child: Align(
                   alignment: const Alignment(0.85, 0.85),
                   child: Container(
-                      color: duration == "Live" ? kRedColor : kBlackColor,
+                      color: duration == "Live" ? scheme.error : Colors.black87,
                       padding: const EdgeInsets.only(right: 5, left: 5),
                       child: Text(
                         duration,
-                        style: const TextStyle(color: kWhiteColor),
+                        style: const TextStyle(color: Colors.white),
                       )))),
           Padding(
             padding: const EdgeInsets.only(right: 12, left: 12),
@@ -73,7 +79,9 @@ class InvidiousTrendingVideoInfoCardWidget extends StatelessWidget {
                 // * views row
                 ViewRowWidget(
                   views: cardInfo?.viewCount ?? 0,
-                  uploadedDate: cardInfo?.publishedText ?? locals.noUploadDate,
+                  uploadedDate: live
+                      ? 'Live now'
+                      : cardInfo?.publishedText ?? locals.noUploadDate,
                 ),
 
                 kHeightBox10,

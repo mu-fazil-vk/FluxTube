@@ -21,7 +21,6 @@ import 'package:fluxtube/presentation/watch/widgets/global_pip_overlay.dart';
 import 'package:fluxtube/core/services/audio_handler_service.dart';
 import 'package:fluxtube/core/services/log_collector.dart';
 import 'package:fluxtube/core/services/subscription_notifier.dart';
-import 'package:media_kit/media_kit.dart';
 
 import 'core/di/injectable.dart';
 
@@ -36,9 +35,6 @@ void main() async {
       LogCollector().log(message, tag: 'FLUTTER');
     }
   };
-
-  // Initialize media_kit
-  MediaKit.ensureInitialized();
 
   // Allow up to 200 MB for decoded image bitmaps (default is 100 MB)
   PaintingBinding.instance.imageCache.maximumSizeBytes = 200 << 20;

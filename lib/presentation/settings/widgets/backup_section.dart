@@ -2,10 +2,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
-import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:fluxtube/infrastructure/settings/newpipe_data_service.dart';
 import 'package:fluxtube/core/di/injectable.dart';
+import 'package:fluxtube/presentation/settings/widgets/settings_components.dart';
 import 'package:share_plus/share_plus.dart' show ShareParams, SharePlus, XFile;
 
 class BackupSettingsSection extends StatelessWidget {
@@ -13,7 +13,7 @@ class BackupSettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final S locals = S.of(context);
+    final locals = S.of(context);
 
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (previous, current) =>
@@ -22,69 +22,41 @@ class BackupSettingsSection extends StatelessWidget {
       builder: (context, settingsState) {
         final currentProfile = settingsState.currentProfile;
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        return SettingsSectionCard(
+          title: currentProfile != 'default'
+              ? '${locals.backupRestore} · $currentProfile'
+              : locals.backupRestore,
           children: [
-            Text(
-              locals.backupRestore,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontSize: 16),
-            ),
-            if (currentProfile != 'default')
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  'Profile: $currentProfile',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                ),
-              ),
-            kHeightBox10,
             // NewPipe compatible export (ZIP)
-            ListTile(
-              title: Text(locals.exportSubscriptions,
-                  style: Theme.of(context).textTheme.titleMedium),
-              subtitle: const Text('Export as NewPipe-compatible ZIP (subscriptions, history, saved)'),
-              leading: const Icon(Icons.archive_outlined),
-              onTap: () async {
-                await _exportAsZip(context, currentProfile, locals);
-              },
+            SettingsActionTile(
+              icon: Icons.archive_outlined,
+              title: locals.exportSubscriptions,
+              subtitle:
+                  'Export as NewPipe-compatible ZIP (subscriptions, history, saved)',
+              onTap: () async => _exportAsZip(context, currentProfile, locals),
             ),
             // Import from NewPipe ZIP
-            ListTile(
-              title: Text(locals.importSubscriptions,
-                  style: Theme.of(context).textTheme.titleMedium),
-              subtitle: const Text('Import from NewPipe or FluxTube ZIP file'),
-              leading: const Icon(Icons.unarchive_outlined),
-              onTap: () async {
-                await _importFromZip(context, currentProfile, locals);
-              },
+            SettingsActionTile(
+              icon: Icons.unarchive_outlined,
+              title: locals.importSubscriptions,
+              subtitle: 'Import from NewPipe or FluxTube ZIP file',
+              onTap: () async => _importFromZip(context, currentProfile, locals),
             ),
-            const Divider(),
             // Legacy JSON export (for backwards compatibility)
-            ListTile(
-              title: Text('${locals.exportSubscriptions} (JSON)',
-                  style: Theme.of(context).textTheme.bodyMedium),
-              subtitle: Text(locals.backupRestoreDescription),
-              leading: const Icon(Icons.upload_outlined, size: 20),
-              dense: true,
-              onTap: () async {
-                await _exportSubscriptionsJson(context, currentProfile, locals);
-              },
+            SettingsActionTile(
+              icon: Icons.upload_outlined,
+              title: '${locals.exportSubscriptions} (JSON)',
+              subtitle: locals.backupRestoreDescription,
+              onTap: () async =>
+                  _exportSubscriptionsJson(context, currentProfile, locals),
             ),
             // Legacy JSON import
-            ListTile(
-              title: Text('${locals.importSubscriptions} (JSON)',
-                  style: Theme.of(context).textTheme.bodyMedium),
-              subtitle: Text(locals.selectFile),
-              leading: const Icon(Icons.download_outlined, size: 20),
-              dense: true,
-              onTap: () async {
-                await _importSubscriptionsJson(context, currentProfile, locals);
-              },
+            SettingsActionTile(
+              icon: Icons.download_outlined,
+              title: '${locals.importSubscriptions} (JSON)',
+              subtitle: locals.selectFile,
+              onTap: () async =>
+                  _importSubscriptionsJson(context, currentProfile, locals),
             ),
           ],
         );

@@ -48,6 +48,7 @@ class InvidiousLikeSection extends StatelessWidget {
               previous.isPipDisabled != current.isPipDisabled,
           builder: (context, settingsState) {
             return ActionButtonsRow(
+              videoId: id,
               likes: watchInfo.likeCount ?? 0,
               dislikes: watchInfo.dislikeCount ?? 0,
               showDislike: settingsState.isDislikeVisible,

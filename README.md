@@ -12,13 +12,13 @@
 
 An ad-free YouTube client built with Flutter. Watch YouTube videos without ads, subscribe to channels, retrieve video dislikes, read comments, save videos, and more.
 
-> **Note:** This app was originally created for personal use. If it's not for you, that's fine - just don't use it. I've seen comments calling this a "NewPipe clone." Sure, if that's how you see it. But FluxTube is built with Flutter, supports multiple YouTube services (NewPipe Extractor, Piped, Invidious, Explode), and the whole point of having multiple backends is to keep the app working - if one service goes down, switch to another. If you actually care about improving it, open an issue. No offense.
+> **Note:** This app was originally created for personal use. If it's not for you, that's fine - just don't use it. I've seen comments calling this a "NewPipe clone." Sure, if that's how you see it. But FluxTube is built with Flutter, supports multiple YouTube services (NewPipe Extractor, Invidious), and the whole point of having multiple backends is to keep the app working - if one service goes down, switch to another. If you actually care about improving it, open an issue. No offense.
 
 ## Features
 
 - **No Login Needed**: Use the app without any login requirements.
 - **Ad-Free Experience**: Enjoy YouTube videos without interruptions.
-- **Multiple YouTube Services**: Switch between NewPipe Extractor, Piped, Invidious, or Explode backends.
+- **Multiple YouTube Services**: Switch between NewPipe Extractor and Invidious backends (Piped and Explode were retired — see [Retired providers](#retired-providers)).
 - **Download Videos**: Download videos and audio in multiple qualities with FFmpeg merging support.
 - **Background Playback**: Continue listening with notification controls (play/pause/seek).
 - **Picture-in-Picture**: System PiP mode - auto-enters when pressing home while playing.
@@ -45,10 +45,14 @@ Some features are only available when using the NewPipe Extractor service.
 ## Screenshots
 
 <div align="center">
-  <img src="doc/home.png" alt="FluxTube Home" width="22%">
-  <img src="doc/watch.png" alt="FluxTube Watch" width="22%">
-  <img src="doc/trending.png" alt="FluxTube Trending" width="22%">
-  <img src="doc/settings.png" alt="FluxTube settings" width="22%">
+  <img src="doc/screenshots/home.jpg" alt="Home: hero card, Continue Watching and category chips" width="30%">
+  <img src="doc/screenshots/watch.jpg" alt="Watch: player controls, actions and related videos" width="30%">
+  <img src="doc/screenshots/shorts.jpg" alt="Shorts feed from your subscriptions" width="30%">
+</div>
+<div align="center">
+  <img src="doc/screenshots/subscriptions.jpg" alt="Subscriptions videos feed with filters" width="30%">
+  <img src="doc/screenshots/library.jpg" alt="Library: watch stats, saved, history, downloads and playlists" width="30%">
+  <img src="doc/screenshots/settings.jpg" alt="Settings with profiles" width="30%">
 </div>
 
 ## Download
@@ -71,29 +75,40 @@ You can download the latest version of the app from the [releases page](https://
 
 If you select "NewPipe Extractor" as your YouTube service in FluxTube, it uses the same [NewPipe Extractor](https://github.com/TeamNewPipe/NewPipeExtractor) library under the hood. So what's the difference?
 
-|                             | FluxTube                                           | NewPipe App                   |
-| --------------------------- | -------------------------------------------------- | ----------------------------- |
-| **Framework**         | Flutter (cross-platform)                           | Native Android (Kotlin/Java)  |
-| **Multiple Backends** | Yes (NewPipe Extractor, Piped, Invidious, Explode) | No (NewPipe Extractor only)   |
-| **Fallback Options**  | Switch service if one breaks                       | Wait for app update           |
-| **SponsorBlock**      | Built-in                                           | Requires fork (e.g., Tubular) |
-| **Multiple Profiles** | Yes                                                | No                            |
-| **Download**          | Yes (all services, with FFmpeg merging)            | Yes                           |
-| **Background Play**   | Yes (with notification controls)                   | Yes                           |
-| **System PiP**        | Yes (auto-enter on home press)                     | Yes                           |
+|                             | FluxTube                                | NewPipe App                   |
+| --------------------------- | --------------------------------------- | ----------------------------- |
+| **Framework**         | Flutter (cross-platform)                | Native Android (Kotlin/Java)  |
+| **Multiple Backends** | Yes (NewPipe Extractor, Invidious)      | No (NewPipe Extractor only)   |
+| **Fallback Options**  | Switch service if one breaks            | Wait for app update           |
+| **SponsorBlock**      | Built-in                                | Requires fork (e.g., Tubular) |
+| **Multiple Profiles** | Yes                                     | No                            |
+| **Download**          | Yes (all services, with FFmpeg merging) | Yes                           |
+| **Background Play**   | Yes (with notification controls)        | Yes                           |
+| **System PiP**        | Yes (auto-enter on home press)          | Yes                           |
 
-**TL;DR:** FluxTube gives you options. If NewPipe Extractor stops working tomorrow, you can switch to Piped or Invidious and keep watching. NewPipe app is more feature-complete for downloading, but you're stuck with one backend. The UIs are different too.
+**TL;DR:** FluxTube gives you options. If NewPipe Extractor stops working tomorrow, you can switch to Invidious and keep watching. NewPipe app is more feature-complete for downloading, but you're stuck with one backend. The UIs are different too.
 
 ## Recommended Settings
 
 For the best experience:
 
-| Use Case                                | YouTube Service    | Notes                                                 |
-| --------------------------------------- | ------------------ | ----------------------------------------------------- |
-| **Recommended**                   | NewPipe Extractor  | Direct extraction, most reliable, no instances needed |
-| **When NewPipe Extractor breaks** | Piped or Invidious | Instance-based, switch if one goes down               |
+| Use Case                                | YouTube Service     | Notes                                                 |
+| --------------------------------------- | ------------------- | ----------------------------------------------------- |
+| **Recommended**                   | NewPipe Extractor   | Direct extraction, most reliable, no instances needed |
+| **When NewPipe Extractor breaks** | Invidious (Limited) | Instance-based; few public instances still allow apps |
 
 > **Tip:** Click on  "Auto-Check Instances" in settings for automatic failover when an instance becomes unavailable.
+
+### Retired providers
+
+Checked live on 2026-10-02. Both are hidden from the service picker; anyone still set to one is moved to NewPipe Extractor automatically.
+
+| Provider                  | Status                          | Why                                                                                                                                                                                                                                     |
+| ------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Piped**           | Unusable (project still active) | YouTube blocks the datacenter IPs public instances run on. 14 of 15 public API instances were dead, and the last one served only 401 mirror media. The Piped team is rebuilding on [rustypipe](https://github.com/TeamPiped/rustypipe). |
+| **YouTube Explode** | Unmaintained                    | `youtube_explode_dart` has had no release or merged fix since May 2026; adaptive streams return 403 and only 360p still plays.                                                                                                        |
+
+NewPipe Extractor already covers Explode's role (on-device extraction from your own IP, up to 4K) and is actively maintained. For a server-side, privacy-proxy option, Invidious (with [invidious-companion](https://github.com/iv-org/invidious-companion)) is the maintained alternative.
 
 ## Todo
 

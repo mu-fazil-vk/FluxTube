@@ -1,91 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/settings/settings_bloc.dart';
-import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/settings/widgets/settings_components.dart';
 
 class SponsorBlockSettingsSection extends StatelessWidget {
   const SponsorBlockSettingsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final S locals = S.of(context);
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final locals = S.of(context);
+    final scheme = Theme.of(context).colorScheme;
 
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (previous, current) =>
           previous.isSponsorBlockEnabled != current.isSponsorBlockEnabled ||
           previous.sponsorBlockCategories != current.sponsorBlockCategories,
       builder: (context, state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        return SettingsSectionCard(
+          title: locals.sponsorBlock,
           children: [
-            Text(
-              locals.sponsorBlock,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontSize: 16),
+            SettingsSwitchTile(
+              icon: Icons.skip_next_outlined,
+              title: locals.sponsorBlock,
+              subtitle: locals.sponsorBlockDescription,
+              value: state.isSponsorBlockEnabled,
+              onChanged: (_) => context
+                  .read<SettingsBloc>()
+                  .add(SettingsEvent.toggleSponsorBlock()),
             ),
-            kHeightBox10,
-            ListTile(
-              title: Text(locals.sponsorBlock,
-                  style: Theme.of(context).textTheme.titleMedium),
-              subtitle: Text(locals.sponsorBlockDescription),
-              leading: const Icon(Icons.skip_next),
-              trailing: Switch(
-                value: state.isSponsorBlockEnabled,
-                onChanged: (_) {
-                  BlocProvider.of<SettingsBloc>(context)
-                      .add(SettingsEvent.toggleSponsorBlock());
-                },
-              ),
-            ),
-            if (state.isSponsorBlockEnabled) ...[
+            if (state.isSponsorBlockEnabled)
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.lg,
+                  0,
+                  AppSpacing.lg,
+                  AppSpacing.md,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       locals.sponsorBlockCategories,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                          ),
                     ),
-                    kHeightBox10,
+                    AppSpacing.height8,
                     Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
+                      spacing: AppSpacing.sm,
+                      runSpacing: AppSpacing.sm,
                       children: [
-                        _buildCategoryChip(context, state, 'sponsor', locals.sponsor, isDarkMode),
-                        _buildCategoryChip(context, state, 'intro', locals.intro, isDarkMode),
-                        _buildCategoryChip(context, state, 'outro', locals.outro, isDarkMode),
-                        _buildCategoryChip(context, state, 'selfpromo', locals.selfPromotion, isDarkMode),
-                        _buildCategoryChip(context, state, 'interaction', locals.interaction, isDarkMode),
-                        _buildCategoryChip(context, state, 'music_offtopic', locals.musicOfftopic, isDarkMode),
+                        _categoryChip(context, state, 'sponsor', locals.sponsor),
+                        _categoryChip(context, state, 'intro', locals.intro),
+                        _categoryChip(context, state, 'outro', locals.outro),
+                        _categoryChip(context, state, 'selfpromo', locals.selfPromotion),
+                        _categoryChip(context, state, 'interaction', locals.interaction),
+                        _categoryChip(
+                            context, state, 'music_offtopic', locals.musicOfftopic),
                       ],
                     ),
                   ],
                 ),
               ),
-            ],
           ],
         );
       },
     );
   }
 
-  Widget _buildCategoryChip(
-      BuildContext context, SettingsState state, String category, String label, bool isDarkMode) {
+  Widget _categoryChip(
+    BuildContext context,
+    SettingsState state,
+    String category,
+    String label,
+  ) {
+    final scheme = Theme.of(context).colorScheme;
     final isSelected = state.sponsorBlockCategories.contains(category);
 
     return FilterChip(
       label: Text(
         label,
         style: TextStyle(
-          color: isSelected
-              ? kWhiteColor
-              : (isDarkMode ? kWhiteColor.withValues(alpha: 0.8) : kBlackColor),
+          color: isSelected ? scheme.onPrimary : scheme.onSurfaceVariant,
           fontSize: 13,
         ),
       ),
@@ -97,22 +95,17 @@ class SponsorBlockSettingsSection extends StatelessWidget {
         } else {
           categories.add(category);
         }
-        BlocProvider.of<SettingsBloc>(context)
+        context
+            .read<SettingsBloc>()
             .add(SettingsEvent.setSponsorBlockCategories(categories: categories));
       },
-      backgroundColor: isDarkMode
-          ? kWhiteColor.withValues(alpha: 0.1)
-          : kGreyOpacityColor,
-      selectedColor: kRedColor,
-      checkmarkColor: kWhiteColor,
+      backgroundColor: scheme.surfaceContainerHigh,
+      selectedColor: scheme.primary,
+      checkmarkColor: scheme.onPrimary,
       side: BorderSide(
-        color: isSelected
-            ? kRedColor
-            : (isDarkMode ? kWhiteColor.withValues(alpha: 0.3) : kGreyColor!.withValues(alpha: 0.3)),
+        color: isSelected ? scheme.primary : scheme.outlineVariant,
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: const StadiumBorder(),
       showCheckmark: true,
       visualDensity: VisualDensity.compact,
     );

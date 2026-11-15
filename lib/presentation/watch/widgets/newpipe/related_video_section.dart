@@ -91,7 +91,8 @@ class _ShortsSection extends StatelessWidget {
       children: [
         // Header
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          // The watch page already applies the horizontal gutter.
+          padding: EdgeInsets.zero,
           child: Row(
             children: [
               // Shorts icon with gradient background
@@ -155,7 +156,7 @@ class _ShortsSection extends StatelessWidget {
           height: 220,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            padding: EdgeInsets.zero,
             itemCount: shortItems.length,
             itemBuilder: (context, index) {
               return Padding(
@@ -409,7 +410,8 @@ class _RelatedVideosSection extends StatelessWidget {
       children: [
         // Header
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          // The watch page already applies the horizontal gutter.
+          padding: EdgeInsets.zero,
           child: Row(
             children: [
               // Icon with subtle background
@@ -507,11 +509,7 @@ class _LargeVideoCard extends StatelessWidget {
         onTap: () => _navigateToVideo(context, videoId, channelId),
         scaleDown: 0.98,
         child: Container(
-          margin: const EdgeInsets.only(
-            left: AppSpacing.lg,
-            right: AppSpacing.lg,
-            bottom: AppSpacing.lg,
-          ),
+          margin: const EdgeInsets.only(bottom: AppSpacing.lg),
           decoration: BoxDecoration(
             color: isDark ? AppColors.cardDark : kWhiteColor,
             borderRadius: BorderRadius.circular(16),
@@ -601,8 +599,10 @@ class _LargeVideoCard extends StatelessWidget {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      video.uploaderName ?? locals.noUploaderName,
-                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                      video.uploaderName ??
+                                          locals.noUploaderName,
+                                      style:
+                                          theme.textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.w500,
                                         color: isDark
                                             ? AppColors.onSurfaceDark
@@ -630,7 +630,8 @@ class _LargeVideoCard extends StatelessWidget {
                                   if (video.viewCount != null) ...[
                                     Text(
                                       '${formatCount(video.viewCount.toString())} views',
-                                      style: theme.textTheme.bodySmall?.copyWith(
+                                      style:
+                                          theme.textTheme.bodySmall?.copyWith(
                                         color: isDark
                                             ? AppColors.onSurfaceVariantDark
                                             : AppColors.onSurfaceVariant,
@@ -638,9 +639,11 @@ class _LargeVideoCard extends StatelessWidget {
                                       ),
                                     ),
                                   ],
-                                  if (video.viewCount != null && video.uploadDate != null)
+                                  if (video.viewCount != null &&
+                                      video.uploadDate != null)
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 6),
                                       child: Text(
                                         '•',
                                         style: TextStyle(
@@ -654,7 +657,8 @@ class _LargeVideoCard extends StatelessWidget {
                                     Flexible(
                                       child: Text(
                                         video.uploadDate!,
-                                        style: theme.textTheme.bodySmall?.copyWith(
+                                        style:
+                                            theme.textTheme.bodySmall?.copyWith(
                                           color: isDark
                                               ? AppColors.onSurfaceVariantDark
                                               : AppColors.onSurfaceVariant,
@@ -786,7 +790,8 @@ class _LargeVideoCard extends StatelessWidget {
     );
   }
 
-  void _navigateToVideo(BuildContext context, String videoId, String channelId) {
+  void _navigateToVideo(
+      BuildContext context, String videoId, String channelId) {
     BlocProvider.of<WatchBloc>(context).add(
       WatchEvent.setSelectedVideoBasicDetails(
         details: VideoBasicInfo(

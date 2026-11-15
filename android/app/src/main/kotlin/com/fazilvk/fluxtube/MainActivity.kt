@@ -9,11 +9,11 @@ import android.view.WindowManager
 import androidx.media3.common.util.UnstableApi
 import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
 import com.fazilvk.fluxtube.newpipe.NewPipeMethodHandler
 import com.fazilvk.fluxtube.player.NewPipeExoPlayerViewFactory
-import com.fazilvk.fluxtube.player.CastMethodHandler
+import com.fazilvk.fluxtube.player.NewPipeSharedExoPlayer
+import com.fazilvk.fluxtube.player.ShortExoPlayerViewFactory
 
 @UnstableApi
 class MainActivity: AudioServiceFragmentActivity() {
@@ -21,12 +21,9 @@ class MainActivity: AudioServiceFragmentActivity() {
         private const val NEWPIPE_CHANNEL = "com.fazilvk.fluxtube/newpipe"
         private const val PIP_CHANNEL = "com.fazilvk.fluxtube/pip"
         private const val MUXER_CHANNEL = "com.fazilvk.fluxtube/muxer"
-        private const val CAST_CHANNEL = "com.fazilvk.fluxtube/cast"
-        private const val CAST_EVENT_CHANNEL = "com.fazilvk.fluxtube/cast_events"
     }
 
     private var newPipeHandler: NewPipeMethodHandler? = null
-    private var castHandler: CastMethodHandler? = null
     private var pipChannel: MethodChannel? = null
     private var muxerHandler: MediaMuxerHandler? = null
 
@@ -53,21 +50,21 @@ class MainActivity: AudioServiceFragmentActivity() {
                 "fluxtube/newpipe_exoplayer",
                 NewPipeExoPlayerViewFactory(flutterEngine.dartExecutor.binaryMessenger)
             )
+        flutterEngine
+            .platformViewsController
+            .registry
+            .registerViewFactory(
+                "fluxtube/short_exoplayer",
+                ShortExoPlayerViewFactory(flutterEngine.dartExecutor.binaryMessenger)
+            )
+        // Opening the media cache scans its directory and opens SQLite; do it
+        // off the UI thread so the first video open doesn't jank.
+        Thread { NewPipeSharedExoPlayer.cache(applicationContext) }.start()
 
         // Initialize and register MediaMuxer handler
         muxerHandler = MediaMuxerHandler()
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, MUXER_CHANNEL)
             .setMethodCallHandler(muxerHandler)
-
-        // Register Cast handler: one instance serves both the method channel and
-        // the state event stream.
-        val castHandler = CastMethodHandler()
-        castHandler.setActivity(this)
-        this.castHandler = castHandler
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CAST_CHANNEL)
-            .setMethodCallHandler(castHandler)
-        EventChannel(flutterEngine.dartExecutor.binaryMessenger, CAST_EVENT_CHANNEL)
-            .setStreamHandler(castHandler)
 
         // Register PiP method channel
         pipChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, PIP_CHANNEL)
@@ -224,8 +221,6 @@ class MainActivity: AudioServiceFragmentActivity() {
         pipChannel?.setMethodCallHandler(null)
         pipChannel = null
         newPipeHandler?.dispose()
-        castHandler?.detach()
-        castHandler = null
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         super.onDestroy()
     }

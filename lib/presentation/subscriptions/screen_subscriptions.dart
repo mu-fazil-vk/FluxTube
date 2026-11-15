@@ -1,24 +1,22 @@
-import 'package:flutter/cupertino.dart';
-import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/animations/animations.dart';
-import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
-import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/domain/trending/models/newpipe/newpipe_trending_resp.dart';
 import 'package:fluxtube/domain/trending/models/piped/trending_resp.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/main_navigation/main_navigation_layout.dart';
+import 'package:fluxtube/presentation/subscriptions/widgets/channel_cards.dart';
+import 'package:fluxtube/presentation/subscriptions/widgets/feed_video_cards.dart';
 import 'package:go_router/go_router.dart';
 
-// Widget to display channel avatar from either URL or initial
-
 enum SubscriptionSortOption { name, recent }
-enum SubscriptionViewMode { channels, feed }
+
+enum _FeedFilter { all, today, live }
 
 class ScreenSubscriptions extends StatefulWidget {
   const ScreenSubscriptions({super.key});
@@ -35,6 +33,7 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
   String _searchQuery = '';
   SubscriptionSortOption _sortOption = SubscriptionSortOption.name;
   bool _isGridView = true;
+  _FeedFilter _feedFilter = _FeedFilter.all;
 
   @override
   void initState() {
@@ -109,15 +108,82 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
     return filtered;
   }
 
+  bool _matchesPipedFeedFilter(TrendingResp video) {
+    switch (_feedFilter) {
+      case _FeedFilter.all:
+        return true;
+      case _FeedFilter.live:
+        return video.duration == null || video.duration == -1;
+      case _FeedFilter.today:
+        final millis = video.uploaded;
+        return isUploadedToday(
+          uploadedMillis: millis != null && millis > 0 ? millis : null,
+          dateText: video.uploadedDate,
+        );
+    }
+  }
+
+  bool _matchesNewPipeFeedFilter(NewPipeTrendingResp video) {
+    switch (_feedFilter) {
+      case _FeedFilter.all:
+        return true;
+      case _FeedFilter.live:
+        return video.duration == null || video.duration == -1;
+      case _FeedFilter.today:
+        return isUploadedToday(dateText: video.uploadDate);
+    }
+  }
+
+  static final _relativeTimeRegex =
+      RegExp(r'(\d+)\s*(second|minute|hour)', caseSensitive: false);
+
+  /// Tolerant "uploaded today" check for relative-time strings
+  /// ("3 hours ago" => today), epoch millis and ISO dates.
+  static bool isUploadedToday({int? uploadedMillis, String? dateText}) {
+    final now = DateTime.now();
+    final startOfToday = DateTime(now.year, now.month, now.day);
+
+    if (uploadedMillis != null) {
+      final date =
+          DateTime.fromMillisecondsSinceEpoch(uploadedMillis).toLocal();
+      return !date.isBefore(startOfToday);
+    }
+
+    final text = dateText?.trim() ?? '';
+    if (text.isEmpty) return false;
+
+    // Relative time: "x second(s)/minute(s)/hour(s) ... ago"
+    final match = _relativeTimeRegex.firstMatch(text);
+    if (match != null) {
+      final value = int.tryParse(match.group(1) ?? '') ?? -1;
+      if (value >= 0) {
+        final unit = match.group(2)!.toLowerCase();
+        final seconds = unit == 'second'
+            ? value
+            : unit == 'minute'
+                ? value * 60
+                : value * 3600;
+        return now.subtract(Duration(seconds: seconds)).isAfter(startOfToday);
+      }
+      return false;
+    }
+
+    // ISO / absolute date fallback
+    final parsed = DateTime.tryParse(text);
+    if (parsed != null) {
+      final local = parsed.isUtc ? parsed.toLocal() : parsed;
+      return !local.isBefore(startOfToday);
+    }
+    return false;
+  }
+
   void _showSortOptions() {
     final theme = Theme.of(context);
     final locals = S.of(context);
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: theme.brightness == Brightness.dark
-          ? AppColors.surfaceDark
-          : AppColors.surface,
+      backgroundColor: theme.colorScheme.surfaceContainerHigh,
       shape: const RoundedRectangleBorder(
         borderRadius: AppRadius.topLg,
       ),
@@ -130,7 +196,7 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
               height: 4,
               margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
               decoration: BoxDecoration(
-                color: AppColors.disabled,
+                color: theme.colorScheme.outlineVariant,
                 borderRadius: AppRadius.borderFull,
               ),
             ),
@@ -146,7 +212,7 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
             AppSpacing.height12,
             _SortOptionTile(
               title: locals.title,
-              icon: CupertinoIcons.textformat,
+              icon: Icons.text_fields,
               isSelected: _sortOption == SubscriptionSortOption.name,
               onTap: () {
                 setState(() => _sortOption = SubscriptionSortOption.name);
@@ -155,7 +221,7 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
             ),
             _SortOptionTile(
               title: locals.dateAdded,
-              icon: CupertinoIcons.calendar,
+              icon: Icons.calendar_today_outlined,
               isSelected: _sortOption == SubscriptionSortOption.recent,
               onTap: () {
                 setState(() => _sortOption = SubscriptionSortOption.recent);
@@ -190,9 +256,7 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: theme.brightness == Brightness.dark
-            ? AppColors.surfaceDark
-            : AppColors.surface,
+        backgroundColor: theme.colorScheme.surfaceContainerHigh,
         shape: RoundedRectangleBorder(borderRadius: AppRadius.borderLg),
         title: Text(locals.unsubscribe),
         content: Text(
@@ -208,7 +272,9 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
               Navigator.pop(context);
               _unsubscribeChannel(channel);
             },
-            style: TextButton.styleFrom(foregroundColor: AppColors.error),
+            style: TextButton.styleFrom(
+              foregroundColor: theme.colorScheme.error,
+            ),
             child: Text(locals.unsubscribe),
           ),
         ],
@@ -219,106 +285,76 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final scheme = theme.colorScheme;
     final locals = S.of(context);
 
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, settingsState) {
         return BlocBuilder<SubscribeBloc, SubscribeState>(
           builder: (context, subscribeState) {
-            final channels = _filterAndSortChannels(subscribeState.subscribedChannels);
-            final isLoading = subscribeState.subscribeStatus == ApiStatus.loading ||
-                subscribeState.subscribeStatus == ApiStatus.initial;
+            final channels =
+                _filterAndSortChannels(subscribeState.subscribedChannels);
+            final isLoading =
+                subscribeState.subscribeStatus == ApiStatus.loading ||
+                    subscribeState.subscribeStatus == ApiStatus.initial;
 
-            return Scaffold(
-              backgroundColor: isDark ? AppColors.backgroundDark : AppColors.background,
-              body: SafeArea(
-                child: NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                    // App Bar
-                    SliverAppBar(
-                      floating: true,
-                      snap: true,
-                      toolbarHeight: 60,
-                      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.background,
-                      elevation: 0,
-                      surfaceTintColor: kWhiteColor,
-                      title: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: ShaderMask(
-                          shaderCallback: (bounds) => const LinearGradient(
-                            colors: [Color(0xFFFF4444), Color(0xFFCC0000)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ).createShader(bounds),
-                          child: Text(
-                            locals.subscriptions,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 24,
-                              letterSpacing: -0.5,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      actions: [
-                        // View mode toggle
-                        IconButton(
-                          icon: Icon(
-                            _isGridView
-                                ? CupertinoIcons.list_bullet
-                                : CupertinoIcons.square_grid_2x2,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isGridView = !_isGridView;
-                            });
-                          },
-                          tooltip: _isGridView ? 'List view' : 'Grid view',
-                        ),
-                        IconButton(
-                          icon: const Icon(CupertinoIcons.sort_down),
-                          onPressed: _showSortOptions,
-                          tooltip: locals.sort,
-                        ),
-                      ],
-                    ),
-
-                    // Search Bar
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.lg,
-                          vertical: AppSpacing.sm,
-                        ),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // No floating header overlay on this tab (Home-only now) —
+                // just clear the status bar.
+                SizedBox(height: MediaQuery.paddingOf(context).top),
+                // Search pill + view-mode toggle + sort button.
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.lg,
+                    10,
+                    AppSpacing.lg,
+                    AppSpacing.sm,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
                         child: SizedBox(
                           height: 40,
                           child: TextField(
                             controller: _searchController,
-                            style: theme.textTheme.bodyMedium?.copyWith(fontSize: 14),
+                            style: theme.textTheme.bodyMedium
+                                ?.copyWith(fontSize: 14),
                             decoration: InputDecoration(
                               hintText: locals.searchSubscriptions,
                               hintStyle: theme.textTheme.bodyMedium?.copyWith(
                                 fontSize: 14,
-                                color: isDark
-                                    ? AppColors.onSurfaceVariantDark
-                                    : AppColors.onSurfaceVariant,
+                                color: scheme.onSurfaceVariant,
                               ),
-                              prefixIcon: const Icon(CupertinoIcons.search, size: 18),
+                              prefixIcon: const Icon(Icons.search, size: 18),
+                              prefixIconConstraints: const BoxConstraints(
+                                minWidth: 36,
+                              ),
                               suffixIcon: _searchQuery.isNotEmpty
                                   ? IconButton(
-                                      icon: const Icon(CupertinoIcons.xmark_circle_fill, size: 16),
-                                      onPressed: () => _searchController.clear(),
+                                      icon: const Icon(
+                                        Icons.cancel,
+                                        size: 16,
+                                      ),
+                                      onPressed: () =>
+                                          _searchController.clear(),
                                     )
                                   : null,
                               filled: true,
-                              fillColor: isDark
-                                  ? AppColors.surfaceVariantDark
-                                  : AppColors.surfaceVariant,
+                              fillColor: scheme.surfaceContainerHigh,
+                              isDense: true,
                               border: OutlineInputBorder(
-                                borderRadius: AppRadius.borderMd,
+                                borderRadius: AppRadius.borderFull,
                                 borderSide: BorderSide.none,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: AppRadius.borderFull,
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: AppRadius.borderFull,
+                                borderSide: BorderSide(color: scheme.primary),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: AppSpacing.md,
@@ -328,82 +364,93 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
                           ),
                         ),
                       ),
-                    ),
-
-                    // Tab Bar
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _SliverTabBarDelegate(
-                        TabBar(
-                          controller: _tabController,
-                          labelColor: AppColors.primary,
-                          unselectedLabelColor: isDark
-                              ? AppColors.onSurfaceVariantDark
-                              : AppColors.onSurfaceVariant,
-                          indicatorColor: AppColors.primary,
-                          indicatorSize: TabBarIndicatorSize.label,
-                          dividerColor: Colors.transparent,
-                          labelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                          unselectedLabelStyle: const TextStyle(fontSize: 13),
-                          tabs: [
-                            Tab(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(CupertinoIcons.person_2_fill, size: 16),
-                                  AppSpacing.width4,
-                                  Text(locals.channels),
-                                  if (subscribeState.subscribedChannels.isNotEmpty) ...[
-                                    AppSpacing.width4,
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 6,
-                                        vertical: 1,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.primary.withValues(alpha: 0.1),
-                                        borderRadius: AppRadius.borderFull,
-                                      ),
-                                      child: Text(
-                                        '${subscribeState.subscribedChannels.length}',
-                                        style: const TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ],
+                      AppSpacing.width8,
+                      _ChromeIconButton(
+                        icon: _isGridView
+                            ? Icons.view_list_outlined
+                            : Icons.grid_view_outlined,
+                        tooltip: _isGridView ? 'List view' : 'Grid view',
+                        onPressed: () {
+                          setState(() {
+                            _isGridView = !_isGridView;
+                          });
+                        },
+                      ),
+                      AppSpacing.width4,
+                      _ChromeIconButton(
+                        icon: Icons.sort_rounded,
+                        tooltip: locals.sort,
+                        onPressed: _showSortOptions,
+                      ),
+                    ],
+                  ),
+                ),
+                // Tab bar.
+                TabBar(
+                  controller: _tabController,
+                  labelColor: scheme.primary,
+                  unselectedLabelColor: scheme.onSurfaceVariant,
+                  indicatorColor: scheme.primary,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  dividerColor: Colors.transparent,
+                  labelStyle: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w600),
+                  unselectedLabelStyle: const TextStyle(fontSize: 13),
+                  tabs: [
+                    Tab(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.people, size: 16),
+                          AppSpacing.width4,
+                          Text(locals.channels),
+                          if (subscribeState.subscribedChannels.isNotEmpty) ...[
+                            AppSpacing.width4,
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 1,
                               ),
-                            ),
-                            Tab(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(CupertinoIcons.play_rectangle_fill, size: 16),
-                                  AppSpacing.width4,
-                                  Text(locals.videos),
-                                ],
+                              decoration: BoxDecoration(
+                                color: scheme.primary.withValues(alpha: 0.1),
+                                borderRadius: AppRadius.borderFull,
+                              ),
+                              child: Text(
+                                '${subscribeState.subscribedChannels.length}',
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ],
-                        ),
-                        isDark: isDark,
-                        channelCount: subscribeState.subscribedChannels.length,
+                        ],
+                      ),
+                    ),
+                    Tab(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.smart_display_outlined, size: 16),
+                          AppSpacing.width4,
+                          Text(locals.videos),
+                        ],
                       ),
                     ),
                   ],
-                  body: isLoading
+                ),
+                Expanded(
+                  child: isLoading
                       ? _buildLoadingState()
                       : TabBarView(
                           controller: _tabController,
                           children: [
-                            _buildChannelsTab(channels, isDark),
-                            _buildFeedTab(settingsState, isDark),
+                            _buildChannelsTab(channels),
+                            _buildFeedTab(settingsState),
                           ],
                         ),
                 ),
-              ),
+              ],
             );
           },
         );
@@ -412,9 +459,17 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
   }
 
   Widget _buildLoadingState() {
+    final navBottom = MainNavigationLayout.navPadding(context).bottom;
+    final gridPadding = EdgeInsets.fromLTRB(
+      AppSpacing.lg,
+      AppSpacing.md,
+      AppSpacing.lg,
+      navBottom + AppSpacing.md,
+    );
+
     return _isGridView
         ? GridView.builder(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            padding: gridPadding,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               crossAxisSpacing: AppSpacing.md,
@@ -422,74 +477,106 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
               childAspectRatio: 0.75,
             ),
             itemCount: 12,
-            itemBuilder: (context, index) => const _ShimmerChannelCard(),
+            itemBuilder: (context, index) => const ShimmerChannelCard(),
           )
         : ListView.builder(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            padding: gridPadding,
             itemCount: 10,
             itemBuilder: (context, index) => const Padding(
               padding: EdgeInsets.only(bottom: AppSpacing.md),
-              child: _ShimmerChannelListTile(),
+              child: ShimmerChannelListTile(),
             ),
           );
   }
 
-  Widget _buildChannelsTab(List<Subscribe> channels, bool isDark) {
+  Widget _buildChannelsTab(List<Subscribe> channels) {
     final locals = S.of(context);
+    final bottomPadding = MainNavigationLayout.navPadding(context).bottom;
 
     if (channels.isEmpty) {
       return _buildEmptyState(
         locals.noSubscriptions,
         locals.noSubscriptionsHint,
-        CupertinoIcons.person_2,
+        Icons.person_outline,
       );
     }
 
     return RefreshIndicator(
       onRefresh: () async => _loadSubscriptions(),
-      child: _isGridView
-          ? GridView.builder(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: AppSpacing.md,
-                mainAxisSpacing: AppSpacing.md,
-                childAspectRatio: 0.75,
+      child: CustomScrollView(
+        slivers: [
+          if (_isGridView)
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                bottomPadding + AppSpacing.md,
               ),
-              itemCount: channels.length,
-              itemBuilder: (context, index) {
-                final channel = channels[index];
-                return _ChannelGridCard(
-                  channel: channel,
-                  index: index,
-                  onTap: () => _navigateToChannel(channel),
-                  onLongPress: () => _showUnsubscribeDialog(channel),
-                );
-              },
+              sliver: SliverGrid(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: AppSpacing.md,
+                  mainAxisSpacing: AppSpacing.md,
+                  childAspectRatio: 0.75,
+                ),
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final channel = channels[index];
+                    return ChannelGridCard(
+                      channel: channel,
+                      index: index,
+                      onTap: () => _navigateToChannel(channel),
+                      onLongPress: () => _showUnsubscribeDialog(channel),
+                    );
+                  },
+                  childCount: channels.length,
+                ),
+              ),
             )
-          : ListView.builder(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              itemCount: channels.length,
-              itemBuilder: (context, index) {
-                final channel = channels[index];
-                return _ChannelListTile(
-                  channel: channel,
-                  index: index,
-                  onTap: () => _navigateToChannel(channel),
-                  onUnsubscribe: () => _showUnsubscribeDialog(channel),
-                );
-              },
+          else
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.xs,
+                AppSpacing.lg,
+                bottomPadding + AppSpacing.md,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final channel = channels[index];
+                    return ChannelListTile(
+                      channel: channel,
+                      index: index,
+                      onTap: () => _navigateToChannel(channel),
+                      onUnsubscribe: () => _showUnsubscribeDialog(channel),
+                    );
+                  },
+                  childCount: channels.length,
+                ),
+              ),
             ),
+        ],
+      ),
     );
   }
 
-  Widget _buildFeedTab(SettingsState settingsState, bool isDark) {
+  Widget _buildFeedTab(SettingsState settingsState) {
     return BlocBuilder<TrendingBloc, TrendingState>(
+      buildWhen: (p, c) =>
+          p.fetchNewPipeFeedStatus != c.fetchNewPipeFeedStatus ||
+          p.fetchFeedStatus != c.fetchFeedStatus ||
+          !identical(p.newPipeFeedResult, c.newPipeFeedResult) ||
+          !identical(p.feedResult, c.feedResult),
       builder: (context, trendingState) {
         return BlocBuilder<SubscribeBloc, SubscribeState>(
+          buildWhen: (p, c) =>
+              !identical(p.subscribedChannels, c.subscribedChannels),
           builder: (context, subscribeState) {
             final locals = S.of(context);
-            final isNewPipe = settingsState.ytService == YouTubeServices.newpipe.name;
+            final isNewPipe =
+                settingsState.ytService == YouTubeServices.newpipe.name;
 
             // Check loading state based on service
             final isLoading = isNewPipe
@@ -499,94 +586,129 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
             // Get feed based on service
             final newPipeFeed = trendingState.newPipeFeedResult;
             final pipedFeed = trendingState.feedResult;
-            final feedLength = isNewPipe ? newPipeFeed.length : pipedFeed.length;
+            final feedLength =
+                isNewPipe ? newPipeFeed.length : pipedFeed.length;
 
             if (subscribeState.subscribedChannels.isEmpty) {
               return _buildEmptyState(
                 locals.noSubscriptions,
                 locals.noSubscriptionsHint,
-                CupertinoIcons.play_rectangle,
+                Icons.smart_display_outlined,
               );
             }
 
-            if (isLoading) {
-              return ListView.builder(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                itemCount: 6,
-                itemBuilder: (context, index) => const Padding(
-                  padding: EdgeInsets.only(bottom: AppSpacing.md),
-                  child: _ShimmerVideoCard(),
+            // Client-side filter indices.
+            final visibleIndices = <int>[];
+            for (var i = 0; i < feedLength; i++) {
+              final matches = isNewPipe
+                  ? _matchesNewPipeFeedFilter(newPipeFeed[i])
+                  : _matchesPipedFeedFilter(pipedFeed[i]);
+              if (matches) visibleIndices.add(i);
+            }
+
+            return Column(
+              children: [
+                _buildFeedFilterChips(locals),
+                Expanded(
+                  child: isLoading
+                      ? ListView.builder(
+                          padding: EdgeInsets.fromLTRB(
+                            AppSpacing.lg,
+                            AppSpacing.md,
+                            AppSpacing.lg,
+                            MainNavigationLayout.navPadding(context).bottom +
+                                AppSpacing.md,
+                          ),
+                          itemCount: 6,
+                          itemBuilder: (context, index) => const Padding(
+                            padding: EdgeInsets.only(bottom: AppSpacing.md),
+                            child: ShimmerVideoCard(),
+                          ),
+                        )
+                      : visibleIndices.isEmpty
+                          ? _buildEmptyState(
+                              locals.noVideosFound,
+                              locals.refreshToLoad,
+                              Icons.smart_display_outlined,
+                            )
+                          : RefreshIndicator(
+                              onRefresh: () async {
+                                if (isNewPipe) {
+                                  BlocProvider.of<TrendingBloc>(context).add(
+                                    TrendingEvent.getForcedNewPipeHomeFeedData(
+                                      channels:
+                                          subscribeState.subscribedChannels,
+                                    ),
+                                  );
+                                } else {
+                                  BlocProvider.of<TrendingBloc>(context).add(
+                                    TrendingEvent.getForcedHomeFeedData(
+                                      channels:
+                                          subscribeState.subscribedChannels,
+                                    ),
+                                  );
+                                }
+                              },
+                              child: ListView.builder(
+                                padding: EdgeInsets.fromLTRB(
+                                  AppSpacing.lg,
+                                  AppSpacing.md,
+                                  AppSpacing.lg,
+                                  MainNavigationLayout.navPadding(context)
+                                          .bottom +
+                                      AppSpacing.md,
+                                ),
+                                itemCount: visibleIndices.length,
+                                itemBuilder: (context, listIndex) {
+                                  final index = visibleIndices[listIndex];
+                                  if (isNewPipe) {
+                                    final video = newPipeFeed[index];
+                                    final videoId =
+                                        video.url?.split('=').last ?? '';
+                                    final channelId =
+                                        video.uploaderUrl?.split('/').last ??
+                                            '';
+
+                                    return FeedVideoCardNewPipe(
+                                      video: video,
+                                      index: listIndex,
+                                      onTap: () => _navigateToVideo(
+                                        videoId,
+                                        channelId,
+                                        video.name,
+                                        video.thumbnailUrl,
+                                        video.uploaderName,
+                                        video.uploaderAvatarUrl,
+                                        video.uploaderVerified,
+                                      ),
+                                    );
+                                  } else {
+                                    final video = pipedFeed[index];
+                                    final videoId =
+                                        video.url?.split('=').last ?? '';
+                                    final channelId =
+                                        video.uploaderUrl?.split('/').last ??
+                                            '';
+
+                                    return FeedVideoCardPiped(
+                                      video: video,
+                                      index: listIndex,
+                                      onTap: () => _navigateToVideo(
+                                        videoId,
+                                        channelId,
+                                        video.title,
+                                        video.thumbnail,
+                                        video.uploaderName,
+                                        video.uploaderAvatar,
+                                        video.uploaderVerified,
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                            ),
                 ),
-              );
-            }
-
-            if (feedLength == 0) {
-              return _buildEmptyState(
-                locals.noVideosFound,
-                locals.refreshToLoad,
-                CupertinoIcons.play_rectangle,
-              );
-            }
-
-            return RefreshIndicator(
-              onRefresh: () async {
-                if (isNewPipe) {
-                  BlocProvider.of<TrendingBloc>(context).add(
-                    TrendingEvent.getForcedNewPipeHomeFeedData(
-                      channels: subscribeState.subscribedChannels,
-                    ),
-                  );
-                } else {
-                  BlocProvider.of<TrendingBloc>(context).add(
-                    TrendingEvent.getForcedHomeFeedData(
-                      channels: subscribeState.subscribedChannels,
-                    ),
-                  );
-                }
-              },
-              child: ListView.builder(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                itemCount: feedLength,
-                itemBuilder: (context, index) {
-                  if (isNewPipe) {
-                    final video = newPipeFeed[index];
-                    final videoId = video.url?.split('=').last ?? '';
-                    final channelId = video.uploaderUrl?.split('/').last ?? '';
-
-                    return _FeedVideoCardNewPipe(
-                      video: video,
-                      index: index,
-                      onTap: () => _navigateToVideo(
-                        videoId,
-                        channelId,
-                        video.name,
-                        video.thumbnailUrl,
-                        video.uploaderName,
-                        video.uploaderAvatarUrl,
-                        video.uploaderVerified,
-                      ),
-                    );
-                  } else {
-                    final video = pipedFeed[index];
-                    final videoId = video.url?.split('=').last ?? '';
-                    final channelId = video.uploaderUrl?.split('/').last ?? '';
-
-                    return _FeedVideoCardPiped(
-                      video: video,
-                      index: index,
-                      onTap: () => _navigateToVideo(
-                        videoId,
-                        channelId,
-                        video.title,
-                        video.thumbnail,
-                        video.uploaderName,
-                        video.uploaderAvatar,
-                        video.uploaderVerified,
-                      ),
-                    );
-                  }
-                },
-              ),
+              ],
             );
           },
         );
@@ -594,9 +716,63 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
     );
   }
 
+  Widget _buildFeedFilterChips(S locals) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
+    Widget chip(_FeedFilter filter, String label) {
+      final isSelected = _feedFilter == filter;
+      return Padding(
+        padding: const EdgeInsets.only(right: AppSpacing.sm),
+        child: ScaleTap(
+          onTap: () => setState(() => _feedFilter = filter),
+          scaleDown: 0.95,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.xs,
+            ),
+            decoration: BoxDecoration(
+              color: isSelected ? scheme.primary : scheme.surfaceContainerHigh,
+              borderRadius: AppRadius.borderFull,
+            ),
+            child: Text(
+              label,
+              style: theme.textTheme.labelLarge?.copyWith(
+                color: isSelected ? scheme.onPrimary : scheme.onSurfaceVariant,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.lg,
+        AppSpacing.sm,
+      ),
+      child: SizedBox(
+        height: 32,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            chip(_FeedFilter.all, locals.all),
+            chip(_FeedFilter.today, locals.today),
+            chip(_FeedFilter.live, locals.live),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildEmptyState(String title, String subtitle, IconData icon) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final scheme = theme.colorScheme;
 
     return Center(
       child: Padding(
@@ -607,15 +783,13 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
             Container(
               padding: const EdgeInsets.all(AppSpacing.xl),
               decoration: BoxDecoration(
-                color: isDark
-                    ? AppColors.surfaceVariantDark
-                    : AppColors.surfaceVariant,
+                color: scheme.surfaceContainerHigh,
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 icon,
                 size: AppIconSize.xxxl,
-                color: AppColors.disabled,
+                color: scheme.onSurfaceVariant.withValues(alpha: 0.5),
               ),
             ),
             AppSpacing.height24,
@@ -630,9 +804,7 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
             Text(
               subtitle,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: isDark
-                    ? AppColors.onSurfaceVariantDark
-                    : AppColors.onSurfaceVariant,
+                color: scheme.onSurfaceVariant,
               ),
               textAlign: TextAlign.center,
             ),
@@ -679,30 +851,37 @@ class _ScreenSubscriptionsState extends State<ScreenSubscriptions>
   }
 }
 
-class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar tabBar;
-  final bool isDark;
-  final int channelCount;
+class _ChromeIconButton extends StatelessWidget {
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback onPressed;
 
-  _SliverTabBarDelegate(this.tabBar, {required this.isDark, required this.channelCount});
+  const _ChromeIconButton({
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+  });
 
   @override
-  double get minExtent => tabBar.preferredSize.height;
-  @override
-  double get maxExtent => tabBar.preferredSize.height;
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
 
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: isDark ? AppColors.backgroundDark : AppColors.background,
-      child: tabBar,
+    return Tooltip(
+      message: tooltip,
+      child: Material(
+        color: scheme.surfaceContainerHigh,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onPressed,
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: Icon(icon, size: 20, color: scheme.onSurface),
+          ),
+        ),
+      ),
     );
-  }
-
-  @override
-  bool shouldRebuild(_SliverTabBarDelegate oldDelegate) {
-    // Rebuild when channel count changes so the tab badge updates
-    return oldDelegate.channelCount != channelCount || oldDelegate.isDark != isDark;
   }
 }
 
@@ -721,800 +900,32 @@ class _SortOptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return ListTile(
       dense: true,
       visualDensity: VisualDensity.compact,
       leading: Icon(
         icon,
         size: 20,
-        color: isSelected ? AppColors.primary : null,
+        color: isSelected ? theme.colorScheme.primary : null,
       ),
       title: Text(
         title,
         style: TextStyle(
           fontSize: 14,
-          color: isSelected ? AppColors.primary : null,
+          color: isSelected ? theme.colorScheme.primary : null,
           fontWeight: isSelected ? FontWeight.w600 : null,
         ),
       ),
       trailing: isSelected
-          ? const Icon(CupertinoIcons.checkmark, color: AppColors.primary, size: 18)
+          ? Icon(
+              Icons.check,
+              color: theme.colorScheme.primary,
+              size: 18,
+            )
           : null,
       onTap: onTap,
-    );
-  }
-}
-
-class _ChannelGridCard extends StatelessWidget {
-  final Subscribe channel;
-  final int index;
-  final VoidCallback onTap;
-  final VoidCallback onLongPress;
-
-  const _ChannelGridCard({
-    required this.channel,
-    required this.index,
-    required this.onTap,
-    required this.onLongPress,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
-    return AnimatedListItem(
-      index: index,
-      child: ScaleTap(
-        onTap: onTap,
-        onLongPress: onLongPress,
-        scaleDown: 0.95,
-        child: Container(
-          decoration: BoxDecoration(
-            color: isDark ? AppColors.cardDark : AppColors.cardLight,
-            borderRadius: AppRadius.borderMd,
-            boxShadow: [
-              if (!isDark)
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Channel avatar
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isDark
-                      ? AppColors.surfaceVariantDark
-                      : AppColors.surfaceVariant,
-                  border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.2),
-                    width: 2,
-                  ),
-                ),
-                child: ClipOval(
-                  child: channel.avatarUrl != null && channel.avatarUrl!.isNotEmpty
-                      ? ThumbnailImage.small(
-                          url: channel.avatarUrl!,
-                          width: 64,
-                          height: 64,
-                          errorWidget: (_, __, ___) => Center(
-                            child: Text(
-                              channel.channelName.isNotEmpty
-                                  ? channel.channelName[0].toUpperCase()
-                                  : '?',
-                              style: theme.textTheme.headlineSmall?.copyWith(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        )
-                      : Center(
-                          child: Text(
-                            channel.channelName.isNotEmpty
-                                ? channel.channelName[0].toUpperCase()
-                                : '?',
-                            style: theme.textTheme.headlineSmall?.copyWith(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                ),
-              ),
-              AppSpacing.height12,
-              // Channel name
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        channel.channelName,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    if (channel.isVerified == true) ...[
-                      AppSpacing.width4,
-                      Icon(
-                        CupertinoIcons.checkmark_seal_fill,
-                        size: 12,
-                        color: isDark
-                            ? AppColors.onSurfaceVariantDark
-                            : AppColors.onSurfaceVariant,
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ChannelListTile extends StatelessWidget {
-  final Subscribe channel;
-  final int index;
-  final VoidCallback onTap;
-  final VoidCallback onUnsubscribe;
-
-  const _ChannelListTile({
-    required this.channel,
-    required this.index,
-    required this.onTap,
-    required this.onUnsubscribe,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final locals = S.of(context);
-
-    return AnimatedListItem(
-      index: index,
-      child: ScaleTap(
-        onTap: onTap,
-        scaleDown: 0.98,
-        child: Container(
-          margin: const EdgeInsets.only(bottom: AppSpacing.md),
-          padding: const EdgeInsets.all(AppSpacing.md),
-          decoration: BoxDecoration(
-            color: isDark ? AppColors.cardDark : AppColors.cardLight,
-            borderRadius: AppRadius.borderMd,
-            boxShadow: [
-              if (!isDark)
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-            ],
-          ),
-          child: Row(
-            children: [
-              // Channel avatar
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isDark
-                      ? AppColors.surfaceVariantDark
-                      : AppColors.surfaceVariant,
-                  border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.2),
-                    width: 2,
-                  ),
-                ),
-                child: ClipOval(
-                  child: channel.avatarUrl != null && channel.avatarUrl!.isNotEmpty
-                      ? ThumbnailImage.small(
-                          url: channel.avatarUrl!,
-                          width: 48,
-                          height: 48,
-                          errorWidget: (_, __, ___) => Center(
-                            child: Text(
-                              channel.channelName.isNotEmpty
-                                  ? channel.channelName[0].toUpperCase()
-                                  : '?',
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        )
-                      : Center(
-                          child: Text(
-                            channel.channelName.isNotEmpty
-                                ? channel.channelName[0].toUpperCase()
-                                : '?',
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                ),
-              ),
-              AppSpacing.width12,
-              // Channel name
-              Expanded(
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        channel.channelName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    if (channel.isVerified == true) ...[
-                      AppSpacing.width4,
-                      Icon(
-                        CupertinoIcons.checkmark_seal_fill,
-                        size: 14,
-                        color: isDark
-                            ? AppColors.onSurfaceVariantDark
-                            : AppColors.onSurfaceVariant,
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              // Unsubscribe button
-              TextButton(
-                onPressed: onUnsubscribe,
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColors.subscribedRed,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md,
-                    vertical: AppSpacing.sm,
-                  ),
-                ),
-                child: Text(
-                  locals.unsubscribe,
-                  style: const TextStyle(fontSize: 13),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FeedVideoCardPiped extends StatelessWidget {
-  final TrendingResp video;
-  final int index;
-  final VoidCallback onTap;
-
-  const _FeedVideoCardPiped({
-    required this.video,
-    required this.index,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final locals = S.of(context);
-    final duration = formatDuration(video.duration ?? 0);
-    final isLive = video.duration == null || video.duration == -1;
-
-    return AnimatedListItem(
-      index: index,
-      child: ScaleTap(
-        onTap: onTap,
-        scaleDown: 0.98,
-        child: Container(
-          margin: const EdgeInsets.only(bottom: AppSpacing.md),
-          decoration: BoxDecoration(
-            color: isDark ? AppColors.cardDark : AppColors.cardLight,
-            borderRadius: AppRadius.borderMd,
-            boxShadow: [
-              if (!isDark)
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Thumbnail
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(AppRadius.md),
-                  topRight: Radius.circular(AppRadius.md),
-                ),
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      if (video.thumbnail != null)
-                        ThumbnailImage.small(url: video.thumbnail!),
-                      // Duration badge
-                      Positioned(
-                        bottom: AppSpacing.sm,
-                        right: AppSpacing.sm,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.sm,
-                            vertical: AppSpacing.xxs,
-                          ),
-                          decoration: BoxDecoration(
-                            color: isLive ? AppColors.youtubeRed : kBlackColor,
-                            borderRadius: AppRadius.borderXs,
-                          ),
-                          child: Text(
-                            isLive ? 'LIVE' : duration,
-                            style: const TextStyle(
-                              color: kWhiteColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // Video info
-              Padding(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Channel avatar
-                    if (video.uploaderAvatar != null)
-                      ClipOval(
-                        child: ThumbnailImage.small(
-                          url: video.uploaderAvatar!,
-                          width: 36,
-                          height: 36,
-                          errorWidget: (_, __, ___) => Container(
-                            width: 36,
-                            height: 36,
-                            color: isDark
-                                ? AppColors.surfaceVariantDark
-                                : AppColors.surfaceVariant,
-                            child: const Icon(CupertinoIcons.person_fill, size: 20),
-                          ),
-                        ),
-                      )
-                    else
-                      Container(
-                        width: 36,
-                        height: 36,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isDark
-                              ? AppColors.surfaceVariantDark
-                              : AppColors.surfaceVariant,
-                        ),
-                        child: const Icon(CupertinoIcons.person_fill, size: 20),
-                      ),
-                    AppSpacing.width12,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            video.title ?? locals.noVideoTitle,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              height: 1.3,
-                            ),
-                          ),
-                          AppSpacing.height4,
-                          Row(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  video.uploaderName ?? locals.noUploaderName,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: isDark
-                                        ? AppColors.onSurfaceVariantDark
-                                        : AppColors.onSurfaceVariant,
-                                  ),
-                                ),
-                              ),
-                              if (video.uploaderVerified == true) ...[
-                                AppSpacing.width4,
-                                Icon(
-                                  CupertinoIcons.checkmark_seal_fill,
-                                  size: 12,
-                                  color: isDark
-                                      ? AppColors.onSurfaceVariantDark
-                                      : AppColors.onSurfaceVariant,
-                                ),
-                              ],
-                            ],
-                          ),
-                          AppSpacing.height2,
-                          Text(
-                            '${formatCount(video.views?.toString() ?? '0')} ${locals.views} • ${video.uploadedDate ?? video.uploaded ?? ''}',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: isDark
-                                  ? AppColors.onSurfaceVariantDark
-                                  : AppColors.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FeedVideoCardNewPipe extends StatelessWidget {
-  final NewPipeTrendingResp video;
-  final int index;
-  final VoidCallback onTap;
-
-  const _FeedVideoCardNewPipe({
-    required this.video,
-    required this.index,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final locals = S.of(context);
-    final duration = formatDuration(video.duration ?? 0);
-    final isLive = video.duration == null || video.duration == -1;
-
-    return AnimatedListItem(
-      index: index,
-      child: ScaleTap(
-        onTap: onTap,
-        scaleDown: 0.98,
-        child: Container(
-          margin: const EdgeInsets.only(bottom: AppSpacing.md),
-          decoration: BoxDecoration(
-            color: isDark ? AppColors.cardDark : AppColors.cardLight,
-            borderRadius: AppRadius.borderMd,
-            boxShadow: [
-              if (!isDark)
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Thumbnail
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(AppRadius.md),
-                  topRight: Radius.circular(AppRadius.md),
-                ),
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      if (video.thumbnailUrl != null)
-                        ThumbnailImage.small(url: video.thumbnailUrl!),
-                      // Duration badge
-                      Positioned(
-                        bottom: AppSpacing.sm,
-                        right: AppSpacing.sm,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.sm,
-                            vertical: AppSpacing.xxs,
-                          ),
-                          decoration: BoxDecoration(
-                            color: isLive ? AppColors.youtubeRed : kBlackColor,
-                            borderRadius: AppRadius.borderXs,
-                          ),
-                          child: Text(
-                            isLive ? 'LIVE' : duration,
-                            style: const TextStyle(
-                              color: kWhiteColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // Video info
-              Padding(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Channel avatar
-                    if (video.uploaderAvatarUrl != null)
-                      ClipOval(
-                        child: ThumbnailImage.small(
-                          url: video.uploaderAvatarUrl!,
-                          width: 36,
-                          height: 36,
-                          errorWidget: (_, __, ___) => Container(
-                            width: 36,
-                            height: 36,
-                            color: isDark
-                                ? AppColors.surfaceVariantDark
-                                : AppColors.surfaceVariant,
-                            child: const Icon(CupertinoIcons.person_fill, size: 20),
-                          ),
-                        ),
-                      )
-                    else
-                      Container(
-                        width: 36,
-                        height: 36,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isDark
-                              ? AppColors.surfaceVariantDark
-                              : AppColors.surfaceVariant,
-                        ),
-                        child: const Icon(CupertinoIcons.person_fill, size: 20),
-                      ),
-                    AppSpacing.width12,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            video.name ?? locals.noVideoTitle,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              height: 1.3,
-                            ),
-                          ),
-                          AppSpacing.height4,
-                          Row(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  video.uploaderName ?? locals.noUploaderName,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: isDark
-                                        ? AppColors.onSurfaceVariantDark
-                                        : AppColors.onSurfaceVariant,
-                                  ),
-                                ),
-                              ),
-                              if (video.uploaderVerified == true) ...[
-                                AppSpacing.width4,
-                                Icon(
-                                  CupertinoIcons.checkmark_seal_fill,
-                                  size: 12,
-                                  color: isDark
-                                      ? AppColors.onSurfaceVariantDark
-                                      : AppColors.onSurfaceVariant,
-                                ),
-                              ],
-                            ],
-                          ),
-                          AppSpacing.height2,
-                          Text(
-                            '${formatCount(video.viewCount?.toString() ?? '0')} ${locals.views} • ${video.uploadDate ?? ''}',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: isDark
-                                  ? AppColors.onSurfaceVariantDark
-                                  : AppColors.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ShimmerChannelCard extends StatelessWidget {
-  const _ShimmerChannelCard();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.cardDark : AppColors.cardLight,
-        borderRadius: AppRadius.borderMd,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 64,
-            height: 64,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
-            ),
-          ),
-          AppSpacing.height12,
-          Container(
-            height: 12,
-            width: 60,
-            decoration: BoxDecoration(
-              color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
-              borderRadius: AppRadius.borderXs,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ShimmerChannelListTile extends StatelessWidget {
-  const _ShimmerChannelListTile();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.cardDark : AppColors.cardLight,
-        borderRadius: AppRadius.borderMd,
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
-            ),
-          ),
-          AppSpacing.width12,
-          Expanded(
-            child: Container(
-              height: 14,
-              decoration: BoxDecoration(
-                color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
-                borderRadius: AppRadius.borderXs,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ShimmerVideoCard extends StatelessWidget {
-  const _ShimmerVideoCard();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.cardDark : AppColors.cardLight,
-        borderRadius: AppRadius.borderMd,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Container(
-              decoration: BoxDecoration(
-                color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(AppRadius.md),
-                  topRight: Radius.circular(AppRadius.md),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
-                  ),
-                ),
-                AppSpacing.width12,
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 14,
-                        decoration: BoxDecoration(
-                          color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
-                          borderRadius: AppRadius.borderXs,
-                        ),
-                      ),
-                      AppSpacing.height8,
-                      Container(
-                        height: 12,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
-                          borderRadius: AppRadius.borderXs,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

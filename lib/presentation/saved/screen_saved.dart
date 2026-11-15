@@ -2,6 +2,7 @@ import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluxtube/presentation/saved/widgets/watch_stats_card.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/animations/animations.dart';
 import 'package:fluxtube/core/colors.dart';
@@ -11,6 +12,9 @@ import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/main_navigation/main_navigation_layout.dart';
+import 'package:fluxtube/presentation/saved/widgets/downloads_section.dart';
+import 'package:fluxtube/presentation/saved/widgets/playlists_section.dart';
 import 'package:go_router/go_router.dart';
 
 enum SortOption { dateAdded, title, duration }
@@ -35,13 +39,55 @@ class _ScreenSavedState extends State<ScreenSaved>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    // Real length is decided in build() once settingsState.isHistoryVisible is
+    // known — see _ensureTabController. This placeholder is immediately
+    // replaced there and never actually used to build a TabBar/TabBarView.
+    _tabController =
+        TabController(length: _tabCount(historyVisible: true), vsync: this);
+    _tabController.addListener(_onTabChanged);
     _searchController.addListener(() {
       setState(() {
         _searchQuery = _searchController.text.toLowerCase();
       });
     });
   }
+
+  /// The app bar's search/sort/select actions only apply to the Saved/History
+  /// tabs, so it needs to rebuild when the active tab changes.
+  void _onTabChanged() {
+    if (mounted) setState(() {});
+  }
+
+  /// Saved (+ History, when visible) + Downloads + Playlists.
+  int _tabCount({required bool historyVisible}) => historyVisible ? 4 : 3;
+
+  /// The History settings toggle changes the tab count at runtime, which
+  /// [TabController.length] does not support updating in place — Flutter
+  /// asserts `controller.length == tabs.length` on every build. Recreate the
+  /// controller (once, only when the count actually changes) rather than
+  /// letting that assertion crash the screen when the user flips the toggle.
+  void _ensureTabController(bool historyVisible) {
+    final desiredLength = _tabCount(historyVisible: historyVisible);
+    if (_tabController.length == desiredLength) return;
+    final previousIndex = _tabController.index;
+    _tabController.removeListener(_onTabChanged);
+    _tabController.dispose();
+    _tabController = TabController(
+      length: desiredLength,
+      vsync: this,
+      initialIndex: previousIndex.clamp(0, desiredLength - 1),
+    )..addListener(_onTabChanged);
+  }
+
+  /// Index of the Downloads tab — Saved is always 0, History is 1 only when
+  /// visible, so Downloads/Playlists shift accordingly.
+  int _downloadsTabIndex(bool historyVisible) => historyVisible ? 2 : 1;
+
+  /// Whether the active tab is Saved or History (the two that use the
+  /// search bar, sort, and multi-select actions) as opposed to Downloads or
+  /// Playlists (which have their own, unrelated UI).
+  bool _isVideoTab(bool historyVisible) =>
+      _tabController.index < _downloadsTabIndex(historyVisible);
 
   @override
   void didChangeDependencies() {
@@ -60,6 +106,7 @@ class _ScreenSavedState extends State<ScreenSaved>
 
   @override
   void dispose() {
+    _tabController.removeListener(_onTabChanged);
     _tabController.dispose();
     _searchController.dispose();
     super.dispose();
@@ -84,8 +131,9 @@ class _ScreenSavedState extends State<ScreenSaved>
         });
         break;
       case SortOption.title:
-        filtered.sort((a, b) =>
-            (a.title ?? '').toLowerCase().compareTo((b.title ?? '').toLowerCase()));
+        filtered.sort((a, b) => (a.title ?? '')
+            .toLowerCase()
+            .compareTo((b.title ?? '').toLowerCase()));
         break;
       case SortOption.duration:
         filtered.sort((a, b) => (b.duration ?? 0).compareTo(a.duration ?? 0));
@@ -300,151 +348,212 @@ class _ScreenSavedState extends State<ScreenSaved>
     final locals = S.of(context);
 
     return BlocBuilder<SettingsBloc, SettingsState>(
+      buildWhen: (p, c) =>
+          p.isHistoryVisible != c.isHistoryVisible ||
+          p.currentProfile != c.currentProfile,
       builder: (context, settingsState) {
+        _ensureTabController(settingsState.isHistoryVisible);
+        final isVideoTab = _isVideoTab(settingsState.isHistoryVisible);
+
         return BlocBuilder<SavedBloc, SavedState>(
+          buildWhen: (p, c) =>
+              !identical(p.localSavedVideos, c.localSavedVideos) ||
+              !identical(
+                  p.localSavedHistoryVideos, c.localSavedHistoryVideos) ||
+              p.savedVideosFetchStatus != c.savedVideosFetchStatus,
           builder: (context, savedState) {
-            final savedVideos = _filterAndSortVideos(savedState.localSavedVideos);
-            final historyVideos = _filterAndSortVideos(savedState.localSavedHistoryVideos);
-            final isLoading = savedState.savedVideosFetchStatus == ApiStatus.loading ||
-                savedState.savedVideosFetchStatus == ApiStatus.initial;
+            final savedVideos =
+                _filterAndSortVideos(savedState.localSavedVideos);
+            final historyVideos =
+                _filterAndSortVideos(savedState.localSavedHistoryVideos);
+            final isLoading =
+                savedState.savedVideosFetchStatus == ApiStatus.loading ||
+                    savedState.savedVideosFetchStatus == ApiStatus.initial;
 
             return Scaffold(
-              backgroundColor: isDark ? AppColors.backgroundDark : AppColors.background,
-              body: SafeArea(
-                child: NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                    // App Bar
-                    SliverAppBar(
-                      floating: true,
-                      snap: true,
-                      toolbarHeight: 60,
-                      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.background,
-                      elevation: 0,
-                      surfaceTintColor: kWhiteColor,
-                      title: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: _isSelectionMode
-                            ? Text(
-                                '${_selectedIds.length} ${locals.selected}',
-                                style: theme.textTheme.titleLarge,
-                              )
-                            : ShaderMask(
-                                shaderCallback: (bounds) => const LinearGradient(
-                                  colors: [Color(0xFFFF4444), Color(0xFFCC0000)],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ).createShader(bounds),
-                                child: Text(
-                                  locals.library,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 24,
-                                    letterSpacing: -0.5,
-                                    color: Colors.white,
+              backgroundColor: theme.scaffoldBackgroundColor,
+              // Top/bottom safe-area is handled by MainNavigationLayout's
+              // header/nav padding below, matching Home and Subscriptions —
+              // an extra SafeArea here would double-count the bottom inset.
+              body: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  // No floating header overlay on this tab (Home-only now),
+                  // so this SliverAppBar reserves the safe-area top inset
+                  // itself via the default `primary: true`.
+                  //
+                  // App Bar — only carries the selection-mode title/actions
+                  // and the Saved/History-specific actions now; the "Library"
+                  // wordmark itself is redundant with the shared header.
+                  SliverAppBar(
+                    floating: true,
+                    snap: true,
+                    toolbarHeight: 56,
+                    backgroundColor: theme.scaffoldBackgroundColor,
+                    elevation: 0,
+                    surfaceTintColor: Colors.transparent,
+                    automaticallyImplyLeading: false,
+                    title: _isSelectionMode
+                        ? Text(
+                            '${_selectedIds.length} ${locals.selected}',
+                            style: theme.textTheme.titleLarge,
+                          )
+                        : null,
+                    actions: [
+                      // Crossfades the whole actions cluster between
+                      // selection-mode / video-tab / other-tab states instead
+                      // of swapping icons instantly.
+                      AnimatedSwitcher(
+                        duration: AppAnimations.medium,
+                        switchInCurve: AppAnimations.defaultCurve,
+                        switchOutCurve: AppAnimations.defaultCurve,
+                        child: Row(
+                          key: ValueKey(_isSelectionMode
+                              ? 'selection'
+                              : (isVideoTab ? 'video' : 'other')),
+                          mainAxisSize: MainAxisSize.min,
+                          children: _isSelectionMode
+                              ? [
+                                  IconButton(
+                                    icon: const Icon(
+                                        CupertinoIcons.checkmark_square),
+                                    onPressed: () => _selectAll(
+                                      _tabController.index == 0
+                                          ? savedVideos
+                                          : historyVideos,
+                                    ),
+                                    tooltip: locals.selectAll,
                                   ),
-                                ),
-                              ),
+                                  IconButton(
+                                    icon: const Icon(CupertinoIcons.delete),
+                                    onPressed: _selectedIds.isEmpty
+                                        ? null
+                                        : _deleteSelected,
+                                    color: AppColors.error,
+                                    tooltip: locals.delete,
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(CupertinoIcons.xmark),
+                                    onPressed: _toggleSelectionMode,
+                                    tooltip: locals.cancel,
+                                  ),
+                                ]
+                              : isVideoTab
+                                  ? [
+                                      IconButton(
+                                        icon: const Icon(
+                                            CupertinoIcons.music_note_list),
+                                        onPressed: () =>
+                                            context.pushNamed('localPlaylists'),
+                                        tooltip: 'Playlists',
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(
+                                            CupertinoIcons.sort_down),
+                                        onPressed: _showSortOptions,
+                                        tooltip: locals.sort,
+                                      ),
+                                      PopupMenuButton<String>(
+                                        icon: const Icon(
+                                            CupertinoIcons.ellipsis_vertical),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: AppRadius.borderMd,
+                                        ),
+                                        itemBuilder: (context) => [
+                                          PopupMenuItem(
+                                            value: 'select',
+                                            child: Row(
+                                              children: [
+                                                const Icon(
+                                                    CupertinoIcons
+                                                        .checkmark_circle,
+                                                    size: AppIconSize.sm),
+                                                AppSpacing.width12,
+                                                Text(locals.selectVideos),
+                                              ],
+                                            ),
+                                          ),
+                                          PopupMenuItem(
+                                            value: 'clear_saved',
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  CupertinoIcons.bookmark_fill,
+                                                  size: AppIconSize.sm,
+                                                  color: AppColors.error,
+                                                ),
+                                                AppSpacing.width12,
+                                                Text(
+                                                  locals.clearAllSaved,
+                                                  style: TextStyle(
+                                                      color: AppColors.error),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          if (settingsState.isHistoryVisible)
+                                            PopupMenuItem(
+                                              value: 'clear_history',
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    CupertinoIcons.time,
+                                                    size: AppIconSize.sm,
+                                                    color: AppColors.error,
+                                                  ),
+                                                  AppSpacing.width12,
+                                                  Text(
+                                                    locals.clearAllHistory,
+                                                    style: TextStyle(
+                                                        color: AppColors.error),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                        ],
+                                        onSelected: (value) {
+                                          switch (value) {
+                                            case 'select':
+                                              _toggleSelectionMode();
+                                              break;
+                                            case 'clear_saved':
+                                              _showClearAllDialog(true);
+                                              break;
+                                            case 'clear_history':
+                                              _showClearAllDialog(false);
+                                              break;
+                                          }
+                                        },
+                                      ),
+                                    ]
+                                  : const [],
+                        ),
                       ),
-                      actions: [
-                        if (_isSelectionMode) ...[
-                          IconButton(
-                            icon: const Icon(CupertinoIcons.checkmark_square),
-                            onPressed: () => _selectAll(
-                              _tabController.index == 0 ? savedVideos : historyVideos,
-                            ),
-                            tooltip: locals.selectAll,
-                          ),
-                          IconButton(
-                            icon: const Icon(CupertinoIcons.delete),
-                            onPressed: _selectedIds.isEmpty ? null : _deleteSelected,
-                            color: AppColors.error,
-                            tooltip: locals.delete,
-                          ),
-                          IconButton(
-                            icon: const Icon(CupertinoIcons.xmark),
-                            onPressed: _toggleSelectionMode,
-                            tooltip: locals.cancel,
-                          ),
-                        ] else ...[
-                          IconButton(
-                            icon: const Icon(CupertinoIcons.music_note_list),
-                            onPressed: () => context.pushNamed('localPlaylists'),
-                            tooltip: 'Playlists',
-                          ),
-                          IconButton(
-                            icon: const Icon(CupertinoIcons.sort_down),
-                            onPressed: _showSortOptions,
-                            tooltip: locals.sort,
-                          ),
-                          PopupMenuButton<String>(
-                            icon: const Icon(CupertinoIcons.ellipsis_vertical),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: AppRadius.borderMd,
-                            ),
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                value: 'select',
-                                child: Row(
-                                  children: [
-                                    const Icon(CupertinoIcons.checkmark_circle, size: AppIconSize.sm),
-                                    AppSpacing.width12,
-                                    Text(locals.selectVideos),
-                                  ],
-                                ),
-                              ),
-                              PopupMenuItem(
-                                value: 'clear_saved',
-                                child: Row(
-                                  children: [
-                                    Icon(CupertinoIcons.bookmark_fill,
-                                      size: AppIconSize.sm,
-                                      color: AppColors.error,
-                                    ),
-                                    AppSpacing.width12,
-                                    Text(locals.clearAllSaved,
-                                      style: TextStyle(color: AppColors.error),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (settingsState.isHistoryVisible)
-                                PopupMenuItem(
-                                  value: 'clear_history',
-                                  child: Row(
-                                    children: [
-                                      Icon(CupertinoIcons.time,
-                                        size: AppIconSize.sm,
-                                        color: AppColors.error,
-                                      ),
-                                      AppSpacing.width12,
-                                      Text(locals.clearAllHistory,
-                                        style: TextStyle(color: AppColors.error),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                            ],
-                            onSelected: (value) {
-                              switch (value) {
-                                case 'select':
-                                  _toggleSelectionMode();
-                                  break;
-                                case 'clear_saved':
-                                  _showClearAllDialog(true);
-                                  break;
-                                case 'clear_history':
-                                  _showClearAllDialog(false);
-                                  break;
-                              }
-                            },
-                          ),
-                        ],
-                      ],
-                    ),
+                    ],
+                  ),
 
-                    // Search Bar
+                  if (settingsState.isHistoryVisible && !_isSelectionMode)
                     SliverToBoxAdapter(
-                      child: Padding(
+                      child: WatchStatsCard(
+                        history: savedState.localSavedHistoryVideos,
+                        savedCount: savedState.localSavedVideos.length,
+                      ),
+                    ),
+                  // Search bar — only relevant while viewing Saved/History.
+                  // Always present (rather than an `if` that drops the
+                  // sliver outright) and cross-faded/resized via
+                  // AnimatedCrossFade, so switching to Downloads/Playlists
+                  // or into selection mode collapses it smoothly instead of
+                  // an instant cut.
+                  SliverToBoxAdapter(
+                    child: AnimatedCrossFade(
+                      duration: AppAnimations.medium,
+                      sizeCurve: AppAnimations.defaultCurve,
+                      firstCurve: AppAnimations.defaultCurve,
+                      secondCurve: AppAnimations.defaultCurve,
+                      crossFadeState: (isVideoTab && !_isSelectionMode)
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
+                      firstChild: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: AppSpacing.lg,
                           vertical: AppSpacing.sm,
@@ -453,7 +562,8 @@ class _ScreenSavedState extends State<ScreenSaved>
                           height: 40,
                           child: TextField(
                             controller: _searchController,
-                            style: theme.textTheme.bodyMedium?.copyWith(fontSize: 14),
+                            style: theme.textTheme.bodyMedium
+                                ?.copyWith(fontSize: 14),
                             decoration: InputDecoration(
                               hintText: locals.searchSavedVideos,
                               hintStyle: theme.textTheme.bodyMedium?.copyWith(
@@ -462,11 +572,15 @@ class _ScreenSavedState extends State<ScreenSaved>
                                     ? AppColors.onSurfaceVariantDark
                                     : AppColors.onSurfaceVariant,
                               ),
-                              prefixIcon: const Icon(CupertinoIcons.search, size: 18),
+                              prefixIcon:
+                                  const Icon(CupertinoIcons.search, size: 18),
                               suffixIcon: _searchQuery.isNotEmpty
                                   ? IconButton(
-                                      icon: const Icon(CupertinoIcons.xmark_circle_fill, size: 16),
-                                      onPressed: () => _searchController.clear(),
+                                      icon: const Icon(
+                                          CupertinoIcons.xmark_circle_fill,
+                                          size: 16),
+                                      onPressed: () =>
+                                          _searchController.clear(),
                                     )
                                   : null,
                               filled: true,
@@ -485,32 +599,79 @@ class _ScreenSavedState extends State<ScreenSaved>
                           ),
                         ),
                       ),
+                      secondChild: const SizedBox(width: double.infinity),
                     ),
+                  ),
 
-                    // Tab Bar
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _SliverTabBarDelegate(
-                        TabBar(
-                          controller: _tabController,
-                          labelColor: AppColors.primary,
-                          unselectedLabelColor: isDark
-                              ? AppColors.onSurfaceVariantDark
-                              : AppColors.onSurfaceVariant,
-                          indicatorColor: AppColors.primary,
-                          indicatorSize: TabBarIndicatorSize.label,
-                          dividerColor: Colors.transparent,
-                          labelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                          unselectedLabelStyle: const TextStyle(fontSize: 13),
-                          tabs: [
+                  // Tab Bar
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverTabBarDelegate(
+                      TabBar(
+                        controller: _tabController,
+                        isScrollable: true,
+                        // Material 3's default scrollable-tab alignment
+                        // (`TabAlignment.startOffset`) reserves ~52px before
+                        // the first tab — meant for tab bars that sit next
+                        // to a leading icon. This one doesn't, so it just
+                        // reads as a big stray left gap; align flush to the
+                        // same AppSpacing.lg gutter every other row uses.
+                        tabAlignment: TabAlignment.start,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.lg),
+                        labelColor: AppColors.primary,
+                        unselectedLabelColor: isDark
+                            ? AppColors.onSurfaceVariantDark
+                            : AppColors.onSurfaceVariant,
+                        indicatorColor: AppColors.primary,
+                        indicatorSize: TabBarIndicatorSize.label,
+                        dividerColor: Colors.transparent,
+                        labelStyle: const TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.w600),
+                        unselectedLabelStyle: const TextStyle(fontSize: 13),
+                        tabs: [
+                          Tab(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(CupertinoIcons.bookmark_fill,
+                                    size: 16),
+                                AppSpacing.width4,
+                                Text(locals.saved),
+                                if (savedState.localSavedVideos.isNotEmpty) ...[
+                                  AppSpacing.width4,
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 1,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary
+                                          .withValues(alpha: 0.1),
+                                      borderRadius: AppRadius.borderFull,
+                                    ),
+                                    child: Text(
+                                      '${savedState.localSavedVideos.length}',
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                          if (settingsState.isHistoryVisible)
                             Tab(
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Icon(CupertinoIcons.bookmark_fill, size: 16),
+                                  const Icon(CupertinoIcons.time, size: 16),
                                   AppSpacing.width4,
-                                  Text(locals.saved),
-                                  if (savedState.localSavedVideos.isNotEmpty) ...[
+                                  Text(locals.history),
+                                  if (savedState
+                                      .localSavedHistoryVideos.isNotEmpty) ...[
                                     AppSpacing.width4,
                                     Container(
                                       padding: const EdgeInsets.symmetric(
@@ -518,11 +679,12 @@ class _ScreenSavedState extends State<ScreenSaved>
                                         vertical: 1,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: AppColors.primary.withValues(alpha: 0.1),
+                                        color: AppColors.primary
+                                            .withValues(alpha: 0.1),
                                         borderRadius: AppRadius.borderFull,
                                       ),
                                       child: Text(
-                                        '${savedState.localSavedVideos.length}',
+                                        '${savedState.localSavedHistoryVideos.length}',
                                         style: const TextStyle(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w600,
@@ -533,67 +695,61 @@ class _ScreenSavedState extends State<ScreenSaved>
                                 ],
                               ),
                             ),
-                            if (settingsState.isHistoryVisible)
-                              Tab(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(CupertinoIcons.time, size: 16),
-                                    AppSpacing.width4,
-                                    Text(locals.history),
-                                    if (savedState.localSavedHistoryVideos.isNotEmpty) ...[
-                                      AppSpacing.width4,
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 6,
-                                          vertical: 1,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.primary.withValues(alpha: 0.1),
-                                          borderRadius: AppRadius.borderFull,
-                                        ),
-                                        child: Text(
-                                          '${savedState.localSavedHistoryVideos.length}',
-                                          style: const TextStyle(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ],
-                                ),
-                              ),
-                          ],
-                        ),
-                        isDark: isDark,
-                        savedCount: savedState.localSavedVideos.length,
-                        historyCount: savedState.localSavedHistoryVideos.length,
-                      ),
-                    ),
-                  ],
-                  body: isLoading
-                      ? _buildLoadingState()
-                      : TabBarView(
-                          controller: _tabController,
-                          children: [
-                            _buildVideoList(
-                              savedVideos,
-                              locals.noSavedVideos,
-                              locals.startSavingVideos,
-                              CupertinoIcons.bookmark,
-                              isSaved: true,
+                          Tab(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(CupertinoIcons.arrow_down_circle,
+                                    size: 16),
+                                AppSpacing.width4,
+                                Text(locals.downloads),
+                              ],
                             ),
-                            if (settingsState.isHistoryVisible)
-                              _buildVideoList(
-                                historyVideos,
-                                locals.noHistory,
-                                locals.watchSomeVideos,
-                                CupertinoIcons.time,
-                                isSaved: false,
-                              ),
-                          ],
-                        ),
+                          ),
+                          Tab(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(CupertinoIcons.collections,
+                                    size: 16),
+                                AppSpacing.width4,
+                                Text(locals.playlists),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      isDark: isDark,
+                      savedCount: savedState.localSavedVideos.length,
+                      historyCount: savedState.localSavedHistoryVideos.length,
+                    ),
+                  ),
+                ],
+                body: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    isLoading
+                        ? _buildLoadingState()
+                        : _buildVideoList(
+                            savedVideos,
+                            locals.noSavedVideos,
+                            locals.startSavingVideos,
+                            CupertinoIcons.bookmark,
+                            isSaved: true,
+                          ),
+                    if (settingsState.isHistoryVisible)
+                      isLoading
+                          ? _buildLoadingState()
+                          : _buildVideoList(
+                              historyVideos,
+                              locals.noHistory,
+                              locals.watchSomeVideos,
+                              CupertinoIcons.time,
+                              isSaved: false,
+                            ),
+                    const DownloadsSection(),
+                    const PlaylistsSection(),
+                  ],
                 ),
               ),
             );
@@ -605,7 +761,12 @@ class _ScreenSavedState extends State<ScreenSaved>
 
   Widget _buildLoadingState() {
     return ListView.builder(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.lg,
+        AppSpacing.lg,
+        AppSpacing.lg + MainNavigationLayout.navPadding(context).bottom,
+      ),
       itemCount: 6,
       itemBuilder: (context, index) => const Padding(
         padding: EdgeInsets.only(bottom: AppSpacing.md),
@@ -628,7 +789,12 @@ class _ScreenSavedState extends State<ScreenSaved>
     return RefreshIndicator(
       onRefresh: () async => _loadVideos(),
       child: ListView.builder(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: EdgeInsets.fromLTRB(
+          AppSpacing.lg,
+          AppSpacing.lg,
+          AppSpacing.lg,
+          AppSpacing.lg + MainNavigationLayout.navPadding(context).bottom,
+        ),
         itemCount: videos.length,
         itemBuilder: (context, index) {
           final video = videos[index];
@@ -765,7 +931,8 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   final int savedCount;
   final int historyCount;
 
-  _SliverTabBarDelegate(this.tabBar, {
+  _SliverTabBarDelegate(
+    this.tabBar, {
     required this.isDark,
     required this.savedCount,
     required this.historyCount,
@@ -777,9 +944,10 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => tabBar.preferredSize.height;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: isDark ? AppColors.backgroundDark : AppColors.background,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: tabBar,
     );
   }
@@ -825,7 +993,8 @@ class _SortOptionTile extends StatelessWidget {
         ),
       ),
       trailing: isSelected
-          ? const Icon(CupertinoIcons.checkmark, color: AppColors.primary, size: 18)
+          ? const Icon(CupertinoIcons.checkmark,
+              color: AppColors.primary, size: 18)
           : null,
       onTap: onTap,
     );
@@ -860,7 +1029,9 @@ class _SavedVideoCard extends StatelessWidget {
     final locals = S.of(context);
     final duration = formatDuration(video.isLive == true ? -1 : video.duration);
     final isLive = duration == "Live";
-    final progress = video.duration != null && video.duration! > 0 && video.playbackPosition != null
+    final progress = video.duration != null &&
+            video.duration! > 0 &&
+            video.playbackPosition != null
         ? (video.playbackPosition! / video.duration!).clamp(0.0, 1.0)
         : 0.0;
 
@@ -884,23 +1055,25 @@ class _SavedVideoCard extends StatelessWidget {
         ),
         confirmDismiss: (direction) async {
           return await showDialog<bool>(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text(locals.deleteVideo),
-              content: Text(locals.deleteVideoConfirm),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: Text(locals.cancel),
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text(locals.deleteVideo),
+                  content: Text(locals.deleteVideoConfirm),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: Text(locals.cancel),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      style: TextButton.styleFrom(
+                          foregroundColor: AppColors.error),
+                      child: Text(locals.delete),
+                    ),
+                  ],
                 ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context, true),
-                  style: TextButton.styleFrom(foregroundColor: AppColors.error),
-                  child: Text(locals.delete),
-                ),
-              ],
-            ),
-          ) ?? false;
+              ) ??
+              false;
         },
         onDismissed: (_) => onDelete(),
         child: ScaleTap(
@@ -936,15 +1109,18 @@ class _SavedVideoCard extends StatelessWidget {
                       isSelected
                           ? CupertinoIcons.checkmark_circle_fill
                           : CupertinoIcons.circle,
-                      color: isSelected ? AppColors.primary : AppColors.disabled,
+                      color:
+                          isSelected ? AppColors.primary : AppColors.disabled,
                     ),
                   ),
 
                 // Thumbnail
                 ClipRRect(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(isSelectionMode ? 0 : AppRadius.md),
-                    bottomLeft: Radius.circular(isSelectionMode ? 0 : AppRadius.md),
+                    topLeft:
+                        Radius.circular(isSelectionMode ? 0 : AppRadius.md),
+                    bottomLeft:
+                        Radius.circular(isSelectionMode ? 0 : AppRadius.md),
                   ),
                   child: SizedBox(
                     width: 160,
@@ -965,7 +1141,8 @@ class _SavedVideoCard extends StatelessWidget {
                               vertical: AppSpacing.xxs,
                             ),
                             decoration: BoxDecoration(
-                              color: isLive ? AppColors.youtubeRed : kBlackColor,
+                              color:
+                                  isLive ? AppColors.youtubeRed : kBlackColor,
                               borderRadius: AppRadius.borderXs,
                             ),
                             child: Text(
@@ -1064,13 +1241,16 @@ class _SavedVideoCard extends StatelessWidget {
                         value: 'delete',
                         child: Row(
                           children: [
-                            Icon(CupertinoIcons.delete,
+                            Icon(
+                              CupertinoIcons.delete,
                               size: AppIconSize.sm,
                               color: AppColors.error,
                             ),
                             AppSpacing.width12,
                             Text(
-                              isSaved ? locals.removeFromSaved : locals.removeFromHistory,
+                              isSaved
+                                  ? locals.removeFromSaved
+                                  : locals.removeFromHistory,
                               style: TextStyle(color: AppColors.error),
                             ),
                           ],
@@ -1112,7 +1292,9 @@ class ShimmerVideoCard extends StatelessWidget {
             width: 160,
             height: 90,
             decoration: BoxDecoration(
-              color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
+              color: isDark
+                  ? AppColors.surfaceVariantDark
+                  : AppColors.surfaceVariant,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(AppRadius.md),
                 bottomLeft: Radius.circular(AppRadius.md),
@@ -1130,7 +1312,9 @@ class ShimmerVideoCard extends StatelessWidget {
                     height: 14,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
+                      color: isDark
+                          ? AppColors.surfaceVariantDark
+                          : AppColors.surfaceVariant,
                       borderRadius: AppRadius.borderXs,
                     ),
                   ),
@@ -1139,7 +1323,9 @@ class ShimmerVideoCard extends StatelessWidget {
                     height: 12,
                     width: 100,
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant,
+                      color: isDark
+                          ? AppColors.surfaceVariantDark
+                          : AppColors.surfaceVariant,
                       borderRadius: AppRadius.borderXs,
                     ),
                   ),

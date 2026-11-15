@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
 import 'package:fluxtube/core/enums.dart';
-import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/domain/channel/models/piped/related_stream.dart';
 import 'package:fluxtube/domain/channel/models/piped/tab.dart' as piped;
 import 'package:fluxtube/generated/l10n.dart';
@@ -74,7 +73,7 @@ class _ChannelTabContentState extends State<ChannelTabContent>
           widget.tabName == 'shorts'
               ? widget.locals.noShorts
               : widget.locals.noPlaylists,
-          style: TextStyle(color: kGreyColor),
+          style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
         ),
       );
     }
@@ -109,7 +108,7 @@ class _ChannelTabContentState extends State<ChannelTabContent>
           return Center(
             child: Text(
               isShorts ? widget.locals.noShorts : widget.locals.noPlaylists,
-              style: TextStyle(color: kGreyColor),
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
             ),
           );
         }

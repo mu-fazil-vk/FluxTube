@@ -719,9 +719,69 @@ class S {
     );
   }
 
+  /// `Gaming`
+  String get categoryGaming {
+    return Intl.message(
+      'Gaming',
+      name: 'categoryGaming',
+      desc: 'Home category chip: gaming kiosk',
+      args: [],
+    );
+  }
+
+  /// `Movies & Shows`
+  String get categoryMoviesAndShows {
+    return Intl.message(
+      'Movies & Shows',
+      name: 'categoryMoviesAndShows',
+      desc: 'Home category chip: movies and shows trailers kiosk',
+      args: [],
+    );
+  }
+
+  /// `Podcasts`
+  String get categoryPodcasts {
+    return Intl.message(
+      'Podcasts',
+      name: 'categoryPodcasts',
+      desc: 'Home category chip: podcasts kiosk',
+      args: [],
+    );
+  }
+
   /// `Saved`
   String get saved {
     return Intl.message('Saved', name: 'saved', desc: 'Saved label', args: []);
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message('Save', name: 'save', desc: '', args: []);
+  }
+
+  /// `Limited`
+  String get serviceLimited {
+    return Intl.message('Limited', name: 'serviceLimited', desc: '', args: []);
+  }
+
+  /// `Piped and YouTube Explode were retired. YouTube now blocks the server IPs Piped instances run on, so no public instance can play video (its team is rebuilding on a new extractor). YouTube Explode stopped receiving fixes in May 2026 and only 360p still works. NewPipe Extractor does the same on-device extraction, is actively maintained, and plays up to 4K.`
+  String get serviceRemovedNote {
+    return Intl.message(
+      'Piped and YouTube Explode were retired. YouTube now blocks the server IPs Piped instances run on, so no public instance can play video (its team is rebuilding on a new extractor). YouTube Explode stopped receiving fixes in May 2026 and only 360p still works. NewPipe Extractor does the same on-device extraction, is actively maintained, and plays up to 4K.',
+      name: 'serviceRemovedNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Few public Invidious instances still allow apps; playback may fail if your instance blocks API access.`
+  String get serviceInvidiousNote {
+    return Intl.message(
+      'Few public Invidious instances still allow apps; playback may fail if your instance blocks API access.',
+      name: 'serviceInvidiousNote',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Settings`
@@ -1274,10 +1334,10 @@ class S {
     return Intl.message('Playlists', name: 'playlists', desc: '', args: []);
   }
 
-  /// `No shorts available`
+  /// `Subscribe to channels to see their Shorts here`
   String get noShorts {
     return Intl.message(
-      'No shorts available',
+      'Subscribe to channels to see their Shorts here',
       name: 'noShorts',
       desc: '',
       args: [],
@@ -2053,65 +2113,6 @@ class S {
       args: [],
     );
   }
-  /// `Cast`
-  String get castTitle {
-    return Intl.message(
-      'Cast',
-      name: 'castTitle',
-      desc: 'Cast button label',
-      args: [],
-    );
-  }
-
-  /// `Connected`
-  String get castConnected {
-    return Intl.message(
-      'Connected',
-      name: 'castConnected',
-      desc: 'Cast connected state',
-      args: [],
-    );
-  }
-
-  /// `Casting to {device}`
-  String castConnectedTo(String device) {
-    return Intl.message(
-      'Casting to $device',
-      name: 'castConnectedTo',
-      desc: 'Cast target device',
-      args: [device],
-    );
-  }
-
-  /// `Stop casting`
-  String get castStop {
-    return Intl.message(
-      'Stop casting',
-      name: 'castStop',
-      desc: 'Ends the Cast session',
-      args: [],
-    );
-  }
-
-  /// `Cast is not available on this device`
-  String get castUnavailable {
-    return Intl.message(
-      'Cast is not available on this device',
-      name: 'castUnavailable',
-      desc: 'Shown when the Cast framework is missing',
-      args: [],
-    );
-  }
-
-  /// `This video cannot be cast`
-  String get castFailed {
-    return Intl.message(
-      'This video cannot be cast',
-      name: 'castFailed',
-      desc: 'No castable stream exists',
-      args: [],
-    );
-  }
 
   /// `New upload notifications`
   String get newVideoNotifications {
@@ -2353,7 +2354,7 @@ class S {
     );
   }
 
-  /// `No playlists yet. Tap + to create one.`
+  /// `No playlists yet.\nTap + to create one.`
   String get noPlaylistsYet {
     return Intl.message(
       'No playlists yet.\nTap + to create one.',
@@ -2363,7 +2364,7 @@ class S {
     );
   }
 
-  /// `No playlists yet. Tap + New to create one.`
+  /// `No playlists yet.\nTap + New to create one.`
   String get noPlaylistsYetPicker {
     return Intl.message(
       'No playlists yet.\nTap + New to create one.',
@@ -2620,6 +2621,198 @@ class S {
       name: 'sleepTimerEnded',
       desc: 'Sleep timer fired',
       args: [],
+    );
+  }
+
+  /// `Following`
+  String get following {
+    return Intl.message(
+      'Following',
+      name: 'following',
+      desc: 'Header for the subscribed-channels avatar row',
+      args: [],
+    );
+  }
+
+  /// `Today`
+  String get today {
+    return Intl.message(
+      'Today',
+      name: 'today',
+      desc: 'Filter chip: videos uploaded today',
+      args: [],
+    );
+  }
+
+  /// `Live`
+  String get live {
+    return Intl.message(
+      'Live',
+      name: 'live',
+      desc: 'Filter chip / badge for live streams',
+      args: [],
+    );
+  }
+
+  /// `Continue Watching`
+  String get continueWatching {
+    return Intl.message(
+      'Continue Watching',
+      name: 'continueWatching',
+      desc: 'Filter chip: partially watched videos',
+      args: [],
+    );
+  }
+
+  /// `View All`
+  String get viewAll {
+    return Intl.message(
+      'View All',
+      name: 'viewAll',
+      desc: 'Link to open a full section listing',
+      args: [],
+    );
+  }
+
+  /// `{amount} used`
+  String storageUsed(String amount) {
+    return Intl.message(
+      '$amount used',
+      name: 'storageUsed',
+      desc: 'Aggregate storage consumed by downloads, e.g. 2.4 GB used',
+      args: [amount],
+    );
+  }
+
+  /// `Comments`
+  String get comments {
+    return Intl.message(
+      'Comments',
+      name: 'comments',
+      desc: 'Comments section title',
+      args: [],
+    );
+  }
+
+  /// `Couldn't load comments`
+  String get commentsLoadFailed {
+    return Intl.message(
+      'Couldn\'t load comments',
+      name: 'commentsLoadFailed',
+      desc: 'Comments failed to load',
+      args: [],
+    );
+  }
+
+  /// `Check your connection and try again`
+  String get checkConnectionAndRetry {
+    return Intl.message(
+      'Check your connection and try again',
+      name: 'checkConnectionAndRetry',
+      desc: 'Generic retry hint',
+      args: [],
+    );
+  }
+
+  /// `The creator has turned off comments for this video`
+  String get commentsDisabledByCreator {
+    return Intl.message(
+      'The creator has turned off comments for this video',
+      name: 'commentsDisabledByCreator',
+      desc: 'Comments disabled explanation',
+      args: [],
+    );
+  }
+
+  /// `There are no comments on this video yet`
+  String get noCommentsYet {
+    return Intl.message(
+      'There are no comments on this video yet',
+      name: 'noCommentsYet',
+      desc: 'Empty comments explanation',
+      args: [],
+    );
+  }
+
+  /// `Hearted by creator`
+  String get heartedByCreator {
+    return Intl.message(
+      'Hearted by creator',
+      name: 'heartedByCreator',
+      desc: 'Comment liked by the video\'s creator',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =1{1 download} other{{count} downloads}}`
+  String downloadsCount(int count) {
+    return Intl.plural(
+      count,
+      one: '1 download',
+      other: '$count downloads',
+      name: 'downloadsCount',
+      desc: 'Number of completed downloads',
+      args: [count],
+    );
+  }
+
+  /// `Your watch stats`
+  String get watchStatsTitle {
+    return Intl.message(
+      'Your watch stats',
+      name: 'watchStatsTitle',
+      desc: 'Library watch stats card title',
+      args: [],
+    );
+  }
+
+  /// `watched`
+  String get watchStatsWatched {
+    return Intl.message(
+      'watched',
+      name: 'watchStatsWatched',
+      desc: 'Label under total watch time',
+      args: [],
+    );
+  }
+
+  /// `videos`
+  String get watchStatsVideos {
+    return Intl.message(
+      'videos',
+      name: 'watchStatsVideos',
+      desc: 'Label under watched video count',
+      args: [],
+    );
+  }
+
+  /// `saved`
+  String get watchStatsSaved {
+    return Intl.message(
+      'saved',
+      name: 'watchStatsSaved',
+      desc: 'Label under saved video count',
+      args: [],
+    );
+  }
+
+  /// `Most watched: {channel}`
+  String watchStatsTopChannel(String channel) {
+    return Intl.message(
+      'Most watched: $channel',
+      name: 'watchStatsTopChannel',
+      desc: 'Most watched channel line',
+      args: [channel],
+    );
+  }
+
+  /// `{count} this week`
+  String watchStatsThisWeek(int count) {
+    return Intl.message(
+      '$count this week',
+      name: 'watchStatsThisWeek',
+      desc: 'Videos watched in the last 7 days',
+      args: [count],
     );
   }
 }

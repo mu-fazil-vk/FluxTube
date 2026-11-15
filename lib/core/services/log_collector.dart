@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:developer' as dev;
 
 class LogCollector {
@@ -6,7 +7,7 @@ class LogCollector {
   factory LogCollector() => _instance;
   LogCollector._();
 
-  final List<LogEntry> _entries = [];
+  final ListQueue<LogEntry> _entries = ListQueue();
   final _controller = StreamController<String>.broadcast();
   static const _maxEntries = 500;
 
@@ -21,8 +22,8 @@ class LogCollector {
       tag: tag,
     );
     _entries.add(entry);
-    if (_entries.length > _maxEntries) _entries.removeAt(0);
-    _controller.add(entry.formatted);
+    if (_entries.length > _maxEntries) _entries.removeFirst();
+    if (_controller.hasListener) _controller.add(entry.formatted);
     dev.log(message, name: tag);
   }
 

@@ -13,6 +13,7 @@ import 'package:fluxtube/core/services/exoplayer_notification_bridge.dart';
 import 'package:fluxtube/core/services/pip_service.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/domain/sponsorblock/models/sponsor_segment.dart';
+import 'package:fluxtube/presentation/watch/widgets/player/sponsor_segment_markers.dart';
 import 'package:fluxtube/domain/watch/models/newpipe/newpipe_subtitle.dart';
 import 'package:fluxtube/domain/watch/models/newpipe/newpipe_watch_resp.dart';
 import 'package:fluxtube/domain/watch/playback/models/playback_configuration.dart';
@@ -24,7 +25,6 @@ import 'package:fluxtube/infrastructure/newpipe/newpipe_channel.dart';
 import 'package:fluxtube/presentation/watch/widgets/player/player_settings_sheet.dart';
 import 'package:fluxtube/presentation/watch/widgets/player/chapter_bar.dart';
 import 'package:fluxtube/presentation/watch/widgets/queue_sheet.dart';
-import 'package:fluxtube/presentation/watch/widgets/cast_button.dart';
 import 'package:fluxtube/domain/watch/models/video_chapter.dart';
 import 'package:fluxtube/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
@@ -70,7 +70,14 @@ class NewPipeExoPlayer extends StatefulWidget {
 }
 
 class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
-  static const _speeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
+  static const _speeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0];
+
+  // The native ExoPlayer is shared across the inline and fullscreen views, so
+  // these live at session scope rather than per widget instance.
+  static String? _loopVideoId;
+  static bool _skipSilence = false;
+  static bool _volumeBoost = false;
+  static const _volumeBoostGainMb = 800;
 
   final _resolver = NewPipePlaybackResolver();
   final _pipService = PipService();
@@ -82,6 +89,10 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
   int _positionMs = 0;
   int _durationMs = 0;
   bool _isPlaying = true;
+  // ExoPlayer's isPlaying is false while rebuffering even though playback will
+  // resume by itself; play/pause must follow the intent (playWhenReady) or a
+  // tap during buffering sends "play" to a player that is already playing.
+  bool _playIntent = true;
   bool _isBuffering = true;
   bool _showControls = true;
   bool _isScrubbing = false;
@@ -92,8 +103,16 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
   double _volume = 0.5;
   double _verticalDragStartY = 0;
   double _verticalDragStartValue = 0;
+  double _gestureLayerHeight = 0;
   bool _draggingBrightness = false;
   bool _draggingVolume = false;
+  int? _skipFlashSeconds;
+  Timer? _skipFlashTimer;
+  final Set<String> _skippedSegments = {};
+  bool _volumeBoostApplied = false;
+  bool _isHoldSpeeding = false;
+  SponsorSegment? _lastSkippedSegment;
+  Timer? _sponsorChipTimer;
   String? _errorMessage;
   String? _currentSubtitle;
   String? _currentCaptionText;
@@ -129,10 +148,7 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     _speed = widget.initialSpeed != 1.0
         ? widget.initialSpeed
         : (hasPersistedSession ? _globalPlayer.nativeSpeed : 1.0);
-    _chapters = VideoChapter.parseFromDescription(
-      widget.watchInfo.description,
-      durationSeconds: widget.watchInfo.duration,
-    );
+    _chapters = _resolveChapters();
     _currentQuality = widget.initialQuality ??
         (hasPersistedSession ? _globalPlayer.nativeQuality : null) ??
         (widget.preferAdaptivePlayback ? 'Auto' : _initialQuality());
@@ -156,6 +172,23 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
   @override
   void didUpdateWidget(covariant NewPipeExoPlayer oldWidget) {
     super.didUpdateWidget(oldWidget);
+    // Some backends deliver streams after the metadata the player was built
+    // from (Explode fetches muxed streams separately), so retry resolving
+    // until a playable config exists; the AndroidView mounts once it does.
+    if (!_config.isValid && !identical(oldWidget.watchInfo, widget.watchInfo)) {
+      _qualities = NewPipeStreamHelper.getAvailableQualities(widget.watchInfo);
+      _audioTracks = NewPipeStreamHelper.getAvailableAudioTracks(
+        widget.watchInfo.audioStreams ?? [],
+      );
+      _currentAudioTrackId ??=
+          _audioTracks.isEmpty ? null : _audioTracks.first.trackId;
+      _chapters = _resolveChapters();
+      if (widget.initialQuality == null && !widget.preferAdaptivePlayback) {
+        _currentQuality = _initialQuality();
+      }
+      final config = _resolveConfig(_currentQuality);
+      if (config.isValid) setState(() => _config = config);
+    }
     if (oldWidget.videoFitMode != widget.videoFitMode) {
       _fitMode = widget.videoFitMode;
       unawaited(_channel?.invokeMethod('setResizeMode', {
@@ -169,6 +202,8 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     _historyTimer?.cancel();
     _hideTimer?.cancel();
     _sleepTimer?.cancel();
+    _skipFlashTimer?.cancel();
+    _sponsorChipTimer?.cancel();
     _saveHistoryPosition();
     _channel?.setMethodCallHandler(null);
     if (!widget.isFullscreen) {
@@ -262,7 +297,8 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
             _errorMessage = null;
             _isBuffering = true;
           });
-          await _channel?.invokeMethod('load', _sourceParams(keepPosition: false));
+          await _channel?.invokeMethod(
+              'load', _sourceParams(keepPosition: false));
         }
       }
     } catch (_) {
@@ -283,7 +319,7 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
 
     _sleepTimer = Timer(Duration(minutes: minutes), () {
       if (!mounted) return;
-      if (_isPlaying) _togglePlay();
+      if (_playIntent) _togglePlay();
       if (!mounted) return;
       setState(() => _sleepTimerMinutes = null);
       ScaffoldMessenger.of(context)
@@ -357,25 +393,49 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
           final args = Map<String, dynamic>.from(call.arguments as Map);
           if (!mounted) return;
           final wasPlaying = _isPlaying;
-          setState(() {
-            if (!_isScrubbing) {
-              _positionMs = (args['positionMs'] as num? ?? _positionMs).toInt();
-            }
-            _durationMs = (args['durationMs'] as num? ?? _durationMs).toInt();
-            _isPlaying = args['isPlaying'] as bool? ?? _isPlaying;
-            _isBuffering = args['isBuffering'] as bool? ?? false;
-            _currentCaptionText = _captionForPosition(_positionMs);
-            _errorMessage = null;
-          });
+          final wasBuffering = _isBuffering;
+          final oldDuration = _durationMs;
+          final oldCaption = _currentCaptionText;
+          final hadError = _errorMessage != null;
+          if (!_isScrubbing) {
+            _positionMs = (args['positionMs'] as num? ?? _positionMs).toInt();
+          }
+          _durationMs = (args['durationMs'] as num? ?? _durationMs).toInt();
+          _isPlaying = args['isPlaying'] as bool? ?? _isPlaying;
+          final oldIntent = _playIntent;
+          _playIntent = args['playWhenReady'] as bool? ?? _isPlaying;
+          _isBuffering = args['isBuffering'] as bool? ?? false;
+          _currentCaptionText = _captionForPosition(_positionMs);
+          _errorMessage = null;
+          final stateChanged = wasPlaying != _isPlaying ||
+              oldIntent != _playIntent ||
+              wasBuffering != _isBuffering ||
+              oldDuration != _durationMs;
+          // While controls are hidden a plain position tick changes nothing
+          // on screen, so skip rebuilding the whole player stack for it.
+          if (_showControls ||
+              stateChanged ||
+              hadError ||
+              oldCaption != _currentCaptionText) {
+            setState(() {});
+          }
+          if (_isPlaying && !_isScrubbing) _maybeSkipSponsorSegment();
+          if (_volumeBoost && !_volumeBoostApplied && _isPlaying) {
+            unawaited(_applyVolumeBoost());
+          }
           _globalPlayer.updateNativeExoPlayerState(
             playing: _isPlaying,
             buffering: _isBuffering,
             position: Duration(milliseconds: _positionMs),
             duration: Duration(milliseconds: _durationMs),
           );
-          unawaited(_syncNotificationState(force: true));
-          if (!widget.isFullscreen) {
-            unawaited(_pipService.setVideoPlaying(_isPlaying));
+          // The media session extrapolates position from speed on its own;
+          // only real state changes need an immediate push.
+          if (stateChanged) {
+            unawaited(_syncNotificationState(force: true));
+            if (!widget.isFullscreen) {
+              unawaited(_pipService.setVideoPlaying(_isPlaying));
+            }
           }
           if (!_isPlaying) {
             _hideTimer?.cancel();
@@ -412,6 +472,9 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     if (_speed != 1.0) {
       unawaited(_channel!.invokeMethod('setSpeed', {'speed': _speed}));
     }
+    unawaited(_channel!.invokeMethod('setLooping', {'looping': _isLooping}));
+    unawaited(
+        _channel!.invokeMethod('setSkipSilence', {'enabled': _skipSilence}));
     _registerNativeSession();
     WidgetsBinding.instance.addPostFrameCallback((_) => _updatePipSourceRect());
     unawaited(_initNotification());
@@ -436,8 +499,11 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
   Future<void> _togglePlay() async {
     final channel = _channel;
     if (channel == null) return;
-    final nextPlaying = !_isPlaying;
-    setState(() => _isPlaying = nextPlaying);
+    final nextPlaying = !_playIntent;
+    setState(() {
+      _playIntent = nextPlaying;
+      _isPlaying = nextPlaying;
+    });
     _globalPlayer.updateNativeExoPlayerState(
       playing: nextPlaying,
       buffering: _isBuffering,
@@ -446,12 +512,167 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     );
     unawaited(_pipService.setVideoPlaying(nextPlaying));
     unawaited(_syncNotificationState(force: true));
-    if (_isPlaying) {
+    if (nextPlaying) {
       await channel.invokeMethod('play');
     } else {
       await channel.invokeMethod('pause');
     }
     _startHideTimer();
+  }
+
+  void _maybeSkipSponsorSegment() {
+    if (_config.isLive || widget.sponsorSegments.isEmpty) return;
+    final positionSec = _positionMs / 1000;
+    for (final segment in widget.sponsorSegments) {
+      // Re-arm a segment once playback is back before it, so seeking
+      // backwards past a sponsor skips it again like the web extension does.
+      if (positionSec < segment.startTime - 1) {
+        _skippedSegments.remove(segment.uuid);
+        continue;
+      }
+      if (!segment.containsPosition(positionSec) ||
+          _skippedSegments.contains(segment.uuid) ||
+          segment.endTime - positionSec < 0.5) {
+        continue;
+      }
+      _skippedSegments.add(segment.uuid);
+      unawaited(_seekTo((segment.endTime * 1000).round()));
+      HapticFeedback.lightImpact();
+      _sponsorChipTimer?.cancel();
+      setState(() => _lastSkippedSegment = segment);
+      _sponsorChipTimer = Timer(const Duration(seconds: 4), () {
+        if (mounted) setState(() => _lastSkippedSegment = null);
+      });
+      return;
+    }
+  }
+
+  bool get _isLooping => _loopVideoId == widget.videoId;
+
+  Future<void> _setLooping(bool looping) async {
+    _loopVideoId = looping ? widget.videoId : null;
+    await _channel?.invokeMethod('setLooping', {'looping': looping});
+  }
+
+  Future<void> _setSkipSilence(bool enabled) async {
+    _skipSilence = enabled;
+    await _channel?.invokeMethod('setSkipSilence', {'enabled': enabled});
+  }
+
+  Future<void> _setVolumeBoost(bool enabled) async {
+    _volumeBoost = enabled;
+    _volumeBoostApplied = false;
+    await _applyVolumeBoost();
+  }
+
+  Future<void> _applyVolumeBoost() async {
+    final applied = await _channel?.invokeMethod<bool>('setVolumeBoost', {
+      'gainMb': _volumeBoost ? _volumeBoostGainMb : 0,
+    });
+    _volumeBoostApplied = applied ?? false;
+  }
+
+  void _onHoldSpeedStart() {
+    if (_config.isLive || !_isPlaying || _isHoldSpeeding) return;
+    HapticFeedback.selectionClick();
+    setState(() => _isHoldSpeeding = true);
+    unawaited(_channel?.invokeMethod('setSpeed', {'speed': 2.0}));
+  }
+
+  void _onHoldSpeedEnd() {
+    if (!_isHoldSpeeding) return;
+    setState(() => _isHoldSpeeding = false);
+    unawaited(_channel?.invokeMethod('setSpeed', {'speed': _speed}));
+  }
+
+  Widget _buildHoldSpeedPill() {
+    return Positioned(
+      top: 14,
+      left: 0,
+      right: 0,
+      child: IgnorePointer(
+        child: Center(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.7),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('2x',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 13)),
+                  SizedBox(width: 4),
+                  Icon(CupertinoIcons.forward_fill,
+                      color: Colors.white, size: 14),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _undoSponsorSkip() {
+    final segment = _lastSkippedSegment;
+    if (segment == null) return;
+    _sponsorChipTimer?.cancel();
+    setState(() => _lastSkippedSegment = null);
+    unawaited(_seekTo((segment.startTime * 1000).round()));
+  }
+
+  Widget _buildSponsorSkipChip(SponsorSegment segment) {
+    return Positioned(
+      right: 12,
+      bottom: _showControls ? 96 : 16,
+      child: Material(
+        color: Colors.black.withValues(alpha: 0.78),
+        shape: const StadiumBorder(),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: _undoSponsorSkip,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: sponsorCategoryColor(segment.category),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Skipped ${segment.categoryDisplayName}',
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(width: 10),
+                const Text(
+                  'UNDO',
+                  style: TextStyle(
+                      color: Color(0xFF00E3FD),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.6),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> _seekTo(int positionMs) async {
@@ -462,8 +683,53 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     unawaited(_syncNotificationState(force: true));
   }
 
+  /// Real YouTube chapter metadata (`StreamInfo.getStreamSegments()`, via
+  /// the native `chapters` field) when the video actually has any — this is
+  /// the reliable source. The regex-over-description heuristic is a
+  /// fallback only, since it requires an exact, strict format (>=3 entries,
+  /// starts at 0:00, strictly increasing) that many real chapter lists
+  /// (bulleted, bracketed, not starting at 0:00, etc.) don't satisfy even
+  /// when the video genuinely has chapters.
+  List<VideoChapter> _resolveChapters() {
+    final native = widget.watchInfo.chapters;
+    if (native != null && native.isNotEmpty) {
+      final parsed = native
+          .where((c) =>
+              c.title != null &&
+              c.title!.isNotEmpty &&
+              c.startTimeSeconds != null)
+          .map((c) => VideoChapter(
+                startSeconds: c.startTimeSeconds!,
+                title: c.title!,
+              ))
+          .toList();
+      if (parsed.isNotEmpty) return parsed;
+    }
+    return VideoChapter.parseFromDescription(
+      widget.watchInfo.description,
+      durationSeconds: widget.watchInfo.duration,
+    );
+  }
+
   Future<void> _skipBy(int seconds) async {
+    _flashSkip(seconds);
     await _seekTo(_positionMs + seconds * 1000);
+  }
+
+  /// Brief "+10s"/"-10s" flash so a double-tap skip is actually visible
+  /// instead of a silent instant jump. Restarts on every skip rather than
+  /// stacking, matching how a rapid string of skip taps should read as one
+  /// continuously-updating indicator, not overlapping flashes.
+  void _flashSkip(int seconds) {
+    _skipFlashTimer?.cancel();
+    HapticFeedback.selectionClick();
+    final previous = _skipFlashSeconds;
+    final accumulate = previous != null && previous.sign == seconds.sign;
+    setState(
+        () => _skipFlashSeconds = accumulate ? previous + seconds : seconds);
+    _skipFlashTimer = Timer(const Duration(milliseconds: 750), () {
+      if (mounted) setState(() => _skipFlashSeconds = null);
+    });
   }
 
   Future<void> _changeQuality(String quality) async {
@@ -546,12 +812,12 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     handler.configureExternalControls(
       play: () async {
         if (!mounted) return;
-        setState(() => _isPlaying = true);
+        setState(() => _isPlaying = _playIntent = true);
         unawaited(_syncNotificationState(force: true));
       },
       pause: () async {
         if (!mounted) return;
-        setState(() => _isPlaying = false);
+        setState(() => _isPlaying = _playIntent = false);
         unawaited(_syncNotificationState(force: true));
       },
       stop: () async {
@@ -635,6 +901,12 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
           onFitModeChanged: _changeFitMode,
           sleepTimerMinutes: _sleepTimerMinutes,
           onSleepTimerChanged: _setSleepTimer,
+          isLooping: _isLooping,
+          onLoopingChanged: _setLooping,
+          isSkipSilence: _skipSilence,
+          onSkipSilenceChanged: _setSkipSilence,
+          isVolumeBoost: _volumeBoost,
+          onVolumeBoostChanged: _setVolumeBoost,
         ),
       ),
     );
@@ -757,59 +1029,6 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     ));
   }
 
-  /// Picks a stream a Cast receiver can play on its own.
-  ///
-  /// Local playback uses adaptive video-only tracks paired with a separate audio
-  /// track, which a receiver cannot assemble. Live streams cast as HLS;
-  /// on-demand video casts as the highest-resolution progressive (muxed) MP4.
-  /// Returns null when neither exists, so the button reports a failure rather
-  /// than sending something unplayable.
-  CastMedia? _buildCastMedia() {
-    final info = widget.watchInfo;
-    final isLive = _config.isLive;
-
-    String? url;
-    var contentType = 'video/mp4';
-
-    if (isLive) {
-      url = info.hlsUrl;
-      contentType = 'application/x-mpegURL';
-    } else {
-      final progressive = (info.videoStreams ?? [])
-          .where((s) => (s.url ?? '').isNotEmpty)
-          .toList();
-      if (progressive.isNotEmpty) {
-        // Highest resolution wins; quality reads like "720p".
-        progressive.sort((a, b) =>
-            _resolutionOf(b.quality).compareTo(_resolutionOf(a.quality)));
-        url = progressive.first.url;
-        final mime = progressive.first.mimeType;
-        if (mime != null && mime.isNotEmpty) contentType = mime;
-      } else if ((info.hlsUrl ?? '').isNotEmpty) {
-        url = info.hlsUrl;
-        contentType = 'application/x-mpegURL';
-      }
-    }
-
-    if (url == null || url.isEmpty) return null;
-
-    return CastMedia(
-      url: url,
-      title: info.title,
-      subtitle: info.uploaderName,
-      imageUrl: info.thumbnailUrl,
-      contentType: contentType,
-      isLive: isLive,
-      positionMs: isLive ? 0 : _positionMs,
-    );
-  }
-
-  static int _resolutionOf(String? quality) {
-    if (quality == null) return 0;
-    final match = RegExp(r'(\d{3,4})').firstMatch(quality);
-    return int.tryParse(match?.group(1) ?? '') ?? 0;
-  }
-
   void _showQueueSheet() {
     _hideTimer?.cancel();
     showModalBottomSheet(
@@ -910,27 +1129,96 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     }
 
     if (!_config.isValid) {
-      return _errorBox('No playable stream was found');
+      return AspectRatio(
+        aspectRatio: 16 / 9,
+        child: _errorBox('No playable stream was found'),
+      );
     }
 
     final player = Stack(
       fit: StackFit.expand,
       children: [
-        AndroidView(
-          viewType: 'fluxtube/newpipe_exoplayer',
-          onPlatformViewCreated: _onPlatformViewCreated,
-          creationParams: _sourceParams(startPositionMs: _positionMs),
-          creationParamsCodec: const StandardMessageCodec(),
+        // All touch handling is in Flutter; keep the native view out of the
+        // gesture arena so it can never claim a tap meant for the controls.
+        IgnorePointer(
+          child: AndroidView(
+            viewType: 'fluxtube/newpipe_exoplayer',
+            onPlatformViewCreated: _onPlatformViewCreated,
+            creationParams: _sourceParams(startPositionMs: _positionMs),
+            creationParamsCodec: const StandardMessageCodec(),
+          ),
         ),
-        _buildGestureLayer(),
+        // Only mounted while controls are hidden — _buildControls() below
+        // already renders its own identical tap/double-tap/drag zones via
+        // _buildTapZones() when controls are shown. Having *both* active
+        // at once (as it briefly was) meant a single tap on the center
+        // zone fired `_toggleControls()` from each translucent layer in
+        // the same gesture arena — toggling it off then immediately back
+        // on, so nothing visibly happened. Kept mounted through an active
+        // brightness/volume drag even after that drag's onVerticalDragStart
+        // flips _showControls to true — removing this widget mid-gesture
+        // would tear down the very GestureDetector tracking that drag.
+        if (!_showControls || _draggingBrightness || _draggingVolume)
+          _buildGestureLayer(),
         if (_currentCaptionText != null && _currentCaptionText!.isNotEmpty)
           _buildCaption(_currentCaptionText!),
-        if (_showControls) _buildControls(),
-        if (_draggingBrightness)
-          _buildVerticalIndicator(CupertinoIcons.sun_max, _brightness),
-        if (_draggingVolume)
-          _buildVerticalIndicator(CupertinoIcons.volume_up, _volume),
-        if (_isBuffering) const Center(child: CircularProgressIndicator()),
+        // A stable key per branch means AnimatedSwitcher only actually
+        // crossfades when _showControls itself flips, not on every rebuild
+        // (e.g. every position tick while controls stay visible) — and it
+        // replaces what used to be an instant show/hide snap with a 200ms
+        // fade, matching the media_kit player's already-smoother feel.
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          // AnimatedSwitcher's default layoutBuilder centers children in a
+          // loosely-constrained Stack, not one with StackFit.expand — so
+          // without this override, _buildControls()'s own
+          // Stack(fit: StackFit.expand) no longer actually fills the
+          // player, throwing off every button's real position (the
+          // concrete cause of the play/pause button seeming unresponsive).
+          layoutBuilder: (currentChild, previousChildren) => Stack(
+            fit: StackFit.expand,
+            children: [
+              ...previousChildren,
+              if (currentChild != null) currentChild,
+            ],
+          ),
+          child: _showControls
+              ? KeyedSubtree(
+                  key: const ValueKey('controls-shown'),
+                  child: _buildControls(),
+                )
+              : const SizedBox.shrink(key: ValueKey('controls-hidden')),
+        ),
+        // Purely visual layers stacked above the controls must never take
+        // part in hit-testing: an opacity-0 DecoratedBox still hits on its
+        // whole rect, and these are centered right over the play button.
+        IgnorePointer(
+          child: AnimatedOpacity(
+            opacity: _draggingBrightness ? 1 : 0,
+            duration: const Duration(milliseconds: 150),
+            child: _buildVerticalIndicator(CupertinoIcons.sun_max, _brightness),
+          ),
+        ),
+        IgnorePointer(
+          child: AnimatedOpacity(
+            opacity: _draggingVolume ? 1 : 0,
+            duration: const Duration(milliseconds: 150),
+            child: _buildVerticalIndicator(CupertinoIcons.volume_up, _volume),
+          ),
+        ),
+        if (_skipFlashSeconds != null)
+          IgnorePointer(child: _buildSkipFlash(_skipFlashSeconds!)),
+        // A pause while rebuffering must read as paused, and with controls up
+        // the transport button already shows the state.
+        if (_isBuffering && _playIntent && !_showControls)
+          const IgnorePointer(
+            child: Center(
+              child: CircularProgressIndicator(color: Colors.white),
+            ),
+          ),
+        if (_lastSkippedSegment != null)
+          _buildSponsorSkipChip(_lastSkippedSegment!),
+        if (_isHoldSpeeding) _buildHoldSpeedPill(),
         if (_errorMessage != null) _errorBox(_errorMessage!),
       ],
     );
@@ -942,56 +1230,123 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     return AspectRatio(aspectRatio: 16 / 9, child: player);
   }
 
-  Widget _buildGestureLayer() {
-    return Row(
-      children: [
-        Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: _toggleControls,
-            onDoubleTap: () => _skipBy(-widget.skipInterval),
-            onVerticalDragStart: (details) {
-              _verticalDragStartY = details.globalPosition.dy;
-              _verticalDragStartValue = _brightness;
-              setState(() {
-                _draggingBrightness = true;
-                _showControls = true;
-              });
-            },
-            onVerticalDragUpdate: _updateBrightness,
-            onVerticalDragEnd: (_) {
-              setState(() => _draggingBrightness = false);
-              _startHideTimer();
-            },
-          ),
-        ),
-        Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: _toggleControls,
-            onDoubleTap: () => _skipBy(widget.skipInterval),
-            onVerticalDragStart: (details) {
-              _verticalDragStartY = details.globalPosition.dy;
-              _verticalDragStartValue = _volume;
-              setState(() {
-                _draggingVolume = true;
-                _showControls = true;
-              });
-            },
-            onVerticalDragUpdate: _updateVolume,
-            onVerticalDragEnd: (_) {
-              setState(() => _draggingVolume = false);
-              _startHideTimer();
-            },
-          ),
-        ),
-      ],
+  /// The tap/double-tap/vertical-drag zones — shared by the bare video
+  /// surface (via [_buildGestureLayer]) and by the controls overlay's own
+  /// backdrop (via [_buildControls]). These used to be two separate
+  /// implementations: the gesture layer had full tap/double-tap/drag
+  /// support, but the controls backdrop was a single full-screen
+  /// `GestureDetector` with only `onTap`. Since that backdrop sits *on top*
+  /// of the gesture layer whenever controls are visible, it swallowed every
+  /// tap — the first tap of an attempted double-tap-to-skip hid the
+  /// controls instead of composing into a skip, because a plain `onTap`
+  /// (no competing `onDoubleTap` on the same detector) resolves instantly
+  /// rather than waiting to see if a second tap follows. Using the exact
+  /// same zones in both places means double-tap-to-skip (and the
+  /// brightness/volume drag) work identically whether controls are shown
+  /// or hidden.
+  Widget _buildTapZones({Widget? background}) {
+    // Brightness/volume swipe is fullscreen-only (matching the media_kit
+    // player's overlay) — inline, the whole gesture layer is only ~45% of
+    // screen height at most, so without this gate a tiny, ordinary vertical
+    // finger movement swings brightness/volume across nearly its full
+    // range, which is the concrete "too sensitive" feeling.
+    final enableVerticalGestures = widget.isFullscreen;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        _gestureLayerHeight = constraints.maxHeight;
+        final zones = Row(
+          children: [
+            // Left third: double-tap to skip back. A dedicated dead zone
+            // (the center third below) means an off-center tap meant as a
+            // plain controls toggle no longer gets mistaken for a skip.
+            Expanded(
+              flex: 2,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: _toggleControls,
+                onDoubleTap: () => _skipBy(-widget.skipInterval),
+                onLongPressStart: (_) => _onHoldSpeedStart(),
+                onLongPressEnd: (_) => _onHoldSpeedEnd(),
+                onLongPressCancel: _onHoldSpeedEnd,
+                onVerticalDragStart: !enableVerticalGestures
+                    ? null
+                    : (details) {
+                        _verticalDragStartY = details.localPosition.dy;
+                        _verticalDragStartValue = _brightness;
+                        setState(() {
+                          _draggingBrightness = true;
+                          _showControls = true;
+                        });
+                      },
+                onVerticalDragUpdate:
+                    !enableVerticalGestures ? null : _updateBrightness,
+                onVerticalDragEnd: !enableVerticalGestures
+                    ? null
+                    : (_) {
+                        setState(() => _draggingBrightness = false);
+                        _startHideTimer();
+                      },
+              ),
+            ),
+            // Center third: toggle controls only — no double-tap recognizer
+            // registered here at all, so a single tap in this zone responds
+            // immediately instead of waiting out the double-tap timeout.
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: _toggleControls,
+                onLongPressStart: (_) => _onHoldSpeedStart(),
+                onLongPressEnd: (_) => _onHoldSpeedEnd(),
+                onLongPressCancel: _onHoldSpeedEnd,
+              ),
+            ),
+            // Right third: double-tap to skip forward.
+            Expanded(
+              flex: 2,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: _toggleControls,
+                onDoubleTap: () => _skipBy(widget.skipInterval),
+                onLongPressStart: (_) => _onHoldSpeedStart(),
+                onLongPressEnd: (_) => _onHoldSpeedEnd(),
+                onLongPressCancel: _onHoldSpeedEnd,
+                onVerticalDragStart: !enableVerticalGestures
+                    ? null
+                    : (details) {
+                        _verticalDragStartY = details.localPosition.dy;
+                        _verticalDragStartValue = _volume;
+                        setState(() {
+                          _draggingVolume = true;
+                          _showControls = true;
+                        });
+                      },
+                onVerticalDragUpdate:
+                    !enableVerticalGestures ? null : _updateVolume,
+                onVerticalDragEnd: !enableVerticalGestures
+                    ? null
+                    : (_) {
+                        setState(() => _draggingVolume = false);
+                        _startHideTimer();
+                      },
+              ),
+            ),
+          ],
+        );
+        if (background == null) return zones;
+        return Stack(fit: StackFit.expand, children: [background, zones]);
+      },
     );
   }
 
+  /// The invisible tap/double-tap/drag zones over the bare video surface
+  /// (no controls visible).
+  Widget _buildGestureLayer() => _buildTapZones();
+
   Future<void> _updateBrightness(DragUpdateDetails details) async {
-    final delta = (_verticalDragStartY - details.globalPosition.dy) / 300;
-    final value = (_verticalDragStartValue + delta).clamp(0.0, 1.0);
+    final value =
+        (_verticalDragStartValue + _dragDelta(details)).clamp(0.0, 1.0);
     setState(() => _brightness = value);
     try {
       await ScreenBrightness().setApplicationScreenBrightness(value);
@@ -999,12 +1354,25 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
   }
 
   Future<void> _updateVolume(DragUpdateDetails details) async {
-    final delta = (_verticalDragStartY - details.globalPosition.dy) / 300;
-    final value = (_verticalDragStartValue + delta).clamp(0.0, 1.0);
+    final value =
+        (_verticalDragStartValue + _dragDelta(details)).clamp(0.0, 1.0);
     setState(() => _volume = value);
     try {
       await VolumeController.instance.setVolume(value);
     } catch (_) {}
+  }
+
+  /// Fraction of a full 0.0-1.0 swing this drag represents, scaled to the
+  /// gesture layer's actual on-screen height rather than a flat pixel
+  /// count — a fixed divisor (previously 300px, measured in *global*
+  /// coordinates no less) meant a drag spanning the whole small inline
+  /// player already swung brightness/volume across nearly its full range.
+  /// A full-height drag now takes ~70% of the layer's height, matching the
+  /// already-reasonable feel of the media_kit player's equivalent gesture.
+  double _dragDelta(DragUpdateDetails details) {
+    final travel = _gestureLayerHeight * 0.7;
+    if (travel <= 0) return 0;
+    return (_verticalDragStartY - details.localPosition.dy) / travel;
   }
 
   void _toggleControls() {
@@ -1012,101 +1380,225 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     if (_showControls) _startHideTimer();
   }
 
+  static const _accent = Color(0xFFFF525E);
+
   Widget _buildControls() {
-    final position = Duration(milliseconds: (_scrubMs ?? _positionMs).round());
-    final duration = Duration(milliseconds: _durationMs);
     return Stack(
       fit: StackFit.expand,
       children: [
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: _toggleControls,
-          child: const DecoratedBox(
+        _buildTapZones(
+          background: const DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Colors.black54, Colors.transparent, Colors.black87],
+                stops: [0, 0.3, 0.6, 1],
+                colors: [
+                  Color(0x99000000),
+                  Color(0x40000000),
+                  Color(0x40000000),
+                  Color(0xB3000000),
+                ],
               ),
             ),
           ),
         ),
-        Column(
-          children: [
-            _buildTopBar(),
-            const Spacer(),
-            IconButton(
-              iconSize: 56,
-              color: Colors.white,
-              onPressed: _togglePlay,
-              icon: Icon(_isPlaying
+        // Regions are pinned independently so the bottom cluster can grow
+        // (chapters) without competing with the top bar for height.
+        Positioned(top: 0, left: 0, right: 0, child: _buildTopBar()),
+        Positioned(left: 0, right: 0, bottom: 0, child: _buildBottomCluster()),
+        // Last child so it wins hit-testing over the slider's touch box.
+        Center(child: _buildTransportControls()),
+      ],
+    );
+  }
+
+  Widget _buildTransportControls() {
+    final big = widget.isFullscreen ? 72.0 : 60.0;
+    final small = widget.isFullscreen ? 52.0 : 44.0;
+    final gap = widget.isFullscreen ? 56.0 : 32.0;
+    final canSeek = !_config.isLive;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (canSeek)
+          _CircleControl(
+            size: small,
+            tooltip: 'Rewind',
+            onTap: () => _skipBy(-widget.skipInterval),
+            child: Icon(CupertinoIcons.gobackward,
+                color: Colors.white, size: small * 0.5),
+          ),
+        if (canSeek) SizedBox(width: gap),
+        _CircleControl(
+          size: big,
+          tooltip: _playIntent ? 'Pause' : 'Play',
+          onTap: _togglePlay,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 150),
+            transitionBuilder: (child, anim) =>
+                ScaleTransition(scale: anim, child: child),
+            child: Icon(
+              _playIntent
                   ? CupertinoIcons.pause_fill
-                  : CupertinoIcons.play_fill),
+                  : CupertinoIcons.play_fill,
+              key: ValueKey(_playIntent),
+              color: Colors.white,
+              size: big * 0.46,
             ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-              child: Row(
-                children: [
-                  Text(_formatDuration(position), style: _timeStyle),
-                  Expanded(
-                    child: SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        trackHeight: 3,
-                        thumbShape:
-                            const RoundSliderThumbShape(enabledThumbRadius: 6),
-                        overlayShape:
-                            const RoundSliderOverlayShape(overlayRadius: 14),
-                        activeTrackColor: Colors.red,
-                        inactiveTrackColor: Colors.white30,
-                        thumbColor: Colors.red,
+          ),
+        ),
+        if (canSeek) SizedBox(width: gap),
+        if (canSeek)
+          _CircleControl(
+            size: small,
+            tooltip: 'Forward',
+            onTap: () => _skipBy(widget.skipInterval),
+            child: Icon(CupertinoIcons.goforward,
+                color: Colors.white, size: small * 0.5),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildBottomCluster() {
+    final position = Duration(milliseconds: (_scrubMs ?? _positionMs).round());
+    final duration = Duration(milliseconds: _durationMs);
+    final horizontal = widget.isFullscreen ? 20.0 : 4.0;
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(
+            horizontal, 0, horizontal, widget.isFullscreen ? 12 : 0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                const SizedBox(width: 12),
+                if (_config.isLive)
+                  _buildLiveBadge()
+                else
+                  Text.rich(
+                    TextSpan(children: [
+                      TextSpan(text: _formatDuration(position)),
+                      TextSpan(
+                        text: ' / ${_formatDuration(duration)}',
+                        style: const TextStyle(color: Colors.white70),
                       ),
-                      child: Slider(
-                        min: 0,
-                        max: _durationMs <= 0 ? 1 : _durationMs.toDouble(),
-                        value: (_scrubMs ?? _positionMs)
-                            .clamp(0, _durationMs <= 0 ? 1 : _durationMs)
-                            .toDouble(),
-                        onChangeStart: (_) {
-                          setState(() => _isScrubbing = true);
-                          _hideTimer?.cancel();
-                        },
-                        onChanged: _config.isLive
-                            ? null
-                            : (value) => setState(() => _scrubMs = value),
-                        onChangeEnd: _config.isLive
-                            ? null
-                            : (value) async {
-                                setState(() {
-                                  _isScrubbing = false;
-                                  _scrubMs = null;
-                                });
-                                await _seekTo(value.round());
-                                _startHideTimer();
-                              },
-                      ),
-                    ),
+                    ]),
+                    style: _timeStyle,
                   ),
-                  Text(_config.isLive ? 'LIVE' : _formatDuration(duration),
-                      style: _timeStyle),
-                ],
-              ),
-            ),
-            if (_chapters.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: ChapterBar(
-                  chapters: _chapters,
-                  positionSeconds: (_scrubMs ?? _positionMs) ~/ 1000,
-                  durationSeconds: _durationMs ~/ 1000,
-                  onChapterTap: (seconds) => _seekTo(seconds * 1000),
+                const SizedBox(width: 10),
+                _PillButton(
+                  // "720p60 60fps" → "720p60"; the full label is in the sheet.
+                  label: _currentQuality.split(' ').first,
+                  onTap: () => _openSettings(initialPage: SettingsPage.quality),
                 ),
+                const Spacer(),
+                _BarIcon(
+                  tooltip: 'Resize',
+                  onTap: _cycleFitMode,
+                  icon: switch (_fitMode) {
+                    'cover' => CupertinoIcons.rectangle_expand_vertical,
+                    'fill' => CupertinoIcons.rectangle_fill,
+                    _ => CupertinoIcons.rectangle,
+                  },
+                ),
+                _BarIcon(
+                  tooltip:
+                      widget.isFullscreen ? 'Exit fullscreen' : 'Fullscreen',
+                  onTap: _enterFullscreen,
+                  icon: widget.isFullscreen
+                      ? CupertinoIcons.fullscreen_exit
+                      : CupertinoIcons.fullscreen,
+                ),
+              ],
+            ),
+            SizedBox(height: 28, child: _buildSeekBar()),
+            if (_chapters.isNotEmpty && widget.isFullscreen)
+              ChapterBar(
+                chapters: _chapters,
+                positionSeconds: (_scrubMs ?? _positionMs) ~/ 1000,
+                durationSeconds: _durationMs ~/ 1000,
+                onChapterTap: (seconds) => _seekTo(seconds * 1000),
               ),
-            const SizedBox(height: 4),
-            _buildBottomActions(),
           ],
         ),
-      ],
+      ),
+    );
+  }
+
+  Widget _buildSeekBar() {
+    return SliderTheme(
+      data: SliderTheme.of(context).copyWith(
+        trackHeight: _isScrubbing ? 5 : 3,
+        thumbShape: RoundSliderThumbShape(
+            enabledThumbRadius: _isScrubbing ? 8 : 6, elevation: 0),
+        overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
+        activeTrackColor: _accent,
+        inactiveTrackColor: Colors.white24,
+        thumbColor: _accent,
+        overlayColor: _accent.withValues(alpha: 0.2),
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Slider(
+            min: 0,
+            max: _durationMs <= 0 ? 1 : _durationMs.toDouble(),
+            // Until the duration is known the max is a placeholder 1, so any
+            // position would read as full.
+            value: _durationMs <= 0
+                ? 0
+                : (_scrubMs ?? _positionMs).clamp(0, _durationMs).toDouble(),
+            onChangeStart: (_) {
+              setState(() => _isScrubbing = true);
+              _hideTimer?.cancel();
+            },
+            onChanged: _config.isLive
+                ? null
+                : (value) => setState(() => _scrubMs = value),
+            onChangeEnd: _config.isLive
+                ? null
+                : (value) async {
+                    setState(() {
+                      _isScrubbing = false;
+                      _scrubMs = null;
+                    });
+                    await _seekTo(value.round());
+                    _startHideTimer();
+                  },
+          ),
+          Positioned.fill(
+            child: IgnorePointer(
+              child: SponsorSegmentMarkers(
+                segments: widget.sponsorSegments,
+                durationMs: _durationMs,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLiveBadge() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: _accent,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: const Text(
+        'LIVE',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 11,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 0.6,
+        ),
+      ),
     );
   }
 
@@ -1170,113 +1662,99 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
     );
   }
 
-  Widget _buildTopBar() {
-    return SafeArea(
-      bottom: false,
+  /// Brief "+10s"/"-10s" flash on the tapped side, mirroring
+  /// [_buildVerticalIndicator]'s look — visual confirmation for a
+  /// double-tap skip, which previously had none at all on this player.
+  Widget _buildSkipFlash(int seconds) {
+    final isForward = seconds > 0;
+    return Align(
+      alignment: isForward ? Alignment.centerRight : Alignment.centerLeft,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        child: Row(
-          children: [
-            if (widget.isFullscreen)
-              IconButton(
-                onPressed: _enterFullscreen,
-                icon: const Icon(CupertinoIcons.chevron_down,
-                    color: Colors.white),
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: AnimatedOpacity(
+          opacity: 1,
+          duration: const Duration(milliseconds: 150),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: Colors.black87,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    isForward
+                        ? CupertinoIcons.goforward
+                        : CupertinoIcons.gobackward,
+                    color: Colors.white,
+                    size: 26,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    '${isForward ? '+' : ''}$seconds s',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
-            Expanded(
-              child: Text(
-                widget.watchInfo.title ?? '',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.w600),
-              ),
             ),
-            IconButton(
-              tooltip: 'Captions',
-              onPressed: (widget.watchInfo.subtitles ?? []).isEmpty
-                  ? null
-                  : () => _openSettings(initialPage: SettingsPage.captions),
-              icon: Icon(
-                CupertinoIcons.captions_bubble,
-                color: _currentSubtitle == null ? Colors.white : Colors.red,
-              ),
-            ),
-            IconButton(
-              tooltip: S.of(context).queue,
-              onPressed: _showQueueSheet,
-              icon: const Icon(Icons.list, color: Colors.white),
-            ),
-            CastButton(
-              mediaProvider: _buildCastMedia,
-              onCastStarted: () {
-                // The receiver is playing now; stop the local copy so audio
-                // does not come out of both.
-                if (_isPlaying) _togglePlay();
-              },
-            ),
-            IconButton(
-              tooltip: S.of(context).settings,
-              onPressed: _openSettings,
-              icon: const Icon(CupertinoIcons.gear_alt, color: Colors.white),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildBottomActions() {
+  Widget _buildTopBar() {
+    final hasCaptions = (widget.watchInfo.subtitles ?? []).isNotEmpty;
     return SafeArea(
-      top: false,
+      bottom: false,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+        padding: EdgeInsets.symmetric(
+            horizontal: widget.isFullscreen ? 16 : 4, vertical: 4),
         child: Row(
           children: [
-            IconButton(
-              tooltip: 'Rewind',
-              onPressed:
-                  _config.isLive ? null : () => _skipBy(-widget.skipInterval),
-              icon: const Icon(CupertinoIcons.gobackward, color: Colors.white),
-            ),
-            IconButton(
-              tooltip: 'Forward',
-              onPressed:
-                  _config.isLive ? null : () => _skipBy(widget.skipInterval),
-              icon: const Icon(CupertinoIcons.goforward, color: Colors.white),
-            ),
-            TextButton(
-              onPressed: () => _openSettings(initialPage: SettingsPage.quality),
-              child: Text(_currentQuality,
-                  style: const TextStyle(color: Colors.white)),
-            ),
-            if (_audioTracks.length > 1)
-              TextButton(
-                onPressed: () =>
-                    _openSettings(initialPage: SettingsPage.audioTrack),
-                child:
-                    const Text('Audio', style: TextStyle(color: Colors.white)),
+            if (widget.isFullscreen) ...[
+              _BarIcon(
+                tooltip: 'Exit fullscreen',
+                onTap: _enterFullscreen,
+                icon: CupertinoIcons.chevron_down,
               ),
-            const Spacer(),
-            IconButton(
-              tooltip: 'Resize',
-              onPressed: _cycleFitMode,
-              icon: Icon(
-                switch (_fitMode) {
-                  'cover' => CupertinoIcons.rectangle_expand_vertical,
-                  'fill' => CupertinoIcons.rectangle_fill,
-                  _ => CupertinoIcons.rectangle,
-                },
-                color: Colors.white,
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  widget.watchInfo.title ?? '',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
+            ] else
+              const Spacer(),
+            if (hasCaptions)
+              _BarIcon(
+                tooltip: 'Captions',
+                onTap: () => _openSettings(initialPage: SettingsPage.captions),
+                icon: _currentSubtitle == null
+                    ? CupertinoIcons.captions_bubble
+                    : CupertinoIcons.captions_bubble_fill,
+              ),
+            _BarIcon(
+              tooltip: S.of(context).queue,
+              onTap: _showQueueSheet,
+              icon: CupertinoIcons.list_bullet,
             ),
-            IconButton(
-              tooltip: widget.isFullscreen ? 'Exit fullscreen' : 'Fullscreen',
-              onPressed: _enterFullscreen,
-              icon: const Icon(
-                CupertinoIcons.arrow_up_left_arrow_down_right,
-                color: Colors.white,
-              ),
+            _BarIcon(
+              tooltip: S.of(context).settings,
+              onTap: _openSettings,
+              icon: CupertinoIcons.gear_alt,
             ),
           ],
         ),
@@ -1286,7 +1764,8 @@ class _NewPipeExoPlayerState extends State<NewPipeExoPlayer> {
 
   TextStyle get _timeStyle => const TextStyle(
         color: Colors.white,
-        fontSize: 12,
+        fontSize: 12.5,
+        fontWeight: FontWeight.w600,
         fontFeatures: [FontFeature.tabularFigures()],
       );
 
@@ -1495,4 +1974,89 @@ class _FullscreenPlaybackState {
   final String? audioTrackId;
   final String? subtitleCode;
   final double speed;
+}
+
+class _CircleControl extends StatelessWidget {
+  const _CircleControl({
+    required this.size,
+    required this.onTap,
+    required this.child,
+    required this.tooltip,
+  });
+
+  final double size;
+  final VoidCallback onTap;
+  final Widget child;
+  final String tooltip;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      child: Material(
+        color: Colors.black.withValues(alpha: 0.35),
+        shape: CircleBorder(
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.12)),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: SizedBox.square(dimension: size, child: Center(child: child)),
+        ),
+      ),
+    );
+  }
+}
+
+class _BarIcon extends StatelessWidget {
+  const _BarIcon({
+    required this.icon,
+    required this.onTap,
+    required this.tooltip,
+  });
+
+  final IconData icon;
+  final VoidCallback onTap;
+  final String tooltip;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: tooltip,
+      onPressed: onTap,
+      visualDensity: VisualDensity.compact,
+      iconSize: 22,
+      icon: Icon(icon, color: Colors.white),
+    );
+  }
+}
+
+class _PillButton extends StatelessWidget {
+  const _PillButton({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white.withValues(alpha: 0.16),
+      shape: const StadiumBorder(),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          child: Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

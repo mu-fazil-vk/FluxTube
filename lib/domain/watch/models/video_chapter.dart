@@ -22,8 +22,12 @@ class VideoChapter {
     if (description == null || description.isEmpty) return [];
     final cleaned = _stripHtml(description);
     final candidates = <VideoChapter>[];
+    // Tolerates the common real-world chapter-list prefixes YouTube's own
+    // creators use before the timestamp — bullets ("• 0:00"), dashes
+    // ("- 0:00"), brackets ("[0:00]"), and numbered lists ("1. 0:00") —
+    // not just a bare timestamp at the start of the line.
     final regex = RegExp(
-      r'(?:^|\n)\s*(\d{1,3}:\d{2}(?::\d{2})?)\s*[-–—:\s]+\s*([^\n]+)',
+      r'(?:^|\n)\s*(?:[-•*–—]|\(?\d{1,2}[.)])?\s*\[?(\d{1,3}:\d{2}(?::\d{2})?)\]?\s*[-–—:\s]+\s*([^\n]+)',
       multiLine: true,
     );
     for (final match in regex.allMatches(cleaned)) {

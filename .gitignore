@@ -57,3 +57,6 @@ android/app/key.jks
 
 .gradle/
 .vscode/
+# Local redesign notes and Stitch design kits (not shipped)
+/REDESIGN.md
+/stitch_fluxtube_reimagined_ui_ux-*.zip

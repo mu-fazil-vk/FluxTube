@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:flutter/services.dart';
 import 'package:fluxtube/domain/channel/models/newpipe/newpipe_channel_resp.dart';
@@ -46,8 +47,7 @@ class NewPipeChannel {
           message: 'No data returned from NewPipe Extractor',
         );
       }
-      final json = jsonDecode(result) as Map<String, dynamic>;
-      final resp = NewPipeWatchResp.fromJson(json);
+      final resp = await _decodeJson(result, NewPipeWatchResp.fromJson);
       // Cache the result
       _streamCache[videoId] = _CachedStreamInfo(resp, DateTime.now());
       return resp;
@@ -77,8 +77,7 @@ class NewPipeChannel {
           message: 'No data returned from NewPipe Extractor',
         );
       }
-      final json = jsonDecode(result) as Map<String, dynamic>;
-      final resp = NewPipeWatchResp.fromJson(json);
+      final resp = await _decodeJson(result, NewPipeWatchResp.fromJson);
       // Cache the result
       _streamCache[videoId] = _CachedStreamInfo(resp, DateTime.now());
       return resp;
@@ -125,12 +124,21 @@ class NewPipeChannel {
     _streamCache.clear();
   }
 
-  /// Get trending videos for a specific region
-  static Future<List<NewPipeTrendingResp>> getTrending(String region) async {
+  /// Get trending videos for a specific region.
+  ///
+  /// [kioskId], when given, picks a specific YouTube kiosk category instead
+  /// of the extractor's default one — see [HomeCategory] for the exact ids.
+  static Future<List<NewPipeTrendingResp>> getTrending(
+    String region, {
+    String? kioskId,
+  }) async {
     try {
       final result = await _channel.invokeMethod<String>(
         'getTrending',
-        {'region': region},
+        {
+          'region': region,
+          if (kioskId != null) 'kioskId': kioskId,
+        },
       );
       if (result == null) {
         throw PlatformException(
@@ -170,8 +178,7 @@ class NewPipeChannel {
           message: 'No data returned from NewPipe Extractor',
         );
       }
-      final json = jsonDecode(result) as Map<String, dynamic>;
-      return NewPipeSearchResp.fromJson(json);
+      return await _decodeJson(result, NewPipeSearchResp.fromJson);
     } on PlatformException catch (e) {
       throw Exception('Failed to search: ${e.message}');
     }
@@ -205,8 +212,7 @@ class NewPipeChannel {
           message: 'No data returned from NewPipe Extractor',
         );
       }
-      final json = jsonDecode(result) as Map<String, dynamic>;
-      return NewPipeChannelResp.fromJson(json);
+      return await _decodeJson(result, NewPipeChannelResp.fromJson);
     } on PlatformException catch (e) {
       throw Exception('Failed to get channel: ${e.message}');
     }
@@ -225,8 +231,7 @@ class NewPipeChannel {
           message: 'No data returned from NewPipe Extractor',
         );
       }
-      final json = jsonDecode(result) as Map<String, dynamic>;
-      return NewPipeCommentsResp.fromJson(json);
+      return await _decodeJson(result, NewPipeCommentsResp.fromJson);
     } on PlatformException catch (e) {
       throw Exception('Failed to get comments: ${e.message}');
     }
@@ -251,8 +256,7 @@ class NewPipeChannel {
           message: 'No data returned from NewPipe Extractor',
         );
       }
-      final json = jsonDecode(result) as Map<String, dynamic>;
-      return NewPipeCommentsResp.fromJson(json);
+      return await _decodeJson(result, NewPipeCommentsResp.fromJson);
     } on PlatformException catch (e) {
       throw Exception('Failed to get more comments: ${e.message}');
     }
@@ -277,8 +281,7 @@ class NewPipeChannel {
           message: 'No data returned from NewPipe Extractor',
         );
       }
-      final json = jsonDecode(result) as Map<String, dynamic>;
-      return NewPipeCommentsResp.fromJson(json);
+      return await _decodeJson(result, NewPipeCommentsResp.fromJson);
     } on PlatformException catch (e) {
       throw Exception('Failed to get comment replies: ${e.message}');
     }
@@ -305,8 +308,7 @@ class NewPipeChannel {
           message: 'No data returned from NewPipe Extractor',
         );
       }
-      final json = jsonDecode(result) as Map<String, dynamic>;
-      return NewPipeChannelResp.fromJson(json);
+      return await _decodeJson(result, NewPipeChannelResp.fromJson);
     } on PlatformException catch (e) {
       throw Exception('Failed to get channel tab: ${e.message}');
     }
@@ -335,8 +337,7 @@ class NewPipeChannel {
           message: 'No data returned from NewPipe Extractor',
         );
       }
-      final json = jsonDecode(result) as Map<String, dynamic>;
-      return NewPipeChannelResp.fromJson(json);
+      return await _decodeJson(result, NewPipeChannelResp.fromJson);
     } on PlatformException catch (e) {
       throw Exception('Failed to get more channel tab content: ${e.message}');
     }
@@ -353,4 +354,14 @@ class _CachedStreamInfo {
   bool isExpired(Duration ttl) {
     return DateTime.now().difference(timestamp) > ttl;
   }
+}
+
+/// Stream/channel/comment payloads can run to hundreds of KB; decoding them on
+/// the UI isolate shows up as dropped frames when a screen opens.
+Future<T> _decodeJson<T>(
+    String raw, T Function(Map<String, dynamic>) fromJson) {
+  if (raw.length < 32 * 1024) {
+    return Future.value(fromJson(jsonDecode(raw) as Map<String, dynamic>));
+  }
+  return Isolate.run(() => fromJson(jsonDecode(raw) as Map<String, dynamic>));
 }

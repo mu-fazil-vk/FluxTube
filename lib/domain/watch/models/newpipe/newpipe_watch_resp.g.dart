@@ -41,6 +41,12 @@ NewPipeWatchResp _$NewPipeWatchRespFromJson(Map<String, dynamic> json) =>
       relatedStreams: (json['relatedStreams'] as List<dynamic>?)
           ?.map((e) => NewPipeRelatedStream.fromJson(e as Map<String, dynamic>))
           .toList(),
+      // Hand-added: build_runner can't currently regenerate this file (see
+      // newpipe_chapter.dart's doc comment) — this line matches exactly
+      // what json_serializable would emit for the `chapters` field.
+      chapters: (json['chapters'] as List<dynamic>?)
+          ?.map((e) => NewPipeChapter.fromJson(e as Map<String, dynamic>))
+          .toList(),
       subtitles: (json['subtitles'] as List<dynamic>?)
           ?.map((e) => NewPipeSubtitle.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -72,5 +78,6 @@ Map<String, dynamic> _$NewPipeWatchRespToJson(NewPipeWatchResp instance) =>
       'videoStreams': instance.videoStreams,
       'videoOnlyStreams': instance.videoOnlyStreams,
       'relatedStreams': instance.relatedStreams,
+      'chapters': instance.chapters,
       'subtitles': instance.subtitles,
     };

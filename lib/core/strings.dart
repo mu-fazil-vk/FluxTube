@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_firstclass BaseUrl {
 class BaseUrl {
   static String _kBaseUrl = 'https://api.piped.private.coffee/';
-  static String _kInvidiousBaseUrl = 'https://inv.nadeko.net';
+  // inv.nadeko.net started answering 403 to API clients; this was the only
+  // clearnet instance serving both API and media in the 2026-10-02 probe.
+  static String _kInvidiousBaseUrl = 'https://invidious.f5.si';
 
   static String get kBaseUrl => _kBaseUrl;
   static String get kInvidiousBaseUrl => _kInvidiousBaseUrl;

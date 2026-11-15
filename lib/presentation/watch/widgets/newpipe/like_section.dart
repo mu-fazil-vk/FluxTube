@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
+import 'package:fluxtube/core/services/ryd_service.dart';
 import 'package:fluxtube/core/strings.dart';
 import 'package:fluxtube/domain/saved/models/local_store.dart';
 import 'package:fluxtube/domain/watch/models/newpipe/newpipe_watch_resp.dart';
@@ -46,75 +47,89 @@ class NewPipeLikeSection extends StatelessWidget {
               previous.isDislikeVisible != current.isDislikeVisible ||
               previous.isPipDisabled != current.isPipDisabled,
           builder: (context, settingsState) {
-            return ActionButtonsRow(
-              likes: watchInfo.likeCount ?? 0,
-              dislikes: watchInfo.dislikeCount ?? 0,
-              showDislike: settingsState.isDislikeVisible,
-              isCommentActive: state.isTapComments,
-              showPip: !settingsState.isPipDisabled,
-              isSaved: isSaved,
-              isLive: watchInfo.isLive ?? false,
-              onTapComment: () {
-                if (state.isDescriptionTapped) {
-                  BlocProvider.of<WatchBloc>(context)
-                      .add(WatchEvent.tapDescription());
-                }
-                log(state.isTapComments.toString());
-                BlocProvider.of<WatchBloc>(context)
-                    .add(WatchEvent.getNewPipeComments(id: id));
-              },
-              onTapShare: () {
-                ShareBottomSheet.show(
-                  context,
-                  videoId: id,
-                  videoTitle: watchInfo.title ?? '',
-                  thumbnailUrl: watchInfo.thumbnailUrl,
-                );
-              },
-              onTapSave: () {
-                BlocProvider.of<SavedBloc>(context).add(
-                  SavedEvent.addVideoInfo(
-                    videoInfo: LocalStoreVideoInfo(
-                        id: id,
-                        title: watchInfo.title,
-                        views: watchInfo.viewCount,
-                        thumbnail: watchInfo.thumbnailUrl,
-                        uploadedDate: watchInfo.textualUploadDate ?? '',
-                        uploaderAvatar: watchInfo.uploaderAvatarUrl,
-                        uploaderName: watchInfo.uploaderName,
-                        uploaderId: _extractChannelId(watchInfo.uploaderUrl),
-                        uploaderSubscriberCount: watchInfo.uploaderSubscriberCount?.toString(),
-                        duration: watchInfo.duration,
-                        playbackPosition:
-                            savedState.videoInfo?.playbackPosition,
-                        uploaderVerified: watchInfo.uploaderVerified,
-                        isSaved: !isSaved,
-                        isLive: watchInfo.isLive,
-                        isHistory: savedState.videoInfo?.isHistory),
-                  ),
-                );
-              },
-              onTapDownload: () {
-                // Use NewPipe streams directly for downloads - same URLs that work for playback
-                DownloadOptionsSheet.showWithStreams(
-                  context,
-                  videoId: id,
-                  title: watchInfo.title ?? '',
-                  channelName: watchInfo.uploaderName ?? '',
-                  thumbnailUrl: watchInfo.thumbnailUrl,
-                  duration: watchInfo.duration,
-                  serviceType: settingsState.ytService,
-                  videoStreams: watchInfo.videoStreams ?? [],
-                  videoOnlyStreams: watchInfo.videoOnlyStreams ?? [],
-                  audioStreams: watchInfo.audioStreams ?? [],
-                );
-              },
-              onTapYoutube: () async => await urlLaunchWithSettings(context, '$kYTBaseUrl$id'),
-              onTapPip: pipClicked,
+            final nativeDislikes = watchInfo.dislikeCount ?? -1;
+            if (!settingsState.isDislikeVisible || nativeDislikes > 0) {
+              return _buildRow(
+                  context, settingsState, isSaved, savedState, nativeDislikes);
+            }
+            return FutureBuilder<int?>(
+              future: RydService.instance.dislikes(id),
+              builder: (context, snapshot) => _buildRow(context, settingsState,
+                  isSaved, savedState, snapshot.data ?? -1),
             );
           },
         );
       },
+    );
+  }
+
+  Widget _buildRow(BuildContext context, SettingsState settingsState,
+      bool isSaved, SavedState savedState, int dislikes) {
+    return ActionButtonsRow(
+      likes: watchInfo.likeCount ?? 0,
+      dislikes: dislikes,
+      showDislike: settingsState.isDislikeVisible,
+      isCommentActive: state.isTapComments,
+      showPip: !settingsState.isPipDisabled,
+      isSaved: isSaved,
+      isLive: watchInfo.isLive ?? false,
+      onTapComment: () {
+        if (state.isDescriptionTapped) {
+          BlocProvider.of<WatchBloc>(context).add(WatchEvent.tapDescription());
+        }
+        log(state.isTapComments.toString());
+        BlocProvider.of<WatchBloc>(context)
+            .add(WatchEvent.getNewPipeComments(id: id));
+      },
+      onTapShare: () {
+        ShareBottomSheet.show(
+          context,
+          videoId: id,
+          videoTitle: watchInfo.title ?? '',
+          thumbnailUrl: watchInfo.thumbnailUrl,
+        );
+      },
+      onTapSave: () {
+        BlocProvider.of<SavedBloc>(context).add(
+          SavedEvent.addVideoInfo(
+            videoInfo: LocalStoreVideoInfo(
+                id: id,
+                title: watchInfo.title,
+                views: watchInfo.viewCount,
+                thumbnail: watchInfo.thumbnailUrl,
+                uploadedDate: watchInfo.textualUploadDate ?? '',
+                uploaderAvatar: watchInfo.uploaderAvatarUrl,
+                uploaderName: watchInfo.uploaderName,
+                uploaderId: _extractChannelId(watchInfo.uploaderUrl),
+                uploaderSubscriberCount:
+                    watchInfo.uploaderSubscriberCount?.toString(),
+                duration: watchInfo.duration,
+                playbackPosition: savedState.videoInfo?.playbackPosition,
+                uploaderVerified: watchInfo.uploaderVerified,
+                isSaved: !isSaved,
+                isLive: watchInfo.isLive,
+                isHistory: savedState.videoInfo?.isHistory),
+          ),
+        );
+      },
+      onTapDownload: () {
+        // Use NewPipe streams directly for downloads - same URLs that work for playback
+        DownloadOptionsSheet.showWithStreams(
+          context,
+          videoId: id,
+          title: watchInfo.title ?? '',
+          channelName: watchInfo.uploaderName ?? '',
+          thumbnailUrl: watchInfo.thumbnailUrl,
+          duration: watchInfo.duration,
+          serviceType: settingsState.ytService,
+          videoStreams: watchInfo.videoStreams ?? [],
+          videoOnlyStreams: watchInfo.videoOnlyStreams ?? [],
+          audioStreams: watchInfo.audioStreams ?? [],
+        );
+      },
+      onTapYoutube: () async =>
+          await urlLaunchWithSettings(context, '$kYTBaseUrl$id'),
+      onTapPip: pipClicked,
     );
   }
 

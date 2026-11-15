@@ -55,3 +55,7 @@ const autoPipEnabledKey = 'auto-pip-enabled';
 const notifyNewVideosKey = 'notify-new-videos';
 const notifyLastCheckKey = 'notify-last-check';
 const notifySeenVideosKey = 'notify-seen-videos';
+
+// App update checker
+const updateCheckNeverShowKey = 'update-check-never-show';
+const updateCheckLastCheckKey = 'update-check-last-check';

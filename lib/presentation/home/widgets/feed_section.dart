@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
+import 'package:fluxtube/core/animations/animations.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
+import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/home/widgets/home_hero_card.dart';
 import 'package:fluxtube/widgets/home_video_info_card_widget.dart';
 import 'package:go_router/go_router.dart';
 
@@ -59,7 +62,11 @@ class _FeedVideoSectionState extends State<FeedVideoSection> {
   Widget build(BuildContext context) {
     final displayCount = widget.trendingState.feedDisplayCount;
     final totalCount = widget.trendingState.feedResult.length;
-    final itemCount = displayCount.clamp(0, totalCount);
+    // First item is rendered as the hero card, the rest as regular cards.
+    final showHero = totalCount > 0;
+    final heroOffset = showHero ? 1 : 0;
+    final listCount =
+        (displayCount - heroOffset).clamp(0, totalCount - heroOffset);
     final hasMore = displayCount < totalCount;
     final isLoading = widget.trendingState.isLoadingMoreFeed;
 
@@ -68,12 +75,35 @@ class _FeedVideoSectionState extends State<FeedVideoSection> {
       scrollCacheExtent: const ScrollCacheExtent.pixels(500),
       separatorBuilder: (context, index) => kHeightBox10,
       itemBuilder: (context, index) {
+        // Hero card from the first feed item
+        if (showHero && index == 0) {
+          final hero = widget.trendingState.feedResult.first;
+          final String videoId = hero.url!.split('=').last;
+          final String channelId = hero.uploaderUrl!.split("/").last;
+          final bool isLive = hero.duration == -1;
+          return AnimatedListItem(
+            index: 0,
+            child: HomeHeroCard(
+              thumbnailUrl: hero.thumbnail,
+              title: hero.title ?? widget.locals.noVideoTitle,
+              channelName: hero.uploaderName ?? widget.locals.noUploaderName,
+              views: hero.views,
+              uploadedDate: hero.uploadedDate,
+              isLive: isLive,
+              durationLabel: isLive ? null : formatDuration(hero.duration),
+              onTap: () => _openVideo(context, videoId, channelId, hero),
+            ),
+          );
+        }
+
+        final contentIndex = showHero ? index - 1 : index;
+
         // Show loading indicator at the end
-        if (index >= itemCount) {
+        if (contentIndex >= listCount) {
           return _buildLoadingIndicator(hasMore, isLoading);
         }
 
-        final feed = widget.trendingState.feedResult[index];
+        final feed = widget.trendingState.feedResult[contentIndex + heroOffset];
         final String videoId = feed.url!.split('=').last;
 
         final String channelId = feed.uploaderUrl!.split("/").last;
@@ -84,30 +114,32 @@ class _FeedVideoSectionState extends State<FeedVideoSection> {
           channelId: channelId,
           cardInfo: feed,
           isSubscribed: isSubscribed,
-          index: index,
-          onTap: () {
-            BlocProvider.of<WatchBloc>(context).add(
-                WatchEvent.setSelectedVideoBasicDetails(
-                    details: VideoBasicInfo(
-                        id: videoId,
-                        title: feed.title,
-                        thumbnailUrl: feed.thumbnail,
-                        channelName: feed.uploaderName,
-                        channelThumbnailUrl: feed.uploaderAvatar,
-                        channelId: channelId,
-                        uploaderVerified: feed.uploaderVerified)));
-            context.goNamed('watch', pathParameters: {
-              'videoId': videoId,
-              'channelId': channelId,
-            });
-          },
+          index: contentIndex,
+          onTap: () => _openVideo(context, videoId, channelId, feed),
           onSubscribeTap: () => onSubscribeTapped(
               context, isSubscribed, channelId, feed, widget.locals),
         );
       },
-      // Add 1 for loading indicator if there's more to load
-      itemCount: hasMore ? itemCount + 1 : itemCount,
+      itemCount:
+          heroOffset + listCount + (hasMore ? 1 : 0),
     );
+  }
+
+  void _openVideo(
+      BuildContext context, String videoId, String channelId, dynamic feed) {
+    BlocProvider.of<WatchBloc>(context).add(WatchEvent.setSelectedVideoBasicDetails(
+        details: VideoBasicInfo(
+            id: videoId,
+            title: feed.title,
+            thumbnailUrl: feed.thumbnail,
+            channelName: feed.uploaderName,
+            channelThumbnailUrl: feed.uploaderAvatar,
+            channelId: channelId,
+            uploaderVerified: feed.uploaderVerified)));
+    context.goNamed('watch', pathParameters: {
+      'videoId': videoId,
+      'channelId': channelId,
+    });
   }
 
   Widget _buildLoadingIndicator(bool hasMore, bool isLoading) {

@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/watch/watch_bloc.dart';
 import 'package:fluxtube/core/animations/animations.dart';
 import 'package:fluxtube/core/colors.dart';
-import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
@@ -71,140 +70,66 @@ class _NewPipeCommentSectionState extends State<NewPipeCommentSection> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final scheme = theme.colorScheme;
 
     return Container(
       constraints: BoxConstraints(maxHeight: widget.height * 0.55),
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       decoration: BoxDecoration(
-        color: isDark ? AppColors.surfaceDark : AppColors.surface,
+        color: scheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isDark
-              ? Colors.white.withValues(alpha: 0.06)
-              : Colors.black.withValues(alpha: 0.04),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
-            blurRadius: 20,
-            offset: const Offset(0, 4),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildHeader(theme, isDark),
+          Flexible(
+            child: BlocBuilder<WatchBloc, WatchState>(
+              buildWhen: (previous, current) =>
+                  previous.fetchNewPipeCommentsStatus !=
+                      current.fetchNewPipeCommentsStatus ||
+                  previous.fetchMoreNewPipeCommentsStatus !=
+                      current.fetchMoreNewPipeCommentsStatus ||
+                  previous.newPipeComments != current.newPipeComments ||
+                  previous.isMoreNewPipeCommentsFetchCompleted !=
+                      current.isMoreNewPipeCommentsFetchCompleted,
+              builder: (context, state) {
+                return _buildCommentsList(theme, isDark, state);
+              },
+            ),
           ),
         ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Header
-            _buildHeader(theme, isDark),
-            // Comments list
-            Flexible(
-              child: BlocBuilder<WatchBloc, WatchState>(
-                buildWhen: (previous, current) =>
-                    previous.fetchNewPipeCommentsStatus != current.fetchNewPipeCommentsStatus ||
-                    previous.fetchMoreNewPipeCommentsStatus != current.fetchMoreNewPipeCommentsStatus ||
-                    previous.newPipeComments != current.newPipeComments ||
-                    previous.isMoreNewPipeCommentsFetchCompleted != current.isMoreNewPipeCommentsFetchCompleted,
-                builder: (context, state) {
-                  return _buildCommentsList(theme, isDark, state);
-                },
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
 
   Widget _buildHeader(ThemeData theme, bool isDark) {
-    // Use the actual comment count from API, not the loaded comments length
+    final scheme = theme.colorScheme;
     final commentCount = widget.state.newPipeComments.commentCount ?? 0;
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isDark
-            ? AppColors.surfaceVariantDark.withValues(alpha: 0.5)
-            : AppColors.surfaceVariant.withValues(alpha: 0.5),
-        border: Border(
-          bottom: BorderSide(
-            color: isDark ? AppColors.dividerDark : AppColors.divider,
-            width: 0.5,
-          ),
-        ),
-      ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 6),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
         children: [
-          // Icon with gradient background
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.primary,
-                  AppColors.primaryLight,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: const Icon(
-              CupertinoIcons.chat_bubble_2_fill,
-              color: Colors.white,
-              size: 18,
+          Text(
+            widget.locals.comments,
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w800,
+              letterSpacing: -0.3,
             ),
           ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.locals.hideComments.replaceAll('Hide ', ''),
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.3,
-                  ),
-                ),
-                if (commentCount > 0)
-                  Text(
-                    '${formatCount(commentCount.toString())} comments',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: isDark
-                          ? AppColors.onSurfaceVariantDark
-                          : AppColors.onSurfaceVariant,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-              ],
-            ),
-          ),
-          // Disabled badge if applicable
-          if (widget.state.newPipeComments.isDisabled == true)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: AppColors.error.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                'Disabled',
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.error,
-                ),
+          if (commentCount > 0) ...[
+            const SizedBox(width: 8),
+            Text(
+              formatCount(commentCount.toString()),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: scheme.onSurfaceVariant,
+                fontWeight: FontWeight.w600,
               ),
             ),
+          ],
         ],
       ),
     );
@@ -234,7 +159,7 @@ class _NewPipeCommentSectionState extends State<NewPipeCommentSection> {
 
     return ListView.builder(
       controller: _scrollController,
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.only(bottom: 8),
       shrinkWrap: true,
       itemCount: comments.length + (hasMore ? 1 : 0),
       itemBuilder: (context, index) {
@@ -275,143 +200,34 @@ class _NewPipeCommentSectionState extends State<NewPipeCommentSection> {
   }
 
   Widget _buildErrorState(ThemeData theme, bool isDark) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.error.withValues(alpha: 0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                CupertinoIcons.exclamationmark_triangle_fill,
-                size: 32,
-                color: AppColors.error,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Failed to load comments',
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Please check your connection and try again',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: isDark
-                    ? AppColors.onSurfaceVariantDark
-                    : AppColors.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            FilledButton.icon(
-              onPressed: () {
-                BlocProvider.of<WatchBloc>(context)
-                    .add(WatchEvent.getNewPipeComments(id: widget.videoId));
-              },
-              icon: const Icon(CupertinoIcons.refresh, size: 16),
-              label: Text(widget.locals.retry),
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-          ],
-        ),
+    return _CommentsStatusView(
+      icon: CupertinoIcons.wifi_exclamationmark,
+      title: widget.locals.commentsLoadFailed,
+      subtitle: widget.locals.checkConnectionAndRetry,
+      action: FilledButton.tonalIcon(
+        onPressed: () {
+          BlocProvider.of<WatchBloc>(context)
+              .add(WatchEvent.getNewPipeComments(id: widget.videoId));
+        },
+        icon: const Icon(CupertinoIcons.refresh, size: 16),
+        label: Text(widget.locals.retry),
       ),
     );
   }
 
   Widget _buildDisabledState(ThemeData theme, bool isDark) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.warning.withValues(alpha: 0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                CupertinoIcons.nosign,
-                size: 32,
-                color: AppColors.warning,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              widget.locals.commentsDisabled,
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'The creator has disabled comments for this video',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: isDark
-                    ? AppColors.onSurfaceVariantDark
-                    : AppColors.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
+    return _CommentsStatusView(
+      icon: CupertinoIcons.chat_bubble_2,
+      title: widget.locals.commentsDisabled,
+      subtitle: widget.locals.commentsDisabledByCreator,
     );
   }
 
   Widget _buildEmptyState(ThemeData theme, bool isDark) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                CupertinoIcons.chat_bubble,
-                size: 32,
-                color: AppColors.primary,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              widget.locals.noCommentsFound,
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Comments are disabled or unavailable for this video',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: isDark
-                    ? AppColors.onSurfaceVariantDark
-                    : AppColors.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
+    return _CommentsStatusView(
+      icon: CupertinoIcons.chat_bubble,
+      title: widget.locals.noCommentsFound,
+      subtitle: widget.locals.noCommentsYet,
     );
   }
 
@@ -462,264 +278,152 @@ class _ModernCommentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final scheme = theme.colorScheme;
+    final avatarSize = isReply ? 28.0 : 36.0;
+    final metaStyle = theme.textTheme.bodySmall?.copyWith(
+      color: scheme.onSurfaceVariant,
+      fontSize: 12,
+    );
+    final likeCount = comment.likeCount ?? 0;
+    final replyCount = comment.replyCount ?? 0;
 
     return AnimatedListItem(
       index: index,
-      child: Container(
-        margin: EdgeInsets.only(
-          left: isReply ? 48 : 16,
-          right: 16,
-          bottom: 4,
-          top: 4,
-        ),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: isDark
-              ? AppColors.surfaceVariantDark.withValues(alpha: 0.3)
-              : AppColors.surfaceVariant.withValues(alpha: 0.4),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isDark
-                ? Colors.white.withValues(alpha: 0.04)
-                : Colors.black.withValues(alpha: 0.02),
-          ),
-        ),
-        child: Column(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(isReply ? 24 : 16, 10, 16, 6),
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header row: Avatar + Author info + Badges
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Avatar
-                GestureDetector(
-                  onTap: onProfileTap,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: isDark
-                            ? Colors.white.withValues(alpha: 0.1)
-                            : Colors.black.withValues(alpha: 0.05),
-                        width: 2,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: CircleAvatar(
-                      radius: isReply ? 14 : 18,
-                      backgroundColor: isDark
-                          ? AppColors.surfaceVariantDark
-                          : AppColors.surfaceVariant,
-                      child: ClipOval(
-                        child: comment.authorAvatarUrl != null &&
-                                comment.authorAvatarUrl!.isNotEmpty
-                            ? ThumbnailImage.small(
-                                url: comment.authorAvatarUrl!,
-                                width: isReply ? 28 : 36,
-                                height: isReply ? 28 : 36,
-                                errorWidget: (_, __, ___) => Icon(
-                                  CupertinoIcons.person_fill,
-                                  size: isReply ? 14 : 18,
-                                  color: AppColors.onSurfaceVariant,
-                                ),
-                              )
-                            : Icon(
-                                CupertinoIcons.person_fill,
-                                size: isReply ? 14 : 18,
-                                color: AppColors.onSurfaceVariant,
-                              ),
-                      ),
-                    ),
+            GestureDetector(
+              onTap: onProfileTap,
+              child: ClipOval(
+                child: SizedBox.square(
+                  dimension: avatarSize,
+                  child: ColoredBox(
+                    color: scheme.surfaceContainerHighest,
+                    child: comment.authorAvatarUrl != null &&
+                            comment.authorAvatarUrl!.isNotEmpty
+                        ? ThumbnailImage.small(
+                            url: comment.authorAvatarUrl!,
+                            width: avatarSize,
+                            height: avatarSize,
+                            errorWidget: (_, __, ___) => Icon(
+                              CupertinoIcons.person_fill,
+                              size: avatarSize / 2,
+                              color: scheme.onSurfaceVariant,
+                            ),
+                          )
+                        : Icon(
+                            CupertinoIcons.person_fill,
+                            size: avatarSize / 2,
+                            color: scheme.onSurfaceVariant,
+                          ),
                   ),
                 ),
-                const SizedBox(width: 12),
-                // Author info
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Author name row with badges
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 6,
-                        runSpacing: 4,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (comment.isPinned == true)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: Row(
                         children: [
-                          // Author name
-                          Text(
-                            comment.authorName ?? locals.commentAuthorNotFound,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: isReply ? 12 : 13,
-                            ),
-                          ),
-                          // Verified badge
-                          if (comment.authorVerified == true)
-                            Icon(
-                              CupertinoIcons.checkmark_seal_fill,
-                              size: isReply ? 12 : 14,
-                              color: AppColors.primary,
-                            ),
-                          // Commented time
-                          if (comment.uploadDate != null &&
-                              comment.uploadDate!.isNotEmpty)
-                            Text(
-                              // YouTube already appends "(edited)" to this text
-                              // itself when a comment was edited — isEdited is
-                              // just a boolean derived from that same source, not
-                              // separate information to add on top of it.
-                              comment.uploadDate!,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: AppColors.disabled,
-                                fontSize: isReply ? 10 : 11,
-                              ),
-                            ),
-                          // Author hearted badge - NEXT TO NAME
-                          if (comment.isHearted == true)
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.red.shade400,
-                                    Colors.pink.shade400,
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.red.withValues(alpha: 0.3),
-                                    blurRadius: 4,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
-                              ),
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    CupertinoIcons.heart_fill,
-                                    size: 10,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(width: 3),
-                                  Text(
-                                    'Liked',
-                                    style: TextStyle(
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                      letterSpacing: 0.3,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          // Pinned badge
-                          if (comment.isPinned == true)
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: AppColors.primary.withValues(alpha: 0.3),
-                                  width: 0.5,
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    CupertinoIcons.pin_fill,
-                                    size: 10,
-                                    color: AppColors.primary,
-                                  ),
-                                  const SizedBox(width: 3),
-                                  Text(
-                                    locals.pinned,
-                                    style: TextStyle(
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          Icon(CupertinoIcons.pin_fill,
+                              size: 11, color: scheme.onSurfaceVariant),
+                          const SizedBox(width: 4),
+                          Text(locals.pinned, style: metaStyle),
                         ],
                       ),
+                    ),
+                  // "@author · 2 days ago"
+                  Row(
+                    children: [
+                      Flexible(
+                        child: GestureDetector(
+                          onTap: onProfileTap,
+                          child: Text(
+                            comment.authorName ?? locals.commentAuthorNotFound,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: metaStyle?.copyWith(
+                              color: scheme.onSurface,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                      if (comment.authorVerified == true) ...[
+                        const SizedBox(width: 3),
+                        Icon(CupertinoIcons.checkmark_seal_fill,
+                            size: 12, color: scheme.onSurfaceVariant),
+                      ],
+                      // YouTube already appends "(edited)" to this text.
+                      if (comment.uploadDate != null &&
+                          comment.uploadDate!.isNotEmpty)
+                        Flexible(
+                          child: Text(
+                            '  ·  ${comment.uploadDate!}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: metaStyle,
+                          ),
+                        ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            // Comment text
-            _CommentTextWidget(
-              text: comment.text ?? '',
-              locals: locals,
-              isReply: isReply,
-            ),
-            const SizedBox(height: 12),
-            // Actions row
-            Row(
-              children: [
-                // Like count
-                _ActionChip(
-                  icon: CupertinoIcons.hand_thumbsup_fill,
-                  label: formatCount((comment.likeCount ?? 0).toString()),
-                  isDark: isDark,
-                ),
-                // Reply button
-                if (onReplyTap != null) ...[
-                  const SizedBox(width: 12),
-                  GestureDetector(
-                    onTap: onReplyTap,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            CupertinoIcons.arrowshape_turn_up_left_fill,
-                            size: 12,
-                            color: AppColors.primary,
+                  const SizedBox(height: 4),
+                  _CommentTextWidget(
+                    text: comment.text ?? '',
+                    locals: locals,
+                    isReply: isReply,
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      Icon(CupertinoIcons.hand_thumbsup,
+                          size: 15, color: scheme.onSurfaceVariant),
+                      if (likeCount > 0) ...[
+                        const SizedBox(width: 5),
+                        Text(formatCount(likeCount.toString()),
+                            style: metaStyle),
+                      ],
+                      if (comment.isHearted == true) ...[
+                        const SizedBox(width: 16),
+                        Tooltip(
+                          message: locals.heartedByCreator,
+                          child: const Icon(CupertinoIcons.heart_fill,
+                              size: 14, color: Color(0xFFFF525E)),
+                        ),
+                      ],
+                    ],
+                  ),
+                  if (onReplyTap != null && replyCount > 0)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: TextButton.icon(
+                        onPressed: onReplyTap,
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          minimumSize: const Size(0, 34),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          foregroundColor: scheme.primary,
+                          shape: const StadiumBorder(),
+                        ),
+                        icon: const Icon(CupertinoIcons.chevron_down, size: 14),
+                        label: Text(
+                          '${formatCount(replyCount.toString())} ${locals.repliesPlural(replyCount)}',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
                           ),
-                          const SizedBox(width: 6),
-                          Text(
-                            '${formatCount((comment.replyCount ?? 0).toString())} ${locals.repliesPlural(comment.replyCount ?? 0)}',
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
                 ],
-              ],
+              ),
             ),
           ],
         ),
@@ -728,49 +432,50 @@ class _ModernCommentCard extends StatelessWidget {
   }
 }
 
-class _ActionChip extends StatelessWidget {
-  const _ActionChip({
+class _CommentsStatusView extends StatelessWidget {
+  const _CommentsStatusView({
     required this.icon,
-    required this.label,
-    required this.isDark,
+    required this.title,
+    required this.subtitle,
+    this.action,
   });
 
   final IconData icon;
-  final String label;
-  final bool isDark;
+  final String title;
+  final String subtitle;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: isDark
-            ? Colors.white.withValues(alpha: 0.05)
-            : Colors.black.withValues(alpha: 0.04),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 12,
-            color: isDark
-                ? AppColors.onSurfaceVariantDark
-                : AppColors.onSurfaceVariant,
-          ),
-          const SizedBox(width: 5),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: isDark
-                  ? AppColors.onSurfaceVariantDark
-                  : AppColors.onSurfaceVariant,
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(32, 24, 32, 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 36, color: scheme.onSurfaceVariant),
+            const SizedBox(height: 12),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleSmall
+                  ?.copyWith(fontWeight: FontWeight.w700),
             ),
-          ),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              subtitle,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodySmall
+                  ?.copyWith(color: scheme.onSurfaceVariant),
+            ),
+            if (action != null) ...[
+              const SizedBox(height: 16),
+              action!,
+            ],
+          ],
+        ),
       ),
     );
   }
@@ -816,11 +521,13 @@ class _CommentTextWidgetState extends State<_CommentTextWidget> {
             child: Padding(
               padding: const EdgeInsets.only(top: 6),
               child: Text(
-                _isExpanded ? widget.locals.showLessText : widget.locals.readMoreText,
+                _isExpanded
+                    ? widget.locals.showLessText
+                    : widget.locals.readMoreText,
                 style: TextStyle(
                   fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
+                  fontWeight: FontWeight.w700,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
             ),
@@ -836,12 +543,11 @@ class _CommentTextWidgetState extends State<_CommentTextWidget> {
 
   TextSpan _parseCommentText(BuildContext context, String htmlText) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     final defaultStyle = theme.textTheme.bodyMedium?.copyWith(
           fontSize: widget.isReply ? 13 : 14,
           height: 1.4,
-          color: isDark ? AppColors.onSurfaceDark : AppColors.onSurface,
+          color: theme.colorScheme.onSurface,
         ) ??
         TextStyle(
           fontSize: widget.isReply ? 13 : 14,
@@ -849,7 +555,7 @@ class _CommentTextWidgetState extends State<_CommentTextWidget> {
         );
 
     final linkStyle = defaultStyle.copyWith(
-      color: AppColors.primary,
+      color: theme.colorScheme.primary,
       fontWeight: FontWeight.w500,
       decoration: TextDecoration.none,
     );
@@ -866,6 +572,7 @@ class _CommentTextWidgetState extends State<_CommentTextWidget> {
         .replaceAll('&gt;', '>')
         .replaceAll('&quot;', '"')
         .replaceAll('&#39;', "'")
+        .replaceAll('&apos;', "'")
         .replaceAll('&nbsp;', ' ');
 
     // Regex patterns
@@ -989,7 +696,7 @@ class _CommentTextWidgetState extends State<_CommentTextWidget> {
     } else if (parts.length == 2) {
       seconds = parts[0] * 60 + parts[1];
     }
-    GlobalPlayerController().player.seek(Duration(seconds: seconds));
+    GlobalPlayerController().seekTo(Duration(seconds: seconds));
   }
 
   void _onUrlTap(String url) async {
@@ -1059,41 +766,36 @@ class _ModernRepliesSheetState extends State<_ModernRepliesSheet> {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
+    final scheme = theme.colorScheme;
     return DraggableScrollableSheet(
       initialChildSize: 0.7,
       minChildSize: 0.4,
       maxChildSize: 0.95,
       builder: (context, scrollController) => Container(
         decoration: BoxDecoration(
-          color: isDark ? AppColors.surfaceDark : AppColors.surface,
+          color: scheme.surfaceContainerLow,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 20,
-              offset: const Offset(0, -4),
-            ),
-          ],
         ),
         child: Column(
           children: [
-            // Handle bar
             Container(
-              width: 40,
+              width: 36,
               height: 4,
-              margin: const EdgeInsets.only(top: 12, bottom: 8),
+              margin: const EdgeInsets.only(top: 10, bottom: 4),
               decoration: BoxDecoration(
-                color: isDark ? AppColors.dividerDark : AppColors.divider,
+                color: scheme.onSurfaceVariant.withValues(alpha: 0.4),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            // Header
             _buildSheetHeader(theme, isDark),
-            // Divider
-            Divider(
-              height: 1,
-              color: isDark ? AppColors.dividerDark : AppColors.divider,
+            // The comment being replied to, for context.
+            _ModernCommentCard(
+              comment: widget.parentComment,
+              index: 0,
+              locals: widget.locals,
+              videoId: widget.videoId,
             ),
+            Divider(height: 1, color: scheme.outlineVariant),
             // Replies list
             Expanded(
               child: BlocBuilder<WatchBloc, WatchState>(
@@ -1102,22 +804,26 @@ class _ModernRepliesSheetState extends State<_ModernRepliesSheet> {
                         current.fetchNewPipeCommentRepliesStatus ||
                     previous.fetchMoreNewPipeCommentRepliesStatus !=
                         current.fetchMoreNewPipeCommentRepliesStatus ||
-                    previous.newPipeCommentReplies != current.newPipeCommentReplies,
+                    previous.newPipeCommentReplies !=
+                        current.newPipeCommentReplies,
                 builder: (context, state) {
-                  if (state.fetchNewPipeCommentRepliesStatus == ApiStatus.loading ||
-                      state.fetchNewPipeCommentRepliesStatus == ApiStatus.initial) {
+                  if (state.fetchNewPipeCommentRepliesStatus ==
+                          ApiStatus.loading ||
+                      state.fetchNewPipeCommentRepliesStatus ==
+                          ApiStatus.initial) {
                     return const _ModernCommentShimmer();
                   }
 
-                  if (state.fetchNewPipeCommentRepliesStatus == ApiStatus.error) {
+                  if (state.fetchNewPipeCommentRepliesStatus ==
+                      ApiStatus.error) {
                     return Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
                             CupertinoIcons.exclamationmark_triangle,
-                            size: 40,
-                            color: AppColors.error,
+                            size: 36,
+                            color: Theme.of(context).colorScheme.error,
                           ),
                           const SizedBox(height: 12),
                           FilledButton.tonal(
@@ -1125,7 +831,8 @@ class _ModernRepliesSheetState extends State<_ModernRepliesSheet> {
                               context.read<WatchBloc>().add(
                                     WatchEvent.getNewPipeCommentReplies(
                                       videoId: widget.videoId,
-                                      repliesPage: widget.parentComment.repliesPage!,
+                                      repliesPage:
+                                          widget.parentComment.repliesPage!,
                                     ),
                                   );
                             },
@@ -1138,7 +845,8 @@ class _ModernRepliesSheetState extends State<_ModernRepliesSheet> {
 
                   final replies = state.newPipeCommentReplies.comments ?? [];
                   final isLoadingMore =
-                      state.fetchMoreNewPipeCommentRepliesStatus == ApiStatus.loading;
+                      state.fetchMoreNewPipeCommentRepliesStatus ==
+                          ApiStatus.loading;
 
                   return ListView.builder(
                     controller: _scrollController,
@@ -1154,7 +862,8 @@ class _ModernRepliesSheetState extends State<_ModernRepliesSheet> {
                           videoId: widget.videoId,
                           isReply: true,
                           onProfileTap: () {
-                            final channelId = _extractChannelId(reply.authorUrl);
+                            final channelId =
+                                _extractChannelId(reply.authorUrl);
                             if (channelId != null) {
                               // Enable PIP before navigating to channel
                               BlocProvider.of<WatchBloc>(context)
@@ -1186,58 +895,35 @@ class _ModernRepliesSheetState extends State<_ModernRepliesSheet> {
   }
 
   Widget _buildSheetHeader(ThemeData theme, bool isDark) {
+    final scheme = theme.colorScheme;
+    final count = widget.parentComment.replyCount ?? 0;
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 4, 8, 4),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              CupertinoIcons.arrowshape_turn_up_left_fill,
-              size: 18,
-              color: AppColors.primary,
+          Text(
+            widget.locals.repliesPlural(2),
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w800,
+              letterSpacing: -0.3,
             ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Replies',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Text(
-                  '${formatCount((widget.parentComment.replyCount ?? 0).toString())} ${widget.locals.repliesPlural(widget.parentComment.replyCount ?? 0)}',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: isDark
-                        ? AppColors.onSurfaceVariantDark
-                        : AppColors.onSurfaceVariant,
-                  ),
-                ),
-              ],
+          if (count > 0) ...[
+            const SizedBox(width: 8),
+            Text(
+              formatCount(count.toString()),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: scheme.onSurfaceVariant,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
+          ],
+          const Spacer(),
           IconButton(
             onPressed: () => Navigator.pop(context),
-            style: IconButton.styleFrom(
-              backgroundColor: isDark
-                  ? AppColors.surfaceVariantDark
-                  : AppColors.surfaceVariant,
-            ),
-            icon: Icon(
-              CupertinoIcons.xmark,
-              size: 18,
-              color: isDark
-                  ? AppColors.onSurfaceVariantDark
-                  : AppColors.onSurfaceVariant,
-            ),
+            icon: Icon(CupertinoIcons.xmark,
+                size: 20, color: scheme.onSurfaceVariant),
           ),
         ],
       ),
@@ -1303,9 +989,8 @@ class _ShimmerCardState extends State<_ShimmerCard>
 
   @override
   Widget build(BuildContext context) {
-    final baseColor = widget.isDark
-        ? AppColors.surfaceVariantDark
-        : AppColors.surfaceVariant;
+    final baseColor =
+        widget.isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariant;
     final highlightColor = widget.isDark
         ? AppColors.surfaceVariantDark.withValues(alpha: 0.7)
         : Colors.white.withValues(alpha: 0.5);

@@ -1,14 +1,17 @@
+import 'package:fluxtube/widgets/thumbnail_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
-import 'package:fluxtube/core/colors.dart';
+import 'package:fluxtube/core/animations/animations.dart';
 import 'package:fluxtube/core/constants.dart';
 import 'package:fluxtube/core/enums.dart';
+import 'package:fluxtube/core/operations/math_operations.dart';
 import 'package:fluxtube/domain/search/models/newpipe/newpipe_search_resp.dart';
 import 'package:fluxtube/domain/subscribes/models/subscribe.dart';
 import 'package:fluxtube/domain/watch/models/basic_info.dart';
 import 'package:fluxtube/generated/l10n.dart';
+import 'package:fluxtube/presentation/home/widgets/home_hero_card.dart';
 import 'package:fluxtube/presentation/search/widgets/newpipe/home_video_info_card_widget.dart';
 import 'package:fluxtube/presentation/shorts/screen_shorts.dart';
 import 'package:fluxtube/widgets/shimmers/shimmer_home_video_card.dart';
@@ -64,6 +67,32 @@ class _PersonalizedFeedSectionState extends State<PersonalizedFeedSection> {
     }
   }
 
+  void _openVideo(
+      BuildContext context, String videoId, String channelId, dynamic video) {
+    // Set video basic details for watch screen
+    context.read<WatchBloc>().add(
+          WatchEvent.setSelectedVideoBasicDetails(
+            details: VideoBasicInfo(
+              id: videoId,
+              title: video.name,
+              thumbnailUrl: video.thumbnailUrl,
+              channelName: video.uploaderName,
+              channelThumbnailUrl: video.uploaderAvatarUrl,
+              channelId: channelId,
+              uploaderVerified: video.uploaderVerified ?? false,
+            ),
+          ),
+        );
+
+    // Track video watch
+    context.read<SavedBloc>().add(SavedEvent.trackVideoWatch(videoId: videoId));
+
+    context.goNamed('watch', pathParameters: {
+      'videoId': videoId,
+      'channelId': channelId,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Show shimmer while loading
@@ -115,6 +144,9 @@ class _PersonalizedFeedSectionState extends State<PersonalizedFeedSection> {
       }
     }
 
+    // First video is rendered as the hero card, the rest as regular cards.
+    final showHero = videos.isNotEmpty;
+
     return ListView.separated(
       controller: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
@@ -147,15 +179,45 @@ class _PersonalizedFeedSectionState extends State<PersonalizedFeedSection> {
         }
         return kHeightBox10;
       },
+      // The hero *is* videos[0], so it replaces the first row rather than
+      // adding one — otherwise the first video showed up twice.
       itemCount: videos.length +
           (widget.trendingState.isLoadingMorePersonalizedFeed ? 2 : 0),
       itemBuilder: (context, index) {
+        // Hero card from the first feed video
+        if (showHero && index == 0) {
+          final heroVideo = videos.first;
+          final heroVideoId = heroVideo.videoId ??
+              heroVideo.url?.split('v=').last.split('&').first ??
+              '';
+          final heroChannelId = heroVideo.uploaderUrl?.split('/').last ?? '';
+          return AnimatedListItem(
+            index: 0,
+            child: HomeHeroCard(
+              thumbnailUrl: heroVideo.thumbnailUrl,
+              title: heroVideo.name ?? widget.locals.noVideoTitle,
+              channelName:
+                  heroVideo.uploaderName ?? widget.locals.noUploaderName,
+              views: heroVideo.viewCount,
+              uploadedDate: heroVideo.uploadDate,
+              isLive: heroVideo.isLive ?? false,
+              durationLabel: (heroVideo.isLive ?? false)
+                  ? null
+                  : formatDuration(heroVideo.duration),
+              onTap: () =>
+                  _openVideo(context, heroVideoId, heroChannelId, heroVideo),
+            ),
+          );
+        }
+
+        final contentIndex = index;
+
         // Shimmer loading cards at the end
-        if (index >= videos.length) {
+        if (contentIndex >= videos.length) {
           return const ShimmerHomeVideoInfoCard();
         }
 
-        final video = videos[index];
+        final video = videos[contentIndex];
         final videoId =
             video.videoId ?? video.url?.split('v=').last.split('&').first ?? '';
         final channelId = video.uploaderUrl?.split('/').last ?? '';
@@ -166,38 +228,15 @@ class _PersonalizedFeedSectionState extends State<PersonalizedFeedSection> {
         }
 
         return BlocBuilder<SubscribeBloc, SubscribeState>(
+          buildWhen: (p, c) =>
+              !identical(p.subscribedChannels, c.subscribedChannels),
           builder: (context, subscribeState) {
             final isSubscribed = subscribeState.subscribedChannels
                 .any((channel) => channel.id == channelId);
 
             return GestureDetector(
               key: ValueKey('personalized_$videoId'),
-              onTap: () {
-                // Set video basic details for watch screen
-                context.read<WatchBloc>().add(
-                      WatchEvent.setSelectedVideoBasicDetails(
-                        details: VideoBasicInfo(
-                          id: videoId,
-                          title: video.name,
-                          thumbnailUrl: video.thumbnailUrl,
-                          channelName: video.uploaderName,
-                          channelThumbnailUrl: video.uploaderAvatarUrl,
-                          channelId: channelId,
-                          uploaderVerified: video.uploaderVerified ?? false,
-                        ),
-                      ),
-                    );
-
-                // Track video watch
-                context
-                    .read<SavedBloc>()
-                    .add(SavedEvent.trackVideoWatch(videoId: videoId));
-
-                context.goNamed('watch', pathParameters: {
-                  'videoId': videoId,
-                  'channelId': channelId,
-                });
-              },
+              onTap: () => _openVideo(context, videoId, channelId, video),
               child: NewPipeSearchVideoInfoCardWidget(
                 channelId: channelId,
                 cardInfo: video,
@@ -279,12 +318,12 @@ class _ShortsSection extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
+                  color: theme.colorScheme.primaryContainer,
+                  borderRadius: AppRadius.borderSm,
                 ),
                 child: Icon(
                   CupertinoIcons.play_rectangle_fill,
-                  color: AppColors.primary,
+                  color: theme.colorScheme.onPrimaryContainer,
                   size: 18,
                 ),
               ),
@@ -347,7 +386,6 @@ class _ShortCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return GestureDetector(
       onTap: onTap,
@@ -355,41 +393,41 @@ class _ShortCard extends StatelessWidget {
         width: 120,
         height: 200,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: AppRadius.borderMd,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
+              color: theme.colorScheme.scrim.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: AppRadius.borderMd,
           child: Stack(
             fit: StackFit.expand,
             children: [
               // Thumbnail
               if (short.thumbnailUrl != null)
-                Image.network(
-                  short.thumbnailUrl!,
+                ThumbnailImage.small(
+                  url: short.thumbnailUrl!,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
-                    color: isDark ? Colors.grey[850] : Colors.grey[200],
+                  errorWidget: (_, __, ___) => ColoredBox(
+                    color: theme.colorScheme.surfaceContainerHigh,
                     child: Icon(
                       Icons.video_library,
                       size: 40,
-                      color: isDark ? Colors.grey[700] : Colors.grey[400],
+                      color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
                 )
               else
-                Container(
-                  color: isDark ? Colors.grey[850] : Colors.grey[200],
+                ColoredBox(
+                  color: theme.colorScheme.surfaceContainerHigh,
                   child: Icon(
                     Icons.video_library,
                     size: 40,
-                    color: isDark ? Colors.grey[700] : Colors.grey[400],
+                    color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
 
@@ -405,7 +443,7 @@ class _ShortCard extends StatelessWidget {
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                       colors: [
-                        Colors.black.withValues(alpha: 0.7),
+                        theme.colorScheme.scrim.withValues(alpha: 0.7),
                         Colors.transparent,
                       ],
                     ),
@@ -421,9 +459,8 @@ class _ShortCard extends StatelessWidget {
                   right: 8,
                   child: Text(
                     _formatViews(short.viewCount!),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.onPrimary,
                       fontWeight: FontWeight.w600,
                     ),
                     maxLines: 1,
@@ -441,8 +478,8 @@ class _ShortCard extends StatelessWidget {
                     vertical: 3,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(4),
+                    color: theme.colorScheme.scrim.withValues(alpha: 0.6),
+                    borderRadius: AppRadius.borderXs,
                   ),
                   child: const Icon(
                     CupertinoIcons.play_rectangle_fill,
