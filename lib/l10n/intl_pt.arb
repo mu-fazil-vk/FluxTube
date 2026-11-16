@@ -1,8 +1,10 @@
 {
-  "home": "Início",
+  "home": "Home",
   "themeSystem": "System",
   "themeLight": "Light",
   "themeDark": "Dark",
+  "themeOled": "OLED Black",
+  "themeDynamic": "Material You",
   "youtubeService": "YouTube Service",
   "servicePiped": "Piped",
   "serviceExplode": "Explode",
@@ -55,7 +57,7 @@
   "homeFeedMode": "Home Feed",
   "homeFeedModeAuto": "Auto",
   "homeFeedModeFeedOnly": "Subscriptions",
-  "homeFeedModeTrendingOnly": "Tendência",
+  "homeFeedModeTrendingOnly": "Trending",
   "homeFeedModeAutoHint": "Show subscriptions if available, otherwise trending",
   "homeFeedModeFeedOnlyHint": "Only show videos from subscribed channels",
   "homeFeedModeTrendingOnlyHint": "Always show trending videos only",
@@ -86,194 +88,210 @@
   "@home": {
     "description": "Home label"
   },
-  "trending": "Tendência",
+  "trending": "Trending",
   "@trending": {
     "description": "Trending label"
   },
-  "saved": "Salvos",
+  "categoryGaming": "Gaming",
+  "@categoryGaming": {
+    "description": "Home category chip: gaming kiosk"
+  },
+  "categoryMoviesAndShows": "Movies & Shows",
+  "@categoryMoviesAndShows": {
+    "description": "Home category chip: movies and shows trailers kiosk"
+  },
+  "categoryPodcasts": "Podcasts",
+  "@categoryPodcasts": {
+    "description": "Home category chip: podcasts kiosk"
+  },
+  "saved": "Saved",
+  "save": "Save",
+  "serviceLimited": "Limited",
+  "serviceRemovedNote": "Piped and YouTube Explode were retired. YouTube now blocks the server IPs Piped instances run on, so no public instance can play video (its team is rebuilding on a new extractor). YouTube Explode stopped receiving fixes in May 2026 and only 360p still works. NewPipe Extractor does the same on-device extraction, is actively maintained, and plays up to 4K.",
+  "serviceInvidiousNote": "Few public Invidious instances still allow apps; playback may fail if your instance blocks API access.",
   "@saved": {
     "description": "Saved label"
   },
-  "settings": "Configurações",
+  "settings": "Settings",
   "@settings": {
     "description": "Settings label"
   },
-  "history": "Histórico",
+  "history": "History",
   "@history": {
     "description": "History label"
   },
-  "savedVideosTitle": "Vídeos salvos",
+  "savedVideosTitle": "Saved Videos",
   "@savedVideosTitle": {
     "description": "Saved videos app bar title"
   },
-  "noUploaderName": "Sem nome",
+  "noUploaderName": "No name",
   "@noUploaderName": {
     "description": "There is no uploader (channel) name available"
   },
-  "noVideoTitle": "Sem título",
+  "noVideoTitle": "No title",
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
-  "videoViews": "{count, plural, =0{Sem visualizações} =1{visualização} other{visualizações}}",
+  "videoViews": "{count, plural, =0{No views} =1{view} other{views}}",
   "@videoViews": {
     "description": "{number} views"
   },
-  "channelSubscribers": "{count, plural, =0{Sem assinantes} =1{assinante} other{assinantes}}",
+  "channelSubscribers": "{count, plural, =0{No subscribers} =1{subscriber} other{subscribers}}",
   "@channelSubscribers": {
     "description": "{number} subscribers"
   },
-  "subscribe": "Inscrever",
+  "subscribe": "Subscribe",
   "@subscribe": {
     "description": "Subscribe button label"
   },
-  "noUploadDate": "Sem data",
+  "noUploadDate": "No date",
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "Não existem vídeos salvos",
+  "thereIsNoSavedVideos": "There are no saved videos",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "Não existem vídeos/histórico salvos",
+  "thereIsNoSavedOrHistoryVideos": "There are no saved/history videos",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "Nenhuma fonte de vídeo disponível, mudando automaticamente para hls",
+  "noVideoAvailableChangedToHls": "No video source available, automatically changed to hls",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
-  "unknownQuality": "Qualidade desconhecida",
+  "unknownQuality": "Unknown Quality",
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "Tocador Hls",
+  "hlsPlayer": "Hls Player",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "Ativa tocador HLS para habilitar todas as opções de qualidade.\nDesativar em caso de erros.",
+  "enableHlsPlayerDescription": "Enable HLS player to unlock all quality options. Disable if errors occur.",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
-  "disableVideoHistory": "Desativar histórico de vídeos",
+  "disableVideoHistory": "Disable video history",
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Recuperar Dislikes",
+  "retrieveDislikes": "Retrieve Dislikes",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "Recupera contagem de dislikes",
+  "retrieveDislikeCounts": "Retrieve dislike counts",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
-  "noVideoDescription": "Sem descrição",
+  "noVideoDescription": "No description",
   "@noVideoDescription": {
     "description": "There is no video description available"
   },
-  "relatedTitle": "Relacionado",
+  "relatedTitle": "Related",
   "@relatedTitle": {
     "description": "Related videos label"
   },
-  "commentAuthorNotFound": "Não encontrado",
+  "commentAuthorNotFound": "Not found",
   "@commentAuthorNotFound": {
     "description": "Name of the comment author is not found"
   },
-  "readMoreText": "Ler mais",
+  "readMoreText": "Read more",
   "@readMoreText": {
     "description": "Expand the comment text"
   },
-  "showLessText": "Mostrar menos",
+  "showLessText": "Show less",
   "@showLessText": {
     "description": "Collapse the comment text"
   },
-  "commonSettingsTitle": "Comum",
+  "commonSettingsTitle": "Common",
   "@commonSettingsTitle": {
     "description": "Common settings label"
   },
-  "language": "Idioma",
+  "language": "Language",
   "@language": {
     "description": "Language label"
   },
-  "region": "Região",
+  "region": "Region",
   "@region": {
     "description": "Region label"
   },
-  "theme": "Tema",
+  "theme": "Theme",
   "@theme": {
     "description": "Theme label"
   },
-  "developer": "Desenvolvedor",
+  "developer": "Developer",
   "@developer": {
     "description": "Developer label"
   },
-  "translators": "Tradutores",
+  "translators": "Translators",
   "@translators": {
     "description": "Translators label"
   },
-  "version": "Versão",
+  "version": "Version",
   "@version": {
     "description": "Version label"
   },
-  "about": "Sobre",
+  "about": "About",
   "@about": {
     "description": "About label"
   },
-  "video": "Vídeo",
+  "video": "Video",
   "@video": {
     "description": "Video label"
   },
-  "unknown": "desconhecido",
+  "unknown": "unknown",
   "@unknown": {
     "description": "Unknown label"
   },
-  "defaultQuality": "Qualidade padrão",
+  "defaultQuality": "Default Quality",
   "@defaultQuality": {
     "description": "Default video quality label"
   },
-  "retry": "Tenta novamente",
+  "retry": "Retry",
   "@retry": {
     "description": "Retry label"
   },
-  "repliesPlural": "{count, plural, =1{Resposta} other{Respostas}}",
+  "repliesPlural": "{count, plural, =1{Reply} other{Replies}}",
   "@repliesPlural": {
     "description": "{number} Replies"
   },
-  "canada": "Canadá",
-  "france": "França",
-  "india": "Índia",
-  "netherlands": "Holanda",
-  "unitedKingdom": "Reino Unido",
-  "unitedStates": "Estados Unidos",
-  "distractionFree": "Sem distração",
+  "canada": "Canada",
+  "france": "France",
+  "india": "India",
+  "netherlands": "Netherlands",
+  "unitedKingdom": "United Kingdom",
+  "unitedStates": "United States",
+  "distractionFree": "Distraction Free",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
-  "hideComments": "Esconder Comentários",
+  "hideComments": "Hide Comments",
   "@hideComments": {
     "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "Esconde botão comentários da tela.",
+  "hideCommentsButtonFromWatchScreen": "Hide comments button from watch screen.",
   "@hideCommentsButtonFromWatchScreen": {
     "description": "Hide the comment button from video streaming screen."
   },
-  "hideRelated": "Esconder Relacionados",
+  "hideRelated": "Hide Related",
   "@hideRelated": {
     "description": "Hide Related videos label."
   },
-  "hideRelatedVideosFromWatchScreen": "Esconde vídeos relacionados da tela",
+  "hideRelatedVideosFromWatchScreen": "Hide related videos from watch screen",
   "@hideRelatedVideosFromWatchScreen": {
     "description": "Hide the related videos from video streaming screen."
   },
-  "share": "Compartilhar",
+  "share": "Share",
   "@share": {
     "description": "Share label."
   },
-  "includeTitle": "Incluir título",
+  "includeTitle": "Include title",
   "@includeTitle": {
     "description": "Include title along with url"
   },
-  "instances": "Instâncias",
-  "switchRegion": "Por favor, considere trocar a região para melhores resultados.",
+  "instances": "Instances",
+  "switchRegion": "Please consider switching to a different region for better results.",
   "swipeDownToDismissDisabled": "'Swipe down to dismiss' disabled",
   "swipeUpToDismissEnabled": "'Swipe up to dismiss' enabled",
   "noCommentsFound": "No Comments Found",
@@ -284,7 +302,7 @@
   "videos": "Videos",
   "shorts": "Shorts",
   "playlists": "Playlists",
-  "noShorts": "No shorts available",
+  "noShorts": "Subscribe to channels to see their Shorts here",
   "noPlaylists": "No playlists available",
   "library": "Library",
   "sortBy": "Sort by",
@@ -504,5 +522,330 @@
   "saveToDeviceFailed": "Failed to save to device",
   "@saveToDeviceFailed": {
     "description": "Error message when save to device fails"
+  },
+  "newVideoNotifications": "New upload notifications",
+  "@newVideoNotifications": {
+    "description": "Setting for subscription upload notifications"
+  },
+  "newVideoNotificationsDescription": "Get notified when channels you subscribe to upload",
+  "@newVideoNotificationsDescription": {
+    "description": "Description for upload notification setting"
+  },
+  "notificationsDenied": "Notification permission was denied",
+  "@notificationsDenied": {
+    "description": "Shown when the notification permission is refused"
+  },
+  "queue": "Queue",
+  "@queue": {
+    "description": "Playback queue title"
+  },
+  "queueEmpty": "Queue is empty",
+  "@queueEmpty": {
+    "description": "Empty playback queue"
+  },
+  "queueShuffle": "Shuffle",
+  "@queueShuffle": {
+    "description": "Shuffles the upcoming queue"
+  },
+  "queueClear": "Clear",
+  "@queueClear": {
+    "description": "Clears the playback queue"
+  },
+  "removeFromQueue": "Remove from queue",
+  "@removeFromQueue": {
+    "description": "Removes one queue entry"
+  },
+  "playNext": "Play next",
+  "@playNext": {
+    "description": "Queues a video directly after the current one"
+  },
+  "addToQueue": "Add to queue",
+  "@addToQueue": {
+    "description": "Appends a video to the queue"
+  },
+  "addedToQueue": "Added to queue",
+  "@addedToQueue": {
+    "description": "Confirmation for queue append"
+  },
+  "addedToPlayNext": "Added to play next",
+  "@addedToPlayNext": {
+    "description": "Confirmation for play next"
+  },
+  "saveToPlaylist": "Save to playlist",
+  "@saveToPlaylist": {
+    "description": "Playlist picker title"
+  },
+  "localPlaylists": "Playlists",
+  "@localPlaylists": {
+    "description": "Local playlists screen title"
+  },
+  "newPlaylist": "New Playlist",
+  "@newPlaylist": {
+    "description": "New playlist dialog title"
+  },
+  "newPlaylistShort": "+ New",
+  "@newPlaylistShort": {
+    "description": "Compact create-playlist action"
+  },
+  "playlistNameHint": "Playlist name",
+  "@playlistNameHint": {
+    "description": "Playlist name field hint"
+  },
+  "createAction": "Create",
+  "@createAction": {
+    "description": "Confirms creation"
+  },
+  "renameAction": "Rename",
+  "@renameAction": {
+    "description": "Renames an item"
+  },
+  "renamePlaylistTitle": "Rename Playlist",
+  "@renamePlaylistTitle": {
+    "description": "Rename playlist dialog title"
+  },
+  "newNameHint": "New name",
+  "@newNameHint": {
+    "description": "New name field hint"
+  },
+  "deletePlaylistTitle": "Delete Playlist",
+  "@deletePlaylistTitle": {
+    "description": "Delete playlist dialog title"
+  },
+  "deletePlaylistAction": "Delete playlist",
+  "@deletePlaylistAction": {
+    "description": "Deletes a playlist"
+  },
+  "deletePlaylistConfirm": "Delete {name}?",
+  "@deletePlaylistConfirm": {
+    "description": "Confirms deleting a named playlist",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noPlaylistsYet": "No playlists yet.\nTap + to create one.",
+  "@noPlaylistsYet": {
+    "description": "Empty local playlists screen"
+  },
+  "noPlaylistsYetPicker": "No playlists yet.\nTap + New to create one.",
+  "@noPlaylistsYetPicker": {
+    "description": "Empty playlist picker"
+  },
+  "addedToPlaylist": "Added to {name}",
+  "@addedToPlaylist": {
+    "description": "Confirms adding a video to a named playlist",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playAll": "Play all",
+  "@playAll": {
+    "description": "Plays every video in a playlist"
+  },
+  "playlistNotFound": "Playlist not found",
+  "@playlistNotFound": {
+    "description": "Missing playlist"
+  },
+  "noVideosInPlaylist": "No videos yet",
+  "@noVideosInPlaylist": {
+    "description": "Empty playlist"
+  },
+  "addVideosHint": "Long-press a video to save it to a playlist",
+  "@addVideosHint": {
+    "description": "Hint for filling an empty playlist"
+  },
+  "videoCountLabel": "{count} videos",
+  "@videoCountLabel": {
+    "description": "Number of videos",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "debugConsole": "Debug Console",
+  "@debugConsole": {
+    "description": "Debug console screen title"
+  },
+  "shareLogs": "Share logs",
+  "@shareLogs": {
+    "description": "Shares the collected log file"
+  },
+  "clearLogs": "Clear logs",
+  "@clearLogs": {
+    "description": "Clears collected logs"
+  },
+  "autoScrollOn": "Auto-scroll on",
+  "@autoScrollOn": {
+    "description": "Log auto-scroll enabled"
+  },
+  "autoScrollOff": "Auto-scroll off",
+  "@autoScrollOff": {
+    "description": "Log auto-scroll disabled"
+  },
+  "noLogs": "No logs yet",
+  "@noLogs": {
+    "description": "Empty log console"
+  },
+  "logsLabel": "Logs",
+  "@logsLabel": {
+    "description": "Log count label"
+  },
+  "imageCacheLabel": "Image Cache",
+  "@imageCacheLabel": {
+    "description": "Image cache size label"
+  },
+  "platformLabel": "Platform",
+  "@platformLabel": {
+    "description": "Operating system label"
+  },
+  "sleepTimer": "Sleep timer",
+  "@sleepTimer": {
+    "description": "Sleep timer setting"
+  },
+  "sleepTimerOff": "Off",
+  "@sleepTimerOff": {
+    "description": "Sleep timer disabled"
+  },
+  "sleepTimerEndOfVideo": "End of video",
+  "@sleepTimerEndOfVideo": {
+    "description": "Sleep timer stops when the video ends"
+  },
+  "sleepTimerMinutes": "{count} minutes",
+  "@sleepTimerMinutes": {
+    "description": "Sleep timer duration",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepTimerMinutesShort": "{count} min",
+  "@sleepTimerMinutesShort": {
+    "description": "Compact sleep timer duration",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepTimerCustom": "Custom",
+  "@sleepTimerCustom": {
+    "description": "Custom sleep timer duration"
+  },
+  "sleepTimerCustomTitle": "Custom timer",
+  "@sleepTimerCustomTitle": {
+    "description": "Custom timer dialog title"
+  },
+  "sleepTimerEnterMinutes": "Enter minutes",
+  "@sleepTimerEnterMinutes": {
+    "description": "Custom timer field hint"
+  },
+  "sleepTimerSet": "Set",
+  "@sleepTimerSet": {
+    "description": "Confirms the custom timer"
+  },
+  "sleepTimerEnded": "Sleep timer ended",
+  "@sleepTimerEnded": {
+    "description": "Sleep timer fired"
+  },
+  "following": "Following",
+  "@following": {
+    "description": "Header for the subscribed-channels avatar row"
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Filter chip: videos uploaded today"
+  },
+  "live": "Live",
+  "@live": {
+    "description": "Filter chip / badge for live streams"
+  },
+  "continueWatching": "Continue Watching",
+  "@continueWatching": {
+    "description": "Filter chip: partially watched videos"
+  },
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "Link to open a full section listing"
+  },
+  "storageUsed": "{amount} used",
+  "@storageUsed": {
+    "description": "Aggregate storage consumed by downloads, e.g. 2.4 GB used",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "comments": "Comments",
+  "@comments": {
+    "description": "Comments section title"
+  },
+  "commentsLoadFailed": "Couldn't load comments",
+  "@commentsLoadFailed": {
+    "description": "Comments failed to load"
+  },
+  "checkConnectionAndRetry": "Check your connection and try again",
+  "@checkConnectionAndRetry": {
+    "description": "Generic retry hint"
+  },
+  "commentsDisabledByCreator": "The creator has turned off comments for this video",
+  "@commentsDisabledByCreator": {
+    "description": "Comments disabled explanation"
+  },
+  "noCommentsYet": "There are no comments on this video yet",
+  "@noCommentsYet": {
+    "description": "Empty comments explanation"
+  },
+  "heartedByCreator": "Hearted by creator",
+  "@heartedByCreator": {
+    "description": "Comment liked by the video's creator"
+  },
+  "downloadsCount": "{count, plural, =1{1 download} other{{count} downloads}}",
+  "@downloadsCount": {
+    "description": "Number of completed downloads",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "watchStatsTitle": "Your watch stats",
+  "@watchStatsTitle": {
+    "description": "Library watch stats card title"
+  },
+  "watchStatsWatched": "watched",
+  "@watchStatsWatched": {
+    "description": "Label under total watch time"
+  },
+  "watchStatsVideos": "videos",
+  "@watchStatsVideos": {
+    "description": "Label under watched video count"
+  },
+  "watchStatsSaved": "saved",
+  "@watchStatsSaved": {
+    "description": "Label under saved video count"
+  },
+  "watchStatsTopChannel": "Most watched: {channel}",
+  "@watchStatsTopChannel": {
+    "description": "Most watched channel line",
+    "placeholders": {
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "watchStatsThisWeek": "{count} this week",
+  "@watchStatsThisWeek": {
+    "description": "Videos watched in the last 7 days",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }
