@@ -1,9 +1,11 @@
 {
   "home": "Ana Sayfa",
-  "themeSystem": "System",
-  "themeLight": "Light",
-  "themeDark": "Dark",
-  "youtubeService": "YouTube Service",
+  "themeSystem": "Sistem",
+  "themeLight": "Açık",
+  "themeDark": "Koyu",
+  "themeOled": "OLED Black",
+  "themeDynamic": "Material You",
+  "youtubeService": "YouTube Hizmeti",
   "servicePiped": "Piped",
   "serviceExplode": "Explode",
   "serviceInvidious": "Invidious",
@@ -15,74 +17,74 @@
   "quality720p": "720p",
   "quality1080p": "1080p",
   "quality1440p": "1440p",
-  "searchFilters": "Filters",
-  "filterAll": "All",
-  "filterVideos": "Videos",
-  "filterChannels": "Channels",
-  "filterPlaylists": "Playlists",
-  "playlist": "Playlist",
-  "filterMusic": "Music",
-  "videoFit": "Video Fit",
-  "videoFitContain": "Contain",
-  "videoFitCover": "Cover",
-  "videoFitFill": "Fill",
-  "videoFitFitWidth": "Fit Width",
-  "videoFitFitHeight": "Fit Height",
-  "skipInterval": "Skip Interval",
-  "skipIntervalDescription": "Double-tap skip duration in seconds",
-  "seconds": "seconds",
+  "searchFilters": "Filtreler",
+  "filterAll": "Tümü",
+  "filterVideos": "Videolar",
+  "filterChannels": "Kanallar",
+  "filterPlaylists": "Oynatma Listeleri",
+  "playlist": "Oynatma Listesi",
+  "filterMusic": "Müzik",
+  "videoFit": "Videoyu Sığdır",
+  "videoFitContain": "İçine Sığdır",
+  "videoFitCover": "Kapla",
+  "videoFitFill": "Doldur",
+  "videoFitFitWidth": "Genişliğe Sığdır",
+  "videoFitFitHeight": "Yüksekliğe Sığdır",
+  "skipInterval": "Atlama Süresi",
+  "skipIntervalDescription": "Saniye cinsinden çift dokunarak atlama süresi",
+  "seconds": "saniye",
   "sponsorBlock": "SponsorBlock",
-  "sponsorBlockDescription": "Skip sponsored segments automatically",
-  "sponsorBlockCategories": "Skip Categories",
+  "sponsorBlockDescription": "Sponsorlu kısımları otomatik atla",
+  "sponsorBlockCategories": "Atlanacak Kategoriler",
   "sponsor": "Sponsor",
-  "intro": "Intro",
-  "outro": "Outro",
-  "selfPromotion": "Self Promotion",
-  "interaction": "Interaction",
-  "musicOfftopic": "Music: Non-Music",
-  "openInBrowser": "Open in Browser",
-  "openLinksExternally": "Open links in external browser",
-  "exportData": "Export Data",
-  "importData": "Import Data",
-  "exportSubscriptions": "Export Subscriptions",
-  "importSubscriptions": "Import Subscriptions",
-  "backupRestore": "Backup & Restore",
-  "backupRestoreDescription": "Export or import your subscriptions",
-  "exportSuccess": "Export successful",
-  "importSuccess": "Import successful",
-  "importError": "Import failed",
-  "selectFile": "Select File",
-  "homeFeedMode": "Home Feed",
-  "homeFeedModeAuto": "Auto",
-  "homeFeedModeFeedOnly": "Subscriptions",
+  "intro": "Giriş (Intro)",
+  "outro": "Çıkış (Outro)",
+  "selfPromotion": "Kişisel Tanıtım",
+  "interaction": "Etkileşim Hatırlatıcıları",
+  "musicOfftopic": "Müzik: Müzik Dışı Bölümler",
+  "openInBrowser": "Tarayıcıda Aç",
+  "openLinksExternally": "Bağlantıları harici tarayıcıda aç",
+  "exportData": "Verileri Dışa Aktar",
+  "importData": "Verileri İçe Aktar",
+  "exportSubscriptions": "Abonelikleri Dışa Aktar",
+  "importSubscriptions": "Abonelikleri İçe Aktar",
+  "backupRestore": "Yedekle ve Geri Yükle",
+  "backupRestoreDescription": "Aboneliklerinizi dışa veya içe aktarın",
+  "exportSuccess": "Dışa aktarma başarılı",
+  "importSuccess": "İçe aktarma başarılı",
+  "importError": "İçe aktarma başarısız",
+  "selectFile": "Dosya Seç",
+  "homeFeedMode": "Ana Sayfa Akışı",
+  "homeFeedModeAuto": "Otomatik",
+  "homeFeedModeFeedOnly": "Abonelikler",
   "homeFeedModeTrendingOnly": "Trendler",
-  "homeFeedModeAutoHint": "Show subscriptions if available, otherwise trending",
-  "homeFeedModeFeedOnlyHint": "Only show videos from subscribed channels",
-  "homeFeedModeTrendingOnlyHint": "Always show trending videos only",
-  "noSubscriptions": "No Subscriptions",
-  "noSubscriptionsHint": "Subscribe to channels to see their videos here",
-  "profiles": "Profiles",
-  "profilesDescription": "Create separate profiles for different accounts or preferences",
-  "addProfile": "Add Profile",
-  "deleteProfile": "Delete Profile",
-  "renameProfile": "Rename Profile",
-  "switchProfile": "Switch Profile",
-  "profileName": "Profile Name",
-  "newProfileName": "New Profile Name",
-  "defaultProfile": "Default",
-  "profileInUse": "Active",
-  "cannotDeleteDefault": "Cannot delete default profile",
-  "cannotRenameDefault": "Cannot rename default profile",
-  "audioFocus": "Audio Focus",
-  "audioFocusDescription": "Pause playback on interruptions",
-  "pauseOnCall": "Pause on Phone Call",
-  "pauseOnHeadphones": "Pause on Headphone Disconnect",
-  "subtitleSize": "Subtitle Size",
-  "subtitleSizeDescription": "Adjust the size of subtitles on video",
-  "subtitleSizeSmall": "Small",
-  "subtitleSizeMedium": "Medium",
-  "subtitleSizeLarge": "Large",
-  "subtitleSizeExtraLarge": "Extra Large",
+  "homeFeedModeAutoHint": "Varsa abonelikleri, yoksa trendleri göster",
+  "homeFeedModeFeedOnlyHint": "Sadece abone olunan kanalların videolarını göster",
+  "homeFeedModeTrendingOnlyHint": "Her zaman sadece trend videoları göster",
+  "noSubscriptions": "Abonelik Yok",
+  "noSubscriptionsHint": "Videolarını burada görmek için kanallara abone olun",
+  "profiles": "Profiller",
+  "profilesDescription": "Farklı hesaplar veya tercihler için ayrı profiller oluşturun",
+  "addProfile": "Profil Ekle",
+  "deleteProfile": "Profili Sil",
+  "renameProfile": "Profili Yeniden Adlandır",
+  "switchProfile": "Profil Değiştir",
+  "profileName": "Profil Adı",
+  "newProfileName": "Yeni Profil Adı",
+  "defaultProfile": "Varsayılan",
+  "profileInUse": "Aktif",
+  "cannotDeleteDefault": "Varsayılan profil silinemez",
+  "cannotRenameDefault": "Varsayılan profil yeniden adlandırılamaz",
+  "audioFocus": "Ses Odağı",
+  "audioFocusDescription": "Kesintilerde oynatmayı duraklat",
+  "pauseOnCall": "Telefon Çağrısında Duraklat",
+  "pauseOnHeadphones": "Kulaklık Çıkarıldığında Duraklat",
+  "subtitleSize": "Altyazı Boyutu",
+  "subtitleSizeDescription": "Videodaki altyazıların boyutunu ayarlayın",
+  "subtitleSizeSmall": "Küçük",
+  "subtitleSizeMedium": "Orta",
+  "subtitleSizeLarge": "Büyük",
+  "subtitleSizeExtraLarge": "Çok Büyük",
   "@home": {
     "description": "Home label"
   },
@@ -90,7 +92,23 @@
   "@trending": {
     "description": "Trending label"
   },
+  "categoryGaming": "Gaming",
+  "@categoryGaming": {
+    "description": "Home category chip: gaming kiosk"
+  },
+  "categoryMoviesAndShows": "Movies & Shows",
+  "@categoryMoviesAndShows": {
+    "description": "Home category chip: movies and shows trailers kiosk"
+  },
+  "categoryPodcasts": "Podcasts",
+  "@categoryPodcasts": {
+    "description": "Home category chip: podcasts kiosk"
+  },
   "saved": "Kaydedilenler",
+  "save": "Save",
+  "serviceLimited": "Limited",
+  "serviceRemovedNote": "Piped and YouTube Explode were retired. YouTube now blocks the server IPs Piped instances run on, so no public instance can play video (its team is rebuilding on a new extractor). YouTube Explode stopped receiving fixes in May 2026 and only 360p still works. NewPipe Extractor does the same on-device extraction, is actively maintained, and plays up to 4K.",
+  "serviceInvidiousNote": "Few public Invidious instances still allow apps; playback may fail if your instance blocks API access.",
   "@saved": {
     "description": "Saved label"
   },
@@ -114,7 +132,7 @@
   "@noVideoTitle": {
     "description": "There is no video title available"
   },
-  "videoViews": "{count, plural, =0{Görüntüleme yok} =1{görüntüleme} other{görüntüleme}}",
+  "videoViews": "{count, plural, =0{Görüntülenme yok} =1{görüntülenme} other{görüntülenme}}",
   "@videoViews": {
     "description": "{number} views"
   },
@@ -130,15 +148,15 @@
   "@noUploadDate": {
     "description": "There is no video upload date available"
   },
-  "thereIsNoSavedVideos": "Kaydedilen video yok",
+  "thereIsNoSavedVideos": "Kaydedilmiş video bulunmuyor",
   "@thereIsNoSavedVideos": {
     "description": "There are no saved videos found"
   },
-  "thereIsNoSavedOrHistoryVideos": "Kaydedilen/geçmiş video yok",
+  "thereIsNoSavedOrHistoryVideos": "Kaydedilmiş video veya izleme geçmişi bulunmuyor",
   "@thereIsNoSavedHistoryVideos": {
     "description": "There are no saved or history videos"
   },
-  "noVideoAvailableChangedToHls": "Video kaynağı yok, otomatik olarak hls'ye değiştirildi",
+  "noVideoAvailableChangedToHls": "Kullanılabilir video kaynağı yok, otomatik olarak HLS oynatıcıya geçildi",
   "@noVideoAvailableChangedToHls": {
     "description": "When there is no standard player link available, then it changed to hls player"
   },
@@ -146,11 +164,11 @@
   "@unknownQuality": {
     "description": "Quality name not found"
   },
-  "hlsPlayer": "Hls Oynatıcı",
+  "hlsPlayer": "HLS Oynatıcı",
   "@hlsPlayer": {
     "description": "Hls player label"
   },
-  "enableHlsPlayerDescription": "Tüm kalite seçeneklerini açmak için HLS oynatıcıyı etkinleştirin. Hata oluşursa devre dışı bırakın.",
+  "enableHlsPlayerDescription": "Tüm kalite seçeneklerinin kilidini açmak için HLS oynatıcıyı etkinleştirin. Hata oluşursa devre dışı bırakın.",
   "@enableHlsPlayerDescription": {
     "description": "Enabling HLS player may slow down performance but unlocks all quality options. Disable this setting if errors occur."
   },
@@ -158,11 +176,11 @@
   "@disableVideoHistory": {
     "description": "Hide watch history"
   },
-  "retrieveDislikes": "Beğenilmeyenleri Getir",
+  "retrieveDislikes": "Beğenmemeleri Al",
   "@retrieveDislikes": {
     "description": "Retrieve dislikes label"
   },
-  "retrieveDislikeCounts": "Beğenmeme sayısını geri getir",
+  "retrieveDislikeCounts": "Beğenmeme sayılarını al",
   "@retrieveDislikeCounts": {
     "description": "Return the dislike button of videos"
   },
@@ -230,7 +248,7 @@
   "@defaultQuality": {
     "description": "Default video quality label"
   },
-  "retry": "Tekrar Dene",
+  "retry": "Yeniden Dene",
   "@retry": {
     "description": "Retry label"
   },
@@ -244,7 +262,7 @@
   "netherlands": "Hollanda",
   "unitedKingdom": "Birleşik Krallık",
   "unitedStates": "Amerika Birleşik Devletleri",
-  "distractionFree": "Dikkat Dağıtmayan",
+  "distractionFree": "Odak Modu",
   "@distractionFree": {
     "description": "A section for control distracting elements."
   },
@@ -252,7 +270,7 @@
   "@hideComments": {
     "description": "Hide Comments label."
   },
-  "hideCommentsButtonFromWatchScreen": "İzleme ekranından yorum butonunu gizle",
+  "hideCommentsButtonFromWatchScreen": "İzleme ekranından yorumlar düğmesini gizle.",
   "@hideCommentsButtonFromWatchScreen": {
     "description": "Hide the comment button from video streaming screen."
   },
@@ -272,206 +290,206 @@
   "@includeTitle": {
     "description": "Include title along with url"
   },
-  "instances": "Örnekler",
+  "instances": "Sunucular",
   "switchRegion": "Daha iyi sonuçlar için lütfen farklı bir bölgeye geçmeyi düşünün.",
   "swipeDownToDismissDisabled": "'Kapatmak için aşağı kaydır' devre dışı",
-  "swipeUpToDismissEnabled": "'Kapatmak için aşağı kaydır' etkin",
-  "noCommentsFound": "Hiçbir Yorum Bulunamadı",
-  "commentsDisabled": "Comments are disabled",
-  "repliesNotSupported": "Replies are not available yet",
-  "pinned": "Pinned",
+  "swipeUpToDismissEnabled": "'Kapatmak için yukarı kaydır' etkin",
+  "noCommentsFound": "Yorum Bulunamadı",
+  "commentsDisabled": "Yorumlar devre dışı bırakılmış",
+  "repliesNotSupported": "Yanıtlar henüz desteklenmiyor",
+  "pinned": "Sabitlenmiş",
   "disablePipPlayer": "PIP oynatıcıyı devre dışı bırak",
-  "videos": "Videos",
+  "videos": "Videolar",
   "shorts": "Shorts",
-  "playlists": "Playlists",
-  "noShorts": "No shorts available",
-  "noPlaylists": "No playlists available",
-  "library": "Library",
-  "sortBy": "Sort by",
-  "dateAdded": "Date added",
-  "title": "Title",
-  "duration": "Duration",
-  "selected": "selected",
-  "selectAll": "Select all",
-  "delete": "Delete",
-  "cancel": "Cancel",
-  "sort": "Sort",
-  "selectVideos": "Select videos",
-  "clearAllSaved": "Clear all saved",
-  "clearAllHistory": "Clear all history",
-  "clearAllSavedConfirm": "Are you sure you want to remove all saved videos?",
-  "clearAllHistoryConfirm": "Are you sure you want to clear all watch history?",
-  "clearAll": "Clear all",
-  "searchSavedVideos": "Search saved videos...",
-  "noSavedVideos": "No saved videos",
-  "startSavingVideos": "Start saving videos to watch later",
-  "noHistory": "No watch history",
-  "watchSomeVideos": "Videos you watch will appear here",
-  "deleteVideo": "Delete video",
-  "deleteVideoConfirm": "Are you sure you want to remove this video?",
-  "removeFromSaved": "Remove from saved",
-  "removeFromHistory": "Remove from history",
-  "views": "views",
-  "subscriptions": "Subscriptions",
-  "channels": "Channels",
-  "searchSubscriptions": "Search subscriptions...",
-  "noVideosFound": "No videos found",
-  "refreshToLoad": "Pull down to refresh",
-  "unsubscribe": "Unsubscribe",
-  "unsubscribeConfirm": "Unsubscribe from this channel?",
-  "search": "Search",
-  "searchYouTube": "Search YouTube...",
-  "searchForVideosChannels": "Search for videos, channels, and playlists",
-  "recentSearches": "Recent searches",
-  "searchHistoryEnabled": "Save Search History",
-  "searchHistoryEnabledDescription": "Save your search queries for quick access",
-  "showSearchHistory": "Show Search History",
-  "showSearchHistoryDescription": "Display your recent searches in search screen",
-  "copyLink": "Copy link",
+  "playlists": "Oynatma Listeleri",
+  "noShorts": "Subscribe to channels to see their Shorts here",
+  "noPlaylists": "Oynatma listesi bulunmuyor",
+  "library": "Kitaplık",
+  "sortBy": "Sıralama ölçütü",
+  "dateAdded": "Eklenme tarihi",
+  "title": "Başlık",
+  "duration": "Süre",
+  "selected": "seçildi",
+  "selectAll": "Tümünü seç",
+  "delete": "Sil",
+  "cancel": "İptal",
+  "sort": "Sırala",
+  "selectVideos": "Videoları seç",
+  "clearAllSaved": "Tüm kaydedilenleri temizle",
+  "clearAllHistory": "Tüm geçmişi temizle",
+  "clearAllSavedConfirm": "Kaydedilen tüm videoları kaldırmak istediğinizden emin misiniz?",
+  "clearAllHistoryConfirm": "Tüm izleme geçmişini temizlemek istediğinizden emin misiniz?",
+  "clearAll": "Tümünü temizle",
+  "searchSavedVideos": "Kaydedilen videolarda ara...",
+  "noSavedVideos": "Kaydedilmiş video yok",
+  "startSavingVideos": "Daha sonra izlemek için videoları kaydetmeye başlayın",
+  "noHistory": "İzleme geçmişi yok",
+  "watchSomeVideos": "İzlediğiniz videolar burada görünecek",
+  "deleteVideo": "Videoyu sil",
+  "deleteVideoConfirm": "Bu videoyu kaldırmak istediğinizden emin misiniz?",
+  "removeFromSaved": "Kaydedilenlerden kaldır",
+  "removeFromHistory": "Geçmişten kaldır",
+  "views": "görüntülenme",
+  "subscriptions": "Abonelikler",
+  "channels": "Kanallar",
+  "searchSubscriptions": "Aboneliklerde ara...",
+  "noVideosFound": "Video bulunamadı",
+  "refreshToLoad": "Yenilemek için aşağı çekin",
+  "unsubscribe": "Abonelikten çık",
+  "unsubscribeConfirm": "Bu kanalın aboneliğinden çıkılsın mı?",
+  "search": "Ara",
+  "searchYouTube": "YouTube'da ara...",
+  "searchForVideosChannels": "Videoları, kanalları ve oynatma listelerini arayın",
+  "recentSearches": "Son aramalar",
+  "searchHistoryEnabled": "Arama Geçmişini Kaydet",
+  "searchHistoryEnabledDescription": "Hızlı erişim için arama sorgularınızı kaydedin",
+  "showSearchHistory": "Arama Geçmişini Göster",
+  "showSearchHistoryDescription": "Son aramalarınızı arama ekranında görüntüleyin",
+  "copyLink": "Bağlantıyı kopyala",
   "@copyLink": {
     "description": "Copy link button label"
   },
-  "shareVia": "Share via",
+  "shareVia": "Şununla paylaş",
   "@shareVia": {
     "description": "Share via apps button label"
   },
-  "copiedToClipboard": "Copied to clipboard",
+  "copiedToClipboard": "Panoya kopyalandı",
   "@copiedToClipboard": {
     "description": "Snackbar message when link is copied"
   },
-  "like": "Like",
+  "like": "Beğen",
   "@like": {
     "description": "Like button label when count is unavailable"
   },
-  "dislike": "Dislike",
+  "dislike": "Beğenme",
   "@dislike": {
     "description": "Dislike button label when count is unavailable"
   },
-  "download": "Download",
+  "download": "İndir",
   "@download": {
     "description": "Download button label"
   },
-  "downloads": "Downloads",
+  "downloads": "İndirilenler",
   "@downloads": {
     "description": "Downloads screen title"
   },
-  "downloading": "Downloading",
+  "downloading": "İndiriliyor",
   "@downloading": {
     "description": "Downloading status label"
   },
-  "completed": "Completed",
+  "completed": "Tamamlandı",
   "@completed": {
     "description": "Completed status label"
   },
-  "pending": "Pending",
+  "pending": "Bekliyor",
   "@pending": {
     "description": "Pending status label"
   },
-  "paused": "Paused",
+  "paused": "Duraklatıldı",
   "@paused": {
     "description": "Paused status label"
   },
-  "failed": "Failed",
+  "failed": "Başarısız",
   "@failed": {
     "description": "Failed status label"
   },
-  "cancelled": "Cancelled",
+  "cancelled": "İptal edildi",
   "@cancelled": {
     "description": "Cancelled status label"
   },
-  "merging": "Merging",
+  "merging": "Birleştiriliyor",
   "@merging": {
     "description": "Merging audio and video status"
   },
-  "downloadingVideo": "Downloading video",
+  "downloadingVideo": "Video indiriliyor",
   "@downloadingVideo": {
     "description": "Phase indicator when downloading video track"
   },
-  "downloadingAudio": "Downloading audio",
+  "downloadingAudio": "Ses indiriliyor",
   "@downloadingAudio": {
     "description": "Phase indicator when downloading audio track"
   },
-  "noDownloads": "No Downloads",
+  "noDownloads": "İndirme Yok",
   "@noDownloads": {
     "description": "Empty downloads state title"
   },
-  "noDownloadsHint": "Downloaded videos will appear here",
+  "noDownloadsHint": "İndirilen videolar burada görünecek",
   "@noDownloadsHint": {
     "description": "Empty downloads state hint"
   },
-  "downloadType": "Download Type",
+  "downloadType": "İndirme Türü",
   "@downloadType": {
     "description": "Download type selector label"
   },
-  "videoWithAudio": "Video + Audio",
+  "videoWithAudio": "Video + Ses",
   "@videoWithAudio": {
     "description": "Video with audio download type"
   },
-  "videoOnly": "Video Only",
+  "videoOnly": "Sadece Video",
   "@videoOnly": {
     "description": "Video only download type"
   },
-  "audioOnly": "Audio Only",
+  "audioOnly": "Sadece Ses",
   "@audioOnly": {
     "description": "Audio only download type"
   },
-  "audio": "Audio",
+  "audio": "Ses",
   "@audio": {
     "description": "Audio badge label"
   },
-  "videoAudio": "Video+Audio",
+  "videoAudio": "Video+Ses",
   "@videoAudio": {
     "description": "Video with audio badge label"
   },
-  "videoQuality": "Video Quality",
+  "videoQuality": "Video Kalitesi",
   "@videoQuality": {
     "description": "Video quality selector label"
   },
-  "audioQuality": "Audio Quality",
+  "audioQuality": "Ses Kalitesi",
   "@audioQuality": {
     "description": "Audio quality selector label"
   },
-  "startDownload": "Start Download",
+  "startDownload": "İndirmeyi Başlat",
   "@startDownload": {
     "description": "Start download button label"
   },
-  "downloadStarted": "Download started",
+  "downloadStarted": "İndirme başladı",
   "@downloadStarted": {
     "description": "Download started snackbar message"
   },
-  "deleteDownload": "Delete Download",
+  "deleteDownload": "İndirmeyi Sil",
   "@deleteDownload": {
     "description": "Delete download dialog title"
   },
-  "deleteDownloadConfirm": "Are you sure you want to delete this download?",
+  "deleteDownloadConfirm": "Bu indirmeyi silmek istediğinizden emin misiniz?",
   "@deleteDownloadConfirm": {
     "description": "Delete download confirmation message"
   },
-  "pause": "Pause",
+  "pause": "Duraklat",
   "@pause": {
     "description": "Pause button label"
   },
-  "resume": "Resume",
+  "resume": "Devam Et",
   "@resume": {
     "description": "Resume button label"
   },
-  "all": "All",
+  "all": "Tümü",
   "@all": {
     "description": "All tab label"
   },
-  "unknownError": "An unknown error occurred",
+  "unknownError": "Bilinmeyen bir hata oluştu",
   "@unknownError": {
     "description": "Unknown error message"
   },
-  "failedToOpenFile": "Failed to open file",
+  "failedToOpenFile": "Dosya açılamadı",
   "@failedToOpenFile": {
     "description": "Error message when file cannot be opened"
   },
-  "fileNotFound": "File not found",
+  "fileNotFound": "Dosya bulunamadı",
   "@fileNotFound": {
     "description": "Error message when downloaded file is missing"
   },
-  "downloadFailed": "Download failed: {title}",
+  "downloadFailed": "İndirme başarısız: {title}",
   "@downloadFailed": {
     "description": "Error message when download fails",
     "placeholders": {
@@ -481,28 +499,353 @@
       }
     }
   },
-  "autoPip": "Auto Picture-in-Picture",
+  "autoPip": "Otomatik Resim İçinde Resim (PIP)",
   "@autoPip": {
     "description": "Setting to enable auto PiP when pressing home button"
   },
-  "autoPipDescription": "Automatically enter PiP mode when pressing home button while video is playing",
+  "autoPipDescription": "Video oynatılırken ana ekran düğmesine basıldığında otomatik olarak PIP moduna geç",
   "@autoPipDescription": {
     "description": "Description for auto PiP setting"
   },
-  "saveToDevice": "Save to Device",
+  "saveToDevice": "Cihaza Kaydet",
   "@saveToDevice": {
     "description": "Save downloaded file to device storage"
   },
-  "savingToDevice": "Saving to device...",
+  "savingToDevice": "Cihaza kaydediliyor...",
   "@savingToDevice": {
     "description": "Message shown while saving file to device"
   },
-  "savedToDevice": "Saved to device",
+  "savedToDevice": "Cihaza kaydedildi",
   "@savedToDevice": {
     "description": "Success message when file is saved to device"
   },
-  "saveToDeviceFailed": "Failed to save to device",
+  "saveToDeviceFailed": "Cihaza kaydetme başarısız oldu",
   "@saveToDeviceFailed": {
     "description": "Error message when save to device fails"
+  },
+  "newVideoNotifications": "New upload notifications",
+  "@newVideoNotifications": {
+    "description": "Setting for subscription upload notifications"
+  },
+  "newVideoNotificationsDescription": "Get notified when channels you subscribe to upload",
+  "@newVideoNotificationsDescription": {
+    "description": "Description for upload notification setting"
+  },
+  "notificationsDenied": "Notification permission was denied",
+  "@notificationsDenied": {
+    "description": "Shown when the notification permission is refused"
+  },
+  "queue": "Queue",
+  "@queue": {
+    "description": "Playback queue title"
+  },
+  "queueEmpty": "Queue is empty",
+  "@queueEmpty": {
+    "description": "Empty playback queue"
+  },
+  "queueShuffle": "Shuffle",
+  "@queueShuffle": {
+    "description": "Shuffles the upcoming queue"
+  },
+  "queueClear": "Clear",
+  "@queueClear": {
+    "description": "Clears the playback queue"
+  },
+  "removeFromQueue": "Remove from queue",
+  "@removeFromQueue": {
+    "description": "Removes one queue entry"
+  },
+  "playNext": "Play next",
+  "@playNext": {
+    "description": "Queues a video directly after the current one"
+  },
+  "addToQueue": "Add to queue",
+  "@addToQueue": {
+    "description": "Appends a video to the queue"
+  },
+  "addedToQueue": "Added to queue",
+  "@addedToQueue": {
+    "description": "Confirmation for queue append"
+  },
+  "addedToPlayNext": "Added to play next",
+  "@addedToPlayNext": {
+    "description": "Confirmation for play next"
+  },
+  "saveToPlaylist": "Save to playlist",
+  "@saveToPlaylist": {
+    "description": "Playlist picker title"
+  },
+  "localPlaylists": "Oynatma Listeleri",
+  "@localPlaylists": {
+    "description": "Local playlists screen title"
+  },
+  "newPlaylist": "New Playlist",
+  "@newPlaylist": {
+    "description": "New playlist dialog title"
+  },
+  "newPlaylistShort": "+ New",
+  "@newPlaylistShort": {
+    "description": "Compact create-playlist action"
+  },
+  "playlistNameHint": "Playlist name",
+  "@playlistNameHint": {
+    "description": "Playlist name field hint"
+  },
+  "createAction": "Create",
+  "@createAction": {
+    "description": "Confirms creation"
+  },
+  "renameAction": "Rename",
+  "@renameAction": {
+    "description": "Renames an item"
+  },
+  "renamePlaylistTitle": "Rename Playlist",
+  "@renamePlaylistTitle": {
+    "description": "Rename playlist dialog title"
+  },
+  "newNameHint": "New name",
+  "@newNameHint": {
+    "description": "New name field hint"
+  },
+  "deletePlaylistTitle": "Delete Playlist",
+  "@deletePlaylistTitle": {
+    "description": "Delete playlist dialog title"
+  },
+  "deletePlaylistAction": "Delete playlist",
+  "@deletePlaylistAction": {
+    "description": "Deletes a playlist"
+  },
+  "deletePlaylistConfirm": "Delete {name}?",
+  "@deletePlaylistConfirm": {
+    "description": "Confirms deleting a named playlist",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noPlaylistsYet": "No playlists yet.\nTap + to create one.",
+  "@noPlaylistsYet": {
+    "description": "Empty local playlists screen"
+  },
+  "noPlaylistsYetPicker": "No playlists yet.\nTap + New to create one.",
+  "@noPlaylistsYetPicker": {
+    "description": "Empty playlist picker"
+  },
+  "addedToPlaylist": "Added to {name}",
+  "@addedToPlaylist": {
+    "description": "Confirms adding a video to a named playlist",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playAll": "Play all",
+  "@playAll": {
+    "description": "Plays every video in a playlist"
+  },
+  "playlistNotFound": "Playlist not found",
+  "@playlistNotFound": {
+    "description": "Missing playlist"
+  },
+  "noVideosInPlaylist": "No videos yet",
+  "@noVideosInPlaylist": {
+    "description": "Empty playlist"
+  },
+  "addVideosHint": "Long-press a video to save it to a playlist",
+  "@addVideosHint": {
+    "description": "Hint for filling an empty playlist"
+  },
+  "videoCountLabel": "{count} videos",
+  "@videoCountLabel": {
+    "description": "Number of videos",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "debugConsole": "Debug Console",
+  "@debugConsole": {
+    "description": "Debug console screen title"
+  },
+  "shareLogs": "Share logs",
+  "@shareLogs": {
+    "description": "Shares the collected log file"
+  },
+  "clearLogs": "Clear logs",
+  "@clearLogs": {
+    "description": "Clears collected logs"
+  },
+  "autoScrollOn": "Auto-scroll on",
+  "@autoScrollOn": {
+    "description": "Log auto-scroll enabled"
+  },
+  "autoScrollOff": "Auto-scroll off",
+  "@autoScrollOff": {
+    "description": "Log auto-scroll disabled"
+  },
+  "noLogs": "No logs yet",
+  "@noLogs": {
+    "description": "Empty log console"
+  },
+  "logsLabel": "Logs",
+  "@logsLabel": {
+    "description": "Log count label"
+  },
+  "imageCacheLabel": "Image Cache",
+  "@imageCacheLabel": {
+    "description": "Image cache size label"
+  },
+  "platformLabel": "Platform",
+  "@platformLabel": {
+    "description": "Operating system label"
+  },
+  "sleepTimer": "Sleep timer",
+  "@sleepTimer": {
+    "description": "Sleep timer setting"
+  },
+  "sleepTimerOff": "Off",
+  "@sleepTimerOff": {
+    "description": "Sleep timer disabled"
+  },
+  "sleepTimerEndOfVideo": "End of video",
+  "@sleepTimerEndOfVideo": {
+    "description": "Sleep timer stops when the video ends"
+  },
+  "sleepTimerMinutes": "{count} minutes",
+  "@sleepTimerMinutes": {
+    "description": "Sleep timer duration",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepTimerMinutesShort": "{count} min",
+  "@sleepTimerMinutesShort": {
+    "description": "Compact sleep timer duration",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepTimerCustom": "Custom",
+  "@sleepTimerCustom": {
+    "description": "Custom sleep timer duration"
+  },
+  "sleepTimerCustomTitle": "Custom timer",
+  "@sleepTimerCustomTitle": {
+    "description": "Custom timer dialog title"
+  },
+  "sleepTimerEnterMinutes": "Enter minutes",
+  "@sleepTimerEnterMinutes": {
+    "description": "Custom timer field hint"
+  },
+  "sleepTimerSet": "Set",
+  "@sleepTimerSet": {
+    "description": "Confirms the custom timer"
+  },
+  "sleepTimerEnded": "Sleep timer ended",
+  "@sleepTimerEnded": {
+    "description": "Sleep timer fired"
+  },
+  "following": "Following",
+  "@following": {
+    "description": "Header for the subscribed-channels avatar row"
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Filter chip: videos uploaded today"
+  },
+  "live": "Live",
+  "@live": {
+    "description": "Filter chip / badge for live streams"
+  },
+  "continueWatching": "Continue Watching",
+  "@continueWatching": {
+    "description": "Filter chip: partially watched videos"
+  },
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "Link to open a full section listing"
+  },
+  "storageUsed": "{amount} used",
+  "@storageUsed": {
+    "description": "Aggregate storage consumed by downloads, e.g. 2.4 GB used",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "comments": "Comments",
+  "@comments": {
+    "description": "Comments section title"
+  },
+  "commentsLoadFailed": "Couldn't load comments",
+  "@commentsLoadFailed": {
+    "description": "Comments failed to load"
+  },
+  "checkConnectionAndRetry": "Check your connection and try again",
+  "@checkConnectionAndRetry": {
+    "description": "Generic retry hint"
+  },
+  "commentsDisabledByCreator": "The creator has turned off comments for this video",
+  "@commentsDisabledByCreator": {
+    "description": "Comments disabled explanation"
+  },
+  "noCommentsYet": "There are no comments on this video yet",
+  "@noCommentsYet": {
+    "description": "Empty comments explanation"
+  },
+  "heartedByCreator": "Hearted by creator",
+  "@heartedByCreator": {
+    "description": "Comment liked by the video's creator"
+  },
+  "downloadsCount": "{count, plural, =1{1 download} other{{count} downloads}}",
+  "@downloadsCount": {
+    "description": "Number of completed downloads",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "watchStatsTitle": "Your watch stats",
+  "@watchStatsTitle": {
+    "description": "Library watch stats card title"
+  },
+  "watchStatsWatched": "watched",
+  "@watchStatsWatched": {
+    "description": "Label under total watch time"
+  },
+  "watchStatsVideos": "videos",
+  "@watchStatsVideos": {
+    "description": "Label under watched video count"
+  },
+  "watchStatsSaved": "saved",
+  "@watchStatsSaved": {
+    "description": "Label under saved video count"
+  },
+  "watchStatsTopChannel": "Most watched: {channel}",
+  "@watchStatsTopChannel": {
+    "description": "Most watched channel line",
+    "placeholders": {
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "watchStatsThisWeek": "{count} this week",
+  "@watchStatsThisWeek": {
+    "description": "Videos watched in the last 7 days",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }
